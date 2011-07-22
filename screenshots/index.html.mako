@@ -229,16 +229,19 @@ $(document).ready(function() {
     masks.click(function() {
         endshow(false);
     });
-    
-    $('.shot img').click(function() {
+    var showmask = function() {
         var winH = $(window).height();
         var maskHeight = $(document).height();
         var maskWidth = $(window).width();
 
-        var full = $(this).parent().attr('href');
         var mask = $('#mask');
         mask.css({ 'width': maskWidth, 'height': maskHeight }).show();
+    };
 
+    $('.shot img').click(function() {
+        showmask();
+
+        var full = $(this).parent().attr('href');
         var loading = $('#loading');
         loading.show();
 
@@ -324,6 +327,7 @@ $(document).ready(function() {
 
     if (location.hash.length > 0) {
         var url = location.hash.substring(1);
+        showmask();
         loadimage(url, undefined, true);
     }
 
@@ -336,6 +340,7 @@ $(document).ready(function() {
         if (url.length === 0) {
             endshow(true);
         } else {
+            showmask();
             loadimage(url, undefined, true);
         }
     });
