@@ -30,7 +30,7 @@
 <div id="screencasts">
     <div class="video clearfix">
         <a href="http://www.youtube.com/watch?v=pKfP7Ws-CN8" title="Watch i3 screencast v3.δ on YouTube">
-        <img src="/img/screencast-3.d.thumb.png" width="240" height="150" border="0" style="float: left">
+        <img src="/img/screencast-3.d.thumb.png" width="240" height="150" border="0" alt="Screencast thumbnail" style="float: left">
         </a>
         <div style="float: left">
             <strong>Screencast of v3.δ</strong>
