@@ -56,54 +56,70 @@ To get a quick impression of i3, have a look at these screenshots.
 </p>
 
 <div class="screenshots clearfix">
-    <div class="shot">
-        <a href="/screenshots/i3-1.png"><img src="/screenshots/i3-1.thumb.png" width="240" border="0"></a><br>
-        <span>Vimperator, VIM, MPlayer, dzen2</span>
-    </div>
+<%
+	screens = [
+		[
+		  "/screenshots/i3-1.png",
+		  "/screenshots/i3-1.thumb.png",
+		  "Vimperator, VIM, MPlayer, dzen2"
+		],
+		[
+		  "/screenshots/i3-2.png",
+		  "/screenshots/i3-2.thumb.png",
+		  "Vimperator, VIM, xpdf, bc"
+		],
+		[
+		  "/screenshots/i3-3.png",
+		  "/screenshots/i3-3.thumb.png",
+		  "PCManFM, ROXTerm, evince"
+		],
+		[
+		  "/screenshots/i3-4.png",
+		  "/screenshots/i3-4.thumb.png",
+		  "i3 logo out of terminals"
+		],
+		[
+		  "/screenshots/i3-6.png",
+		  "/screenshots/i3-6.thumb.png",
+		  "VIM, zsh, i3status (FreeBSD)"
+		],
+		[
+		  "/screenshots/i3-7.png",
+		  "/screenshots/i3-7.thumb.png",
+		  "GIMP, urxvt (both floating)"
+		],
+		[
+		  "/screenshots/i3-5.png",
+		  "/screenshots/i3-5.thumb.png",
+		  "mc, xosview, MPlayer, irssi, gajim"
+		],
+		[
+		  "/screenshots/i3-8.jpg",
+		  "/screenshots/i3-8.thumb.jpg",
+		  "git, synergy, htop, urxvt"
+		],
+		[
+		  "/screenshots/i3-9.png",
+		  "/screenshots/i3-9.thumb.png",
+		  "VIM, git, MPlayer, i3bar"
+		]
+
+	]
+
+	c = 0
+%>
+% for link, thumb, description in screens:
 
     <div class="shot">
-        <a href="/screenshots/i3-2.png"><img src="/screenshots/i3-2.thumb.png" width="240" border="0"></a><br>
-        <span>Vimperator, VIM, xpdf, bc</span>
+        <a href="${link}"><img src="${thumb}" width="240" alt="(Screenshot) ${description}"></a><br>
+        <span>${description}</span>
     </div>
 
-    <div class="shot">
-        <a href="/screenshots/i3-3.png"><img src="/screenshots/i3-3.thumb.png" width="240" border="0"></a><br>
-        <span>PCManFM, ROXTerm, evince</span>
-    </div>
-
-    <br>
-
-    <div class="shot">
-        <a href="/screenshots/i3-4.png"><img src="/screenshots/i3-4.thumb.png" width="240" border="0"></a><br>
-        <span>i3 logo out of terminals</span>
-    </div>
-
-    <div class="shot">
-        <a href="/screenshots/i3-6.png"><img src="/screenshots/i3-6.thumb.png" width="240" border="0"></a><br>
-        <span>VIM, zsh, i3status (FreeBSD)</span>
-    </div>
-
-    <div class="shot">
-        <a href="/screenshots/i3-7.png"><img src="/screenshots/i3-7.thumb.png" width="240" border="0"></a><br>
-        <span>GIMP, urxvt (both floating)</span>
-    </div>
-
-    <br>
-
-    <div class="shot">
-        <a href="/screenshots/i3-5.png"><img src="/screenshots/i3-5.thumb.png" width="240" border="0"></a><br>
-        <span>mc, xosview, MPlayer, irssi, gajim</span>
-    </div>
-
-    <div class="shot">
-        <a href="/screenshots/i3-8.jpg"><img src="/screenshots/i3-8.thumb.jpg" width="240" border="0"></a><br>
-        <span>git, synergy, htop, urxvt</span>
-    </div>
-
-    <div class="shot">
-        <a href="/screenshots/i3-9.png"><img src="/screenshots/i3-9.thumb.png" width="240" border="0"></a><br>
-        <span>VIM, git, MPlayer, i3bar</span>
-    </div>
+<% c += 1 %>
+% if (c % 3) == 0:
+<br>
+% endif
+% endfor
 
 </div>
 

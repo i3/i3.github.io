@@ -82,6 +82,10 @@ h1#title {
     float: right;
 }
 
+img {
+    border: 0;
+}
+
 #info img, .screenshots img, .video img {
     -webkit-box-shadow: 0px 0px 0.20em #000;
     -moz-box-shadow: 0px 0px 0.20em #000;
