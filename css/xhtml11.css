@@ -2,9 +2,6 @@ a {
   color: #3ec2ff;
   text-decoration: underline;
 }
-a:visited {
-  color: fuchsia;
-}
 
 em {
   font-style: italic;
