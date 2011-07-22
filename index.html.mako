@@ -5,7 +5,7 @@
 <div id="info" class="clearfix">
 
     <div id="screens">
-        <img id="screenshot" src="/screenshots/i3-6.png" width="375" height="219">
+        <img id="screenshot" src="/screenshots/i3-6.png" width="375" height="219" alt="i3 screenshot">
     </div>
 
     <h2>Do What I Mean. Good Docs. Clean Code. Sounds good?</h2>
