@@ -5,12 +5,12 @@ function initGallery() {
     $(document).ready(function() {
         $('.shot span').css('color', '#888');
 
-        $('.shot').mouseover(function() {
-            $(this).children('span').css('color', 'white');
+        $('.shot img').mouseover(function() {
+            $(this).parent().parent().children('span').css('color', 'white');
         });
 
-        $('.shot').mouseout(function() {
-            $(this).children('span').css('color', '#888');
+        $('.shot img').mouseout(function() {
+            $(this).parent().parent().children('span').css('color', '#888');
         });
 
         // build an array of all images (full URLs)
