@@ -248,6 +248,8 @@ img {
     margin-bottom: 1em;
     text-align: center;
     color: #c0c0c0;
+    width: 240px;
+    min-height: 125px;
 }
 
 .screenshots br {
