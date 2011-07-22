@@ -278,7 +278,7 @@ $(document).ready(function() {
         // disable mousewheel handler during load (will be re-enabled after the animation)
         $(window).unmousewheel(wheelhandler);
 
-        return true;
+        return false;
     };
     $('#imgright').click(imgright);
 
