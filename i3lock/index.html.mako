@@ -4,7 +4,7 @@
 <%inherit file="_templates/i3.mako" />
 <div id="content">
 
-<h1>i3lock — improved screen locker</h1>
+<h1>i3lock</h1>
 
 <p>
   i3lock is a simple screen locker like slock. After starting it, you will see
@@ -52,8 +52,8 @@
 <h2>Development</h2>
 
 <p>
-  i3lock is currently developed at <a href="http://code.stapelberg.de/git/i3lock" title="cgit">
-  http://code.stapelberg.de/git/i3lock</a>. Checkouts of the master branch are intended to
+  i3lock is currently developed at <a href="http://code.i3wm.org/i3lock" title="cgit">
+  http://code.i3wm.org/i3lock</a>. Checkouts of the master branch are intended to
   be stable and working all the time. Integration of new features happens in a separate branch.
 </p>
 
