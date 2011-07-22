@@ -97,6 +97,11 @@ To get a quick impression of i3, have a look at these screenshots.
         <span>git, synergy, htop, urxvt</span>
     </div>
 
+    <div class="shot">
+        <a href="/screenshots/i3-9.png"><img src="/screenshots/i3-9.thumb.png" width="240" border="0"></a><br>
+        <span>VIM, git, MPlayer, i3bar</span>
+    </div>
+
 </div>
 
 </div>
