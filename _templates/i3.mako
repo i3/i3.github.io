@@ -5,6 +5,7 @@
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <title>i3 - improved tiling wm</title>
+        <link rel="icon" type="image/png" href="/favicon.png">
         <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
         <meta name="description" content="i3 is a dynamic tiling window manager with clean, readable and documented code, featuring extended Xinerama support, usage of libxcb instead of xlib and several improvements over wmii">
         <meta name="keywords" content="i3, window, manager, tiling, keyboard, wmii, x11, xcb, xinerama, utf8">
