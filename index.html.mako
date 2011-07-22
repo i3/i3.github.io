@@ -6,7 +6,7 @@
 
     <div id="screens">
         <a href="/screenshots/" title="view more screenshots of i3">
-        <img id="screenshot" src="/screenshots/i3-9.bigthumb.png" width="375" height="234" border="0" alt="i3 screenshot">
+        <img id="screenshot" src="/screenshots/i3-9.bigthumb.png" width="375" height="234" alt="i3 screenshot">
         </a>
     </div>
 

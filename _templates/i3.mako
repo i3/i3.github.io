@@ -3,10 +3,9 @@
     javascript = None
     js_callback = ''
 %><!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
-        <meta http-equiv="content-language" content="en">
         <title>i3 - improved tiling wm</title>
         <link rel="icon" type="image/png" href="/favicon.png">
         <link rel="stylesheet" href="/css/style.css" type="text/css" media="screen">
