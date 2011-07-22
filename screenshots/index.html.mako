@@ -47,7 +47,7 @@
             </p>
         </div>
     </div>
-<div>
+</div>
 
 <h2>Screenshots</h2>
 
