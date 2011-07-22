@@ -9,7 +9,11 @@
     </div>
 
     <h2>Do What I Mean. Good Docs. Clean Code. Sounds good?</h2>
-    <p>Bleh bleh.</p>
+    <p>
+    Then you will love i3. Watch the <a href="/screenshots/">screencast</a>,<br>
+    read the <a href="/docs/userguide.html">User’s Guide</a> and <a
+    href="/downloads/">install i3</a>!
+    </p>
     <div id="download">
         <a href="/downloads">
         <span style="font-weight: bold; color: #3A8ECD; margin-right: .5em">➡</span>
