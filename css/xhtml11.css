@@ -23,7 +23,7 @@ tt {
 }
 
 div.listingblock tt {
-  color: black;
+  color: #fff;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -137,10 +137,11 @@ div.sidebarblock > div.content {
 }
 
 div.listingblock > div.content {
-  border: 1px solid #dddddd;
-  border-left: 5px solid #f0f0f0;
-  background: #f8f8f8;
+  border: 1px solid #555;
+  border-left: 5px solid #555;
+  background: #333;
   padding: 0.5em;
+  padding-right: 0em;
 }
 
 div.quoteblock, div.verseblock {
