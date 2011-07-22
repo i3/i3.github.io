@@ -1,0 +1,9 @@
+This git repository contains the complete http://i3wm.org website.
+
+The website is generated using blogofile, a static website generator.
+See http://www.blogofile.com/
+
+On Debian, use:
+  apt-get install python-setuptools
+  easy_install blogofile
+  blogofile build
