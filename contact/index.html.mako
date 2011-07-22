@@ -21,7 +21,14 @@ think before you ask :-).
 <h3 style="margin-top: 2em">Mailing lists</h3>
 
 <p>
-If you dislike IRC, you can also post questions etc. to our mailing list.
+If you dislike IRC, you can also post questions etc. to our mailing list.<br>
+Subscribe by sending an e-mail to <tt>i3-discuss-subscribe@i3.zekjur.net</tt>
+</p>
+
+<p>
+If you want to be notified when a new version of i3 is released, please
+subscribe to the announce mailing list by sending a mail to
+<tt>i3-announce-subscribe@i3.zekjur.net</tt>
 </p>
 
 <h3 style="margin-top: 2em">Package maintainers</h3>
