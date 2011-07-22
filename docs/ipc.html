@@ -1,0 +1,530 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
+<title>i3: IPC interface (interprocess communication)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <h1 id="title">i3 - improved tiling WM</h1>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="http://bugs.i3wm.org/">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>IPC interface (interprocess communication)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
+<span id="revdate">March 2010</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document describes how to interface with i3 from a separate process. This
+is useful for example to remote-control i3 (to write test cases for example) or
+to get various information like the current workspaces to implement an external
+workspace bar.</p></div>
+<div class="paragraph"><p>The method of choice for IPC in our case is a unix socket because it has very
+little overhead on both sides and is usually available without headaches in
+most languages. In the default configuration file, no ipc-socket path is
+specified and thus no socket is created. The standard path (which <tt>i3-msg</tt> and
+<tt>i3-input</tt> use) is <tt>~/.i3/ipc.sock</tt>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_establishing_a_connection">1. Establishing a connection</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To establish a connection, simply open the IPC socket. The following code
+snippet illustrates this in Perl:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>use IO::Socket::UNIX;
+my $sock = IO::Socket::UNIX-&gt;new(Peer =&gt; '~/.i3/ipc.sock');</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sending_messages_to_i3">2. Sending messages to i3</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To send a message to i3, you have to format in the binary message format which
+i3 expects. This format specifies a magic string in the beginning to ensure
+the integrity of messages (to prevent follow-up errors). Following the magic
+string comes the length of the payload of the message as 32-bit integer, and
+the type of the message as 32-bit integer (the integers are not converted, so
+they are in native byte order).</p></div>
+<div class="paragraph"><p>The magic string currently is "i3-ipc" and will only be changed when a change
+in the IPC API is done which breaks compatibility (we hope that we don’t need
+to do that).</p></div>
+<div class="paragraph"><p>Currently implemented message types are the following:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+COMMAND (0)
+</dt>
+<dd>
+<p>
+        The payload of the message is a command for i3 (like the commands you
+        can bind to keys in the configuration file) and will be executed
+        directly after receiving it. There is no reply to this message.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_WORKSPACES (1)
+</dt>
+<dd>
+<p>
+        Gets the current workspaces. The reply will be a JSON-encoded list of
+        workspaces (see the reply section).
+</p>
+</dd>
+<dt class="hdlist1">
+SUBSCRIBE (2)
+</dt>
+<dd>
+<p>
+        Subscribes your connection to certain events. See <a href="#events">[events]</a> for a
+        description of this message and the concept of events.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_OUTPUTS (3)
+</dt>
+<dd>
+<p>
+        Gets the current outputs. The reply will be a JSON-encoded list of outputs
+        (see the reply section).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>So, a typical message could look like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>"i3-ipc" &lt;message length&gt; &lt;message type&gt; &lt;payload&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>Or, as a hexdump:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>00000000  69 33 2d 69 70 63 04 00  00 00 00 00 00 00 65 78  |i3-ipc........ex|
+00000010  69 74 0a                                          |it.|</tt></pre>
+</div></div>
+<div class="paragraph"><p>To generate and send such a message, you could use the following code in Perl:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>sub format_ipc_command {
+    my ($msg) = @_;
+    my $len;
+    # Get the real byte count (vs. amount of characters)
+    { use bytes; $len = length($msg); }
+    return "i3-ipc" . pack("LL", $len, 0) . $msg;
+}
+
+$sock-&gt;write(format_ipc_command("exit"));</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_receiving_replies_from_i3">3. Receiving replies from i3</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Replies from i3 usually consist of a simple string (the length of the string
+is the message_length, so you can consider them length-prefixed) which in turn
+contain the JSON serialization of a data structure. For example, the
+GET_WORKSPACES message returns an array of workspaces (each workspace is a map
+with certain attributes).</p></div>
+<div class="sect2">
+<h3 id="_reply_format">3.1. Reply format</h3>
+<div class="paragraph"><p>The reply format is identical to the normal message format. There also is
+the magic string, then the message length, then the message type and the
+payload.</p></div>
+<div class="paragraph"><p>The following reply types are implemented:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+COMMAND (0)
+</dt>
+<dd>
+<p>
+        Confirmation/Error code for the COMMAND message.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_WORKSPACES (1)
+</dt>
+<dd>
+<p>
+        Reply to the GET_WORKSPACES message.
+</p>
+</dd>
+<dt class="hdlist1">
+SUBSCRIBE (2)
+</dt>
+<dd>
+<p>
+        Confirmation/Error code for the SUBSCRIBE message.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_OUTPUTS (3)
+</dt>
+<dd>
+<p>
+        Reply to the GET_OUTPUTS message.
+</p>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_command_reply">3.2. COMMAND reply</h3>
+<div class="paragraph"><p>The reply consists of a single serialized map. At the moment, the only
+property is <tt>success (bool)</tt>, but this will be expanded in future versions.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "success": true }</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_get_workspaces_reply">3.3. GET_WORKSPACES reply</h3>
+<div class="paragraph"><p>The reply consists of a serialized list of workspaces. Each workspace has the
+following properties:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+num (integer)
+</dt>
+<dd>
+<p>
+        The logical number of the workspace. Corresponds to the command
+        to switch to this workspace.
+</p>
+</dd>
+<dt class="hdlist1">
+name (string)
+</dt>
+<dd>
+<p>
+        The name of this workspace (by default num+1), as changed by the
+        user. Encoded in UTF-8.
+</p>
+</dd>
+<dt class="hdlist1">
+visible (boolean)
+</dt>
+<dd>
+<p>
+        Whether this workspace is currently visible on an output (multiple
+        workspaces can be visible at the same time).
+</p>
+</dd>
+<dt class="hdlist1">
+focused (boolean)
+</dt>
+<dd>
+<p>
+        Whether this workspace currently has the focus (only one workspace
+        can have the focus at the same time).
+</p>
+</dd>
+<dt class="hdlist1">
+urgent (boolean)
+</dt>
+<dd>
+<p>
+        Whether a window on this workspace has the "urgent" flag set.
+</p>
+</dd>
+<dt class="hdlist1">
+rect (map)
+</dt>
+<dd>
+<p>
+        The rectangle of this workspace (equals the rect of the output it
+        is on), consists of x, y, width, height.
+</p>
+</dd>
+<dt class="hdlist1">
+output (string)
+</dt>
+<dd>
+<p>
+        The video output this workspace is on (LVDS1, VGA1, …).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>[
+ {
+  "num": 0,
+  "name": "1",
+  "visible": true,
+  "focused": true,
+  "urgent": false,
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "width": 1280,
+   "height": 800
+  },
+  "output": "LVDS1"
+ },
+ {
+  "num": 1,
+  "name": "2",
+  "visible": false,
+  "focused": false,
+  "urgent": false,
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "width": 1280,
+   "height": 800
+  },
+  "output": "LVDS1"
+ }
+]</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_subscribe_reply">3.4. SUBSCRIBE reply</h3>
+<div class="paragraph"><p>The reply consists of a single serialized map. The only property is
+<tt>success (bool)</tt>, indicating whether the subscription was successful (the
+default) or whether a JSON parse error occurred.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "success": true }</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_get_outputs_reply">3.5. GET_OUTPUTS reply</h3>
+<div class="paragraph"><p>The reply consists of a serialized list of outputs. Each output has the
+following properties:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+name (string)
+</dt>
+<dd>
+<p>
+        The name of this output (as seen in <tt>xrandr(1)</tt>). Encoded in UTF-8.
+</p>
+</dd>
+<dt class="hdlist1">
+active (boolean)
+</dt>
+<dd>
+<p>
+        Whether this output is currently active (has a valid mode).
+</p>
+</dd>
+<dt class="hdlist1">
+current_workspace (integer)
+</dt>
+<dd>
+<p>
+        The current workspace which is visible on this output. <tt>null</tt> if the
+        output is not active.
+</p>
+</dd>
+<dt class="hdlist1">
+rect (map)
+</dt>
+<dd>
+<p>
+        The rectangle of this output (equals the rect of the output it
+        is on), consists of x, y, width, height.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>[
+ {
+  "name": "LVDS1",
+  "active": true,
+  "current_workspace": 4,
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "width": 1280,
+   "height": 800
+  }
+ },
+ {
+  "name": "VGA1",
+  "active": true,
+  "current_workspace": 1,
+  "rect": {
+   "x": 1280,
+   "y": 0,
+   "width": 1280,
+   "height": 1024
+  },
+ }
+]</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_events">4. Events</h2>
+<div class="sectionbody">
+<div class="paragraph" id="events"><p>To get informed when certain things happen in i3, clients can subscribe to
+events. Events consist of a name (like "workspace") and an event reply type
+(like I3_IPC_EVENT_WORKSPACE). The events sent by i3 are in the same format
+as replies to specific commands. However, the highest bit of the message type
+is set to 1 to indicate that this is an event reply instead of a normal reply.</p></div>
+<div class="paragraph"><p>Caveat: As soon as you subscribe to an event, it is not guaranteed any longer
+that the requests to i3 are processed in order. This means, the following
+situation can happen: You send a GET_WORKSPACES request but you receive a
+"workspace" event before receiving the reply to GET_WORKSPACES. If your
+program does not want to cope which such kinds of race conditions (an
+event based library may not have a problem here), I suggest you create a
+separate connection to receive events.</p></div>
+<div class="sect2">
+<h3 id="_subscribing_to_events">4.1. Subscribing to events</h3>
+<div class="paragraph"><p>By sending a message of type SUBSCRIBE with a JSON-encoded array as payload
+you can register to an event.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>type: SUBSCRIBE
+payload: [ "workspace", "focus" ]</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_available_events">4.2. Available events</h3>
+<div class="paragraph"><p>The numbers in parenthesis is the event type (keep in mind that you need to
+strip the highest bit first).</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+workspace (0)
+</dt>
+<dd>
+<p>
+        Sent when the user switches to a different workspace, when a new
+        workspace is initialized or when a workspace is removed (because the
+        last client vanished).
+</p>
+</dd>
+<dt class="hdlist1">
+output (1)
+</dt>
+<dd>
+<p>
+        Sent when RandR issues a change notification (of either screens,
+        outputs, CRTCs or output properties).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># the appropriate 4 bytes read from the socket are stored in $input
+
+# unpack a 32-bit unsigned integer
+my $message_type = unpack("L", $input);
+
+# check if the highest bit is 1
+my $is_event = (($message_type &gt;&gt; 31) == 1);
+
+# use the other bits
+my $event_type = ($message_type &amp; 0x7F);
+
+if ($is_event) {
+  say "Received event of type $event_type";
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_workspace_event">4.3. workspace event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map containing a property
+<tt>change (string)</tt> which indicates the type of the change ("focus", "init",
+"empty", "urgent").</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "change": "focus" }</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_output_event">4.4. output event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map containing a property
+<tt>change (string)</tt> which indicates the type of the change (currently only
+"unspecified").</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "change": "unspecified" }</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">5. See also</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>For some languages, libraries are available (so you don’t have to implement
+all this on your own). This list names some (if you wrote one, please let me
+know):</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+C
+</dt>
+<dd>
+<p>
+        i3 includes a headerfile <tt>i3/ipc.h</tt> which provides you all constants.
+        However, there is no library yet.
+</p>
+</dd>
+<dt class="hdlist1">
+Ruby
+</dt>
+<dd>
+<p>
+        <a href="http://github.com/badboy/i3-ipc">http://github.com/badboy/i3-ipc</a>
+</p>
+</dd>
+<dt class="hdlist1">
+Perl
+</dt>
+<dd>
+<p>
+        <a href="http://search.cpan.org/search?query=AnyEvent::I3">http://search.cpan.org/search?query=AnyEvent::I3</a>
+</p>
+</dd>
+<dt class="hdlist1">
+Python
+</dt>
+<dd>
+<p>
+        <a href="http://github.com/thepub/i3ipc">http://github.com/thepub/i3ipc</a>
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2011-07-22 20:28:12 CEST
+</div>
+</div>
+</body>
+</html>
