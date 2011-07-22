@@ -106,11 +106,11 @@ To get a quick impression of i3, have a look at these screenshots.
 
 </div>
 
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js">
+<script type="text/javascript" src="/js/jquery.1.6.2.min.js">
 </script>
-<script type="text/javascript" src="/js/jquery.mousewheel.js">
+<script type="text/javascript" src="/js/jquery.mousewheel.min.js">
 </script>
-<script type="text/javascript" src="/js/jquery.ba-hashchange.js">
+<script type="text/javascript" src="/js/jquery.ba-hashchange.min.js">
 </script>
 <script type="text/javascript">
 $(document).ready(function() {
