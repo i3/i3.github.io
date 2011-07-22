@@ -44,6 +44,11 @@ Might be useful to memorize i3’s shortcuts.
 <h2>For developers</h2>
 
 <p>
+<a href="/downloads/#development-version"><strong>Downloads → Development version</strong></a><br>
+Tells you how to check out our git repository.
+</p>
+
+<p>
 <a href="/docs/hacking-howto.html"><strong>Hacking Howto</strong></a><br>
 Helps you if you want to get into i3’s source code.
 </p>
