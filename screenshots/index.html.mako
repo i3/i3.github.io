@@ -217,17 +217,17 @@ $(document).ready(function() {
     // clicking anywhere outside the image will bring you back to the page
     var masks = $('#mask, #bigimg');
 
-    var endshow = function() {
+    var endshow = function(fromhash) {
         masks.hide();
         $('#maskinner img').remove();
 
-        if (window.history.pushState) {
+        if (!fromhash && window.history.pushState) {
             window.history.pushState(undefined, 'i3 screenshots', '#');
         }
     };
 
     masks.click(function() {
-        endshow();
+        endshow(false);
     });
     
     $('.shot img').click(function() {
@@ -311,7 +311,7 @@ $(document).ready(function() {
                 break;
             // escape
             case 27:
-                endshow();
+                endshow(false);
                 break;
         }
     };
@@ -329,11 +329,15 @@ $(document).ready(function() {
 
     $(window).hashchange(function() {
         if (location.hash.length === 0) {
+            endshow(true);
             return;
         }
-        //console.log('hash has changed to ' + location.hash);
         var url = location.hash.substring(1);
-        loadimage(url, undefined, true);
+        if (url.length === 0) {
+            endshow(true);
+        } else {
+            loadimage(url, undefined, true);
+        }
     });
 
 });
