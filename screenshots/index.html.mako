@@ -24,22 +24,27 @@
 
 <h2>Latest Video</h2>
 
-<div class="video clearfix">
-<img src="http://i1.ytimg.com/vi/pKfP7Ws-CN8/default.jpg" width="240" style="float: left">
-<div style="float: left; padding-top: 0.25em">
-<strong>Screencast of v3.δ</strong>
-<p>
-This video shows the basic features of i3:
-</p>
-<ul>
-<li>Different layouts</li>
-<li>Meh</li>
-</ul>
-<p>
-Download it here.
-</p>
-</div>
-</div>
+<div id="screencasts">
+    <div class="video clearfix">
+        <a href="http://www.youtube.com/watch?v=pKfP7Ws-CN8" title="Watch i3 screencast v3.δ on YouTube">
+        <img src="/img/screencast-3.d.thumb.png" width="240" height="150" border="0" style="float: left">
+        </a>
+        <div style="float: left">
+            <strong>Screencast of v3.δ</strong>
+            <p>
+            This video (5 min) shows the basic features of i3:
+            </p>
+            <ul>
+                <li>Layouts, Focus, Moving, Workspaces</li>
+                <li>dmenu, Floating Windows, Resizing</li>
+                <li>Window Borders, Urgency Hint, i3lock, i3status</li>
+            </ul>
+            <p>
+            <a href="http://www.youtube.com/watch?v=pKfP7Ws-CN8">Watch it on YouTube</a> or <a href="/screenshots/screencast-3.d.mkv">download it (2.5 MB)</a>.
+            </p>
+        </div>
+    </div>
+<div>
 
 <h2>Screenshots</h2>
 

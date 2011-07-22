@@ -222,6 +222,15 @@ h1#title {
     margin-right: 1em;
 }
 
+#screencasts li {
+    margin-bottom: 0.25em;
+}
+
+#screencasts p, #screencasts ul {
+    margin-top: 0.35em;
+    margin-bottom: 0.35em;
+}
+
 .imgdesc {
     margin-bottom: 1em;
 }
