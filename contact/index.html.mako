@@ -30,7 +30,7 @@ If you dislike IRC, you can also post questions etc. to our mailing list.
 <strong>If you are a package maintainer</strong> and have any questions,
 ideas, hints, problems or whatever, please do not hesitate to contact me. I
 will help you out. Just drop me an <a
-href="http://michael.stapelberg.de/Kontakt">E-Mail (scroll down to
+href="http://michael.stapelberg.de/Kontakt">e-mail (scroll down to
 bottom)</a>, contact me using the same address in jabber or ask on our IRC
 channel (see above).
 </p>
