@@ -6,7 +6,7 @@ body {
 }
 
 h2, h3 {
-    font-family: "Helvetica Neue", Helvetica, 'Ovo', Arial, sans-serif;
+    font-family: 'Mako', sans-serif;
     font-weight: bold;
     letter-spacing: -1px;
     color: #FFF;
@@ -208,6 +208,13 @@ h1#title {
     font-style: normal;
     font-weight: normal;
     src: local('Ovo'), url('/fonts/Ovo.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Mako';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Mako'), url('/fonts/Mako.ttf') format('truetype');
 }
 
 .video img {
