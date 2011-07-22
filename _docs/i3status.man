@@ -1,0 +1,298 @@
+i3status(1)
+===========
+Michael Stapelberg <michael+i3@stapelberg.de>
+v2.3, July 2011
+
+== NAME
+
+i3status - Generates a status line for dzen2 or xmobar
+
+== SYNOPSIS
+
+i3status [-c configfile] [-h] [-v]
+
+== OPTIONS
+
+-c::
+Specifies an alternate configuration file path. By default, i3status looks for
+configuration files in the following order:
+
+1. ~/.i3status.conf
+2. ~/.config/i3status/config (or $XDG_CONFIG_HOME/i3status/config if set)
+3. /etc/i3status.conf
+4. /etc/xdg/i3status/config (or $XDG_CONFIG_DIRS/i3status/config if set)
+
+== DESCRIPTION
+
+i3status is a small program (about 1500 SLOC) for generating a status bar for
+i3bar, dzen2, xmobar or similar programs. It is designed to be very
+efficient by issuing a very small number of system calls, as one generally
+wants to update such a status line every second. This ensures that even under
+high load, your status bar is updated correctly. Also, it saves a bit of energy
+by not hogging your CPU as much as spawning the corresponding amount of shell
+commands would.
+
+== CONFIGURATION
+
+Since version 2, the configuration file for i3status will be parsed using
+libconfuse. This makes configuration easier in the programmer’s point of
+view and more flexible for the user at the same time.
+
+The basic idea of i3status is that you can specify which "modules" should
+be used (the order directive). You can then configure each module with its
+own section. For every module, you can specify the output format. See below
+for a complete reference.
+
+.Sample configuration
+-------------------------------------------------------------
+general {
+        output_format = "dzen2"
+        colors = true
+        interval = 5
+}
+
+order  = "ipv6"
+order += "disk /"
+order += "run_watch DHCP"
+order += "run_watch VPN"
+order += "wireless wlan0"
+order += "ethernet eth0"
+order += "battery 0"
+order += "cpu_temperature 0"
+order += "load"
+order += "time"
+
+wireless wlan0 {
+        format_up = "W: (%quality at %essid, %bitrate) %ip"
+        format_down = "W: down"
+}
+
+ethernet eth0 {
+        # if you use %speed, i3status requires the cap_net_admin capability
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+battery 0 {
+        format = "%status %percentage %remaining"
+}
+
+run_watch DHCP {
+        pidfile = "/var/run/dhclient*.pid"
+}
+
+run_watch VPN {
+        pidfile = "/var/run/vpnc/pid"
+}
+
+time {
+	format = "%Y-%m-%d %H:%M:%S"
+}
+
+load {
+	format = "%5min"
+}
+
+cpu_temperature 0 {
+	format = "T: %degrees °C"
+	path = "/sys/devices/platform/coretemp.0/temp1_input"
+}
+
+disk "/" {
+	format = "%free"
+}
+-------------------------------------------------------------
+
+=== General
+
+The +colors+ directive will disable all colors if you set it to +false+. You can
+also specify the colors that will be used to display "good", "degraded" or "bad"
+values using the +color_good+, +color_degraded+ or +color_bad+ directives,
+respectively. Those directives are only used if color support is not disabled by
+the +colors+ directive. The input format for color values is the canonical RGB
+hexadecimal triplet (with no separators between the colors), prefixed by a hash
+character ("#").
+
+*Example configuration*:
+-------------------------------------------------------------
+color_good = "#00FF00"
+-------------------------------------------------------------
+
+Likewise, you can use the +color_separator+ directive to specify the color that
+will be used to paint the separator bar. The separator is always output in
+color, even when colors are disabled by the +colors+ directive.
+
+The +interval+ directive specifies the time in seconds for which i3status will
+sleep before printing the next status line.
+
+Using +output_format+ you can chose which format strings i3status should
+use in its output. Currently available are:
+
+dzen2::
+Dzen is a general purpose messaging, notification and menuing program for X11.
+It was designed to be scriptable in any language and integrate well with window
+managers like dwm, wmii and xmonad though it will work with any windowmanger
+xmobar::
+xmobar is a minimalistic, text based, status bar. It was designed to work
+with the xmonad Window Manager.
+none::
+Does not use any color codes. Separates values by the pipe symbol. This should
+be used with i3bar and can be used for custom scripts.
+
+=== IPv6
+
+This module gets the IPv6 address used for outgoing connections (that is, the
+best available public IPv6 address on your computer).
+
+*Example format_up*: +%ip+
+
+*Example format_down* +no IPv6+
+
+=== Disk
+
+Gets used, free, available and total amount of bytes on the given mounted filesystem.
+
+*Example order*: +disk /mnt/usbstick+
+
+*Example format*: +%free (%avail)/ %total+
+
+=== Run-watch
+
+Expands the given path to a pidfile and checks if the process ID found inside
+is valid (that is, if the process is running). You can use this to check if
+a specific application, such as a VPN client or your DHCP client is running.
+
+*Example order*: +run_watch DHCP+
+
+=== Wireless
+
+Gets the link quality and ESSID of the given wireless network interface. You
+can specify different format strings for the network being connected or not
+connected.
+
+*Example order*: +wireless wlan0+
+
+*Example format*: +W: (%quality at %essid, %bitrate) %ip+
+
+=== Ethernet
+
+Gets the IP address and (if possible) the link speed of the given ethernet
+interface. Getting the link speed requires the cap_net_admin capability. Set
+it using +setcap cap_net_admin=ep $(which i3status)+.
+
+*Example order*: +ethernet eth0+
+
+*Example format*: +E: %ip (%speed)+
+
+=== Battery
+
+Gets the status (charging, discharging, running), percentage and remaining
+time of the given battery. If you want to use the last full capacity instead
+of the design capacity (when using the design capacity, it may happen that
+your battery is at 23% when fully charged because it’s old. In general, I
+want to see it this way, because it tells me how worn off my battery is.),
+just specify +last_full_capacity = true+.
+
+*Example order*: +battery 0+
+
+*Example format*: +%status %remaining+
+
+=== CPU-Temperature
+
+Gets the temperature of the given thermal zone.
+
+*Example order*: +cpu_temperature 0+
+
+*Example format*: +T: %degrees °C+
+
+=== CPU Usage
+
+Gets the percentual CPU usage from +/proc/stat+.
+
+*Example order*: +cpu_usage+
+
+*Example format*: +%usage+
+
+=== Load
+
+Gets the system load (number of processes waiting for CPU time in the last
+5, 10 and 15 minutes).
+
+*Example order*: +load+
+
+*Example format*: +%5min %10min %15min+
+
+=== Time
+
+Formats the current system time. See +strftime(3)+ for the format.
+
+*Example order*: +time+
+
+*Example format*: +%Y-%m-%d %H:%M:%S+
+
+=== DDate
+
+Outputs the current discordian date in user-specified format. See +ddate(1)+ for
+details on the format string.
+*Note*: Neither *%.* nor *%X* are implemented yet.
+
+*Example order*: +ddate+
+
+*Example format*: +%{%a, %b %d%}, %Y%N - %H+
+
+=== Volume
+
+Outputs the volume of the specified mixer on the specified device. Works only
+on Linux because it uses ALSA.
+
+*Example order*: +volume master+
+
+*Example format*: +♪: %volume+
+
+*Example configuration*:
+-------------------------------------------------------------
+volume master {
+	format = "♪: %volume"
+	device = "default"
+	mixer = "Master"
+	mixer_idx = 0
+}
+-------------------------------------------------------------
+
+== Using i3status with dzen2
+
+After installing dzen2, you can directly use it with i3status. Just ensure that
++output_format+ is set to +dzen2+.
+
+*Example for usage of i3status with dzen2*:
+--------------------------------------------------------------
+i3status | dzen2 -fg white -ta r -w 1280 \
+-fn "-misc-fixed-medium-r-normal--13-120-75-75-C-70-iso8859-1"
+--------------------------------------------------------------
+
+== Using i3status with xmobar
+
+To get xmobar to start, you might need to copy the default configuration
+file to +~/.xmobarrc+. Also, ensure that the +output_format+ option for i3status
+is set to +xmobar+.
+
+*Example for usage of i3status with xmobar*:
+---------------------------------------------------------------------
+i3status | xmobar -o -t "%StdinReader%" -c "[Run StdinReader]"
+---------------------------------------------------------------------
+
+== SEE ALSO
+
++strftime(3)+, +date(1)+, +glob(3)+, +dzen2(1)+, +xmobar(1)+
+
+== AUTHORS
+
+Michael Stapelberg and contributors
+
+Thorsten Toepper
+
+Baptiste Daroussin
+
+Axel Wagner
+
+Fernando Tarlá Cardoso Lemos
