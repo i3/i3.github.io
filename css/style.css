@@ -3,6 +3,7 @@ body {
     color: #CCC;
     font-family: 'Droid Sans', "Lucida Grande", "Lucida Sans", "Liberation Sans", sans-serif;
     font-size: 0.8em;
+    overflow-y: scroll;
 }
 
 h2, h3 {
