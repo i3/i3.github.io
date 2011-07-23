@@ -58,11 +58,23 @@ function initGallery() {
         var img = new Image();
         img.src = url;
 
+        // position imgdesc
+        $('#imgdesc').css({ 'width': $('body').width() - (2 * 64) - 4 + 'px' });
+
+        // get description
+        var desc = $(".shot a[href='" + url + "']").parent().children('span').text();
+        $('#imgdesc .description').text(desc);
+
+        // get filename
+        var pos = url.lastIndexOf('/');
+        var filename = (pos !== -1 ? url.substr(pos+1) : url);
+        $('#imgdesc .filename').text(filename);
+
         var loadcomplete = function() {
             var winW = $(window).width();
             var winH = $(window).height();
             var max_w = winW - (2 * 64);
-            var max_h = winH - 64;
+            var max_h = winH - 48;
             var dims = {
                 'top': 0,
                 'left': 0,
@@ -74,7 +86,7 @@ function initGallery() {
                 dims.height = max_h;
                 dims.width = (dims.height / img.height) * img.width;
             }
-            dims.top = (winH - dims.height) / 2;
+            dims.top = (max_h - dims.height) / 2 + 2;
             dims.left = ((max_w - dims.width) / 2) + 64;
             $('#loading').hide();
             var element = $('<img>');

@@ -322,6 +322,27 @@ img {
     background-image: url('/img/nextbtn.png');
 }
 
+#imgdesc {
+    position: fixed;
+    left: 64px;
+    bottom: 0;
+    background-color: #333;
+    width: 100%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    padding-left: 2em;
+    border: 1px solid #555;
+    border-bottom: 0;
+}
+
+#imgdesc .filename {
+    font-weight: bold;
+}
+
+#imgdesc .description {
+    padding-left: 1em;
+}
+
 /* clearfix */
 .clearfix:after {
     content: ".";

@@ -19,6 +19,10 @@
             </div>
             <div id="imgright">
             </div>
+	    <div id="imgdesc">
+	    <span class="filename">i3-2.png</span>
+	    <span class="description">VIM, MPlayer</span>
+	    </div>
         </div>
     </div>
 </div>
