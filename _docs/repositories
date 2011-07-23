@@ -29,10 +29,12 @@ The Ubuntu repository is provided by sur5r and contains the latest stable releas
 of i3. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-# echo 'deb http://debian.sur5r.net/i3/ karmic universe' >> /etc/apt/sources.list
+# echo 'deb http://debian.sur5r.net/i3/ natty universe' >> /etc/apt/sources.list
 # apt-get update
 # apt-get install i3
 ---------------------------------------------------------------------------------
+
+The following Ubuntu versions are currently available: lucid, maverick, natty.
 
 == Debian repository
 
