@@ -270,9 +270,10 @@ img {
     position: fixed;
     left: 50%;
     top: 50%;
-    width: 64px;
-    height: 64px;
-    background-color: red;
+    width: 58px;
+    height: 60px;
+    background-color: black;
+    background-image: url('/img/loading.gif');
     opacity: 0.9;
     z-index: 20;
     display: none;
@@ -305,17 +306,19 @@ img {
     width: 64px;
     height: 64px;
     border-radius: 4px;
-    background-color: green;
-    z-index: 19;
+    background-color: black;
+    z-index: 22;
+    opacity: 0.7;
 }
 
 #imgleft {
     left: 0;
+    background-image: url('/img/prevbtn.png');
 }
 
 #imgright {
     right: 0;
-    background-color: blue;
+    background-image: url('/img/nextbtn.png');
 }
 
 /* clearfix */

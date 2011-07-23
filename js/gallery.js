@@ -5,6 +5,14 @@ function initGallery() {
     $(document).ready(function() {
         $('.shot span').css('color', '#888');
 
+        $('#imgleft, #imgright').mouseover(function() {
+            $(this).css('opacity', 0.9);
+        });
+
+        $('#imgleft, #imgright').mouseout(function() {
+            $(this).css('opacity', 0.7);
+        });
+
         $('.shot img').mouseover(function() {
             $(this).parent().parent().children('span').css('color', 'white');
         });
@@ -28,8 +36,6 @@ function initGallery() {
         });
 
         var wheelhandler = function(event, delta) {
-            //console.log('event = ' + event + ', delta = ' + delta);
-
             // if we are not in the slideshow mode, process the event as normal
             if (!$('#mask').is(':visible')) {
                 return true;
@@ -74,7 +80,7 @@ function initGallery() {
                 $('#loading').hide();
                 var element = $('<img>');
                 element.attr({ 'src': url, 'width':dims.width });
-                element.css({ 'position': 'absolute', 'top':dims.top + 'px', 'left':dims.left + 'px' });
+                element.css({ 'z-index': 21, 'position': 'absolute', 'top':dims.top + 'px', 'left':dims.left + 'px' });
                 if (direction !== undefined) {
                     // slide from right to left
                     if (direction === 'left') {
@@ -100,10 +106,8 @@ function initGallery() {
             };
 
             if (img.complete) {
-                //console.log('image already in cache');
                 loadcomplete();
             } else {
-                //console.log('loading image');
                 img.onload = loadcomplete;
             }
         };
@@ -136,8 +140,7 @@ function initGallery() {
             showmask();
 
             var full = $(this).parent().attr('href');
-            var loading = $('#loading');
-            loading.show();
+            $('#loading').show();
 
             loadimage(full, undefined, false);
 
@@ -152,13 +155,13 @@ function initGallery() {
             var next = images[idx+1];
 
             if (next === undefined) {
-                //console.log('there is no next image');
                 return false;
             }
 
-            //console.log('loading next one: ' + next);
+            $('#imgright').css('opacity', 1.0).animate({ opacity: 0.7 }, 500);
             // slide out the current image
             var winW = $(window).width();
+            $('#loading').show();
             $('#maskinner img').animate({ 'left': '-=' + (winW - 64) }, 'fast', function() {
                 $(this).remove();
             });
@@ -176,11 +179,10 @@ function initGallery() {
             var prev = images[idx-1];
 
             if (prev === undefined) {
-                //console.log('there is no next image');
                 return false;
             }
 
-            //console.log('loading prev one: ' + prev);
+            $('#imgleft').css('opacity', 1.0).animate({ opacity: 0.7 }, 500);
             // slide out the current image
             var winW = $(window).width();
             $('#maskinner img').animate({ 'left': '+=' + winW }, 'fast', function() {
