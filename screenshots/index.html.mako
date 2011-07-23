@@ -1,6 +1,6 @@
 <%!
 	section = "screens"
-	javascript = 'gallery.min.js'
+	javascript = 'gallery.min.2.js'
 	require_jquery = True
 	js_callback = 'initGallery();'
 %>
