@@ -301,6 +301,7 @@ img {
 }
 
 #imgleft, #imgright {
+    cursor: pointer;
     position: fixed;
     top: 50%;
     width: 64px;
