@@ -79,6 +79,7 @@ function initGallery() {
             $('#loading').hide();
             var element = $('<img>');
             element.attr({ 'src': url, 'width':dims.width });
+            $('#maskinner').append(element);
             element.css({ 'z-index': 21, 'position': 'absolute', 'top':dims.top + 'px', 'left':dims.left + 'px' });
             if (direction !== undefined) {
                 // slide from right to left
@@ -94,7 +95,6 @@ function initGallery() {
                     });
                 }
             }
-            $('#maskinner').append(element);
             $('#maskinner').show();
 
             $('#bigimg').show();
