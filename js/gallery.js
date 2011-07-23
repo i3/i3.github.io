@@ -198,6 +198,11 @@ function initGallery() {
 
     // setup key press handlers for the left/right arrow keys
     var keydown = function(e) {
+        // if we are not in the slideshow mode, process the event as normal
+        if (!$('#mask').is(':visible')) {
+            return true;
+        }
+
         switch (e.keyCode) {
             // left arrow
             case 37:
