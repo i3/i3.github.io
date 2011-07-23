@@ -69,23 +69,8 @@ currently distributed in the following operating systems/distributions:
 % endfor
 </div>
 
-<!--
 <p>
-    Because Ubuntu packages are always outdated, you can also install
-    up-to-date third-party i3 packages for Ubuntu by adding the following line
-    to your <code>/etc/apt/sources.list</code> and using <code>apt-get install
-    i3</code> afterwards:<br>
-    <pre>
-    deb http://debian.sur5r.net/i3/ karmic universe
-    </pre>
-    Or, if you are running lucid:
-    <pre>
-    deb http://debian.sur5r.net/i3/ lucid universe
-    </pre>
-</p>
--->
-<p>
-Because Ubuntu syncs its packages only every 6 months with Debian, we provide a more recent repository.
+We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories</a> with up-to-date packages.
 </p>
 
 <h2>Downloads</h2>
@@ -173,18 +158,24 @@ Because Ubuntu syncs its packages only every 6 months with Debian, we provide a 
 <h2>Development version</h2>
 
 <p>
-  Use <a href="http://git-scm.com/">git</a> to follow the latest changes:
+  Use <a href="http://git-scm.com/">git</a> to follow the latest changes. This command checks out the 'master' branch:
 </p>
 
 <pre>
-  $ git clone git://code.stapelberg.de/i3
+  $ git clone git://code.i3wm.org/i3
 </pre>
+
+<p>
+  The 'master' branch is the current stable version plus bugfixes.<br>
+  The 'next' branch is the next version, yet to be released. Use <tt>git
+  checkout next</tt> to switch to the 'next' branch.
+</p>
 
 <p>
   If you prefer to download a tarball, or if you cannot use git for whatever reason,
   you may download the current master branch from
-  <a href="http://code.stapelberg.de/git/i3/snapshot/i3-master.tar.bz2">
-    http://code.stapelberg.de/git/i3/snapshot/i3-master.tar.bz2
+  <a href="http://code.i3wm.org/i3/snapshot/i3-master.tar.bz2">
+    http://code.i3wm.org/i3/snapshot/i3-master.tar.bz2
   </a>
 </p>
 

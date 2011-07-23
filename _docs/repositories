@@ -1,0 +1,58 @@
+Debian and Ubuntu repositories
+==============================
+Michael Stapelberg <michael+i3@stapelberg.de>
+July 2011
+
+== When should you use our repositories?
+
+In general, you should use the repositories of your distribution. Adding
+third-party repositories to your +/etc/sources.list+ has security implications
+and makes your +apt-get update+ take longer. However, in some cases, using our
+repositories makes sense:
+
+You are using Debian stable::
+    The latest version of i3 will be in Debian testing quite soon. The version
+    in Debian stable can be old, however (we cannot update it after stable has
+    been released). The best way is to add Debian testing and tell +apt+ to
+    prefer Debian stable. You should *not* use our repository.
+You are using Ubuntu::
+    Only a handful of packages are maintained by Ubuntu developers. The rest is
+    synchronized periodically from Debian, every 6 months. Therefore, Ubuntu
+    often includes old versions of i3. You should use our Ubuntu repository.
+You want the latest i3 development version::
+    If you are using Debian (Debian-derived systems might work, too) and want
+    the latest development version of i3, you should use our Debian repository.
+
+== Ubuntu repository
+
+The Ubuntu repository is provided by sur5r and contains the latest stable release
+of i3. To use it, run the following commands:
+
+---------------------------------------------------------------------------------
+# echo 'deb http://debian.sur5r.net/i3/ karmic universe' >> /etc/apt/sources.list
+# apt-get update
+# apt-get install i3
+---------------------------------------------------------------------------------
+
+== Debian repository
+
+Our Debian repository contains packages which are automatically built a few
+minutes after every commit. To use it, run the following commands:
+
+---------------------------------------------------------------------------------
+# echo 'deb http://build.i3wm.org/debian/i3-wm sid main' >> /etc/apt/sources.list
+# apt-get update
+# apt-get install i3-wm
+---------------------------------------------------------------------------------
+
+To ensure that the autobuilt i3 packages will be preferred to the packages of
+your distribution, put the following entry *at the beginning* of your
++/etc/apt/preferences+:
+
+----------------------------
+Package: *
+Pin: origin "build.i3wm.org"
+Pin-Priority: 1001
+----------------------------
+
+Then, install +i3-wm+.

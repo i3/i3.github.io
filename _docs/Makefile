@@ -1,10 +1,13 @@
 
-all: hacking-howto.html debugging.html userguide.html ipc.html multi-monitor.html wsbar.html tree-migrating.html i3status.html i3.html
+all: hacking-howto.html debugging.html repositories.html userguide.html ipc.html multi-monitor.html wsbar.html tree-migrating.html i3status.html i3.html
 
 hacking-howto.html: hacking-howto
 	asciidoc -a linkcss -a stylesdir=/css -a scriptsdir=/js --backend=xhtml11 -f conf/i3html.conf -a toc -n $<
 
 debugging.html: debugging
+	asciidoc -a linkcss -a stylesdir=/css -a scriptsdir=/js --backend=xhtml11 -f conf/i3html.conf -n $<
+
+repositories.html: repositories
 	asciidoc -a linkcss -a stylesdir=/css -a scriptsdir=/js --backend=xhtml11 -f conf/i3html.conf -n $<
 
 userguide.html: userguide

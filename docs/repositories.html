@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
+<title>i3: Debian and Ubuntu repositories</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes();}
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="http://bugs.i3wm.org/">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>Debian and Ubuntu repositories</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
+<span id="revdate">July 2011</span>
+</div>
+<div class="sect1">
+<h2 id="_when_should_you_use_our_repositories">1. When should you use our repositories?</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In general, you should use the repositories of your distribution. Adding
+third-party repositories to your <tt>/etc/sources.list</tt> has security implications
+and makes your <tt>apt-get update</tt> take longer. However, in some cases, using our
+repositories makes sense:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+You are using Debian stable
+</dt>
+<dd>
+<p>
+    The latest version of i3 will be in Debian testing quite soon. The version
+    in Debian stable can be old, however (we cannot update it after stable has
+    been released). The best way is to add Debian testing and tell <tt>apt</tt> to
+    prefer Debian stable. You should <strong>not</strong> use our repository.
+</p>
+</dd>
+<dt class="hdlist1">
+You are using Ubuntu
+</dt>
+<dd>
+<p>
+    Only a handful of packages are maintained by Ubuntu developers. The rest is
+    synchronized periodically from Debian, every 6 months. Therefore, Ubuntu
+    often includes old versions of i3. You should use our Ubuntu repository.
+</p>
+</dd>
+<dt class="hdlist1">
+You want the latest i3 development version
+</dt>
+<dd>
+<p>
+    If you are using Debian (Debian-derived systems might work, too) and want
+    the latest development version of i3, you should use our Debian repository.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ubuntu_repository">2. Ubuntu repository</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The Ubuntu repository is provided by sur5r and contains the latest stable release
+of i3. To use it, run the following commands:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># echo 'deb http://debian.sur5r.net/i3/ karmic universe' &gt;&gt; /etc/apt/sources.list
+# apt-get update
+# apt-get install i3</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debian_repository">3. Debian repository</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Our Debian repository contains packages which are automatically built a few
+minutes after every commit. To use it, run the following commands:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># echo 'deb http://build.i3wm.org/debian/i3-wm sid main' &gt;&gt; /etc/apt/sources.list
+# apt-get update
+# apt-get install i3-wm</tt></pre>
+</div></div>
+<div class="paragraph"><p>To ensure that the autobuilt i3 packages will be preferred to the packages of
+your distribution, put the following entry <strong>at the beginning</strong> of your
+<tt>/etc/apt/preferences</tt>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>Package: *
+Pin: origin "build.i3wm.org"
+Pin-Priority: 1001</tt></pre>
+</div></div>
+<div class="paragraph"><p>Then, install <tt>i3-wm</tt>.</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>
