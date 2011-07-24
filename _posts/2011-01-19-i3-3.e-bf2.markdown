@@ -1,0 +1,6 @@
+---
+date: 2011/01/19 10:00:00
+title: i3 v3.ε-bf2 was just released
+---
+
+i3 v3.ε-bf2 was just released. Check <a href="http://i3.zekjur.net/downloads/RELEASE-NOTES-3.e-bf2.txt">the release announcement</a>.

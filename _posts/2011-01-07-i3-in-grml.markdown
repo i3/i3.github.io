@@ -1,0 +1,20 @@
+---
+date: 2011/01/07 10:00:00
+title: i3 in grml
+---
+
+The most recent version 2010.12 of <a href="http://www.grml.org/">grml, a live
+linux distribution for sysadmins and texttool users</a>, comes with i3 included
+by default (in the GRML-FULL flavor). Just press x followed by 3 after grml has
+booted to start X11 with i3.
+
+As I am a long-time grml user myself, this makes me quite happy :). Thanks to
+Mika for building such an excellent linux distribution and for encouraging me
+at FrOSCon to get i3 into grml. You (and all contributors to grml) rock!
+
+For all i3 users, this also marks an important step: There now is a live CD
+(also usable on your USB thumb drive or by booting from network of course)
+which comes with i3. It’s a nice way to demonstrate i3 and a lot of other
+commandline tools to other people (just boot from USB).
+
+![grml 2010.12 with i3](/img/grml.png "screenshot of grml 2010.12 with i3")
