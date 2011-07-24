@@ -11,7 +11,7 @@
   <generator uri="http://blogofile.com/">Blogofile</generator>
 
   <link rel="alternate" type="text/html" href="${bf.config.blog.url}" />
-  <id>${bf.config.blog.url}/feed/atom/</id>
+  <id>${bf.config.blog.url}/atom.xml</id>
   <link rel="self" type="application/atom+xml" href="${bf.config.blog.url}/feed/atom/" />
 % for post in posts[:10]:
   <entry>

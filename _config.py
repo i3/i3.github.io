@@ -1,5 +1,6 @@
 blog = controllers.blog
 blog.enabled = True
+site.url = "http://i3wm.org/"
 blog.path = "/blog"
 blog.name = "i3 - improved tiling wm - blog"
 blog.description = "News about the i3 window manager"
