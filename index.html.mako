@@ -27,9 +27,12 @@
 
 <div id="content">
 <p>
-i3 is a tiling window manager, completely written from scratch. It is primarily
-targeted at advanced users and developers. Based upon the experiences we made
-when wanting to hack/fix wmii, we agreed upon the following goals for i3:
+i3 is a <a href="http://en.wikipedia.org/wiki/Tiling_window_manager">tiling
+window manager</a>, completely written from scratch. The target platforms are
+GNU/Linux and BSD operating systems, our code is Free and Open Source Software
+(FOSS) under the BSD license. i3 is primarily targeted at advanced users and
+developers. Based upon the experiences we made when wanting to hack/fix wmii,
+we agreed upon the following goals for i3:
 </p> 
  
 <ol> 
