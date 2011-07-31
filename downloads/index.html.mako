@@ -76,8 +76,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 <h2>Downloads</h2>
 
 <p>
-  The current stable version is 3.ε-bf3 (transcribed 3.e-bf3 because many systems still can’t
-  handle UTF-8 in version numbers).
+  The current stable version is 4.0.
 </p>
 
 <p>
