@@ -1,0 +1,1206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
+<title>i3: i3 User’s Guide</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="http://bugs.i3wm.org/">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>i3 User’s Guide</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
+<span id="revdate">July 2011</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document contains all the information you need to configure and use the i3
+window manager. If it does not, please contact us on IRC (preferred) or post your
+question(s) on the mailing list.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_default_keybindings">1. Default keybindings</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>For the "too long; didn’t read" people, here is an overview of the default
+keybindings (click to see the full size image):</p></div>
+<div class="paragraph"><p><strong>Keys to use with mod (alt):</strong></p></div>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="keyboard-layer1.png">
+<img src="keyboard-layer1.png" alt="Keys to use with mod (alt)" width="600" />
+</a>
+</span></p></div>
+<div class="paragraph"><p><strong>Keys to use with Shift+mod:</strong></p></div>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="keyboard-layer2.png">
+<img src="keyboard-layer2.png" alt="Keys to use with Shift+mod" width="600" />
+</a>
+</span></p></div>
+<div class="paragraph"><p>The red keys are the modifiers you need to press (by default), the blue keys
+are your homerow.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_i3">2. Using i3</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Throughout this guide, the keyword <tt>mod</tt> will be used to refer to the
+configured modifier. This is the alt key (Mod1) by default, with windows (Mod4)
+being a popular alternative.</p></div>
+<div class="sect2">
+<h3 id="_opening_terminals_and_moving_around">2.1. Opening terminals and moving around</h3>
+<div class="paragraph"><p>One very basic operation is opening a new terminal. By default, the keybinding
+for this is mod+Enter, that is Alt+Enter in the default configuration. By
+pressing mod+Enter, a new terminal will be opened.  It will fill the whole
+space available on your screen.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="single_terminal.png" alt="Single terminal" />
+</span></p></div>
+<div class="paragraph"><p>If you now open another terminal, i3 will place it next to the current one,
+splitting the screen size in half. Depending on your monitor, i3 will put the
+created window beside the existing window (on wide displays) or below the
+existing window (rotated displays).</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="two_terminals.png" alt="Two terminals" />
+</span></p></div>
+<div class="paragraph"><p>To move the focus between the two terminals, you can use the direction keys
+which you may know from the editor <tt>vi</tt>. However, in i3, your homerow is used
+for these keys (in <tt>vi</tt>, the keys are shifted to the left by one for
+compatibility with most keyboard layouts). Therefore, <tt>mod+J</tt> is left, <tt>mod+K</tt>
+is down, <tt>mod+L</tt> is up and <tt>mod+;</tt> is right. So, to switch between the
+terminals, use <tt>mod+K</tt> or <tt>mod+L</tt>. Of course, you can also use the arrow keys.</p></div>
+<div class="paragraph"><p>At the moment, your workspace is split (it contains two terminals) in a
+specific direction (horizontal by default). Every window can be split
+horizontally or vertically again, just like the workspace. The terminology is
+"window" for a container that actually contains an X11 window (like a terminal
+or browser) and "split container" for containers that consist of one or more
+windows.</p></div>
+<div class="paragraph"><p>TODO: picture of the tree</p></div>
+<div class="paragraph"><p>To split a window vertically, press <tt>mod+v</tt>. To split it horizontally, press
+<tt>mod+h</tt>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_changing_the_container_layout">2.2. Changing the container layout</h3>
+<div class="paragraph"><p>A split container can have one of the following layouts:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+default
+</dt>
+<dd>
+<p>
+Windows are sized so that every window gets an equal amount of space in the
+container.
+</p>
+</dd>
+<dt class="hdlist1">
+stacking
+</dt>
+<dd>
+<p>
+Only the focused window in the container is displayed. You get a list of
+windows at the top of the container.
+</p>
+</dd>
+<dt class="hdlist1">
+tabbed
+</dt>
+<dd>
+<p>
+The same principle as <tt>stacking</tt>, but the list of windows at the top is only
+a single line which is vertically split.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>To switch modes, press <tt>mod+e</tt> for default, <tt>mod+h</tt> for stacking and
+<tt>mod+w</tt> for tabbed.</p></div>
+<div class="paragraph"><p><span class="image">
+<img src="modes.png" alt="Container modes" />
+</span></p></div>
+</div>
+<div class="sect2">
+<h3 id="_toggling_fullscreen_mode_for_a_window">2.3. Toggling fullscreen mode for a window</h3>
+<div class="paragraph"><p>To display a window in fullscreen mode or to go out of fullscreen mode again,
+press <tt>mod+f</tt>.</p></div>
+<div class="paragraph"><p>There is also a global fullscreen mode in i3 in which the client will span all
+available outputs.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_opening_other_applications">2.4. Opening other applications</h3>
+<div class="paragraph"><p>Aside from opening applications from a terminal, you can also use the handy
+<tt>dmenu</tt> which is opened by pressing <tt>mod+d</tt> by default. Just type the name
+(or a part of it) of the application which you want to open. The corresponding
+application has to be in your <tt>$PATH</tt> for this to work.</p></div>
+<div class="paragraph"><p>Additionally, if you have applications you open very frequently, you can
+create a keybinding for starting the application directly. See the section
+<a href="#configuring">[configuring]</a> for details.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_closing_windows">2.5. Closing windows</h3>
+<div class="paragraph"><p>If an application does not provide a mechanism for closing (most applications
+provide a menu, the escape key or a shortcut like <tt>Control+W</tt> to close), you
+can press <tt>mod+Shift+q</tt> to kill a window. For applications which support
+the WM_DELETE protocol, this will correctly close the application (saving
+any modifications or doing other cleanup). If the application doesn’t support
+the WM_DELETE protocol your X server will kill the window and the behaviour
+depends on the application.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_using_workspaces">2.6. Using workspaces</h3>
+<div class="paragraph"><p>Workspaces are an easy way to group a set of windows. By default, you are on
+the first workspace, as the bar on the bottom left indicates. To switch to
+another workspace, press <tt>mod+num</tt> where <tt>num</tt> is the number of the workspace
+you want to use. If the workspace does not exist yet, it will be created.</p></div>
+<div class="paragraph"><p>A common paradigm is to put the web browser on one workspace, communication
+applications (<tt>mutt</tt>, <tt>irssi</tt>, &#8230;) on another one, and the ones with which you
+work, on the third one. Of course, there is no need to follow this approach.</p></div>
+<div class="paragraph"><p>If you have multiple screens, a workspace will be created on each screen at
+startup. If you open a new workspace, it will be bound to the screen you
+created it on.  When you switch to a workspace on another screen, i3 will set
+focus to that screen.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_moving_windows_to_workspaces">2.7. Moving windows to workspaces</h3>
+<div class="paragraph"><p>To move a window to another workspace, simply press <tt>mod+Shift+num</tt> where
+<tt>num</tt> is (like when switching workspaces) the number of the target workspace.
+Similarly to switching workspaces, the target workspace will be created if
+it does not yet exist.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_resizing">2.8. Resizing</h3>
+<div class="paragraph"><p>The easiest way to resize a container is by using the mouse: Grab the border
+and move it to the wanted size.</p></div>
+<div class="paragraph"><p>See <a href="#resizingconfig">[resizingconfig]</a> for how to configure i3 to be able to resize
+columns/rows with your keyboard.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_restarting_i3_inplace">2.9. Restarting i3 inplace</h3>
+<div class="paragraph"><p>To restart i3 inplace (and thus get into a clean state if there is a bug, or
+to upgrade to a newer version of i3) you can use <tt>mod+Shift+r</tt>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_exiting_i3">2.10. Exiting i3</h3>
+<div class="paragraph"><p>To cleanly exit i3 without killing your X server, you can use <tt>mod+Shift+e</tt>.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_floating">2.11. Floating</h3>
+<div class="paragraph"><p>Floating mode is the opposite of tiling mode. The position and size of a window
+are not managed by i3, but by you. Using this mode violates the tiling
+paradigm but can be useful for some corner cases like "Save as" dialog
+windows, or toolbar windows (GIMP or similar). Those windows usually set the
+appropriate hint and are opened in floating mode by default.</p></div>
+<div class="paragraph"><p>You can enable floating mode for a window by pressing <tt>mod+Shift+Space</tt>. By
+dragging the window’s titlebar with your mouse you can move the window
+around. By grabbing the borders and moving them you can resize the window. You
+can also do that by using the <a href="#floating_modifier">[floating_modifier]</a>.</p></div>
+<div class="paragraph"><p>For resizing floating windows with your keyboard, see <a href="#resizingconfig">[resizingconfig]</a>.</p></div>
+<div class="paragraph"><p>Floating windows are always on top of tiling windows.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tree">3. Tree</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3 stores all information about the X11 outputs, workspaces and layout of the
+windows on them in a tree. The root node is the X11 root window, followed by
+the X11 outputs, then dock areas and a content container, then workspaces and
+finally the windows themselve. In previous versions of i3 we had multiple lists
+(of outputs, workspaces) and a table for each workspace. That approach turned
+out to be complicated to use (snapping), understand and implement.</p></div>
+<div class="sect2">
+<h3 id="_the_tree_consists_of_containers">3.1. The tree consists of Containers</h3>
+<div class="paragraph"><p>The building blocks of our tree are so called <tt>Containers</tt>. A <tt>Container</tt> can
+host a window (meaning an X11 window, one that you can actually see and use,
+like a browser). Alternatively, it could contain one or more <tt>Containers</tt>. A
+simple example is the workspace: When you start i3 with a single monitor, a
+single workspace and you open two terminal windows, you will end up with a tree
+like this:</p></div>
+<div class="imageblock" style="float:right;">
+<div class="content">
+<img src="tree-layout2.png" alt="layout2" />
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="tree-shot4.png" alt="shot4" />
+</div>
+<div class="title">Figure 1. Two terminals on standard workspace</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orientation_and_split_containers">3.2. Orientation and Split Containers</h3>
+<div class="paragraph" id="OrientationSplit"><p>It is only natural to use so-called <tt>Split Containers</tt> in order to build a
+layout when using a tree as data structure. In i3, every <tt>Container</tt> has an
+orientation (horizontal, vertical or unspecified). So, in our example with the
+workspace, the default orientation of the workspace <tt>Container</tt> is horizontal
+(most monitors are widescreen nowadays). If you change the orientation to
+vertical (<tt>mod+v</tt> in the default config) and <strong>then</strong> open two terminals, i3 will
+configure your windows like this:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="tree-shot2.png" alt="shot2" />
+</div>
+<div class="title">Figure 2. Vertical Workspace Orientation</div>
+</div>
+<div class="paragraph"><p>An interesting new feature of the tree branch is the ability to split anything:
+Let’s assume you have two terminals on a workspace (with horizontal
+orientation), focus is on the right terminal. Now you want to open another
+terminal window below the current one. If you would just open a new terminal
+window, it would show up to the right due to the horizontal workspace
+orientation. Instead, press <tt>mod+v</tt> to create a <tt>Vertical Split Container</tt> (to
+open a <tt>Horizontal Split Container</tt>, use <tt>mod+h</tt>). Now you can open a new
+terminal and it will open below the current one:</p></div>
+<div class="imageblock" style="float:right;">
+<div class="content">
+<img src="tree-layout1.png" alt="Layout" />
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="tree-shot1.png" alt="shot" />
+</div>
+<div class="title">Figure 3. Vertical Split Container</div>
+</div>
+<div style="clear:both;"></div>
+<div class="paragraph"><p>You probably guessed it already: There is no limit on how deep your hierarchy
+of splits can be.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_focus_parent">3.3. Focus parent</h3>
+<div class="paragraph"><p>Let’s stay with our example from above. We have a terminal on the left and two
+vertically split terminals on the right, focus is on the bottom right one. When
+you open a new terminal, it will open below the current one.</p></div>
+<div class="paragraph"><p>So, how can you open a new terminal window to the <strong>right</strong> of the current one?
+The solution is to use <tt>focus parent</tt>, which will focus the <tt>Parent Container</tt> of
+the current <tt>Container</tt>. In this case, you would focus the <tt>Vertical Split
+Container</tt> which is <strong>inside</strong> the horizontally oriented workspace. Thus, now new
+windows will be opened to the right of the <tt>Vertical Split Container</tt>:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="tree-shot3.png" alt="shot3" />
+</div>
+<div class="title">Figure 4. Focus parent, then open new terminal</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring">4. Configuring i3</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This is where the real fun begins ;-). Most things are very dependant on your
+ideal working environment so we can’t make reasonable defaults for them.</p></div>
+<div class="paragraph"><p>While not using a programming language for the configuration, i3 stays
+quite flexible in regards to the things you usually want your window manager
+to do.</p></div>
+<div class="paragraph"><p>For example, you can configure bindings to jump to specific windows,
+you can set specific applications to start on specific workspaces, you can
+automatically start applications, you can change the colors of i3, and you
+can bind your keys to do useful things.</p></div>
+<div class="paragraph"><p>To change the configuration of i3, copy <tt>/etc/i3/config</tt> to <tt>~/.i3/config</tt>
+(or <tt>~/.config/i3/config</tt> if you like the XDG directory scheme) and edit it
+with a text editor.</p></div>
+<div class="paragraph"><p>On first start (and on all following starts, unless you have a configuration
+file), i3 will offer you to create a configuration file. You can tell the
+wizard to use either Alt (Mod1) or Windows (Mod4) as modifier in the config
+file. Also, the created config file will use the key symbols of your current
+keyboard layout. To start the wizard, use the command <tt>i3-config-wizard</tt>.
+Please note that you must not have <tt>~/.i3/config</tt>, otherwise the wizard will
+exit.</p></div>
+<div class="sect2">
+<h3 id="_comments">4.1. Comments</h3>
+<div class="paragraph"><p>It is possible and recommended to use comments in your configuration file to
+properly document your setup for later reference. Comments are started with
+a # and can only be used at the beginning of a line:</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># This is a comment</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_fonts">4.2. Fonts</h3>
+<div class="paragraph"><p>i3 uses X core fonts (not Xft) for rendering window titles. You can use
+<tt>xfontsel(1)</tt> to generate such a font description. To see special characters
+(Unicode), you need to use a font which supports the ISO-10646 encoding.</p></div>
+<div class="paragraph"><p>If i3 cannot open the configured font, it will output an error in the logfile
+and fall back to a working font.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>font &lt;X core font description&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="keybindings">4.3. Keyboard bindings</h3>
+<div class="paragraph"><p>A keyboard binding makes i3 execute a command (see below) upon pressing a
+specific key. i3 allows you to bind either on keycodes or on keysyms (you can
+also mix your bindings, though i3 will not protect you from overlapping ones).</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+A keysym (key symbol) is a description for a specific symbol, like "a"
+  or "b", but also more strange ones like "underscore" instead of "_". These
+  are the ones you use in Xmodmap to remap your keys. To get the current
+  mapping of your keys, use <tt>xmodmap -pke</tt>.
+</p>
+</li>
+<li>
+<p>
+Keycodes do not need to have a symbol assigned (handy for custom vendor
+  hotkeys on some notebooks) and they will not change their meaning as you
+  switch to a different keyboard layout (when using <tt>xmodmap</tt>).
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>My recommendation is: If you often switch keyboard layouts but you want to keep
+your bindings in the same physical location on the keyboard, use keycodes.
+If you don’t switch layouts, and want a clean and simple config file, use
+keysyms.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym [Modifiers+]keysym command
+bindcode [Modifiers+]keycode command</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Fullscreen
+bindsym mod+f f
+
+# Restart
+bindsym mod+Shift+r restart
+
+# Notebook-specific hotkeys
+bindcode 214 exec /home/michael/toggle_beamer.sh</tt></pre>
+</div></div>
+<div class="paragraph"><p>Available Modifiers:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Mod1-Mod5, Shift, Control
+</dt>
+<dd>
+<p>
+Standard modifiers, see <tt>xmodmap(1)</tt>
+</p>
+</dd>
+<dt class="hdlist1">
+Mode_switch
+</dt>
+<dd>
+<p>
+Unlike other window managers, i3 can use Mode_switch as a modifier. This allows
+you to remap capslock (for example) to Mode_switch and use it for both: typing
+umlauts or special characters <em>and</em> having some comfortably reachable key
+bindings. For example, when typing, capslock+1 or capslock+2 for switching
+workspaces is totally convenient. Try it :-).
+</p>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="floating_modifier">4.4. The floating modifier</h3>
+<div class="paragraph"><p>To move floating windows with your mouse, you can either grab their titlebar
+or configure the so called floating modifier which you can then press and
+click anywhere in the window itself to move it. The most common setup is to
+use the same key you use for managing windows (Mod1 for example). Then
+you can press Mod1, click into a window using your left mouse button, and drag
+it to the position you want.</p></div>
+<div class="paragraph"><p>When holding the floating modifier, you can resize a floating window by
+pressing the right mouse button on it and moving around while holding it. If
+you hold the shift button as well, the resize will be proportional.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>floating_modifier &lt;Modifiers&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>floating_modifier Mod1</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_orientation_for_new_workspaces">4.5. Orientation for new workspaces</h3>
+<div class="paragraph"><p>New workspaces get a reasonable default orientation: Wide-screen monitors
+(anything wider than high) get horizontal orientation, rotated monitors
+(anything higher than wide) get vertical orientation.</p></div>
+<div class="paragraph"><p>With the <tt>default_orientation</tt> configuration directive, you can override that
+behaviour.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>default_orientation &lt;horizontal|vertical|auto&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>default_orientation vertical</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_layout_mode_for_new_containers">4.6. Layout mode for new containers</h3>
+<div class="paragraph"><p>This option determines in which mode new containers on workspace level will
+start.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace_layout &lt;default|stacking|tabbed&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace_layout tabbed</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_border_style_for_new_windows">4.7. Border style for new windows</h3>
+<div class="paragraph"><p>This option determines which border style new windows will have.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>new_window &lt;normal|1pixel|borderless&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>new_window 1pixel</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_arbitrary_commands_for_specific_windows_for_window">4.8. Arbitrary commands for specific windows (for_window)</h3>
+<div class="paragraph"><p>With the <tt>for_window</tt> command, you can let i3 execute any command when it
+encounters a specific window. This can be used to set windows to floating or to
+change their border style, for example.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>for_window [criteria] command</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># enable floating mode for all XTerm windows
+for_window [class="XTerm"] mode floating
+
+# Make all urxvts use a 1-pixel border:
+for_window [class="urxvt"] border 1pixel
+
+# A less useful, but rather funny example:
+# makes the window floating as soon as I change
+# directory to ~/work
+for_window [title="x200: ~/work"] mode floating</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_variables">4.9. Variables</h3>
+<div class="paragraph"><p>As you learned in the section about keyboard bindings, you will have
+to configure lots of bindings containing modifier keys. If you want to save
+yourself some typing and be able to change the modifier you use later,
+variables can be handy.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>set $name value</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>set $m Mod1
+bindsym $m+Shift+r restart</tt></pre>
+</div></div>
+<div class="paragraph"><p>Variables are directly replaced in the file when parsing. There is no fancy
+handling and there are absolutely no plans to change this. If you need a more
+dynamic configuration you should create a little script which generates a
+configuration file and run it before starting i3 (for example in your
+<tt>~/.xsession</tt> file).</p></div>
+</div>
+<div class="sect2">
+<h3 id="_automatically_putting_clients_on_specific_workspaces">4.10. Automatically putting clients on specific workspaces</h3>
+<div class="paragraph" id="assign_workspace"><p>Specific windows can be matched by window class and/or window title. It is
+recommended that you match on window classes instead of window titles whenever
+possible because some applications first create their window, and then worry
+about setting the correct title. Firefox with Vimperator comes to mind. The
+window starts up being named Firefox, and only when Vimperator is loaded does
+the title change. As i3 will get the title as soon as the application maps the
+window (mapping means actually displaying it on the screen), you’d need to have
+to match on <em>Firefox</em> in this case.</p></div>
+<div class="paragraph"><p>You can prefix or suffix workspaces with a <tt>~</tt> to specify that matching clients
+should be put into floating mode. If you specify only a <tt>~</tt>, the client will
+not be put onto any workspace, but will be set floating on the current one.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>assign ["]window class[/window title]["] [→] [workspace]</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>assign urxvt 2
+assign urxvt → 2
+assign urxvt → work
+assign "urxvt" → 2
+assign "urxvt/VIM" → 3
+assign "gecko" → 4</tt></pre>
+</div></div>
+<div class="paragraph"><p>Note that the arrow is not required, it just looks good :-). If you decide to
+use it, it has to be a UTF-8 encoded arrow, not <tt>-&gt;</tt> or something like that.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_automatically_starting_applications_on_i3_startup">4.11. Automatically starting applications on i3 startup</h3>
+<div class="paragraph"><p>By using the <tt>exec</tt> keyword outside a keybinding, you can configure
+which commands will be performed by i3 on initial startup. <tt>exec</tt>
+commands will not run when restarting i3, if you need a command to run
+also when restarting i3 you should use the <tt>exec_always</tt>
+keyword. These commands will be run in order.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>exec command
+exec_always command</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>exec i3status | dzen2 -dock
+exec_always ~/my_script.sh</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="workspace_screen">4.12. Automatically putting workspaces on specific screens</h3>
+<div class="paragraph"><p>If you assign clients to workspaces, it might be handy to put the
+workspaces on specific screens. Also, the assignment of workspaces to screens
+will determine which workspace i3 uses for a new screen when adding screens
+or when starting (e.g., by default it will use 1 for the first screen, 2 for
+the second screen and so on).</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace &lt;number&gt; output &lt;output&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>The <em>output</em> is the name of the RandR output you attach your screen to. On a
+laptop, you might have VGA1 and LVDS1 as output names. You can see the
+available outputs by running <tt>xrandr --current</tt>.</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace 1 output LVDS1
+workspace 5 output VGA1</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_changing_colors">4.13. Changing colors</h3>
+<div class="paragraph"><p>You can change all colors which i3 uses to draw the window decorations.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>colorclass border background text</tt></pre>
+</div></div>
+<div class="paragraph"><p>Where colorclass can be one of:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+client.focused
+</dt>
+<dd>
+<p>
+        A client which currently has the focus.
+</p>
+</dd>
+<dt class="hdlist1">
+client.focused_inactive
+</dt>
+<dd>
+<p>
+        A client which is the focused one of its container, but it does not have
+        the focus at the moment.
+</p>
+</dd>
+<dt class="hdlist1">
+client.unfocused
+</dt>
+<dd>
+<p>
+        A client which is not the focused one of its container.
+</p>
+</dd>
+<dt class="hdlist1">
+client.urgent
+</dt>
+<dd>
+<p>
+        A client which has its urgency hint activated.
+</p>
+</dd>
+<dt class="hdlist1">
+bar.focused
+</dt>
+<dd>
+<p>
+        The current workspace in the bottom bar.
+</p>
+</dd>
+<dt class="hdlist1">
+bar.unfocused
+</dt>
+<dd>
+<p>
+        All other workspaces in the bottom bar.
+</p>
+</dd>
+<dt class="hdlist1">
+bar.urgent
+</dt>
+<dd>
+<p>
+        A workspace which has at least one client with an activated urgency hint.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>You can also specify the color to be used to paint the background of the client
+windows. This color will be used to paint the window on top of which the client
+will be rendered.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>client.background color</tt></pre>
+</div></div>
+<div class="paragraph"><p>Only clients that do not cover the whole area of this window expose the color
+used to paint it. If you use a color other than black for your terminals, you
+most likely want to set the client background color to the same color as your
+terminal program&#8217;s background color to avoid black gaps between the rendered
+area of the termianal and the i3 border.</p></div>
+<div class="paragraph"><p>Colors are in HTML hex format (#rrggbb), see the following example:</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># class        border  backgr. text
+client.focused #2F343A #900000 #FFFFFF</tt></pre>
+</div></div>
+<div class="paragraph"><p>Note that for the window decorations, the color around the child window is the
+background color, and the border color is only the two thin lines at the top of
+the window.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_interprocess_communication">4.14. Interprocess communication</h3>
+<div class="paragraph"><p>i3 uses unix sockets to provide an IPC interface. This allows third-party
+programs to get information from i3, such as the current workspaces
+(to display a workspace bar), and to control i3.</p></div>
+<div class="paragraph"><p>The IPC socket is enabled by default and will be created in
+<tt>/tmp/i3-%u/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username and <tt>%p</tt> is the PID
+of i3.</p></div>
+<div class="paragraph"><p>You can override the default path through the environment-variable <tt>I3SOCK</tt> or
+by specifying the <tt>ipc-socket</tt> directive.</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>ipc-socket /tmp/i3-ipc.sock</tt></pre>
+</div></div>
+<div class="paragraph"><p>You can then use the <tt>i3-msg</tt> application to perform any command listed in
+the next section.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_focus_follows_mouse">4.15. Focus follows mouse</h3>
+<div class="paragraph"><p>If you have a setup where your mouse usually is in your way (like a touchpad
+on your laptop which you do not want to disable completely), you might want
+to disable <em>focus follows mouse</em> and control focus only by using your keyboard.
+The mouse will still be useful inside the currently active window (for example
+to click on links in your browser window).</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>focus_follows_mouse &lt;yes|no&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>focus_follows_mouse no</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_popups_during_fullscreen_mode">4.16. Popups during fullscreen mode</h3>
+<div class="paragraph"><p>When you are in fullscreen mode, some applications still open popup windows
+(take Xpdf for example). This is because these applications may not be aware
+that they are in fullscreen mode (they do not check the corresponding hint).
+There are two things which are possible to do in this situation:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Just ignore the popup (don’t map it). This won’t interrupt you while you are
+   in fullscreen. However, some apps might react badly to this (deadlock until
+   you go out of fullscreen).
+</p>
+</li>
+<li>
+<p>
+Leave fullscreen mode. This is the default.
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>popup_during_fullscreen &lt;ignore|leave_fullscreen&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>popup_during_fullscreen ignore</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_list_of_commands">5. List of commands</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_splitting_containers">5.1. Splitting containers</h3>
+<div class="paragraph"><p>The split command makes the current window a split container. Split containers
+can contain multiple windows. Every split container has an orientation, it is
+either split horizontally (a new window gets placed to the right of the current
+one) or vertically (a new window gets placed below the current one).</p></div>
+<div class="paragraph"><p>If you apply this command to a split container with the same orientation,
+nothing will happen. If you use a different orientation, the split container’s
+orientation will be changed (if it does not have more than one window).</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>split &lt;vertical|horizontal&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>split vertical</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_manipulating_layout">5.2. Manipulating layout</h3>
+<div class="paragraph"><p>Use <tt>layout default</tt>, <tt>layout stacking</tt> or <tt>layout tabbed</tt> to change the
+current container layout to default, stacking or tabbed layout, respectively.</p></div>
+<div class="paragraph"><p>To make the current window (!) fullscreen, use <tt>fullscreen</tt>, to make
+it floating (or tiling again) use <tt>floating enable</tt> respectively <tt>floating disable</tt>
+(or <tt>floating toggle</tt>):</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym mod+s layout stacking
+bindsym mod+l layout default
+bindsym mod+w layout tabbed
+
+# Toggle fullscreen
+bindsym mod+f fullscreen
+
+# Toggle floating/tiling
+bindsym mod+t floating toggle</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_focusing_moving_containers">5.3. Focusing/Moving containers</h3>
+<div class="paragraph"><p>To change the focus, use the focus command: <tt>focus left</tt>, <tt>focus right</tt>, <tt>focus down</tt> and <tt>focus up</tt>.</p></div>
+<div class="paragraph"><p>There are a few special parameters you can use for the focus command:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+parent
+</dt>
+<dd>
+<p>
+        Sets focus to the <tt>Parent Container</tt> of the current <tt>Container</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+child
+</dt>
+<dd>
+<p>
+        The opposite of <tt>focus parent</tt>, sets the focus to the last focused
+        child container.
+</p>
+</dd>
+<dt class="hdlist1">
+floating
+</dt>
+<dd>
+<p>
+        Sets focus to the last focused floating container.
+</p>
+</dd>
+<dt class="hdlist1">
+tiling
+</dt>
+<dd>
+<p>
+        Sets focus to the last focused tiling container.
+</p>
+</dd>
+<dt class="hdlist1">
+mode_toggle
+</dt>
+<dd>
+<p>
+        Toggles between floating/tiling containers.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>For moving, use <tt>move left</tt>, <tt>move right</tt>, <tt>move down</tt> and <tt>move up</tt>.</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Focus clients on the left, bottom, top, right:
+bindsym mod+j focus left
+bindsym mod+k focus down
+bindsym mod+l focus up
+bindsym mod+semicolon focus right
+
+# Focus parent container
+bindsym mod+u focus parent
+
+# Focus last floating/tiling container
+bindsym mod+g focus mode_toggle
+
+# Move client to the left, bottom, top, right:
+bindsym mod+j move left
+bindsym mod+k move down
+bindsym mod+l move up
+bindsym mod+semicolon move right</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_changing_workspaces_moving_containers_to_workspaces">5.4. Changing workspaces/moving containers to workspaces</h3>
+<div class="paragraph"><p>To change to a specific workspace, use the <tt>workspace</tt> command, followed by the
+number or name of the workspace. To move containers to specific workspaces, use
+<tt>move workspace</tt>.</p></div>
+<div class="paragraph"><p>You can also switch to the next and previous workspace with the commands
+<tt>workspace next</tt> and <tt>workspace prev</tt>, which is handy, for example, if you have
+workspace 1, 3, 4 and 9 and you want to cycle through them with a single key
+combination.</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym mod+1 workspace 1
+bindsym mod+2 workspace 2
+...
+
+bindsym mod+Shift+1 move workspace 1
+bindsym mod+Shift+2 move workspace 2
+...</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="resizingconfig">5.5. Resizing containers/windows</h3>
+<div class="paragraph"><p>If you want to resize containers/windows using your keyboard, you can use the
+<tt>resize</tt> command, I recommend using it inside a so called <tt>mode</tt>:</p></div>
+<div class="listingblock">
+<div class="title">Example: Configuration file, defining a mode for resizing</div>
+<div class="content">
+<pre><tt>mode "resize" {
+        # These bindings trigger as soon as you enter the resize mode
+
+        # They resize the border in the direction you pressed, e.g.
+        # when pressing left, the window is resized so that it has
+        # more space on its left
+
+        bindsym j resize shrink left
+        bindsym Shift+j resize grow left
+
+        bindsym k resize grow bottom
+        bindsym Shift+k resize shrink bottom
+
+        bindsym l resize shrink top
+        bindsym Shift+l resize grow top
+
+        bindsym semicolon resize grow right
+        bindsym Shift+semicolon resize shrink right
+
+        bindcode 36 mode default
+}
+
+# Enter resize mode
+bindsym mod+r mode "resize"</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_jumping_to_specific_windows">5.6. Jumping to specific windows</h3>
+<div class="paragraph"><p>Often when in a multi-monitor environment, you want to quickly jump to a
+specific window. For example, while working on workspace 3 you may want to
+jump to your mail client to email your boss that you’ve achieved some
+important goal. Instead of figuring out how to navigate to your mailclient,
+it would be more convenient to have a shortcut. You can use the <tt>focus</tt> command
+with criteria for that.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>[class="class"] focus
+[title="title"] focus</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Get me to the next open VIM instance
+bindsym mod+a [class="urxvt" title="VIM"] focus</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_vim_like_marks_mark_goto">5.7. VIM-like marks (mark/goto)</h3>
+<div class="paragraph" id="vim_like_marks"><p>This feature is like the jump feature: It allows you to directly jump to a
+specific window (this means switching to the appropriate workspace and setting
+focus to the windows). However, you can directly mark a specific window with
+an arbitrary label and use it afterwards.  You do not need to ensure that your
+windows have unique classes or titles, and you do not need to change your
+configuration file.</p></div>
+<div class="paragraph"><p>As the command needs to include the label with which you want to mark the
+window, you cannot simply bind it to a key.  <tt>i3-input</tt> is a tool created
+for this purpose: It lets you input a command and sends the command to i3. It
+can also prefix this command and display a custom prompt for the input dialog.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>mark identifier
+[con_mark="identifier"] focus</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example (in a terminal)</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ i3-msg mark irssi
+$ i3-msg '[con_mark="irssi"] focus'</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_changing_border_style">5.8. Changing border style</h3>
+<div class="paragraph"><p>To change the border of the current client, you can use <tt>border normal</tt> to use the normal
+border (including window title), <tt>border 1pixel</tt> to use a 1-pixel border (no window title)
+and <tt>border none</tt> to make the client borderless.</p></div>
+<div class="paragraph"><p>There is also <tt>border toggle</tt> which will toggle the different border styles.</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym mod+t border normal
+bindsym mod+y border 1pixel
+bindsym mod+u border none</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="stack-limit">5.9. Reloading/Restarting/Exiting</h3>
+<div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
+restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
+(if that should ever happen) or to perform an upgrade without having to restart
+your X session. To exit i3 properly, you can use the <tt>exit</tt> command,
+however you don’t need to (simply killing your X session is fine as well).</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym mod+Shift+r restart
+bindsym mod+Shift+w reload
+bindsym mod+Shift+e exit</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="multi_monitor">6. Multiple monitors</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>As you can see in the goal list on the website, i3 was specifically developed
+with support for multiple monitors in mind. This section will explain how to
+handle multiple monitors.</p></div>
+<div class="paragraph"><p>When you have only one monitor, things are simple. You usually start with
+workspace 1 on your monitor and open new ones as you need them.</p></div>
+<div class="paragraph"><p>When you have more than one monitor, each monitor will get an initial
+workspace.  The first monitor gets 1, the second gets 2 and a possible third
+would get 3. When you switch to a workspace on a different monitor, i3 will
+switch to that monitor and then switch to the workspace. This way, you don’t
+need shortcuts to switch to a specific monitor, and you don’t need to remember
+where you put which workspace. New workspaces will be opened on the currently
+active monitor.  It is not possible to have a monitor without a workspace.</p></div>
+<div class="paragraph"><p>The idea of making workspaces global is based on the observation that most
+users have a very limited set of workspaces on their additional monitors.
+They are often used for a specific task (browser, shell) or for monitoring
+several things (mail, IRC, syslog, …). Thus, using one workspace on one monitor
+and "the rest" on the other monitors often makes sense. However, as you can
+create an unlimited number of workspaces in i3 and tie them to specific
+screens, you can have the "traditional" approach of having X workspaces per
+screen by changing your configuration (using modes, for example).</p></div>
+<div class="sect2">
+<h3 id="_configuring_your_monitors">6.1. Configuring your monitors</h3>
+<div class="paragraph"><p>To help you get going if you have never used multiple monitors before, here is
+a short overview of the xrandr options which will probably be of interest to
+you. It is always useful to get an overview of the current screen configuration.
+Just run "xrandr" and you will get an output like the following:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ xrandr
+Screen 0: minimum 320 x 200, current 1280 x 800, maximum 8192 x 8192
+VGA1 disconnected (normal left inverted right x axis y axis)
+LVDS1 connected 1280x800+0+0 (normal left inverted right x axis y axis) 261mm x 163mm
+   1280x800       60.0*+   50.0
+   1024x768       85.0     75.0     70.1     60.0
+   832x624        74.6
+   800x600        85.1     72.2     75.0     60.3     56.2
+   640x480        85.0     72.8     75.0     59.9
+   720x400        85.0
+   640x400        85.1
+   640x350        85.1</tt></pre>
+</div></div>
+<div class="paragraph"><p>Several things are important here: You can see that <tt>LVDS1</tt> is connected (of
+course, it is the internal flat panel) but <tt>VGA1</tt> is not. If you have a monitor
+connected to one of the ports but xrandr still says "disconnected", you should
+check your cable, monitor or graphics driver.</p></div>
+<div class="paragraph"><p>The maximum resolution you can see at the end of the first line is the maximum
+combined resolution of your monitors. By default, it is usually too low and has
+to be increased by editing <tt>/etc/X11/xorg.conf</tt>.</p></div>
+<div class="paragraph"><p>So, say you connected VGA1 and want to use it as an additional screen:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>xrandr --output VGA1 --auto --left-of LVDS1</tt></pre>
+</div></div>
+<div class="paragraph"><p>This command makes xrandr try to find the native resolution of the device
+connected to <tt>VGA1</tt> and configures it to the left of your internal flat panel.
+When running "xrandr" again, the output looks like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ xrandr
+Screen 0: minimum 320 x 200, current 2560 x 1024, maximum 8192 x 8192
+VGA1 connected 1280x1024+0+0 (normal left inverted right x axis y axis) 338mm x 270mm
+   1280x1024      60.0*+   75.0
+   1280x960       60.0
+   1152x864       75.0
+   1024x768       75.1     70.1     60.0
+   832x624        74.6
+   800x600        72.2     75.0     60.3     56.2
+   640x480        72.8     75.0     66.7     60.0
+   720x400        70.1
+LVDS1 connected 1280x800+1280+0 (normal left inverted right x axis y axis) 261mm x 163mm
+   1280x800       60.0*+   50.0
+   1024x768       85.0     75.0     70.1     60.0
+   832x624        74.6
+   800x600        85.1     72.2     75.0     60.3     56.2
+   640x480        85.0     72.8     75.0     59.9
+   720x400        85.0
+   640x400        85.1
+   640x350        85.1</tt></pre>
+</div></div>
+<div class="paragraph"><p>Please note that i3 uses exactly the same API as xrandr does, so it will see
+only what you can see in xrandr.</p></div>
+<div class="paragraph"><p>See also <a href="#presentations">[presentations]</a> for more examples of multi-monitor setups.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_interesting_configuration_for_multi_monitor_environments">6.2. Interesting configuration for multi-monitor environments</h3>
+<div class="paragraph"><p>There are several things to configure in i3 which may be interesting if you
+have more than one monitor:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+You can specify which workspace should be put on which screen. This
+   allows you to have a different set of workspaces when starting than just
+   1 for the first monitor, 2 for the second and so on. See
+   <a href="#workspace_screen">[workspace_screen]</a>.
+</p>
+</li>
+<li>
+<p>
+If you want some applications to generally open on the bigger screen
+   (MPlayer, Firefox, …), you can assign them to a specific workspace, see
+   <a href="#assign_workspace">[assign_workspace]</a>.
+</p>
+</li>
+<li>
+<p>
+If you have many workspaces on many monitors, it might get hard to keep
+   track of which window you put where. Thus, you can use vim-like marks to
+   quickly switch between windows. See <a href="#vim_like_marks">[vim_like_marks]</a>.
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_i3_and_the_rest_of_your_software_world">7. i3 and the rest of your software world</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_displaying_a_status_line">7.1. Displaying a status line</h3>
+<div class="paragraph"><p>A very common thing amongst users of exotic window managers is a status line at
+some corner of the screen. It is an often superior replacement to the widget
+approach you have in the task bar of a traditional desktop environment.</p></div>
+<div class="paragraph"><p>If you don’t already have your favorite way of generating such a status line
+(self-written scripts, conky, …), then i3status is the recommended tool for
+this task. It was written in C with the goal of using as few syscalls as
+possible to reduce the time your CPU is woken up from sleep states. Because
+i3status only spits out text, you need to combine it with some other tool, like
+i3bar. Use a pipe to connect them: <tt>i3status | i3bar -d</tt>.</p></div>
+<div class="paragraph"><p>Regardless of which application you use to display the status line, you
+want to make sure that it registers as a dock window using EWMH hints. i3 will
+position the window either at the top or at the bottom of the screen, depending
+on which hint the application sets. With i3bar, you can use <tt>-d</tt> or <tt>-dbottom</tt>
+for positioning it at the bottom and <tt>-dtop</tt> to position it at the top of the
+screen.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_giving_presentations_multi_monitor">7.2. Giving presentations (multi-monitor)</h3>
+<div class="paragraph"><p>When giving a presentation, you typically want the audience to see what you see
+on your screen and then go through a series of slides (if the presentation is
+simple). For more complex presentations, you might want to have some notes
+which only you can see on your screen, while the audience can only see the
+slides.</p></div>
+<div class="sect3">
+<h4 id="presentations">7.2.1. Case 1: everybody gets the same output</h4>
+<div class="paragraph"><p>This is the simple case. You connect your computer to the video projector,
+turn on both (computer and video projector) and configure your X server to
+clone the internal flat panel of your computer to the video output:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>xrandr --output VGA1 --mode 1024x768 --same-as LVDS1</tt></pre>
+</div></div>
+<div class="paragraph"><p>i3 will then use the lowest common subset of screen resolutions, the rest of
+your screen will be left untouched (it will show the X background). So, in
+our example, this would be 1024x768 (my notebook has 1280x800).</p></div>
+</div>
+<div class="sect3">
+<h4 id="_case_2_you_can_see_more_than_your_audience">7.2.2. Case 2: you can see more than your audience</h4>
+<div class="paragraph"><p>This case is a bit harder. First of all, you should configure the VGA output
+somewhere near your internal flat panel, say right of it:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>xrandr --output VGA1 --mode 1024x768 --right-of LVDS1</tt></pre>
+</div></div>
+<div class="paragraph"><p>Now, i3 will put a new workspace (depending on your settings) on the new screen
+and you are in multi-monitor mode (see <a href="#multi_monitor">[multi_monitor]</a>).</p></div>
+<div class="paragraph"><p>Because i3 is not a compositing window manager, there is no ability to
+display a window on two screens at the same time. Instead, your presentation
+software needs to do this job (that is, open a window on each screen).</p></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>

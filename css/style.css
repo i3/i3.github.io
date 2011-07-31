@@ -343,6 +343,27 @@ img {
     padding-left: 1em;
 }
 
+.docs strong {
+    margin-right: 1em;
+}
+
+.docversion {
+    margin: 0.25em;
+    margin-top: 0.9em;
+    padding: 0.1em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    background-color: #333;
+    border: 2px solid #555;
+    border-radius: 4px;
+    float: right;
+}
+
+.docversion a, .docversion a:visited {
+    color: white;
+    text-decoration: none;
+}
+
 /* clearfix */
 .clearfix:after {
     content: ".";
