@@ -590,7 +590,7 @@ exec_always command</tt></pre>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>exec i3status | dzen2 -dock
+<pre><tt>exec i3status | i3bar -d
 exec_always ~/my_script.sh</tt></pre>
 </div></div>
 </div>
@@ -657,30 +657,6 @@ client.urgent
 <dd>
 <p>
         A client which has its urgency hint activated.
-</p>
-</dd>
-<dt class="hdlist1">
-bar.focused
-</dt>
-<dd>
-<p>
-        The current workspace in the bottom bar.
-</p>
-</dd>
-<dt class="hdlist1">
-bar.unfocused
-</dt>
-<dd>
-<p>
-        All other workspaces in the bottom bar.
-</p>
-</dd>
-<dt class="hdlist1">
-bar.urgent
-</dt>
-<dd>
-<p>
-        A workspace which has at least one client with an activated urgency hint.
 </p>
 </dd>
 </dl></div>
