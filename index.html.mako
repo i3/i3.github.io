@@ -13,7 +13,7 @@
     <h2>Do What I Mean. Good Docs. Clean Code. Sounds good?</h2>
     <p>
     Then you will love i3. Watch the <a href="/screenshots/">screencast</a>,<br>
-    read the <a href="/docs/userguide.html">User’s Guide</a> and <a
+    read the <a href="/docs/4.0/userguide.html">User’s Guide</a> and <a
     href="/downloads/">install i3</a>!
     </p>
     <div id="download">
