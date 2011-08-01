@@ -76,7 +76,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 <h2>Downloads</h2>
 
 <p>
-  The current stable version is 4.0.
+  The current stable version is 4.0.1.
 </p>
 
 <p>
@@ -87,6 +87,12 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 </p>
 
 <ul>
+  <li>
+    <a href="/downloads/i3-4.0.1.tar.bz2">i3-4.0.1.tar.bz2</a>
+    (<a href="/downloads/i3-4.0.1.tar.bz2.asc">GPG signature</a>), Version 4.0.1, 462 KiB, 2011-08-01,
+    <a href="/downloads/RELEASE-NOTES-4.0.1.txt">release notes</a>
+  </li>
+
   <li>
     <a href="/downloads/i3-4.0.tar.bz2">i3-4.0.tar.bz2</a>
     (<a href="/downloads/i3-4.0.tar.bz2.asc">GPG signature</a>), Version 4.0, 462 KiB, 2011-07-31,
