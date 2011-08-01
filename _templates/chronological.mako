@@ -1,5 +1,5 @@
 <%!
-	section = "docs"
+	section = "blog"
 %>
 <%inherit file="i3.mako" />
 
