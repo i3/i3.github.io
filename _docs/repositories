@@ -31,10 +31,11 @@ of i3. To use it, run the following commands:
 ---------------------------------------------------------------------------------
 # echo 'deb http://debian.sur5r.net/i3/ natty universe' >> /etc/apt/sources.list
 # apt-get update
+# apt-get --allow-unauthenticated install sur5r-keyring
 # apt-get install i3
 ---------------------------------------------------------------------------------
 
-The following Ubuntu versions are currently available: lucid, maverick, natty.
+The following Ubuntu versions are currently available: maverick, natty.
 
 == Debian repository
 
