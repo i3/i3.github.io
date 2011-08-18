@@ -34,7 +34,7 @@ currently distributed in the following operating systems/distributions:
 		],
 		[
 		  "Ubuntu Linux",
-		  "http://packages.ubuntu.com/karmic/i3",
+		  "http://packages.ubuntu.com/natty/i3",
 		  "/img/ubuntu.png",
 		  75
 		],
