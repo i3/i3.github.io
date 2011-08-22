@@ -22,13 +22,18 @@ think before you ask :-).
 
 <p>
 If you dislike IRC, you can also post questions etc. to our mailing list.<br>
-Subscribe by sending an e-mail to <tt>i3-discuss-subscribe@i3.zekjur.net</tt>
+Subscribe by sending an e-mail to <tt>i3-discuss-subscribe@i3.zekjur.net</tt>.
+You can read old posts in <a
+href="http://infra.in.zekjur.net/archives/i3-discuss/">the i3-discuss
+archives</a>.
 </p>
 
 <p>
 If you want to be notified when a new version of i3 is released, please
 subscribe to the announce mailing list by sending a mail to
-<tt>i3-announce-subscribe@i3.zekjur.net</tt>
+<tt>i3-announce-subscribe@i3.zekjur.net</tt>. You can find the old
+announcements in <a href="http://infra.in.zekjur.net/archives/i3-announce/">the
+i3-announce archives</a>.
 </p>
 
 <h3 style="margin-top: 2em">Package maintainers</h3>
