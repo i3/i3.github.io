@@ -2,6 +2,7 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
+<link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
 <meta name="generator" content="AsciiDoc 8.6.4" />
 <title>i3: i3status(1)</title>
@@ -347,13 +348,30 @@ is set to <tt>xmobar</tt>.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_see_also">8. SEE ALSO</h2>
+<h2 id="_external_scripts_programs_with_i3status">8. External scripts/programs with i3status</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In i3status, we don’t want to implement process management again. Therefore,
+there is no module to run arbitrary scripts or commands. Instead, you should
+use your shell, for example like this:</p></div>
+<div class="paragraph"><p><strong>Example for prepending the i3status output</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3status | while :
+do
+        read line
+        echo "mystuff | $line"
+done | i3bar -d</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">9. SEE ALSO</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><tt>strftime(3)</tt>, <tt>date(1)</tt>, <tt>glob(3)</tt>, <tt>dzen2(1)</tt>, <tt>xmobar(1)</tt></p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_authors">9. AUTHORS</h2>
+<h2 id="_authors">10. AUTHORS</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
 <div class="paragraph"><p>Thorsten Toepper</p></div>
