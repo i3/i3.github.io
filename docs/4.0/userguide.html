@@ -693,7 +693,8 @@ programs to get information from i3, such as the current workspaces
 <tt>/tmp/i3-%u/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username and <tt>%p</tt> is the PID
 of i3.</p></div>
 <div class="paragraph"><p>You can override the default path through the environment-variable <tt>I3SOCK</tt> or
-by specifying the <tt>ipc-socket</tt> directive.</p></div>
+by specifying the <tt>ipc-socket</tt> directive. This is discouraged, though, since i3
+does the right thing by default.</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -869,7 +870,7 @@ bindsym mod+semicolon move right</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_workspaces_moving_containers_to_workspaces">5.4. Changing workspaces/moving containers to workspaces</h3>
+<h3 id="_changing_named_workspaces_moving_to_workspaces">5.4. Changing (named) workspaces/moving to workspaces</h3>
 <div class="paragraph"><p>To change to a specific workspace, use the <tt>workspace</tt> command, followed by the
 number or name of the workspace. To move containers to specific workspaces, use
 <tt>move workspace</tt>.</p></div>
@@ -888,6 +889,30 @@ bindsym mod+Shift+1 move workspace 1
 bindsym mod+Shift+2 move workspace 2
 ...</tt></pre>
 </div></div>
+<div class="sect3">
+<h4 id="_named_workspaces">5.4.1. Named workspaces</h4>
+<div class="paragraph"><p>Workspaces are identified by their name. So, instead of using numbers in the
+workspace command, you can use an arbitrary name:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym mod+1 workspace mail
+...</tt></pre>
+</div></div>
+<div class="paragraph"><p>If you want the workspace to have a number <strong>and</strong> a name, just prefix the
+number, like this:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym mod+1 workspace 1: mail
+bindsym mod+2 workspace 2: www
+...</tt></pre>
+</div></div>
+<div class="paragraph"><p>Note that the workspace will really be named "1: mail". i3 treats workspace
+names beginning with a number in a slightly special way. Normally, named
+workspaces are ordered the way they appeared. When they start with a number, i3
+will order them numerically.</p></div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="resizingconfig">5.5. Resizing containers/windows</h3>
