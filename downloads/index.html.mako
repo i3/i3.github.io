@@ -169,7 +169,9 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 <h2>Development version</h2>
 
 <p>
-  Use <a href="http://git-scm.com/">git</a> to follow the latest changes. This command checks out the 'master' branch:
+  Use <a href="http://git-scm.com/">git</a> to follow the latest changes or
+  <a href="http://code.i3wm.org/i3">view them on this webpage</a>. This command checks out the 'master'
+  branch:
 </p>
 
 <pre>
