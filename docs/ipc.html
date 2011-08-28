@@ -45,9 +45,11 @@ to get various information like the current workspaces to implement an external
 workspace bar.</p></div>
 <div class="paragraph"><p>The method of choice for IPC in our case is a unix socket because it has very
 little overhead on both sides and is usually available without headaches in
-most languages. In the default configuration file, no ipc-socket path is
-specified and thus no socket is created. The standard path (which <tt>i3-msg</tt> and
-<tt>i3-input</tt> use) is <tt>~/.i3/ipc.sock</tt>.</p></div>
+most languages. In the default configuration file, the ipc-socket gets created
+in <tt>/tmp/i3-%u/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username and <tt>%p</tt> is the
+PID of i3.</p></div>
+<div class="paragraph"><p>All i3 utilities, like <tt>i3-msg</tt> and <tt>i3-input</tt> will read the <tt>I3_SOCKET_PATH</tt>
+X11 property, stored on the X11 root window.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -58,7 +60,7 @@ snippet illustrates this in Perl:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>use IO::Socket::UNIX;
-my $sock = IO::Socket::UNIX-&gt;new(Peer =&gt; '~/.i3/ipc.sock');</tt></pre>
+my $sock = IO::Socket::UNIX-&gt;new(Peer =&gt; '/tmp/i3-ipc.sock');</tt></pre>
 </div></div>
 </div>
 </div>
@@ -111,6 +113,16 @@ GET_OUTPUTS (3)
 <p>
         Gets the current outputs. The reply will be a JSON-encoded list of outputs
         (see the reply section).
+</p>
+</dd>
+<dt class="hdlist1">
+GET_TREE (4)
+</dt>
+<dd>
+<p>
+        Gets the layout tree. i3 uses a tree as data structure which includes
+        every container. The reply will be the JSON-encoded tree (see the reply
+        section).
 </p>
 </dd>
 </dl></div>
@@ -185,6 +197,14 @@ GET_OUTPUTS (3)
 <dd>
 <p>
         Reply to the GET_OUTPUTS message.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_TREE (4)
+</dt>
+<dd>
+<p>
+        Reply to the GET_TREE message.
 </p>
 </dd>
 </dl></div>
@@ -379,6 +399,301 @@ rect (map)
   },
  }
 ]</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_get_tree_reply">3.6. GET_TREE reply</h3>
+<div class="paragraph"><p>The reply consists of a serialized tree. Each node in the tree (representing
+one container) has at least the properties listed below. While the nodes might
+have more properties, please do not use any properties which are not documented
+here. They are not yet finalized and will probably change!</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+id (integer)
+</dt>
+<dd>
+<p>
+        The internal ID (actually a C pointer value) of this container. Do not
+        make any assumptions about it. You can use it to (re-)identify and
+        address containers when talking to i3.
+</p>
+</dd>
+<dt class="hdlist1">
+name (string)
+</dt>
+<dd>
+<p>
+        The internal name of this container. For all containers which are part
+        of the tree structure down to the workspace contents, this is set to a
+        nice human-readable name of the container.
+        For all other containers, the content is not defined (yet).
+</p>
+</dd>
+<dt class="hdlist1">
+border (string)
+</dt>
+<dd>
+<p>
+        Can be either "normal", "none" or "1pixel", dependending on the
+        container’s border style.
+</p>
+</dd>
+<dt class="hdlist1">
+layout (string)
+</dt>
+<dd>
+<p>
+        Can be either "default", "stacked", "tabbed", "dockarea" or "output".
+        Other values might be possible in the future, should we add new
+        layouts.
+</p>
+</dd>
+<dt class="hdlist1">
+orientation (string)
+</dt>
+<dd>
+<p>
+        Can be either "none" (for non-split containers), "horizontal" or
+        "vertical".
+</p>
+</dd>
+<dt class="hdlist1">
+percent (float)
+</dt>
+<dd>
+<p>
+        The percentage which this container takes in its parent. A value of
+        <tt>null</tt> means that the percent property does not make sense for this
+        container, for example for the root container.
+</p>
+</dd>
+<dt class="hdlist1">
+rect (map)
+</dt>
+<dd>
+<p>
+        The absolute display coordinates for this container. Display
+        coordinates means that when you have two 1600x1200 monitors on a single
+        X11 Display (the standard way), the coordinates of the first window on
+        the second monitor are <tt>{ "x": 1600, "y": 0, "width": 1600, "height":
+        1200 }</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+window_rect (map)
+</dt>
+<dd>
+<p>
+        The coordinates of the <strong>actual client window</strong> inside its container.
+        These coordinates are relative to the container and do not include the
+        window decoration (which is actually rendered on the parent container).
+        So, when using the <tt>default</tt> layout, you will have a 2 pixel border on
+        each side, making the window_rect <tt>{ "x": 2, "y": 0, "width": 632,
+        "height": 366 }</tt> (for example).
+</p>
+</dd>
+<dt class="hdlist1">
+geometry (map)
+</dt>
+<dd>
+<p>
+        The original geometry the window specified when i3 mapped it. Used when
+        switching a window to floating mode, for example.
+</p>
+</dd>
+<dt class="hdlist1">
+urgent (bool)
+</dt>
+<dd>
+<p>
+        Whether this container (window or workspace) has the urgency hint set.
+</p>
+</dd>
+<dt class="hdlist1">
+focused (bool)
+</dt>
+<dd>
+<p>
+        Whether this container is currently focused.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Please note that in the following example, I have left out some keys/values
+which are not relevant for the type of the node. Otherwise, the example would
+be by far too long (it already is quite long, despite showing only 1 window and
+one dock window).</p></div>
+<div class="paragraph"><p>It is useful to have an overview of the structure before taking a look at the
+JSON dump:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+root
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+LVDS1
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+topdock
+</p>
+</li>
+<li>
+<p>
+content
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+workspace 1
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+window 1
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+bottomdock
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+dock window 1
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+VGA1
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "id": 6875648,
+ "name": "root",
+ "rect": {
+   "x": 0,
+   "y": 0,
+   "width": 1280,
+   "height": 800
+ },
+ "nodes": [
+
+   {
+    "id": 6878320,
+    "name": "LVDS1",
+    "layout": "output",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "width": 1280,
+      "height": 800
+    },
+    "nodes": [
+
+      {
+       "id": 6878784,
+       "name": "topdock",
+       "layout": "dockarea",
+       "orientation": "vertical",
+       "rect": {
+         "x": 0,
+         "y": 0,
+         "width": 1280,
+         "height": 0
+       },
+      },
+
+      {
+       "id": 6879344,
+       "name": "content",
+       "rect": {
+         "x": 0,
+         "y": 0,
+         "width": 1280,
+         "height": 782
+       },
+       "nodes": [
+
+         {
+          "id": 6880464,
+          "name": "1",
+          "orientation": "horizontal",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1280,
+            "height": 782
+          },
+          "floating_nodes": [],
+          "nodes": [
+
+            {
+             "id": 6929968,
+             "name": "#aa0000",
+             "border": "normal",
+             "percent": 1,
+             "rect": {
+               "x": 0,
+               "y": 18,
+               "width": 1280,
+               "height": 782
+             }
+            }
+
+          ]
+         }
+
+       ]
+      },
+
+      {
+       "id": 6880208,
+       "name": "bottomdock",
+       "layout": "dockarea",
+       "orientation": "vertical",
+       "rect": {
+         "x": 0,
+         "y": 782,
+         "width": 1280,
+         "height": 18
+       },
+       "nodes": [
+
+         {
+          "id": 6931312,
+          "name": "#00aa00",
+          "percent": 1,
+          "rect": {
+            "x": 0,
+            "y": 782,
+            "width": 1280,
+            "height": 18
+          }
+         }
+
+       ]
+      }
+    ]
+   }
+ ]
+}</tt></pre>
 </div></div>
 </div>
 </div>

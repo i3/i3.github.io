@@ -31,7 +31,7 @@ window.onload = function(){asciidoc.footnotes();}
 <h1>Debugging i3: How To</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">March 2010</span>
+<span id="revdate">July 2011</span>
 </div>
 <div id="preamble">
 <div class="sectionbody">
@@ -45,14 +45,20 @@ debugging and/or need further help, do not hesitate to contact us!</p></div>
 <div class="sect1">
 <h2 id="_enabling_logging">1. Enabling logging</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>i3 spits out much information onto stdout, if told so. To have a clearly
-defined place where log files will be saved, you should redirect stdout and
-stderr in xsession. While you’re at it, putting each run of i3 in a separate
-log file with date/time in it is a good idea to not get confused about the
-different log files later on.</p></div>
+<div class="paragraph"><p>i3 logs useful information to stdout. To have a clearly defined place where log
+files will be saved, you should redirect stdout and stderr in your
+<tt>~/.xsession</tt>. While you’re at it, putting each run of i3 in a separate log
+file with date/time in its filename is a good idea to not get confused about
+the different log files later on.</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>exec /usr/bin/i3 -V -d all &gt;/home/michael/i3/i3log-$(date +'%F-%k-%M-%S') 2&gt;&amp;1</tt></pre>
+<pre><tt>exec /usr/bin/i3 &gt;~/i3log-$(date +'%F-%k-%M-%S') 2&gt;&amp;1</tt></pre>
+</div></div>
+<div class="paragraph"><p>To enable verbose output and all levels of debug output (required when
+attaching logfiles to bugreports), add the parameters <tt>-V -d all</tt>, like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>exec /usr/bin/i3 -V -d all &gt;~/i3log-$(date +'%F-%k-%M-%S') 2&gt;&amp;1</tt></pre>
 </div></div>
 </div>
 </div>
@@ -64,7 +70,7 @@ of the memory of the i3 process which can be loaded into a debugger). To get a
 core dump, you have to make sure that the user limit for core dump files is set
 high enough. Many systems ship with a default value which even forbids core
 dumps completely. To disable the limit completely and thus enable core dumps,
-use the following command (in your .xsession, before starting i3):</p></div>
+use the following command (in your <tt>~/.xsession</tt>, before starting i3):</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>ulimit -c unlimited</tt></pre>
@@ -85,9 +91,9 @@ process id (%p) in it. You can save this setting across reboots using
 <h2 id="_compiling_with_debug_symbols">3. Compiling with debug symbols</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>To actually get useful core dumps, you should make sure that your version of i3
-is compiled with debug symbols, that is, that they are not stripped during the
-build process. You can check whether your executable contains symbols by
-issuing the following command:</p></div>
+is compiled with debug symbols, that is, that the symbols are not stripped
+during the build process. You can check whether your executable contains
+symbols by issuing the following command:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>file $(which i3)</tt></pre>
