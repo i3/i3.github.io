@@ -755,6 +755,28 @@ Leave fullscreen mode. This is the default.
 <pre><tt>popup_during_fullscreen ignore</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_focus_wrapping">4.17. Focus wrapping</h3>
+<div class="paragraph"><p>When being in a tabbed or stacked container, the first container will be
+focused when you use <tt>focus down</tt> on the last container&#8201;&#8212;&#8201;the focus wraps. If
+however there is another stacked/tabbed container in that direction, focus will
+be set on that container. This is the default behaviour so you can navigate to
+all your windows without having to use <tt>focus parent</tt>.</p></div>
+<div class="paragraph"><p>If you want the focus to <strong>always</strong> wrap and you are aware of using <tt>focus
+parent</tt> to switch to different containers, you can use the
+<tt>force_focus_wrapping</tt> configuration directive. After enabling it, the focus
+will always wrap.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>force_focus_wrapping &lt;yes|no&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>force_focus_wrapping yes</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
