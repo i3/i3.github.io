@@ -782,6 +782,86 @@ will always wrap.</p></div>
 <div class="sect1">
 <h2 id="_list_of_commands">5. List of commands</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Commands are what you bind to specific keypresses. You can also issue commands
+at runtime without pressing a key by using the IPC interface. An easy way to
+do this is to use the <tt>i3-msg</tt> utility:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># execute this on your shell to make the current container borderless
+i3-msg border none</tt></pre>
+</div></div>
+<div class="paragraph"><p>Commands can be chained by using <tt>;</tt> (a semicolon). So, to move a window to a
+specific workspace and immediately switch to that workspace, you can configure
+the following keybinding:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym mod+x move workspace 3; workspace 3</tt></pre>
+</div></div>
+<div class="paragraph"><p>Furthermore, you can change the scope of a command, that is, which containers
+should be affected by that command, by using various criteria. These are
+prefixed in square brackets to every command. If you want to kill all windows
+which have the class Firefox, use:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym mod+x [class="Firefox"] kill</tt></pre>
+</div></div>
+<div class="paragraph"><p>The criteria which are currently implemented are:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+class
+</dt>
+<dd>
+<p>
+        Compares the window class (the second part of WM_CLASS)
+</p>
+</dd>
+<dt class="hdlist1">
+instance
+</dt>
+<dd>
+<p>
+        Compares the window instance (the first part of WM_CLASS)
+</p>
+</dd>
+<dt class="hdlist1">
+id
+</dt>
+<dd>
+<p>
+        Compares the X11 window ID, which you can get via <tt>xwininfo</tt> for example.
+</p>
+</dd>
+<dt class="hdlist1">
+title
+</dt>
+<dd>
+<p>
+        Compares the X11 window title (_NET_WM_NAME or WM_NAME as fallback).
+</p>
+</dd>
+<dt class="hdlist1">
+mark
+</dt>
+<dd>
+<p>
+        Compares the mark set for this container, see <a href="#vim_like_marks">[vim_like_marks]</a>.
+</p>
+</dd>
+<dt class="hdlist1">
+con_id
+</dt>
+<dd>
+<p>
+        Compares the i3-internal container ID, which you can get via the IPC
+        interface. Handy for scripting.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Note that currently all criteria are compared case-insensitive and do not
+support regular expressions. This is planned to change in the future.</p></div>
 <div class="sect2">
 <h3 id="_splitting_containers">5.1. Splitting containers</h3>
 <div class="paragraph"><p>The split command makes the current window a split container. Split containers
@@ -942,7 +1022,18 @@ will order them numerically.</p></div>
 <div class="sect2">
 <h3 id="resizingconfig">5.5. Resizing containers/windows</h3>
 <div class="paragraph"><p>If you want to resize containers/windows using your keyboard, you can use the
-<tt>resize</tt> command, I recommend using it inside a so called <tt>mode</tt>:</p></div>
+<tt>resize</tt> command:</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>resize &lt;grow|shrink&gt; &lt;direction&gt; [&lt;px&gt; px] [or &lt;ppt&gt; ppt]</tt></pre>
+</div></div>
+<div class="paragraph"><p>Direction can be one of <tt>up</tt>, <tt>down</tt>, <tt>left</tt> or <tt>right</tt>. The optional pixel
+argument specifies by how many pixels a <strong>floating container</strong> should be grown or
+shrinked (the default is 10 pixels). The ppt argument means percentage points
+and specifies by how many percentage points a <strong>tiling container</strong> should be
+grown or shrinked (the default is 10 percentage points).</p></div>
+<div class="paragraph"><p>I recommend using the resize command inside a so called <tt>mode</tt>:</p></div>
 <div class="listingblock">
 <div class="title">Example: Configuration file, defining a mode for resizing</div>
 <div class="content">
@@ -965,7 +1056,9 @@ will order them numerically.</p></div>
         bindsym semicolon resize grow right
         bindsym Shift+semicolon resize shrink right
 
-        bindcode 36 mode default
+        # back to normal: Enter or Escape
+        bindsym Return mode "default"
+        bindsym Escape mode "default"
 }
 
 # Enter resize mode
