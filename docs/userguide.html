@@ -487,7 +487,7 @@ start.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>new_window &lt;normal|1pixel|borderless&gt;</tt></pre>
+<pre><tt>new_window &lt;normal|1pixel|none&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
@@ -983,6 +983,10 @@ number or name of the workspace. To move containers to specific workspaces, use
 <tt>workspace next</tt> and <tt>workspace prev</tt>, which is handy, for example, if you have
 workspace 1, 3, 4 and 9 and you want to cycle through them with a single key
 combination.</p></div>
+<div class="paragraph"><p>To move a container to another xrandr output such as <tt>LVDS1</tt> or <tt>VGA1</tt>, you can
+use the <tt>move output</tt> command followed by the name of the target output. You
+may also use <tt>left</tt>, <tt>right</tt>, <tt>up</tt>, <tt>down</tt> instead of the xrandr output name to
+move to the the next output in the specified direction.</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
