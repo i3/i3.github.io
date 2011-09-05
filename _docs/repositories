@@ -1,7 +1,7 @@
 Debian and Ubuntu repositories
 ==============================
 Michael Stapelberg <michael+i3@stapelberg.de>
-July 2011
+September 2011
 
 == When should you use our repositories?
 
@@ -32,6 +32,7 @@ of i3. To use it, run the following commands:
 # echo 'deb http://debian.sur5r.net/i3/ natty universe' >> /etc/apt/sources.list
 # apt-get update
 # apt-get --allow-unauthenticated install sur5r-keyring
+# apt-get update
 # apt-get install i3
 ---------------------------------------------------------------------------------
 
