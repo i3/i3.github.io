@@ -10,7 +10,7 @@ by properly checking if the X11 events have been processed, there also is an
 easier solution for now: Running the tests in parallel.
 
 I just <a
-href="http://code.stapelberg.de/git/i3/commit/?h=tree&id=4dde5bb863d6670f6aa70ef2b714e98ea2474dcd">pushed
+href="http://code.stapelberg.de/git/i3/commit/?id=4dde5bb863d6670f6aa70ef2b714e98ea2474dcd">pushed
 the commit to make our run script, complete-run.pl</a>, do exactly that.
 
 Have a look at the time which was necessary to run a test before this commit:
