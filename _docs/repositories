@@ -1,7 +1,7 @@
 Debian and Ubuntu repositories
 ==============================
 Michael Stapelberg <michael+i3@stapelberg.de>
-September 2011
+October 2011
 
 == When should you use our repositories?
 
@@ -36,7 +36,7 @@ of i3. To use it, run the following commands:
 # apt-get install i3
 ---------------------------------------------------------------------------------
 
-The following Ubuntu versions are currently available: maverick, natty.
+The following Ubuntu versions are currently available: maverick, natty, oneiric.
 
 == Debian repository
 
