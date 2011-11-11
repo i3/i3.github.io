@@ -76,7 +76,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 <h2>Downloads</h2>
 
 <p>
-  The current stable version is 4.0.2.
+  The current stable version is 4.1.
 </p>
 
 <p>
