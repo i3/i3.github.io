@@ -31,7 +31,7 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <h1>i3 User’s Guide</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">August 2011</span>
+<span id="revdate">October 2011</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -436,7 +436,8 @@ you can press Mod1, click into a window using your left mouse button, and drag
 it to the position you want.</p></div>
 <div class="paragraph"><p>When holding the floating modifier, you can resize a floating window by
 pressing the right mouse button on it and moving around while holding it. If
-you hold the shift button as well, the resize will be proportional.</p></div>
+you hold the shift button as well, the resize will be proportional (the aspect
+ratio will be preserved).</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -503,7 +504,7 @@ change their border style, for example.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>for_window [criteria] command</tt></pre>
+<pre><tt>for_window &lt;criteria&gt; command</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
@@ -546,34 +547,54 @@ configuration file and run it before starting i3 (for example in your
 </div>
 <div class="sect2">
 <h3 id="_automatically_putting_clients_on_specific_workspaces">4.10. Automatically putting clients on specific workspaces</h3>
-<div class="paragraph" id="assign_workspace"><p>Specific windows can be matched by window class and/or window title. It is
-recommended that you match on window classes instead of window titles whenever
-possible because some applications first create their window, and then worry
-about setting the correct title. Firefox with Vimperator comes to mind. The
-window starts up being named Firefox, and only when Vimperator is loaded does
-the title change. As i3 will get the title as soon as the application maps the
+<div class="paragraph" id="assign_workspace"><p>To automatically make a specific window show up on a specific workspace, you
+can use an <strong>assignment</strong>. You can match windows by using any criteria,
+see <a href="#command_criteria">[command_criteria]</a>. It is recommended that you match on window classes
+(and instances, when appropriate) instead of window titles whenever possible
+because some applications first create their window, and then worry about
+setting the correct title. Firefox with Vimperator comes to mind. The window
+starts up being named Firefox, and only when Vimperator is loaded does the
+title change. As i3 will get the title as soon as the application maps the
 window (mapping means actually displaying it on the screen), you’d need to have
 to match on <em>Firefox</em> in this case.</p></div>
-<div class="paragraph"><p>You can prefix or suffix workspaces with a <tt>~</tt> to specify that matching clients
-should be put into floating mode. If you specify only a <tt>~</tt>, the client will
-not be put onto any workspace, but will be set floating on the current one.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>assign ["]window class[/window title]["] [→] [workspace]</tt></pre>
+<pre><tt>assign &lt;criteria&gt; [→] workspace</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>assign urxvt 2
-assign urxvt → 2
-assign urxvt → work
-assign "urxvt" → 2
-assign "urxvt/VIM" → 3
-assign "gecko" → 4</tt></pre>
+<pre><tt># Assign URxvt terminals to workspace 2
+assign [class="URxvt"] 2
+
+# Same thing, but more precise (exact match instead of substring)
+assign [class="^URxvt$"] 2
+
+# Same thing, but with a beautiful arrow :)
+assign [class="^URxvt$"] → 2
+
+# Assignment to a named workspace
+assign [class="^URxvt$"] → work
+
+# Start urxvt -name irssi
+assign [class="^URxvt$" instance="^irssi$"] → 3</tt></pre>
 </div></div>
 <div class="paragraph"><p>Note that the arrow is not required, it just looks good :-). If you decide to
 use it, it has to be a UTF-8 encoded arrow, not <tt>-&gt;</tt> or something like that.</p></div>
+<div class="paragraph"><p>To get the class and instance, you can use <tt>xprop</tt>. After clicking on the
+window, you will see the following output:</p></div>
+<div class="paragraph"><p><strong>xwininfo</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>WM_CLASS(STRING) = "irssi", "URxvt"</tt></pre>
+</div></div>
+<div class="paragraph"><p>The first part of the WM_CLASS is the instance ("irssi" in this example), the
+second part is the class ("URxvt" in this example).</p></div>
+<div class="paragraph"><p>Should you have any problems with assignments, make sure to check the i3
+logfile first (see <a href="http://i3wm.org/docs/debugging.html">http://i3wm.org/docs/debugging.html</a>). It includes more
+details about the matching process and the window’s actual class, instance and
+title when starting up.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_automatically_starting_applications_on_i3_startup">4.11. Automatically starting applications on i3 startup</h3>
@@ -585,15 +606,19 @@ keyword. These commands will be run in order.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>exec command
-exec_always command</tt></pre>
+<pre><tt>exec [--no-startup-id] command
+exec_always [--no-startup-id] command</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>exec i3status | i3bar -d
-exec_always ~/my_script.sh</tt></pre>
+<pre><tt>exec chromium
+exec_always ~/my_script.sh
+
+# Execute the terminal emulator urxvt, which is not yet startup-notification aware.
+exec --no-startup-id urxvt</tt></pre>
 </div></div>
+<div class="paragraph"><p>The flag --no-startup-id is explained in <a href="#exec">[exec]</a>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="workspace_screen">4.12. Automatically putting workspaces on specific screens</h3>
@@ -605,16 +630,18 @@ the second screen and so on).</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>workspace &lt;number&gt; output &lt;output&gt;</tt></pre>
+<pre><tt>workspace &lt;workspace&gt; output &lt;output&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p>The <em>output</em> is the name of the RandR output you attach your screen to. On a
 laptop, you might have VGA1 and LVDS1 as output names. You can see the
 available outputs by running <tt>xrandr --current</tt>.</p></div>
+<div class="paragraph"><p>If you use named workspaces, they must be quoted:</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>workspace 1 output LVDS1
-workspace 5 output VGA1</tt></pre>
+workspace 5 output VGA1
+workspace "2: vim" output VGA1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -778,10 +805,315 @@ will always wrap.</p></div>
 <pre><tt>force_focus_wrapping yes</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_forcing_xinerama">4.18. Forcing Xinerama</h3>
+<div class="paragraph"><p>As explained in-depth in <a href="http://i3wm.org/docs/multi-monitor.html">http://i3wm.org/docs/multi-monitor.html</a>, some X11
+video drivers (especially the nVidia binary driver) only provide support for
+Xinerama instead of RandR. In such a situation, i3 must be told to use the
+inferior Xinerama API explicitly and therefore don’t provide support for
+reconfiguring your screens on the fly (they are read only once on startup and
+that’s it).</p></div>
+<div class="paragraph"><p>For people who do cannot modify their <tt>~/.xsession</tt> to add the
+<tt>--force-xinerama</tt> commandline parameter, a configuration option is provided:</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>force_xinerama &lt;yes|no&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>force_xinerama yes</tt></pre>
+</div></div>
+<div class="paragraph"><p>Also note that your output names are not descriptive (like <tt>HDMI1</tt>) when using
+Xinerama, instead they are counted up, starting at 0: <tt>xinerama-0</tt>, <tt>xinerama-1</tt>, …</p></div>
+</div>
+<div class="sect2">
+<h3 id="_automatic_back_and_forth_when_switching_to_the_current_workspace">4.19. Automatic back-and-forth when switching to the current workspace</h3>
+<div class="paragraph"><p>This configuration directive enables automatic <tt>workspace back_and_forth</tt> (see
+<a href="#back_and_forth">[back_and_forth]</a>) when switching to the workspace that is currently focused.</p></div>
+<div class="paragraph"><p>For instance: Assume you are on workspace "1: www" and switch to "2: IM" using
+mod+2 because somebody sent you a message. You don’t need to remember where you
+came from now, you can just press mod+2 again to switch back to "1: www".</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace_auto_back_and_forth &lt;yes|no&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace_auto_back_and_forth yes</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_list_of_commands">5. List of commands</h2>
+<h2 id="_configuring_i3bar">5. Configuring i3bar</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The bar at the bottom of your monitor is drawn by a separate process called
+i3bar. Having this part of "the i3 user interface" in a separate process has
+several advantages:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+It is a modular approach. If you don’t need a workspace bar at all, or if
+   you prefer a different one (dzen2, xmobar, maybe even gnome-panel?), you can
+   just remove the i3bar configuration and start your favorite bar instead.
+</p>
+</li>
+<li>
+<p>
+It follows the UNIX philosophy of "Make each program do one thing well".
+   While i3 manages your windows well, i3bar is good at displaying a bar on
+   each monitor (unless you configure it otherwise).
+</p>
+</li>
+<li>
+<p>
+It leads to two separate, clean codebases. If you want to understand i3, you
+   don’t need to bother with the details of i3bar and vice versa.
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>That said, i3bar is configured in the same configuration file as i3. This is
+because it is tightly coupled with i3 (in contrary to i3lock or i3status which
+are useful for people using other window managers). Therefore, it makes no
+sense to use a different configuration place when we already have a good
+configuration infrastructure in place.</p></div>
+<div class="paragraph"><p>Configuring your workspace bar starts with opening a <tt>bar</tt> block. You can have
+multiple bar blocks to use different settings for different outputs (monitors):</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bar {
+    status_command i3status
+}</tt></pre>
+</div></div>
+<div class="sect2">
+<h3 id="_statusline_command">5.1. Statusline command</h3>
+<div class="paragraph"><p>i3bar can run a program and display every line of its <tt>stdout</tt> output on the
+right hand side of the bar. This is useful to display system information like
+your current IP address, battery status or date/time.</p></div>
+<div class="paragraph"><p>The specified command will be passed to <tt>sh -c</tt>, so you can use globbing and
+have to have correct quoting etc.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>status_command command</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>status_command i3status --config ~/.i3status.conf</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_display_mode">5.2. Display mode</h3>
+<div class="paragraph"><p>You can have i3bar either be visible permanently at one edge of the screen
+(<tt>dock</tt> mode) or make it show up when you press your modifier key (<tt>hide</tt>
+mode).</p></div>
+<div class="paragraph"><p>The hide mode maximizes screen space that can be used for actual windows. Also,
+i3bar sends the <tt>SIGSTOP</tt> and <tt>SIGCONT</tt> signals to the statusline process to
+save battery power.</p></div>
+<div class="paragraph"><p>The default is dock mode.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>mode &lt;dock|hide&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>mode hide</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_position">5.3. Position</h3>
+<div class="paragraph"><p>This option determines in which edge of the screen i3bar should show up.</p></div>
+<div class="paragraph"><p>The default is bottom.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>position &lt;top|bottom&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>position top</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_output_s">5.4. Output(s)</h3>
+<div class="paragraph"><p>You can restrict i3bar to one or more outputs (monitors). The default is to
+handle all outputs. Restricting the outputs is useful for using different
+options for different outputs by using multiple <em>bar</em> blocks.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>output &lt;output&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># big monitor: everything
+bar {
+        output HDMI2
+        status_command i3status
+}
+
+# laptop monitor: bright colors and i3status with less modules.
+bar {
+        output LVDS1
+        status_command i3status --config ~/.i3status-small.conf
+        colors {
+                background #000000
+                statusline #ffffff
+        }
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_tray_output">5.5. Tray output</h3>
+<div class="paragraph"><p>i3bar by default provides a system tray area where programs such as
+NetworkManager, VLC, Pidgin, etc. can place little icons.</p></div>
+<div class="paragraph"><p>You can configure on which output (monitor) the icons should be displayed or
+you can turn off the functionality entirely.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>tray_output &lt;none|output&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># disable system tray
+tray_output none
+
+# show tray icons on the big monitor
+tray_output HDMI2</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_font">5.6. Font</h3>
+<div class="paragraph"><p>Specifies the font (again, X core font, not Xft, just like in i3) to be used in
+the bar.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>font &lt;font&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_workspace_buttons">5.7. Workspace buttons</h3>
+<div class="paragraph"><p>Specifies whether workspace buttons should be shown or not. This is useful if
+you want to display a statusline-only bar containing additional information.</p></div>
+<div class="paragraph"><p>The default is to show workspace buttons.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace_buttons &lt;yes|no&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace_buttons no</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_colors">5.8. Colors</h3>
+<div class="paragraph"><p>As with i3, colors are in HTML hex format (#rrggbb). The following colors can
+be configured at the moment:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+background
+</dt>
+<dd>
+<p>
+        Background color of the bar.
+</p>
+</dd>
+<dt class="hdlist1">
+statusline
+</dt>
+<dd>
+<p>
+        Text color to be used for the statusline.
+</p>
+</dd>
+<dt class="hdlist1">
+focused_workspace
+</dt>
+<dd>
+<p>
+        Text color/background color for a workspace button when the workspace
+        has focus.
+</p>
+</dd>
+<dt class="hdlist1">
+active_workspace
+</dt>
+<dd>
+<p>
+        Text color/background color for a workspace button when the workspace
+        is active (visible) on some output, but the focus is on another one.
+        You can only tell this apart from the focused workspace when you are
+        using multiple monitors.
+</p>
+</dd>
+<dt class="hdlist1">
+inactive_workspace
+</dt>
+<dd>
+<p>
+        Text color/background color for a workspace button when the workspace
+        does not have focus and is not active (visible) on any output. This
+        will be the case for most workspaces.
+</p>
+</dd>
+<dt class="hdlist1">
+urgent_workspace
+</dt>
+<dd>
+<p>
+        Text color/background color for workspaces which contain at least one
+        window with the urgency hint set.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>colors {
+    background &lt;color&gt;
+    statusline &lt;color&gt;
+
+    colorclass &lt;foreground&gt; &lt;background&gt;
+}</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>colors {
+    background #000000
+    statusline #ffffff
+
+    focused_workspace  #ffffff #285577
+    active_workspace   #ffffff #333333
+    inactive_workspace #888888 #222222
+    urgent_workspace   #ffffff #900000
+}</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_list_of_commands">6. List of commands</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Commands are what you bind to specific keypresses. You can also issue commands
 at runtime without pressing a key by using the IPC interface. An easy way to
@@ -807,7 +1139,10 @@ which have the class Firefox, use:</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym mod+x [class="Firefox"] kill</tt></pre>
+<pre><tt>bindsym mod+x [class="Firefox"] kill
+
+# same thing, but case-insensitive
+bindsym mod+x [class="(?i)firefox"] kill</tt></pre>
 </div></div>
 <div class="paragraph"><p>The criteria which are currently implemented are:</p></div>
 <div class="dlist"><dl>
@@ -828,6 +1163,14 @@ instance
 </p>
 </dd>
 <dt class="hdlist1">
+window_role
+</dt>
+<dd>
+<p>
+        Compares the window role (WM_WINDOW_ROLE).
+</p>
+</dd>
+<dt class="hdlist1">
 id
 </dt>
 <dd>
@@ -844,7 +1187,7 @@ title
 </p>
 </dd>
 <dt class="hdlist1">
-mark
+con_mark
 </dt>
 <dd>
 <p>
@@ -861,10 +1204,39 @@ con_id
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>Note that currently all criteria are compared case-insensitive and do not
-support regular expressions. This is planned to change in the future.</p></div>
+<div class="paragraph"><p>The criteria <tt>class</tt>, <tt>instance</tt>, <tt>role</tt>, <tt>title</tt> and <tt>mark</tt> are actually
+regular expressions (PCRE). See <tt>pcresyntax(3)</tt> or <tt>perldoc perlre</tt> for
+information on how to use them.</p></div>
 <div class="sect2">
-<h3 id="_splitting_containers">5.1. Splitting containers</h3>
+<h3 id="exec">6.1. Executing applications (exec)</h3>
+<div class="paragraph"><p>What good is a window manager if you can’t actually start any applications?
+The exec command starts an application by passing the command you specify to a
+shell. This implies that you can use globbing (wildcards) and programs will be
+searched in your $PATH.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>exec [--no-startup-id] command</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Start the GIMP
+bindsym mod+g exec gimp
+
+# Start the terminal emulator urxvt which is not yet startup-notification-aware
+bindsym mod+enter exec --no-startup-id urxvt</tt></pre>
+</div></div>
+<div class="paragraph"><p>The <tt>--no-startup-id</tt> parameter disables startup-notification support for this
+particular exec command. With startup-notification, i3 can make sure that a
+window appears on the workspace on which you used the exec command. Also, it
+will change the X11 cursor to <tt>watch</tt> (a clock) while the application is
+launching. So, if an application is not startup-notification aware (most GTK
+and Qt using applications seem to be, though), you will end up with a watch
+cursor for 60 seconds.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_splitting_containers">6.2. Splitting containers</h3>
 <div class="paragraph"><p>The split command makes the current window a split container. Split containers
 can contain multiple windows. Every split container has an orientation, it is
 either split horizontally (a new window gets placed to the right of the current
@@ -885,7 +1257,7 @@ bindsym mod+h split horizontal</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_manipulating_layout">5.2. Manipulating layout</h3>
+<h3 id="_manipulating_layout">6.3. Manipulating layout</h3>
 <div class="paragraph"><p>Use <tt>layout default</tt>, <tt>layout stacking</tt> or <tt>layout tabbed</tt> to change the
 current container layout to default, stacking or tabbed layout, respectively.</p></div>
 <div class="paragraph"><p>To make the current window (!) fullscreen, use <tt>fullscreen</tt>, to make
@@ -906,7 +1278,7 @@ bindsym mod+t floating toggle</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_focusing_moving_containers">5.3. Focusing/Moving containers</h3>
+<h3 id="_focusing_moving_containers">6.4. Focusing/Moving containers</h3>
 <div class="paragraph"><p>To change the focus, use the focus command: <tt>focus left</tt>, <tt>focus right</tt>, <tt>focus down</tt> and <tt>focus up</tt>.</p></div>
 <div class="paragraph"><p>There are a few special parameters you can use for the focus command:</p></div>
 <div class="dlist"><dl>
@@ -953,10 +1325,19 @@ mode_toggle
 </dd>
 </dl></div>
 <div class="paragraph"><p>For moving, use <tt>move left</tt>, <tt>move right</tt>, <tt>move down</tt> and <tt>move up</tt>.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>focus &lt;left|right|down|up&gt;
+focus &lt;parent|child|floating|tiling|mode_toggle&gt;
+move &lt;left|right|down|up&gt; [&lt;px&gt; px]</tt></pre>
+</div></div>
+<div class="paragraph"><p>Note that the amount of pixels you can specify for the <tt>move</tt> command is only
+relevant for floating containers. The default amount is 10 pixels.</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt># Focus clients on the left, bottom, top, right:
+<pre><tt># Focus container on the left, bottom, top, right:
 bindsym mod+j focus left
 bindsym mod+k focus down
 bindsym mod+l focus up
@@ -968,22 +1349,29 @@ bindsym mod+u focus parent
 # Focus last floating/tiling container
 bindsym mod+g focus mode_toggle
 
-# Move client to the left, bottom, top, right:
+# Move container to the left, bottom, top, right:
 bindsym mod+j move left
 bindsym mod+k move down
 bindsym mod+l move up
-bindsym mod+semicolon move right</tt></pre>
+bindsym mod+semicolon move right
+
+# Move container, but make floating containers
+# move more than the default
+bindsym mod+j move left 20 px</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_named_workspaces_moving_to_workspaces">5.4. Changing (named) workspaces/moving to workspaces</h3>
+<h3 id="_changing_named_workspaces_moving_to_workspaces">6.5. Changing (named) workspaces/moving to workspaces</h3>
 <div class="paragraph"><p>To change to a specific workspace, use the <tt>workspace</tt> command, followed by the
 number or name of the workspace. To move containers to specific workspaces, use
 <tt>move workspace</tt>.</p></div>
 <div class="paragraph"><p>You can also switch to the next and previous workspace with the commands
 <tt>workspace next</tt> and <tt>workspace prev</tt>, which is handy, for example, if you have
 workspace 1, 3, 4 and 9 and you want to cycle through them with a single key
-combination.</p></div>
+combination. Similarily, you can use <tt>move workspace next</tt> and <tt>move workspace
+prev</tt> to move a container to the next/previous workspace.</p></div>
+<div class="paragraph" id="back_and_forth"><p>To switch back to the previously focused workspace, use <tt>workspace
+back_and_forth</tt>.</p></div>
 <div class="paragraph"><p>To move a container to another xrandr output such as <tt>LVDS1</tt> or <tt>VGA1</tt>, you can
 use the <tt>move output</tt> command followed by the name of the target output. You
 may also use <tt>left</tt>, <tt>right</tt>, <tt>up</tt>, <tt>down</tt> instead of the xrandr output name to
@@ -997,10 +1385,13 @@ bindsym mod+2 workspace 2
 
 bindsym mod+Shift+1 move workspace 1
 bindsym mod+Shift+2 move workspace 2
-...</tt></pre>
+...
+
+# switch between the current and the previously focused one
+bindsym mod+b workspace back_and_forth</tt></pre>
 </div></div>
 <div class="sect3">
-<h4 id="_named_workspaces">5.4.1. Named workspaces</h4>
+<h4 id="_named_workspaces">6.5.1. Named workspaces</h4>
 <div class="paragraph"><p>Workspaces are identified by their name. So, instead of using numbers in the
 workspace command, you can use an arbitrary name:</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
@@ -1025,7 +1416,7 @@ will order them numerically.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="resizingconfig">5.5. Resizing containers/windows</h3>
+<h3 id="resizingconfig">6.6. Resizing containers/windows</h3>
 <div class="paragraph"><p>If you want to resize containers/windows using your keyboard, you can use the
 <tt>resize</tt> command:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -1035,9 +1426,9 @@ will order them numerically.</p></div>
 </div></div>
 <div class="paragraph"><p>Direction can be one of <tt>up</tt>, <tt>down</tt>, <tt>left</tt> or <tt>right</tt>. The optional pixel
 argument specifies by how many pixels a <strong>floating container</strong> should be grown or
-shrinked (the default is 10 pixels). The ppt argument means percentage points
+shrunk (the default is 10 pixels). The ppt argument means percentage points
 and specifies by how many percentage points a <strong>tiling container</strong> should be
-grown or shrinked (the default is 10 percentage points).</p></div>
+grown or shrunk (the default is 10 percentage points).</p></div>
 <div class="paragraph"><p>I recommend using the resize command inside a so called <tt>mode</tt>:</p></div>
 <div class="listingblock">
 <div class="title">Example: Configuration file, defining a mode for resizing</div>
@@ -1071,7 +1462,7 @@ bindsym mod+r mode "resize"</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_jumping_to_specific_windows">5.6. Jumping to specific windows</h3>
+<h3 id="_jumping_to_specific_windows">6.7. Jumping to specific windows</h3>
 <div class="paragraph"><p>Often when in a multi-monitor environment, you want to quickly jump to a
 specific window. For example, while working on workspace 3 you may want to
 jump to your mail client to email your boss that you’ve achieved some
@@ -1092,7 +1483,7 @@ bindsym mod+a [class="urxvt" title="VIM"] focus</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_vim_like_marks_mark_goto">5.7. VIM-like marks (mark/goto)</h3>
+<h3 id="_vim_like_marks_mark_goto">6.8. VIM-like marks (mark/goto)</h3>
 <div class="paragraph" id="vim_like_marks"><p>This feature is like the jump feature: It allows you to directly jump to a
 specific window (this means switching to the appropriate workspace and setting
 focus to the windows). However, you can directly mark a specific window with
@@ -1117,7 +1508,7 @@ $ i3-msg '[con_mark="irssi"] focus'</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_border_style">5.8. Changing border style</h3>
+<h3 id="_changing_border_style">6.9. Changing border style</h3>
 <div class="paragraph"><p>To change the border of the current client, you can use <tt>border normal</tt> to use the normal
 border (including window title), <tt>border 1pixel</tt> to use a 1-pixel border (no window title)
 and <tt>border none</tt> to make the client borderless.</p></div>
@@ -1131,7 +1522,7 @@ bindsym mod+u border none</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="stack-limit">5.9. Reloading/Restarting/Exiting</h3>
+<h3 id="stack-limit">6.10. Reloading/Restarting/Exiting</h3>
 <div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
 restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
 (if that should ever happen) or to perform an upgrade without having to restart
@@ -1148,7 +1539,7 @@ bindsym mod+Shift+e exit</tt></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="multi_monitor">6. Multiple monitors</h2>
+<h2 id="multi_monitor">7. Multiple monitors</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>As you can see in the goal list on the website, i3 was specifically developed
 with support for multiple monitors in mind. This section will explain how to
@@ -1171,7 +1562,7 @@ create an unlimited number of workspaces in i3 and tie them to specific
 screens, you can have the "traditional" approach of having X workspaces per
 screen by changing your configuration (using modes, for example).</p></div>
 <div class="sect2">
-<h3 id="_configuring_your_monitors">6.1. Configuring your monitors</h3>
+<h3 id="_configuring_your_monitors">7.1. Configuring your monitors</h3>
 <div class="paragraph"><p>To help you get going if you have never used multiple monitors before, here is
 a short overview of the xrandr options which will probably be of interest to
 you. It is always useful to get an overview of the current screen configuration.
@@ -1234,7 +1625,7 @@ only what you can see in xrandr.</p></div>
 <div class="paragraph"><p>See also <a href="#presentations">[presentations]</a> for more examples of multi-monitor setups.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_interesting_configuration_for_multi_monitor_environments">6.2. Interesting configuration for multi-monitor environments</h3>
+<h3 id="_interesting_configuration_for_multi_monitor_environments">7.2. Interesting configuration for multi-monitor environments</h3>
 <div class="paragraph"><p>There are several things to configure in i3 which may be interesting if you
 have more than one monitor:</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -1265,10 +1656,10 @@ If you have many workspaces on many monitors, it might get hard to keep
 </div>
 </div>
 <div class="sect1">
-<h2 id="_i3_and_the_rest_of_your_software_world">7. i3 and the rest of your software world</h2>
+<h2 id="_i3_and_the_rest_of_your_software_world">8. i3 and the rest of your software world</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_displaying_a_status_line">7.1. Displaying a status line</h3>
+<h3 id="_displaying_a_status_line">8.1. Displaying a status line</h3>
 <div class="paragraph"><p>A very common thing amongst users of exotic window managers is a status line at
 some corner of the screen. It is an often superior replacement to the widget
 approach you have in the task bar of a traditional desktop environment.</p></div>
@@ -1286,14 +1677,14 @@ for positioning it at the bottom and <tt>-dtop</tt> to position it at the top of
 screen.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_giving_presentations_multi_monitor">7.2. Giving presentations (multi-monitor)</h3>
+<h3 id="_giving_presentations_multi_monitor">8.2. Giving presentations (multi-monitor)</h3>
 <div class="paragraph"><p>When giving a presentation, you typically want the audience to see what you see
 on your screen and then go through a series of slides (if the presentation is
 simple). For more complex presentations, you might want to have some notes
 which only you can see on your screen, while the audience can only see the
 slides.</p></div>
 <div class="sect3">
-<h4 id="presentations">7.2.1. Case 1: everybody gets the same output</h4>
+<h4 id="presentations">8.2.1. Case 1: everybody gets the same output</h4>
 <div class="paragraph"><p>This is the simple case. You connect your computer to the video projector,
 turn on both (computer and video projector) and configure your X server to
 clone the internal flat panel of your computer to the video output:</p></div>
@@ -1306,7 +1697,7 @@ your screen will be left untouched (it will show the X background). So, in
 our example, this would be 1024x768 (my notebook has 1280x800).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_case_2_you_can_see_more_than_your_audience">7.2.2. Case 2: you can see more than your audience</h4>
+<h4 id="_case_2_you_can_see_more_than_your_audience">8.2.2. Case 2: you can see more than your audience</h4>
 <div class="paragraph"><p>This case is a bit harder. First of all, you should configure the VGA output
 somewhere near your internal flat panel, say right of it:</p></div>
 <div class="listingblock">

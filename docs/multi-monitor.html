@@ -31,7 +31,7 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <h1>The multi-monitor situation</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">March 2010</span>
+<span id="revdate">September 2011</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -53,6 +53,7 @@ i3, like so:</p></div>
 <div class="content">
 <pre><tt>exec i3 --force-xinerama -V &gt;&gt;~/.i3/i3log 2&gt;&amp;1</tt></pre>
 </div></div>
+<div class="paragraph"><p>…or use <tt>force_xinerama yes</tt> in your configuration file.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -87,9 +88,12 @@ actually contains both of your physical screens (but it will not know that
 these are two screens).</p></div>
 <div class="paragraph"><p>For this very reason, we decided to implement the following workaround: As
 long as the nVidia driver does not support RandR, an option called
-<tt>--force-xinerama</tt> is available in i3. This option gets the list of screens
-<strong>once</strong> when starting, and never updates it. As the nVidia driver cannot do
-dynamic configuration anyways, this is not a big deal.</p></div>
+<tt>--force-xinerama</tt> is available in i3 (alternatively, you can use the
+<tt>force_xinerama</tt> configuration file directive). This option gets the list of
+screens <strong>once</strong> when starting, and never updates it. As the nVidia driver cannot
+do dynamic configuration anyways, this is not a big deal.</p></div>
+<div class="paragraph"><p>Also note that your output names are not descriptive (like <tt>HDMI1</tt>) when using
+Xinerama, instead they are counted up, starting at 0: <tt>xinerama-0</tt>, <tt>xinerama-1</tt>, …</p></div>
 </div>
 </div>
 <div class="sect1">

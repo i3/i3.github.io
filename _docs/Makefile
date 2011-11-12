@@ -1,7 +1,10 @@
 
-all: hacking-howto.html debugging.html repositories.html userguide.html ipc.html multi-monitor.html wsbar.html i3status.html i3.html i3-config-wizard.html i3-nagbar.html i3-migrate-config-to-v4.html i3-msg.html
+all: hacking-howto.html debugging.html repositories.html userguide.html ipc.html multi-monitor.html wsbar.html i3status.html i3.html i3-config-wizard.html i3-nagbar.html i3-migrate-config-to-v4.html i3-msg.html testsuite.html
 
 hacking-howto.html: hacking-howto
+	asciidoc -a linkcss -a stylesdir=/css -a scriptsdir=/js --backend=xhtml11 -f conf/i3html.conf -a toc -n $<
+
+testsuite.html: testsuite
 	asciidoc -a linkcss -a stylesdir=/css -a scriptsdir=/js --backend=xhtml11 -f conf/i3html.conf -a toc -n $<
 
 debugging.html: debugging
