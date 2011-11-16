@@ -174,7 +174,7 @@ Floating windows are always on top of tiling windows.
 i3 stores all information about the X11 outputs, workspaces and layout of the
 windows on them in a tree. The root node is the X11 root window, followed by
 the X11 outputs, then dock areas and a content container, then workspaces and
-finally the windows themselve. In previous versions of i3 we had multiple lists
+finally the windows themselves. In previous versions of i3 we had multiple lists
 (of outputs, workspaces) and a table for each workspace. That approach turned
 out to be complicated to use (snapping), understand and implement.
 
@@ -812,7 +812,9 @@ status_command command
 
 *Example*:
 -------------------------------------------------
-status_command i3status --config ~/.i3status.conf
+bar {
+    status_command i3status --config ~/.i3status.conf
+}
 -------------------------------------------------
 
 === Display mode
@@ -834,7 +836,9 @@ mode <dock|hide>
 
 *Example*:
 ----------------
-mode hide
+bar {
+    mode hide
+}
 ----------------
 
 === Position
@@ -850,7 +854,9 @@ position <top|bottom>
 
 *Example*:
 ---------------------
-position top
+bar {
+    position top
+}
 ---------------------
 
 === Output(s)
@@ -858,6 +864,9 @@ position top
 You can restrict i3bar to one or more outputs (monitors). The default is to
 handle all outputs. Restricting the outputs is useful for using different
 options for different outputs by using multiple 'bar' blocks.
+
+To make a particular i3bar instance handle multiple outputs, specify the output
+directive multiple times.
 
 *Syntax*:
 ---------------
@@ -868,18 +877,20 @@ output <output>
 -------------------------------
 # big monitor: everything
 bar {
-	output HDMI2
-	status_command i3status
+    # The display is connected either via HDMI or via DisplayPort
+    output HDMI2
+    output DP2
+    status_command i3status
 }
 
 # laptop monitor: bright colors and i3status with less modules.
 bar {
-	output LVDS1
-	status_command i3status --config ~/.i3status-small.conf
-	colors {
-		background #000000
-		statusline #ffffff
-	}
+    output LVDS1
+    status_command i3status --config ~/.i3status-small.conf
+    colors {
+        background #000000
+        statusline #ffffff
+    }
 }
 -------------------------------
 
@@ -899,10 +910,14 @@ tray_output <none|output>
 *Example*:
 -------------------------
 # disable system tray
-tray_output none
+bar {
+    tray_output none
+}
 
 # show tray icons on the big monitor
-tray_output HDMI2
+bar {
+    tray_output HDMI2
+}
 -------------------------
 
 === Font
@@ -917,7 +932,9 @@ font <font>
 
 *Example*:
 --------------------------------------------------------------
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+bar {
+    font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+}
 --------------------------------------------------------------
 
 === Workspace buttons
@@ -934,7 +951,9 @@ workspace_buttons <yes|no>
 
 *Example*:
 --------------------
-workspace_buttons no
+bar {
+    workspace_buttons no
+}
 --------------------
 
 === Colors
@@ -974,14 +993,16 @@ colors {
 
 *Example*:
 --------------------------------------
-colors {
-    background #000000
-    statusline #ffffff
+bar {
+    colors {
+        background #000000
+        statusline #ffffff
 
-    focused_workspace  #ffffff #285577
-    active_workspace   #ffffff #333333
-    inactive_workspace #888888 #222222
-    urgent_workspace   #ffffff #900000
+        focused_workspace  #ffffff #285577
+        active_workspace   #ffffff #333333
+        inactive_workspace #888888 #222222
+        urgent_workspace   #ffffff #900000
+    }
 }
 --------------------------------------
 
@@ -1063,7 +1084,7 @@ exec [--no-startup-id] command
 bindsym mod+g exec gimp
 
 # Start the terminal emulator urxvt which is not yet startup-notification-aware
-bindsym mod+enter exec --no-startup-id urxvt
+bindsym mod+Return exec --no-startup-id urxvt
 ------------------------------
 
 The +--no-startup-id+ parameter disables startup-notification support for this

@@ -227,7 +227,7 @@ can also do that by using the <a href="#floating_modifier">[floating_modifier]</
 <div class="paragraph"><p>i3 stores all information about the X11 outputs, workspaces and layout of the
 windows on them in a tree. The root node is the X11 root window, followed by
 the X11 outputs, then dock areas and a content container, then workspaces and
-finally the windows themselve. In previous versions of i3 we had multiple lists
+finally the windows themselves. In previous versions of i3 we had multiple lists
 (of outputs, workspaces) and a table for each workspace. That approach turned
 out to be complicated to use (snapping), understand and implement.</p></div>
 <div class="sect2">
@@ -905,7 +905,9 @@ have to have correct quoting etc.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>status_command i3status --config ~/.i3status.conf</tt></pre>
+<pre><tt>bar {
+    status_command i3status --config ~/.i3status.conf
+}</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -925,7 +927,9 @@ save battery power.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>mode hide</tt></pre>
+<pre><tt>bar {
+    mode hide
+}</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -940,7 +944,9 @@ save battery power.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>position top</tt></pre>
+<pre><tt>bar {
+    position top
+}</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -948,6 +954,8 @@ save battery power.</p></div>
 <div class="paragraph"><p>You can restrict i3bar to one or more outputs (monitors). The default is to
 handle all outputs. Restricting the outputs is useful for using different
 options for different outputs by using multiple <em>bar</em> blocks.</p></div>
+<div class="paragraph"><p>To make a particular i3bar instance handle multiple outputs, specify the output
+directive multiple times.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -958,18 +966,20 @@ options for different outputs by using multiple <em>bar</em> blocks.</p></div>
 <div class="content">
 <pre><tt># big monitor: everything
 bar {
-        output HDMI2
-        status_command i3status
+    # The display is connected either via HDMI or via DisplayPort
+    output HDMI2
+    output DP2
+    status_command i3status
 }
 
 # laptop monitor: bright colors and i3status with less modules.
 bar {
-        output LVDS1
-        status_command i3status --config ~/.i3status-small.conf
-        colors {
-                background #000000
-                statusline #ffffff
-        }
+    output LVDS1
+    status_command i3status --config ~/.i3status-small.conf
+    colors {
+        background #000000
+        statusline #ffffff
+    }
 }</tt></pre>
 </div></div>
 </div>
@@ -988,10 +998,14 @@ you can turn off the functionality entirely.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt># disable system tray
-tray_output none
+bar {
+    tray_output none
+}
 
 # show tray icons on the big monitor
-tray_output HDMI2</tt></pre>
+bar {
+    tray_output HDMI2
+}</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1006,7 +1020,9 @@ the bar.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1</tt></pre>
+<pre><tt>bar {
+    font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+}</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1022,7 +1038,9 @@ you want to display a statusline-only bar containing additional information.</p>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>workspace_buttons no</tt></pre>
+<pre><tt>bar {
+    workspace_buttons no
+}</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1099,14 +1117,16 @@ urgent_workspace
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>colors {
-    background #000000
-    statusline #ffffff
+<pre><tt>bar {
+    colors {
+        background #000000
+        statusline #ffffff
 
-    focused_workspace  #ffffff #285577
-    active_workspace   #ffffff #333333
-    inactive_workspace #888888 #222222
-    urgent_workspace   #ffffff #900000
+        focused_workspace  #ffffff #285577
+        active_workspace   #ffffff #333333
+        inactive_workspace #888888 #222222
+        urgent_workspace   #ffffff #900000
+    }
 }</tt></pre>
 </div></div>
 </div>
@@ -1225,7 +1245,7 @@ searched in your $PATH.</p></div>
 bindsym mod+g exec gimp
 
 # Start the terminal emulator urxvt which is not yet startup-notification-aware
-bindsym mod+enter exec --no-startup-id urxvt</tt></pre>
+bindsym mod+Return exec --no-startup-id urxvt</tt></pre>
 </div></div>
 <div class="paragraph"><p>The <tt>--no-startup-id</tt> parameter disables startup-notification support for this
 particular exec command. With startup-notification, i3 can make sure that a
