@@ -12,9 +12,7 @@ suggestions please let us know!
 </p>
 
 <p>
-These documents are for i3 version 4.0. If you are still using the old version
-3.ε, <a href="/docs/3.e/index.html">you can find the old documentation
-here</a>, but we strongly recommend to update.
+These documents are for i3 version 4.1.
 </p>
 
 <div class="docs">
