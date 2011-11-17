@@ -33,21 +33,20 @@
 
 <div id="screencasts">
     <div class="video clearfix">
-        <a href="http://www.youtube.com/watch?v=pKfP7Ws-CN8" title="Watch i3 screencast v3.δ on YouTube">
+        <a href="http://www.youtube.com/watch?v=Wx0eNaGzAZU" title="Watch i3 screencast v4.1 on YouTube">
         <img src="/img/screencast-3.d.thumb.png" width="240" height="150" border="0" alt="Screencast thumbnail" style="float: left">
         </a>
         <div style="float: left">
-            <strong>Screencast of v3.δ</strong>
+            <strong>Screencast of v4.1</strong>
             <p>
             This video (5 min) shows the basic features of i3:
             </p>
             <ul>
                 <li>Layouts, Focus, Moving, Workspaces</li>
                 <li>dmenu, Floating Windows, Resizing</li>
-                <li>Window Borders, Urgency Hint, i3lock, i3status</li>
             </ul>
             <p>
-            <a href="http://www.youtube.com/watch?v=pKfP7Ws-CN8">Watch it on YouTube</a> or <a href="/screenshots/screencast-3.d.mkv">download it (2.5 MB)</a>.
+            <a href="http://www.youtube.com/watch?v=Wx0eNaGzAZU">Watch it on YouTube</a> or <a href="/screenshots/screencast-4.1.mp4">download it (18 MB)</a>.
             </p>
         </div>
     </div>
