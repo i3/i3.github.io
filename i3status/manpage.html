@@ -284,9 +284,9 @@ just specify <tt>last_full_capacity = true</tt>.</p></div>
 <div class="sect2">
 <h3 id="_load">5.10. Load</h3>
 <div class="paragraph"><p>Gets the system load (number of processes waiting for CPU time in the last
-5, 10 and 15 minutes).</p></div>
+1, 5 and 15 minutes).</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>load</tt></p></div>
-<div class="paragraph"><p><strong>Example format</strong>: <tt>%5min %10min %15min</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%1min %5min %15min</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_time">5.11. Time</h3>
@@ -356,12 +356,16 @@ use your shell, for example like this:</p></div>
 <div class="paragraph"><p><strong>Example for prepending the i3status output</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>i3status | while :
+<pre><tt>#!/bin/sh
+# shell script to prepend i3status with more stuff
+
+i3status | while :
 do
         read line
         echo "mystuff | $line"
-done | i3bar -d</tt></pre>
+done</tt></pre>
 </div></div>
+<div class="paragraph"><p>Put that in some script, say <tt>.bin/my_i3status.sh</tt> and execute that instead of i3status.</p></div>
 </div>
 </div>
 <div class="sect1">
