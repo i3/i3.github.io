@@ -67,8 +67,9 @@ You want the latest i3 development version
 </dt>
 <dd>
 <p>
-    If you are using Debian (Debian-derived systems might work, too) and want
-    the latest development version of i3, you should use our Debian repository.
+    If you are using Debian (Debian-derived systems might work, too) or Ubuntu
+    and want the latest development version of i3, you should use our Debian
+    repository.
 </p>
 </dd>
 </dl></div>
@@ -77,8 +78,10 @@ You want the latest i3 development version
 <div class="sect1">
 <h2 id="_ubuntu_repository">2. Ubuntu repository</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>The Ubuntu repository is provided by sur5r and contains the latest stable release
-of i3. To use it, run the following commands:</p></div>
+<div class="sect2">
+<h3 id="_stable_releases">2.1. Stable releases</h3>
+<div class="paragraph"><p>This Ubuntu repository is provided by sur5r and contains the latest stable
+release of i3. To use it, run the following commands:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt># echo 'deb http://debian.sur5r.net/i3/ natty universe' &gt;&gt; /etc/apt/sources.list
@@ -90,6 +93,22 @@ of i3. To use it, run the following commands:</p></div>
 <div class="paragraph"><p>The following Ubuntu versions are currently available: maverick, natty, oneiric,
 precise.</p></div>
 </div>
+<div class="sect2">
+<h3 id="_development_releases">2.2. Development releases</h3>
+<div class="paragraph"><p>This Ubuntu repository contains packages which are automatically built a few
+minutes after every commit. To use it, run the following commands:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># echo 'deb http://build.i3wm.org/ubuntu/oneiric oneiric main' &gt;&gt; /etc/apt/sources.list
+# apt-get update
+# apt-get --allow-unauthenticated install i3-autobuild-keyring
+# apt-get update
+# apt-get install i3</tt></pre>
+</div></div>
+<div class="paragraph"><p>Development versions are only available for the latest version of Ubuntu, which
+is oneiric at the moment.</p></div>
+</div>
+</div>
 </div>
 <div class="sect1">
 <h2 id="_debian_repository">3. Debian repository</h2>
@@ -98,10 +117,20 @@ precise.</p></div>
 minutes after every commit. To use it, run the following commands:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt># echo 'deb http://build.i3wm.org/debian/i3-wm sid main' &gt;&gt; /etc/apt/sources.list
+<pre><tt># echo 'deb http://build.i3wm.org/debian/sid sid main' &gt;&gt; /etc/apt/sources.list
 # apt-get update
-# apt-get install i3-wm</tt></pre>
+# apt-get --allow-unauthenticated install i3-autobuild-keyring
+# apt-get update
+# apt-get install i3</tt></pre>
 </div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_preferring_the_autobuilder_version_of_i3">4. Preferring the autobuilder version of i3</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>On installations where you have multiple sources (stable and testing, or
+testing and unstable for example), <tt>apt-get install i3</tt> might not get you the
+autobuilder version.</p></div>
 <div class="paragraph"><p>To ensure that the autobuilt i3 packages will be preferred to the packages of
 your distribution, put the following entry <strong>at the beginning</strong> of your
 <tt>/etc/apt/preferences</tt>:</p></div>
@@ -111,7 +140,7 @@ your distribution, put the following entry <strong>at the beginning</strong> of 
 Pin: origin "build.i3wm.org"
 Pin-Priority: 1001</tt></pre>
 </div></div>
-<div class="paragraph"><p>Then, install <tt>i3-wm</tt>.</p></div>
+<div class="paragraph"><p>Then, install <tt>i3</tt>.</p></div>
 </div>
 </div>
 </div>
