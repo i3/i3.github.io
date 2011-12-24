@@ -13,14 +13,14 @@
     <h2>Do What I Mean. Good Docs. Clean Code. Sounds good?</h2>
     <p>
     Then you will love i3. Watch the <a href="/screenshots/">screencast</a>,<br>
-    read the <a href="/docs/4.0/userguide.html">User’s Guide</a> and <a
+    read the <a href="/docs/userguide.html">User’s Guide</a> and <a
     href="/downloads/">install i3</a>!
     </p>
     <div id="download">
         <a href="/downloads">
         <span style="font-weight: bold; color: #3A8ECD; margin-right: .5em">➡</span>
         Download the latest version
-        <span style="margin-left: 2em; color: #c0c0c0">4.1</span>
+        <span style="margin-left: 2em; color: #c0c0c0">4.1.1</span>
         </a>
     </div>
 </div>

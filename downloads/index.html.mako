@@ -88,6 +88,12 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 
 <ul>
   <li>
+    <a href="/downloads/i3-4.1.1.tar.bz2">i3-4.1.1.tar.bz2</a>
+    (<a href="/downloads/i3-4.1.1.tar.bz2.asc">GPG signature</a>), Version 4.1.1, 551 KiB, 2011-12-24,
+    <a href="/downloads/RELEASE-NOTES-4.1.1.txt">release notes</a>
+  </li>
+
+  <li>
     <a href="/downloads/i3-4.1.tar.bz2">i3-4.1.tar.bz2</a>
     (<a href="/downloads/i3-4.1.tar.bz2.asc">GPG signature</a>), Version 4.1, 551 KiB, 2011-11-11,
     <a href="/downloads/RELEASE-NOTES-4.1.txt">release notes</a>
