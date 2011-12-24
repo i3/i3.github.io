@@ -394,7 +394,7 @@ bindcode [Modifiers+]keycode command</tt></pre>
 <div class="listingblock">
 <div class="content">
 <pre><tt># Fullscreen
-bindsym mod+f f
+bindsym mod+f fullscreen
 
 # Restart
 bindsym mod+Shift+r restart
@@ -584,7 +584,7 @@ assign [class="^URxvt$" instance="^irssi$"] → 3</tt></pre>
 use it, it has to be a UTF-8 encoded arrow, not <tt>-&gt;</tt> or something like that.</p></div>
 <div class="paragraph"><p>To get the class and instance, you can use <tt>xprop</tt>. After clicking on the
 window, you will see the following output:</p></div>
-<div class="paragraph"><p><strong>xwininfo</strong>:</p></div>
+<div class="paragraph"><p><strong>xprop</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>WM_CLASS(STRING) = "irssi", "URxvt"</tt></pre>
@@ -700,7 +700,7 @@ will be rendered.</p></div>
 used to paint it. If you use a color other than black for your terminals, you
 most likely want to set the client background color to the same color as your
 terminal program&#8217;s background color to avoid black gaps between the rendered
-area of the termianal and the i3 border.</p></div>
+area of the terminal and the i3 border.</p></div>
 <div class="paragraph"><p>Colors are in HTML hex format (#rrggbb), see the following example:</p></div>
 <div class="paragraph"><p><strong>Examples (default colors)</strong>:</p></div>
 <div class="listingblock">
@@ -721,15 +721,18 @@ the window.</p></div>
 programs to get information from i3, such as the current workspaces
 (to display a workspace bar), and to control i3.</p></div>
 <div class="paragraph"><p>The IPC socket is enabled by default and will be created in
-<tt>/tmp/i3-%u/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username and <tt>%p</tt> is the PID
-of i3.</p></div>
+<tt>/tmp/i3-%u.XXXXXX/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username, <tt>%p</tt> is
+the PID of i3 and XXXXXX is a string of random characters from the portable
+filename character set (see mkdtemp(3)).</p></div>
 <div class="paragraph"><p>You can override the default path through the environment-variable <tt>I3SOCK</tt> or
 by specifying the <tt>ipc-socket</tt> directive. This is discouraged, though, since i3
-does the right thing by default.</p></div>
+does the right thing by default. If you decide to change it, it is strongly
+recommended to set this to a location in your home directory so that no other
+user can create that directory.</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>ipc-socket /tmp/i3-ipc.sock</tt></pre>
+<pre><tt>ipc-socket ~/.i3/i3-ipc.sock</tt></pre>
 </div></div>
 <div class="paragraph"><p>You can then use the <tt>i3-msg</tt> application to perform any command listed in
 the next section.</p></div>
@@ -905,9 +908,7 @@ have to have correct quoting etc.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bar {
-    status_command i3status --config ~/.i3status.conf
-}</tt></pre>
+<pre><tt>status_command i3status --config ~/.i3status.conf</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -927,9 +928,7 @@ save battery power.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bar {
-    mode hide
-}</tt></pre>
+<pre><tt>mode hide</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -944,9 +943,7 @@ save battery power.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bar {
-    position top
-}</tt></pre>
+<pre><tt>position top</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -954,8 +951,6 @@ save battery power.</p></div>
 <div class="paragraph"><p>You can restrict i3bar to one or more outputs (monitors). The default is to
 handle all outputs. Restricting the outputs is useful for using different
 options for different outputs by using multiple <em>bar</em> blocks.</p></div>
-<div class="paragraph"><p>To make a particular i3bar instance handle multiple outputs, specify the output
-directive multiple times.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -966,20 +961,18 @@ directive multiple times.</p></div>
 <div class="content">
 <pre><tt># big monitor: everything
 bar {
-    # The display is connected either via HDMI or via DisplayPort
-    output HDMI2
-    output DP2
-    status_command i3status
+        output HDMI2
+        status_command i3status
 }
 
 # laptop monitor: bright colors and i3status with less modules.
 bar {
-    output LVDS1
-    status_command i3status --config ~/.i3status-small.conf
-    colors {
-        background #000000
-        statusline #ffffff
-    }
+        output LVDS1
+        status_command i3status --config ~/.i3status-small.conf
+        colors {
+                background #000000
+                statusline #ffffff
+        }
 }</tt></pre>
 </div></div>
 </div>
@@ -998,14 +991,10 @@ you can turn off the functionality entirely.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt># disable system tray
-bar {
-    tray_output none
-}
+tray_output none
 
 # show tray icons on the big monitor
-bar {
-    tray_output HDMI2
-}</tt></pre>
+tray_output HDMI2</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1020,9 +1009,7 @@ the bar.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bar {
-    font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-}</tt></pre>
+<pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1038,9 +1025,7 @@ you want to display a statusline-only bar containing additional information.</p>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bar {
-    workspace_buttons no
-}</tt></pre>
+<pre><tt>workspace_buttons no</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1117,16 +1102,14 @@ urgent_workspace
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bar {
-    colors {
-        background #000000
-        statusline #ffffff
+<pre><tt>colors {
+    background #000000
+    statusline #ffffff
 
-        focused_workspace  #ffffff #285577
-        active_workspace   #ffffff #333333
-        inactive_workspace #888888 #222222
-        urgent_workspace   #ffffff #900000
-    }
+    focused_workspace  #ffffff #285577
+    active_workspace   #ffffff #333333
+    inactive_workspace #888888 #222222
+    urgent_workspace   #ffffff #900000
 }</tt></pre>
 </div></div>
 </div>
@@ -1245,7 +1228,7 @@ searched in your $PATH.</p></div>
 bindsym mod+g exec gimp
 
 # Start the terminal emulator urxvt which is not yet startup-notification-aware
-bindsym mod+Return exec --no-startup-id urxvt</tt></pre>
+bindsym mod+enter exec --no-startup-id urxvt</tt></pre>
 </div></div>
 <div class="paragraph"><p>The <tt>--no-startup-id</tt> parameter disables startup-notification support for this
 particular exec command. With startup-notification, i3 can make sure that a
@@ -1388,14 +1371,14 @@ number or name of the workspace. To move containers to specific workspaces, use
 <div class="paragraph"><p>You can also switch to the next and previous workspace with the commands
 <tt>workspace next</tt> and <tt>workspace prev</tt>, which is handy, for example, if you have
 workspace 1, 3, 4 and 9 and you want to cycle through them with a single key
-combination. Similarily, you can use <tt>move workspace next</tt> and <tt>move workspace
+combination. Similarly, you can use <tt>move workspace next</tt> and <tt>move workspace
 prev</tt> to move a container to the next/previous workspace.</p></div>
 <div class="paragraph" id="back_and_forth"><p>To switch back to the previously focused workspace, use <tt>workspace
 back_and_forth</tt>.</p></div>
 <div class="paragraph"><p>To move a container to another xrandr output such as <tt>LVDS1</tt> or <tt>VGA1</tt>, you can
 use the <tt>move output</tt> command followed by the name of the target output. You
 may also use <tt>left</tt>, <tt>right</tt>, <tt>up</tt>, <tt>down</tt> instead of the xrandr output name to
-move to the the next output in the specified direction.</p></div>
+move to the next output in the specified direction.</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
