@@ -86,102 +86,150 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
   to enable the work-around!
 </p>
 
-<ul>
-  <li>
-    <a href="/downloads/i3-4.1.1.tar.bz2">i3-4.1.1.tar.bz2</a>
-    (<a href="/downloads/i3-4.1.1.tar.bz2.asc">GPG signature</a>), Version 4.1.1, 551 KiB, 2011-12-24,
-    <a href="/downloads/RELEASE-NOTES-4.1.1.txt">release notes</a>
-  </li>
+<table width="100%">
+  <tr>
+    <th>Version</th>
+    <th>Download</th>
+    <th>Size</th>
+    <th>Signature</th>
+    <th>Release date</th>
+    <th>Release notes</th>
+  </tr>
+  <tr>
+    <td>4.1.1</td>
+    <td><a href="/downloads/i3-4.1.1.tar.bz2">i3-4.1.1.tar.bz2</a></td>
+    <td>551 KiB</td>
+    <td><a href="/downloads/i3-4.1.1.tar.bz2.asc">signature</a></td>
+    <td>2011-12-24</td>
+    <td><a href="/downloads/RELEASE-NOTES-4.1.1.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>4.1</td>
+    <td><a href="/downloads/i3-4.1.tar.bz2">i3-4.1.tar.bz2</a></td>
+    <td>551 KiB</td>
+    <td><a href="/downloads/i3-4.1.tar.bz2.asc">signature</a></td>
+    <td>2011-11-11</td>
+    <td><a href="/downloads/RELEASE-NOTES-4.1.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>4.0.2</td>
+    <td><a href="/downloads/i3-4.0.2.tar.bz2">i3-4.0.2.tar.bz2</a></td>
+    <td>465 KiB</td>
+    <td><a href="/downloads/i3-4.0.2.tar.bz2.asc">signature</a></td>
+    <td>2011-08-28</td>
+    <td><a href="/downloads/RELEASE-NOTES-4.0.2.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>4.0.1</td>
+    <td><a href="/downloads/i3-4.0.1.tar.bz2">i3-4.0.1.tar.bz2</a></td>
+    <td>462 KiB</td>
+    <td><a href="/downloads/i3-4.0.1.tar.bz2.asc">signature</a></td>
+    <td>2011-08-01</td>
+    <td><a href="/downloads/RELEASE-NOTES-4.0.1.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>4.0</td>
+    <td><a href="/downloads/i3-4.0.tar.bz2">i3-4.0.tar.bz2</a></td>
+    <td>462 KiB</td>
+    <td><a href="/downloads/i3-4.0.tar.bz2.asc">signature</a></td>
+    <td>2011-07-31</td>
+    <td><a href="/downloads/RELEASE-NOTES-4.0.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>3.ε-bf3</td>
+    <td><a href="/downloads/i3-3.e-bf3.tar.bz2">i3-3.e-bf3.tar.bz2</a></td>
+    <td>353 KiB</td>
+    <td><a href="/downloads/i3-3.e-bf3.tar.bz2.asc">signature</a></td>
+    <td>2011-05-08</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.e-bf3.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>3.ε-bf2</td>
+    <td><a href="/downloads/i3-3.e-bf2.tar.bz2">i3-3.e-bf2.tar.bz2</a></td>
+    <td>285 KiB</td>
+    <td><a href="/downloads/i3-3.e-bf2.tar.bz2.asc">signature</a></td>
+    <td>2011-01-19</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.e-bf2.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>3.ε-bf1</td>
+    <td><a href="/downloads/i3-3.e-bf1.tar.bz2">i3-3.e-bf1.tar.bz2</a></td>
+    <td>285 KiB</td>
+    <td><a href="/downloads/i3-3.e-bf1.tar.bz2.asc">signature</a></td>
+    <td>2010-06-09</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.e-bf1.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>3.ε</td>
+    <td><a href="/downloads/i3-3.e.tar.bz2">i3-3.e.tar.bz2</a></td>
+    <td>271 KiB</td>
+    <td><a href="/downloads/i3-3.e.tar.bz2.asc">signature</a></td>
+    <td>2010-03-30</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.e.txt">release notes</a></td>
+  </tr>
+  <tr>
+    <td>3.δ-bf1</td>
+    <td><a href="/downloads/i3-3.d-bf1.tar.bz2">i3-3.d-bf1.tar.bz2</a></td>
+    <td>153 KiB</td>
+    <td><a href="/downloads/i3-3.d-bf1.tar.bz2.asc">signature</a></td>
+    <td>2009-12-21</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.d-bf1.txt">release notes</a></td>
+  </tr>
 
-  <li>
-    <a href="/downloads/i3-4.1.tar.bz2">i3-4.1.tar.bz2</a>
-    (<a href="/downloads/i3-4.1.tar.bz2.asc">GPG signature</a>), Version 4.1, 551 KiB, 2011-11-11,
-    <a href="/downloads/RELEASE-NOTES-4.1.txt">release notes</a>
-  </li>
+  <tr>
+    <td>3.δ</td>
+    <td><a href="/downloads/i3-3.d.tar.bz2">i3-3.d.tar.bz2</a></td>
+    <td>153 KiB</td>
+    <td><a href="/downloads/i3-3.d.tar.bz2.asc">signature</a></td>
+    <td>2009-11-09</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.d.txt">release notes</a></td>
+  </tr>
 
-  <li>
-    <a href="/downloads/i3-4.0.2.tar.bz2">i3-4.0.2.tar.bz2</a>
-    (<a href="/downloads/i3-4.0.2.tar.bz2.asc">GPG signature</a>), Version 4.0.2, 465 KiB, 2011-08-28,
-    <a href="/downloads/RELEASE-NOTES-4.0.2.txt">release notes</a>
-  </li>
+  <tr>
+    <td>3.γ</td>
+    <td><a href="/downloads/i3-3.c.tar.bz2">i3-3.c.tar.bz2</a></td>
+    <td>107 KiB</td>
+    <td><a href="/downloads/i3-3.c.tar.bz2.asc">signature</a></td>
+    <td>2009-08-19</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.c.txt">release notes</a></td>
+  </tr>
 
-  <li>
-    <a href="/downloads/i3-4.0.1.tar.bz2">i3-4.0.1.tar.bz2</a>
-    (<a href="/downloads/i3-4.0.1.tar.bz2.asc">GPG signature</a>), Version 4.0.1, 462 KiB, 2011-08-01,
-    <a href="/downloads/RELEASE-NOTES-4.0.1.txt">release notes</a>
-  </li>
+  <tr>
+    <td>3.β</td>
+    <td><a href="/downloads/i3-3.b.tar.bz2">i3-3.b.tar.bz2</a></td>
+    <td>96 KiB</td>
+    <td><a href="/downloads/i3-3.b.tar.bz2.asc">signature</a></td>
+    <td>2009-06-26</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.b.txt">release notes</a></td>
+  </tr>
 
-  <li>
-    <a href="/downloads/i3-4.0.tar.bz2">i3-4.0.tar.bz2</a>
-    (<a href="/downloads/i3-4.0.tar.bz2.asc">GPG signature</a>), Version 4.0, 462 KiB, 2011-07-31,
-    <a href="/downloads/RELEASE-NOTES-4.0.txt">release notes</a>
-  </li>
+  <tr>
+    <td>3.α-bf2</td>
+    <td><a href="/downloads/i3-3.a-bf2.tar.bz2">i3-3.a-bf2.tar.bz2</a></td>
+    <td>65 KiB</td>
+    <td><a href="/downloads/i3-3.a-bf2.tar.bz2.asc">signature</a></td>
+    <td>2009-05-03</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.a-bf2.txt">release notes</a></td>
+  </tr>
 
-  <li>
-    <a href="/downloads/i3-3.e-bf3.tar.bz2">i3-3.e-bf3.tar.bz2</a>
-    (<a href="/downloads/i3-3.e-bf3.tar.bz2.asc">GPG signature</a>), Version 3.ε-bf3, 353 KiB, 2011-05-08,
-    <a href="/downloads/RELEASE-NOTES-3.e-bf3.txt">release notes</a>
-  </li>
+  <tr>
+    <td>3.α-bf1</td>
+    <td><a href="/downloads/i3-3.a-bf1.tar.bz2">i3-3.a-bf1.tar.bz2</a></td>
+    <td>65 KiB</td>
+    <td><a href="/downloads/i3-3.a-bf1.tar.bz2.asc">signature</a></td>
+    <td>2009-05-03</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.a-bf1.txt">release notes</a></td>
+  </tr>
 
-  <li>
-    <a href="/downloads/i3-3.e-bf2.tar.bz2">i3-3.e-bf2.tar.bz2</a>
-    (<a href="/downloads/i3-3.e-bf2.tar.bz2.asc">GPG signature</a>), Version 3.ε-bf2, 285 KiB, 2011-01-19,
-    <a href="/downloads/RELEASE-NOTES-3.e-bf2.txt">release notes</a>
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.e-bf1.tar.bz2">i3-3.e-bf1.tar.bz2</a>
-    (<a href="/downloads/i3-3.e-bf1.tar.bz2.asc">GPG signature</a>), Version 3.ε-bf1, 285 KiB, 2010-06-09,
-    <a href="/downloads/RELEASE-NOTES-3.e-bf1.txt">release notes</a>
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.e.tar.bz2">i3-3.e.tar.bz2</a>
-    (<a href="/downloads/i3-3.e.tar.bz2.asc">GPG signature</a>), Version 3.ε, 271 KiB, 2010-03-30,
-    <a href="/downloads/RELEASE-NOTES-3.e.txt">release notes</a>
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.d-bf1.tar.bz2">i3-3.d-bf1.tar.bz2</a>
-    (<a href="/downloads/i3-3.d-bf1.tar.bz2.asc">GPG signature</a>), Version 3.δ-bf1, 153 KiB, 2009-12-21,
-    <a href="/downloads/RELEASE-NOTES-3.d-bf1.txt">release notes</a>
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.d.tar.bz2">i3-3.d.tar.bz2</a>
-    (<a href="/downloads/i3-3.d.tar.bz2.asc">GPG signature</a>), Version 3.δ, 153 KiB, 2009-11-09,
-    <a href="/downloads/RELEASE-NOTES-3.d.txt">release notes</a>
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.c.tar.bz2">i3-3.c.tar.bz2</a>
-    (<a href="/downloads/i3-3.c.tar.bz2.asc">GPG signature</a>), Version 3.γ, 107 KiB, 2009-08-19,
-    <a href="/downloads/RELEASE-NOTES-3.c.txt">release notes</a>
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.b.tar.bz2">i3-3.b.tar.bz2</a>
-    (<a href="/downloads/i3-3.b.tar.bz2.asc">GPG signature</a>), Version 3.β, 96 KiB, 2009-06-26,
-    <a href="/downloads/RELEASE-NOTES-3.b.txt">release notes</a>
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.a-bf2.tar.bz2">i3-3.a-bf2.tar.bz2</a>
-    (<a href="/downloads/i3-3.a-bf2.tar.bz2.asc">GPG signature</a>), Version 3.α-bf2, 65 KiB, 2009-05-03,
-    hotfix for a problem with -bf1
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.a-bf1.tar.bz2">i3-3.a-bf1.tar.bz2</a>
-    (<a href="/downloads/i3-3.a-bf1.tar.bz2.asc">GPG signature</a>), Version 3.α-bf1, 65 KiB, 2009-05-03,
-    <a href="/downloads/RELEASE-NOTES-3.a-bf1.txt">release notes</a>
-  </li>
-
-  <li>
-    <a href="/downloads/i3-3.a.tar.bz2">i3-3.a.tar.bz2</a>
-    (<a href="/downloads/i3-3.a.tar.bz2.asc">GPG signature</a>), Version 3.α, 50 KiB, 2009-03-15
-  </li>
-</ul>
+  <tr>
+    <td>3.α</td>
+    <td><a href="/downloads/i3-3.a.tar.bz2">i3-3.a.tar.bz2</a></td>
+    <td>50 KiB</td>
+    <td><a href="/downloads/i3-3.a.tar.bz2.asc">signature</a></td>
+    <td>2009-03-15</td>
+    <td><a href="/downloads/RELEASE-NOTES-3.a.txt">release notes</a></td>
+  </tr>
+</table>
 
 <a name="development-version"></a>
 <h2>Development version</h2>
