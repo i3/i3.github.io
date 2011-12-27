@@ -1,5 +1,8 @@
 <%!
 	section = "downloads"
+	javascript = 'downloads.min.js'
+	require_jquery = True
+	js_callback = 'initDownloads();'
 %>
 <%inherit file="_templates/i3.mako" />
 <div id="content">
@@ -86,7 +89,8 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
   to enable the work-around!
 </p>
 
-<table width="100%">
+<table width="100%" id="downloads">
+  <thead>
   <tr>
     <th>Version</th>
     <th>Download</th>
@@ -95,6 +99,9 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <th>Release date</th>
     <th>Release notes</th>
   </tr>
+  </thead>
+
+  <tbody>
   <tr>
     <td>4.1.1</td>
     <td><a href="/downloads/i3-4.1.1.tar.bz2">i3-4.1.1.tar.bz2</a></td>
@@ -103,6 +110,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2011-12-24</td>
     <td><a href="/downloads/RELEASE-NOTES-4.1.1.txt">release notes</a></td>
   </tr>
+
   <tr>
     <td>4.1</td>
     <td><a href="/downloads/i3-4.1.tar.bz2">i3-4.1.tar.bz2</a></td>
@@ -111,6 +119,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2011-11-11</td>
     <td><a href="/downloads/RELEASE-NOTES-4.1.txt">release notes</a></td>
   </tr>
+
   <tr>
     <td>4.0.2</td>
     <td><a href="/downloads/i3-4.0.2.tar.bz2">i3-4.0.2.tar.bz2</a></td>
@@ -119,6 +128,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2011-08-28</td>
     <td><a href="/downloads/RELEASE-NOTES-4.0.2.txt">release notes</a></td>
   </tr>
+
   <tr>
     <td>4.0.1</td>
     <td><a href="/downloads/i3-4.0.1.tar.bz2">i3-4.0.1.tar.bz2</a></td>
@@ -127,6 +137,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2011-08-01</td>
     <td><a href="/downloads/RELEASE-NOTES-4.0.1.txt">release notes</a></td>
   </tr>
+
   <tr>
     <td>4.0</td>
     <td><a href="/downloads/i3-4.0.tar.bz2">i3-4.0.tar.bz2</a></td>
@@ -135,7 +146,8 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2011-07-31</td>
     <td><a href="/downloads/RELEASE-NOTES-4.0.txt">release notes</a></td>
   </tr>
-  <tr>
+
+  <tr class="oldversion">
     <td>3.ε-bf3</td>
     <td><a href="/downloads/i3-3.e-bf3.tar.bz2">i3-3.e-bf3.tar.bz2</a></td>
     <td>353 KiB</td>
@@ -143,7 +155,8 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2011-05-08</td>
     <td><a href="/downloads/RELEASE-NOTES-3.e-bf3.txt">release notes</a></td>
   </tr>
-  <tr>
+
+  <tr class="oldversion">
     <td>3.ε-bf2</td>
     <td><a href="/downloads/i3-3.e-bf2.tar.bz2">i3-3.e-bf2.tar.bz2</a></td>
     <td>285 KiB</td>
@@ -151,7 +164,8 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2011-01-19</td>
     <td><a href="/downloads/RELEASE-NOTES-3.e-bf2.txt">release notes</a></td>
   </tr>
-  <tr>
+
+  <tr class="oldversion">
     <td>3.ε-bf1</td>
     <td><a href="/downloads/i3-3.e-bf1.tar.bz2">i3-3.e-bf1.tar.bz2</a></td>
     <td>285 KiB</td>
@@ -159,7 +173,8 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2010-06-09</td>
     <td><a href="/downloads/RELEASE-NOTES-3.e-bf1.txt">release notes</a></td>
   </tr>
-  <tr>
+
+  <tr class="oldversion">
     <td>3.ε</td>
     <td><a href="/downloads/i3-3.e.tar.bz2">i3-3.e.tar.bz2</a></td>
     <td>271 KiB</td>
@@ -167,7 +182,8 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2010-03-30</td>
     <td><a href="/downloads/RELEASE-NOTES-3.e.txt">release notes</a></td>
   </tr>
-  <tr>
+
+  <tr class="oldversion">
     <td>3.δ-bf1</td>
     <td><a href="/downloads/i3-3.d-bf1.tar.bz2">i3-3.d-bf1.tar.bz2</a></td>
     <td>153 KiB</td>
@@ -176,7 +192,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-3.d-bf1.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>3.δ</td>
     <td><a href="/downloads/i3-3.d.tar.bz2">i3-3.d.tar.bz2</a></td>
     <td>153 KiB</td>
@@ -185,7 +201,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-3.d.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>3.γ</td>
     <td><a href="/downloads/i3-3.c.tar.bz2">i3-3.c.tar.bz2</a></td>
     <td>107 KiB</td>
@@ -194,7 +210,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-3.c.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>3.β</td>
     <td><a href="/downloads/i3-3.b.tar.bz2">i3-3.b.tar.bz2</a></td>
     <td>96 KiB</td>
@@ -203,7 +219,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-3.b.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>3.α-bf2</td>
     <td><a href="/downloads/i3-3.a-bf2.tar.bz2">i3-3.a-bf2.tar.bz2</a></td>
     <td>65 KiB</td>
@@ -212,7 +228,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-3.a-bf2.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>3.α-bf1</td>
     <td><a href="/downloads/i3-3.a-bf1.tar.bz2">i3-3.a-bf1.tar.bz2</a></td>
     <td>65 KiB</td>
@@ -221,7 +237,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-3.a-bf1.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>3.α</td>
     <td><a href="/downloads/i3-3.a.tar.bz2">i3-3.a.tar.bz2</a></td>
     <td>50 KiB</td>
@@ -229,6 +245,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td>2009-03-15</td>
     <td><a href="/downloads/RELEASE-NOTES-3.a.txt">release notes</a></td>
   </tr>
+  </tbody>
 </table>
 
 <a name="development-version"></a>

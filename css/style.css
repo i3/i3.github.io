@@ -364,6 +364,18 @@ img {
     text-decoration: none;
 }
 
+table#downloads tr {
+    opacity: 0.7;
+}
+
+table#downloads thead tr {
+    opacity: 1.0;
+}
+
+table#downloads tbody tr:first-child {
+    opacity: 1.0;
+}
+
 /* clearfix */
 .clearfix:after {
     content: ".";
