@@ -68,6 +68,12 @@ Explains how i3’s Inter Process Communication interface works. Read this if yo
 want to talk to i3 within your own scripts or programs.
 </p>
 
+<p>
+<a href="/docs/testsuite.html"><strong>i3 testsuite</strong></a><br>
+Explains how our test suite works, including a walk-through of a whole test
+case.
+</p>
+
 </div>
 
 <br style="clear: both">
