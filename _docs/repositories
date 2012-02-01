@@ -32,7 +32,8 @@ This Ubuntu repository is provided by sur5r and contains the latest stable
 release of i3. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-# echo 'deb http://debian.sur5r.net/i3/ natty universe' >> /etc/apt/sources.list
+# . /etc/lsb-release
+# echo "deb http://debian.sur5r.net/i3/ $DISTRIB_CODENAME universe" >> /etc/apt/sources.list
 # apt-get update
 # apt-get --allow-unauthenticated install sur5r-keyring
 # apt-get update
