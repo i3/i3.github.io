@@ -37,6 +37,10 @@
 
 <ul>
   <li>
+    <a href="/i3lock/i3lock-2.3.1.tar.bz2">i3lock-2.3.1.tar.bz2</a> (2012-03-15,
+    <a href="/i3lock/i3lock-2.3.1.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
     <a href="/i3lock/i3lock-2.3.tar.bz2">i3lock-2.3.tar.bz2</a> (2012-03-15,
     <a href="/i3lock/i3lock-2.3.tar.bz2.asc">GPG signature</a>)
   </li>
