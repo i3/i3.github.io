@@ -1,7 +1,7 @@
 i3 User’s Guide
 ===============
 Michael Stapelberg <michael+i3@stapelberg.de>
-October 2011
+April 2012
 
 This document contains all the information you need to configure and use the i3
 window manager. If it does not, please contact us on IRC (preferred) or post your
@@ -89,7 +89,7 @@ To display a window in fullscreen mode or to go out of fullscreen mode again,
 press +mod+f+.
 
 There is also a global fullscreen mode in i3 in which the client will span all
-available outputs.
+available outputs (the command is +fullscreen global+).
 
 === Opening other applications
 
@@ -303,7 +303,8 @@ also mix your bindings, though i3 will not protect you from overlapping ones).
 * A keysym (key symbol) is a description for a specific symbol, like "a"
   or "b", but also more strange ones like "underscore" instead of "_". These
   are the ones you use in Xmodmap to remap your keys. To get the current
-  mapping of your keys, use +xmodmap -pke+.
+  mapping of your keys, use +xmodmap -pke+. To interactively enter a key and
+  see what keysym it is configured to, use +xev+.
 
 * Keycodes do not need to have a symbol assigned (handy for custom vendor
   hotkeys on some notebooks) and they will not change their meaning as you
@@ -369,6 +370,27 @@ floating_modifier <Modifiers>
 --------------------------------
 floating_modifier Mod1
 --------------------------------
+
+=== Constraining floating window size
+
+The maximum and minimum dimensions of floating windows can be specified. If
+either dimension of +floating_maximum_size+ is specified as -1, that dimension
+will be unconstrained with respect to its maximum value. If either dimension of
++floating_maximum_size+ is undefined, or specified as 0, i3 will use a default
+value to constrain the maximum size. +floating_minimum_size+ is treated in a
+manner analogous to +floating_maximum_size+.
+
+*Syntax*:
+----------------------------------------
+floating_minimum_size <width> x <height>
+floating_maximum_size <width> x <height>
+----------------------------------------
+
+*Example*:
+--------------------------------------
+floating_minimum_size 75 x 50
+floating_maximum_size -1 x -1
+--------------------------------------
 
 === Orientation for new workspaces
 
@@ -591,7 +613,7 @@ You can change all colors which i3 uses to draw the window decorations.
 
 *Syntax*:
 --------------------------------------------
-colorclass border background text
+colorclass border background text indicator
 --------------------------------------------
 
 Where colorclass can be one of:
@@ -624,17 +646,23 @@ area of the terminal and the i3 border.
 Colors are in HTML hex format (#rrggbb), see the following example:
 
 *Examples (default colors)*:
------------------------------------------------
-# class                 border  backgr. text
-client.focused          #4c7899 #285577 #ffffff
-client.focused_inactive #333333 #5f676a #ffffff
-client.unfocused        #333333 #222222 #888888
-client.urgent           #2f343a #900000 #ffffff
------------------------------------------------
+---------------------------------------------------------
+# class                 border  backgr. text    indicator
+client.focused          #4c7899 #285577 #ffffff #2e9ef4
+client.focused_inactive #333333 #5f676a #ffffff #484e50
+client.unfocused        #333333 #222222 #888888 #292d2e
+client.urgent           #2f343a #900000 #ffffff #900000
+---------------------------------------------------------
 
 Note that for the window decorations, the color around the child window is the
 background color, and the border color is only the two thin lines at the top of
 the window.
+
+The indicator color is used for indicating where a new window will be opened.
+For horizontal split containers, the right border will be painted in indicator
+color, for vertical split containers, the bottom border. This only applies to
+single windows within a split container, which are otherwise indistinguishable
+from single windows outside of a split container.
 
 === Interprocess communication
 
@@ -799,6 +827,29 @@ bar {
 }
 ---------------------------
 
+=== i3bar command
+
+By default i3 will just pass +i3bar+ and let your shell handle the execution,
+searching your +$PATH+ for a correct version.
+If you have a different +i3bar+ somewhere or the binary is not in your +$PATH+ you can
+tell i3 what to execute.
+
+The specified command will be passed to +sh -c+, so you can use globbing and
+have to have correct quoting etc.
+
+*Syntax*:
+----------------------
+i3bar_command command
+----------------------
+
+*Example*:
+-------------------------------------------------
+bar {
+    i3bar_command /home/user/bin/i3bar
+}
+-------------------------------------------------
+
+[[status_command]]
 === Statusline command
 
 i3bar can run a program and display every line of its +stdout+ output on the
@@ -815,31 +866,41 @@ status_command command
 
 *Example*:
 -------------------------------------------------
-status_command i3status --config ~/.i3status.conf
+bar {
+    status_command i3status --config ~/.i3status.conf
+}
 -------------------------------------------------
 
 === Display mode
 
 You can have i3bar either be visible permanently at one edge of the screen
 (+dock+ mode) or make it show up when you press your modifier key (+hide+
-mode).
+mode). The modifier key can be configured using the +modifier+ option.
 
 The hide mode maximizes screen space that can be used for actual windows. Also,
 i3bar sends the +SIGSTOP+ and +SIGCONT+ signals to the statusline process to
 save battery power.
 
-The default is dock mode.
+The default is dock mode; in hide mode, the default modifier is Mod4 (usually
+the windows key).
 
 *Syntax*:
 ----------------
 mode <dock|hide>
+modifier <Modifier>
 ----------------
 
 *Example*:
 ----------------
-mode hide
+bar {
+    mode hide
+    modifier Mod1
+}
 ----------------
 
+Available modifiers are Mod1-Mod5, Shift, Control (see +xmodmap(1)+).
+
+[[i3bar_position]]
 === Position
 
 This option determines in which edge of the screen i3bar should show up.
@@ -853,7 +914,9 @@ position <top|bottom>
 
 *Example*:
 ---------------------
-position top
+bar {
+    position top
+}
 ---------------------
 
 === Output(s)
@@ -861,6 +924,9 @@ position top
 You can restrict i3bar to one or more outputs (monitors). The default is to
 handle all outputs. Restricting the outputs is useful for using different
 options for different outputs by using multiple 'bar' blocks.
+
+To make a particular i3bar instance handle multiple outputs, specify the output
+directive multiple times.
 
 *Syntax*:
 ---------------
@@ -871,18 +937,20 @@ output <output>
 -------------------------------
 # big monitor: everything
 bar {
-	output HDMI2
-	status_command i3status
+    # The display is connected either via HDMI or via DisplayPort
+    output HDMI2
+    output DP2
+    status_command i3status
 }
 
 # laptop monitor: bright colors and i3status with less modules.
 bar {
-	output LVDS1
-	status_command i3status --config ~/.i3status-small.conf
-	colors {
-		background #000000
-		statusline #ffffff
-	}
+    output LVDS1
+    status_command i3status --config ~/.i3status-small.conf
+    colors {
+        background #000000
+        statusline #ffffff
+    }
 }
 -------------------------------
 
@@ -896,16 +964,28 @@ you can turn off the functionality entirely.
 
 *Syntax*:
 -------------------------
-tray_output <none|output>
+tray_output <none|primary|output>
 -------------------------
 
 *Example*:
 -------------------------
 # disable system tray
-tray_output none
+bar {
+    tray_output none
+}
+
+# show tray icons on the primary monitor
+tray_output primary
 
 # show tray icons on the big monitor
-tray_output HDMI2
+bar {
+    tray_output HDMI2
+}
+-------------------------
+
+Note that you might not have a primary output configured yet. To do so, run:
+-------------------------
+xrandr --output <output> --primary
 -------------------------
 
 === Font
@@ -920,7 +1000,9 @@ font <font>
 
 *Example*:
 --------------------------------------------------------------
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+bar {
+    font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+}
 --------------------------------------------------------------
 
 === Workspace buttons
@@ -937,7 +1019,9 @@ workspace_buttons <yes|no>
 
 *Example*:
 --------------------
-workspace_buttons no
+bar {
+    workspace_buttons no
+}
 --------------------
 
 === Colors
@@ -950,19 +1034,19 @@ background::
 statusline::
 	Text color to be used for the statusline.
 focused_workspace::
-	Text color/background color for a workspace button when the workspace
+	Border, background and text color for a workspace button when the workspace
 	has focus.
 active_workspace::
-	Text color/background color for a workspace button when the workspace
+	Border, background and text color for a workspace button when the workspace
 	is active (visible) on some output, but the focus is on another one.
 	You can only tell this apart from the focused workspace when you are
 	using multiple monitors.
 inactive_workspace::
-	Text color/background color for a workspace button when the workspace
+	Border, background and text color for a workspace button when the workspace
 	does not have focus and is not active (visible) on any output. This
 	will be the case for most workspaces.
 urgent_workspace::
-	Text color/background color for workspaces which contain at least one
+	Border, background and text color for a workspace button when the workspace
 	window with the urgency hint set.
 
 *Syntax*:
@@ -971,20 +1055,22 @@ colors {
     background <color>
     statusline <color>
 
-    colorclass <foreground> <background>
+    colorclass <border> <background> <text>
 }
 ----------------------------------------
 
-*Example*:
+*Example (default colors)*:
 --------------------------------------
-colors {
-    background #000000
-    statusline #ffffff
+bar {
+    colors {
+        background #000000
+        statusline #ffffff
 
-    focused_workspace  #ffffff #285577
-    active_workspace   #ffffff #333333
-    inactive_workspace #888888 #222222
-    urgent_workspace   #ffffff #900000
+        focused_workspace  #4c7899 #285577 #ffffff
+        active_workspace   #333333 #5f676a #ffffff
+        inactive_workspace #333333 #222222 #888888
+        urgent_workspace   #2f343a #900000 #ffffff
+    }
 }
 --------------------------------------
 
@@ -1005,9 +1091,9 @@ specific workspace and immediately switch to that workspace, you can configure
 the following keybinding:
 
 *Example*:
--------------------------------------------
-bindsym mod+x move workspace 3; workspace 3
--------------------------------------------
+--------------------------------------------------------
+bindsym mod+x move container to workspace 3; workspace 3
+--------------------------------------------------------
 
 [[command_criteria]]
 
@@ -1036,6 +1122,10 @@ id::
 	Compares the X11 window ID, which you can get via +xwininfo+ for example.
 title::
 	Compares the X11 window title (_NET_WM_NAME or WM_NAME as fallback).
+urgent::
+	Compares the urgent state of the window. Can be "latest" or "oldest".
+	Matches the latest or oldest urgent window, respectively.
+	(The following aliases are also available: newest, last, recent, first)
 con_mark::
 	Compares the mark set for this container, see <<vim_like_marks>>.
 con_id::
@@ -1066,7 +1156,7 @@ exec [--no-startup-id] command
 bindsym mod+g exec gimp
 
 # Start the terminal emulator urxvt which is not yet startup-notification-aware
-bindsym mod+enter exec --no-startup-id urxvt
+bindsym mod+Return exec --no-startup-id urxvt
 ------------------------------
 
 The +--no-startup-id+ parameter disables startup-notification support for this
@@ -1123,7 +1213,8 @@ bindsym mod+t floating toggle
 
 === Focusing/Moving containers
 
-To change the focus, use the focus command: +focus left+, +focus right+, +focus down+ and +focus up+.
+To change the focus, use the focus command: +focus left+, +focus right+, +focus
+down+ and +focus up+.
 
 There are a few special parameters you can use for the focus command:
 
@@ -1138,6 +1229,9 @@ tiling::
 	Sets focus to the last focused tiling container.
 mode_toggle::
 	Toggles between floating/tiling containers.
+output::
+	Followed by a direction or an output name, this will focus the
+	corresponding output.
 
 For moving, use +move left+, +move right+, +move down+ and +move up+.
 
@@ -1145,7 +1239,9 @@ For moving, use +move left+, +move right+, +move down+ and +move up+.
 -----------------------------------
 focus <left|right|down|up>
 focus <parent|child|floating|tiling|mode_toggle>
+focus output <<left|right|down|up>|output>
 move <left|right|down|up> [<px> px]
+move [absolute] position [[<px> px] [<px> px]|center]
 -----------------------------------
 
 Note that the amount of pixels you can specify for the +move+ command is only
@@ -1165,6 +1261,12 @@ bindsym mod+u focus parent
 # Focus last floating/tiling container
 bindsym mod+g focus mode_toggle
 
+# Focus the output right to the current one
+bindsym mod+x focus output right
+
+# Focus the big output
+bindsym mod+x focus output HDMI-2
+
 # Move container to the left, bottom, top, right:
 bindsym mod+j move left
 bindsym mod+k move down
@@ -1174,28 +1276,39 @@ bindsym mod+semicolon move right
 # Move container, but make floating containers
 # move more than the default
 bindsym mod+j move left 20 px
+
+# Move floating container to the center
+# of all outputs
+bindsym mod+c move absolute position center
 ----------------------
 
 === Changing (named) workspaces/moving to workspaces
 
 To change to a specific workspace, use the +workspace+ command, followed by the
 number or name of the workspace. To move containers to specific workspaces, use
-+move workspace+.
++move container to workspace+.
 
 You can also switch to the next and previous workspace with the commands
 +workspace next+ and +workspace prev+, which is handy, for example, if you have
 workspace 1, 3, 4 and 9 and you want to cycle through them with a single key
-combination. Similarly, you can use +move workspace next+ and +move workspace
-prev+ to move a container to the next/previous workspace.
+combination. To restrict those to the current output, use +workspace
+next_on_output+ and +workspace prev_on_output+. Similarly, you can use +move
+container to workspace next+ and +move container to workspace prev+ to move a
+container to the next/previous workspace.
 
 [[back_and_forth]]
 To switch back to the previously focused workspace, use +workspace
 back_and_forth+.
 
 To move a container to another xrandr output such as +LVDS1+ or +VGA1+, you can
-use the +move output+ command followed by the name of the target output. You
-may also use +left+, +right+, +up+, +down+ instead of the xrandr output name to
-move to the next output in the specified direction.
+use the +move container to output+ command followed by the name of the target
+output. You may also use +left+, +right+, +up+, +down+ instead of the xrandr
+output name to move to the next output in the specified direction.
+
+To move a whole workspace to another xrandr output such as +LVDS1+ or +VGA1+,
+you can use the +move workspace to output+ command followed by the name of the
+target output. You may also use +left+, +right+, +up+, +down+ instead of the
+xrandr output name to move to the next output in the specified direction.
 
 *Examples*:
 -------------------------
@@ -1203,12 +1316,15 @@ bindsym mod+1 workspace 1
 bindsym mod+2 workspace 2
 ...
 
-bindsym mod+Shift+1 move workspace 1
-bindsym mod+Shift+2 move workspace 2
+bindsym mod+Shift+1 move container to workspace 1
+bindsym mod+Shift+2 move container to workspace 2
 ...
 
 # switch between the current and the previously focused one
 bindsym mod+b workspace back_and_forth
+
+# move the whole workspace to the next output
+bindsym mod+x move workspace to output right
 -------------------------
 
 ==== Named workspaces
@@ -1235,7 +1351,28 @@ bindsym mod+2 workspace 2: www
 Note that the workspace will really be named "1: mail". i3 treats workspace
 names beginning with a number in a slightly special way. Normally, named
 workspaces are ordered the way they appeared. When they start with a number, i3
-will order them numerically.
+will order them numerically. Also, you will be able to use +workspace number 1+
+to switch to the workspace which begins with number 1, regardless of which name
+it has. This is useful in case you are changing the workspace’s name
+dynamically.
+
+=== Renaming workspaces
+
+You can rename workspaces. This might be useful to start with the default
+numbered workspaces, do your work, and rename the workspaces afterwards to
+reflect what’s actually on them.
+
+*Syntax*:
+----------------------------------------------------
+rename workspace <old_name> to <new_name>
+----------------------------------------------------
+
+*Examples*:
+------------------------------------------------
+i3-msg 'rename workspace 5 to 6'
+i3-msg 'rename workspace 1 to "1: www"'
+i3-msg 'rename workspace "1: www" to "10: www"'
+------------------------------------------------
 
 [[resizingconfig]]
 
@@ -1249,11 +1386,13 @@ If you want to resize containers/windows using your keyboard, you can use the
 resize <grow|shrink> <direction> [<px> px] [or <ppt> ppt]
 ---------------------------------------------------------
 
-Direction can be one of +up+, +down+, +left+ or +right+. The optional pixel
-argument specifies by how many pixels a *floating container* should be grown or
-shrunk (the default is 10 pixels). The ppt argument means percentage points
-and specifies by how many percentage points a *tiling container* should be
-grown or shrunk (the default is 10 percentage points).
+Direction can either be one of +up+, +down+, +left+ or +right+. Or you can be
+less specific and use +width+ or +height+, in which case i3 will take/give
+space from all the other containers. The optional pixel argument specifies by
+how many pixels a *floating container* should be grown or shrunk (the default
+is 10 pixels). The ppt argument means percentage points and specifies by how
+many percentage points a *tiling container* should be grown or shrunk (the
+default is 10 percentage points).
 
 I recommend using the resize command inside a so called +mode+:
 
@@ -1262,21 +1401,20 @@ I recommend using the resize command inside a so called +mode+:
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        # They resize the border in the direction you pressed, e.g.
-        # when pressing left, the window is resized so that it has
-        # more space on its left
+        # Pressing left will shrink the window’s width.
+        # Pressing right will grow the window’s width.
+        # Pressing up will shrink the window’s height.
+        # Pressing down will grow the window’s height.
+        bindsym j           resize shrink width 10 px or 10 ppt
+        bindsym k           resize grow height 10 px or 10 ppt
+        bindsym l           resize shrink height 10 px or 10 ppt
+        bindsym semicolon   resize grow width 10 px or 10 ppt
 
-        bindsym j resize shrink left
-        bindsym Shift+j resize grow left
-
-        bindsym k resize grow down
-        bindsym Shift+k resize shrink down
-
-        bindsym l resize shrink up
-        bindsym Shift+l resize grow up
-
-        bindsym semicolon resize grow right
-        bindsym Shift+semicolon resize shrink right
+        # same bindings, but for the arrow keys
+        bindsym Left        resize shrink width 10 px or 10 ppt
+        bindsym Down        resize grow height 10 px or 10 ppt
+        bindsym Up          resize shrink height 10 px or 10 ppt
+        bindsym Right       resize grow width 10 px or 10 ppt
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -1413,6 +1551,40 @@ bindsym mod+Shift+w reload
 bindsym mod+Shift+e exit
 ----------------------------
 
+=== Scratchpad
+
+There are two commands to use any existing window as scratchpad window. +move
+scratchpad+ will move a window to the scratchpad workspace. This will make it
+invisible until you show it again. There is no way to open that workspace.
+Instead, when using +scratchpad show+, the window will be shown again, as a
+floating window, centered on your current workspace (using +scratchpad show+ on
+a visible scratchpad window will make it hidden again, so you can have a
+keybinding to toggle).
+
+As the name indicates, this is useful for having a window with your favorite
+editor always at hand. However, you can also use this for other permanently
+running applications which you don’t want to see all the time: Your music
+player, alsamixer, maybe even your mail client…?
+
+*Syntax*:
+---------------
+move scratchpad
+
+scratchpad show
+---------------
+
+*Examples*:
+------------------------------------------------
+# Make the currently focused window a scratchpad
+bindsym mod+Shift+minus move scratchpad
+
+# Show the first scratchpad window
+bindsym mod+minus scratchpad show
+
+# Show the sup-mail scratchpad window, if any.
+bindsym mod4+s [title="^Sup ::"] scratchpad show
+------------------------------------------------
+
 [[multi_monitor]]
 
 == Multiple monitors
@@ -1534,14 +1706,13 @@ If you don’t already have your favorite way of generating such a status line
 this task. It was written in C with the goal of using as few syscalls as
 possible to reduce the time your CPU is woken up from sleep states. Because
 i3status only spits out text, you need to combine it with some other tool, like
-i3bar. Use a pipe to connect them: +i3status | i3bar -d+.
+i3bar. See <<status_command>> for how to display i3status in i3bar.
 
 Regardless of which application you use to display the status line, you
 want to make sure that it registers as a dock window using EWMH hints. i3 will
 position the window either at the top or at the bottom of the screen, depending
-on which hint the application sets. With i3bar, you can use +-d+ or +-dbottom+
-for positioning it at the bottom and +-dtop+ to position it at the top of the
-screen.
+on which hint the application sets. With i3bar, you can configure its position,
+see <<i3bar_position>>.
 
 === Giving presentations (multi-monitor)
 

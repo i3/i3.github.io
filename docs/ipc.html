@@ -30,8 +30,8 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <div id="header">
 <h1>IPC interface (interprocess communication)</h1>
 <span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">October 2011</span>
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">February 2012</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -88,7 +88,7 @@ COMMAND (0)
 <p>
         The payload of the message is a command for i3 (like the commands you
         can bind to keys in the configuration file) and will be executed
-        directly after receiving it. There is no reply to this message.
+        directly after receiving it.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -199,7 +199,7 @@ COMMAND (0)
 </p>
 </dd>
 <dt class="hdlist1">
-GET_WORKSPACES (1)
+WORKSPACES (1)
 </dt>
 <dd>
 <p>
@@ -215,7 +215,7 @@ SUBSCRIBE (2)
 </p>
 </dd>
 <dt class="hdlist1">
-GET_OUTPUTS (3)
+OUTPUTS (3)
 </dt>
 <dd>
 <p>
@@ -223,7 +223,7 @@ GET_OUTPUTS (3)
 </p>
 </dd>
 <dt class="hdlist1">
-GET_TREE (4)
+TREE (4)
 </dt>
 <dd>
 <p>
@@ -231,7 +231,7 @@ GET_TREE (4)
 </p>
 </dd>
 <dt class="hdlist1">
-GET_MARKS (5)
+MARKS (5)
 </dt>
 <dd>
 <p>
@@ -239,7 +239,7 @@ GET_MARKS (5)
 </p>
 </dd>
 <dt class="hdlist1">
-GET_BAR_CONFIG (6)
+BAR_CONFIG (6)
 </dt>
 <dd>
 <p>
@@ -259,7 +259,7 @@ property is <tt>success (bool)</tt>, but this will be expanded in future version
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_get_workspaces_reply">3.3. GET_WORKSPACES reply</h3>
+<h3 id="_workspaces_reply">3.3. WORKSPACES reply</h3>
 <div class="paragraph"><p>The reply consists of a serialized list of workspaces. Each workspace has the
 following properties:</p></div>
 <div class="dlist"><dl>
@@ -441,7 +441,7 @@ rect (map)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_get_tree_reply">3.6. GET_TREE reply</h3>
+<h3 id="_tree_reply">3.6. TREE reply</h3>
 <div class="paragraph"><p>The reply consists of a serialized tree. Each node in the tree (representing
 one container) has at least the properties listed below. While the nodes might
 have more properties, please do not use any properties which are not documented
@@ -736,7 +736,7 @@ VGA1
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_get_marks_reply">3.7. GET_MARKS reply</h3>
+<h3 id="_marks_reply">3.7. MARKS reply</h3>
 <div class="paragraph"><p>The reply consists of a single array of strings for each container that has a
 mark. The order of that array is undefined. If more than one container has the
 same mark, it will be represented multiple times in the reply (the array
@@ -744,7 +744,7 @@ contents are not unique).</p></div>
 <div class="paragraph"><p>If no window has a mark the response will be the empty array [].</p></div>
 </div>
 <div class="sect2">
-<h3 id="_get_bar_config_reply">3.8. GET_BAR_CONFIG reply</h3>
+<h3 id="_bar_config_reply">3.8. BAR_CONFIG reply</h3>
 <div class="paragraph"><p>This can be used by third-party workspace bars (especially i3bar, but others
 are free to implement compatible alternatives) to get the <tt>bar</tt> block
 configuration from i3.</p></div>
@@ -1055,7 +1055,8 @@ Python
 </dt>
 <dd>
 <p>
-        <a href="http://github.com/thepub/i3ipc">http://github.com/thepub/i3ipc</a>
+        <a href="https://github.com/whitelynx/i3ipc">https://github.com/whitelynx/i3ipc</a>
+        <a href="https://github.com/ziberna/i3-py">https://github.com/ziberna/i3-py</a> (includes higher-level features)
 </p>
 </dd>
 </dl></div>
