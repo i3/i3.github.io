@@ -12,7 +12,7 @@ suggestions please let us know!
 </p>
 
 <p>
-These documents are for i3 version 4.1.1.
+These documents are for i3 version 4.2.
 </p>
 
 <div class="docs">
