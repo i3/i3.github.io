@@ -58,7 +58,13 @@ currently distributed in the following operating systems/distributions:
 		  "http://www.openbsd.org/cgi-bin/cvsweb/ports/x11/i3/",
 		  "/img/Openbsd2.png",
 		  49
-		]
+		],
+		[
+		  "openSUSE",
+		  "http://software.opensuse.org/package/i3",
+		  "/img/opensuse.png",
+		  95
+		],
 	]
 
 	c = 0
@@ -66,7 +72,7 @@ currently distributed in the following operating systems/distributions:
 % for title, link, img, height in distros:
 <div style="display: inline; min-width: 100px"><a title="i3 in ${title}" href="${link}"><img src="${img}" width="75" height="${height}" alt="${title}" title="i3 in ${title}"></a></div>
 <% c += 1 %>
-% if c == (len(distros) / 4) * 4:
+% if c % 4 == 0:
 <br>
 % endif
 % endfor
