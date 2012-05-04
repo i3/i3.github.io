@@ -39,7 +39,7 @@ About bar programs such as i3bar or dzen2.
 </p>
 
 <p>
-<a href="/docs/refcard.pdf"><strong>i3 reference card (PDF)</strong></a><br>
+<a href="/docs/refcard.html"><strong>i3 reference card</strong></a><br>
 Might be useful to memorize i3’s shortcuts.
 </p>
 </div>
