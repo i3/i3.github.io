@@ -1,7 +1,7 @@
 i3status(1)
 ===========
 Michael Stapelberg <michael+i3@stapelberg.de>
-v2.3, July 2011
+v2.5, May 2012
 
 == NAME
 
@@ -34,10 +34,6 @@ commands would.
 
 == CONFIGURATION
 
-Since version 2, the configuration file for i3status will be parsed using
-libconfuse. This makes configuration easier in the programmer’s point of
-view and more flexible for the user at the same time.
-
 The basic idea of i3status is that you can specify which "modules" should
 be used (the order directive). You can then configure each module with its
 own section. For every module, you can specify the output format. See below
@@ -51,7 +47,7 @@ general {
         interval = 5
 }
 
-order  = "ipv6"
+order += "ipv6"
 order += "disk /"
 order += "run_watch DHCP"
 order += "run_watch VPN"
@@ -74,7 +70,8 @@ ethernet eth0 {
 }
 
 battery 0 {
-        format = "%status %percentage %remaining"
+        format = "%status %percentage %remaining %emptytime"
+        path = "/sys/class/power_supply/BAT%d/uevent"
 }
 
 run_watch DHCP {
@@ -128,6 +125,12 @@ sleep before printing the next status line.
 Using +output_format+ you can chose which format strings i3status should
 use in its output. Currently available are:
 
+i3bar::
+i3bar comes with i3 and provides a workspace bar which does the right thing in
+multi-monitor situations. It also comes with tray support and can display the
+i3status output. This output type uses JSON to pass as much meta-information to
+i3bar as possible (like colors, which blocks can be shortened in which way,
+etc.).
 dzen2::
 Dzen is a general purpose messaging, notification and menuing program for X11.
 It was designed to be scriptable in any language and integrate well with window
@@ -164,6 +167,8 @@ a specific application, such as a VPN client or your DHCP client is running.
 
 *Example order*: +run_watch DHCP+
 
+*Example format*: +%title: %status+
+
 === Wireless
 
 Gets the link quality and ESSID of the given wireless network interface. You
@@ -187,15 +192,20 @@ it using +setcap cap_net_admin=ep $(which i3status)+.
 === Battery
 
 Gets the status (charging, discharging, running), percentage and remaining
-time of the given battery. If you want to use the last full capacity instead
-of the design capacity (when using the design capacity, it may happen that
-your battery is at 23% when fully charged because it’s old. In general, I
-want to see it this way, because it tells me how worn off my battery is.),
-just specify +last_full_capacity = true+.
+time of the given battery and when it's estimated to be empty. If you want
+to use the last full capacity instead of the design capacity (when using
+the design capacity, it may happen that your battery is at 23% when fully
+charged because it’s old. In general, I want to see it this way, because
+it tells me how worn off my battery is.), just specify
++last_full_capacity = true+.
+
+If your battery is represented in a non-standard path in /sys, be sure to
+modify the "path" property accordingly. The first occurence of %d gets replaced
+with the battery number, but you can just hard-code a path as well.
 
 *Example order*: +battery 0+
 
-*Example format*: +%status %remaining+
+*Example format*: +%status %remaining (%emptytime)+
 
 === CPU-Temperature
 
@@ -281,6 +291,41 @@ is set to +xmobar+.
 i3status | xmobar -o -t "%StdinReader%" -c "[Run StdinReader]"
 ---------------------------------------------------------------------
 
+== What about memory usage or CPU frequency?
+
+While talking about two specific things, please understand this section as a
+general explanation why your favorite information is not included in i3status.
+
+Let’s talk about memory usage specifically. It is hard to measure memory in a
+way which is accurate or meaningful. An in-depth understanding of how paging
+and virtual memory work in your operating system is required. Furthermore, even
+if we had a well-defined way of displaying memory usage and you would
+understand it, I think that it’s not helpful to repeatedly monitor your memory
+usage. One reason for that is that I have not run out of memory in the last few
+years.  Memory has become so cheap that even in my 4 year old notebook, I have
+8 GiB of RAM. Another reason is that your operating system will do the right
+thing anyway: Either you have not enough RAM for your workload, but you need to
+do it anyway, then your operating system will swap. Or you don’t have enough
+RAM and you want to restrict your workload so that it fits, then the operating
+system will kill the process using too much RAM and you can act accordingly.
+
+For CPU frequency, the situation is similar. Many people don’t understand how
+frequency scaling works precisely. The generally recommended CPU frequency
+governor ("ondemand") changes the CPU frequency far more often than i3status
+could display it. The display number is therefore often incorrect and doesn’t
+tell you anything useful either.
+
+In general, i3status wants to display things which you would look at
+occasionally anyways, like the current date/time, whether you are connected to
+a WiFi network or not, and if you have enough disk space to fit that 4.3 GiB
+download.
+
+However, if you need to look at some kind of information more than once in a
+while (like checking repeatedly how full your RAM is), you are probably better
+off with a script doing that, which pops up an alert when your RAM usage reaches
+a certain threshold. After all, the point of computers is not to burden you
+with additional boring tasks like repeatedly checking a number.
+
 == External scripts/programs with i3status
 
 In i3status, we don’t want to implement process management again. Therefore,
@@ -295,7 +340,7 @@ use your shell, for example like this:
 i3status | while :
 do
 	read line
-	echo "mystuff | $line"
+	echo "mystuff | $line" || exit 1
 done
 --------------------------------------------------------------
 
