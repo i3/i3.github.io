@@ -19,6 +19,8 @@
 <h2>Releases</h2>
 
 <ul>
+  <li><a href="/i3status/i3status-2.5.1.tar.bz2">i3status-2.5.1.tar.bz2</a>
+  (<a href="/i3status/i3status-2.5.1.tar.bz2.asc">GPG signature</a>, 2012-05-11)</li>
   <li><a href="/i3status/i3status-2.5.tar.bz2">i3status-2.5.tar.bz2</a>
   (<a href="/i3status/i3status-2.5.tar.bz2.asc">GPG signature</a>, 2012-05-02)</li>
   <li><a href="/i3status/i3status-2.4.tar.bz2">i3status-2.4.tar.bz2</a>
