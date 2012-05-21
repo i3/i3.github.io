@@ -74,6 +74,11 @@ Explains how our test suite works, including a walk-through of a whole test
 case.
 </p>
 
+<p>
+<a href="/docs/i3bar-protocol.html"><strong>i3bar protocol</strong></a><br>
+Documents the JSON based protocol which i3bar uses.
+</p>
+
 </div>
 
 <br style="clear: both">
