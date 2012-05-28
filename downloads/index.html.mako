@@ -65,6 +65,12 @@ currently distributed in the following operating systems/distributions:
 		  "/img/opensuse.png",
 		  95
 		],
+		[
+		  "Mageia",
+		  "http://mageia.madb.org/package/show/application/0/name/i3",
+		  "/img/mageia.png",
+		  85
+		],
 	]
 
 	c = 0
