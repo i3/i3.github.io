@@ -71,6 +71,12 @@ currently distributed in the following operating systems/distributions:
 		  "/img/mageia.png",
 		  85
 		],
+		[
+		  "Fedora",
+		  "https://admin.fedoraproject.org/pkgdb/acls/name/i3",
+		  "/img/fedora.png",
+		  75
+		],
 	]
 
 	c = 0
