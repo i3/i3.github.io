@@ -156,7 +156,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-4.1.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>4.0.2</td>
     <td><a href="/downloads/i3-4.0.2.tar.bz2">i3-4.0.2.tar.bz2</a></td>
     <td>465 KiB</td>
@@ -165,7 +165,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-4.0.2.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>4.0.1</td>
     <td><a href="/downloads/i3-4.0.1.tar.bz2">i3-4.0.1.tar.bz2</a></td>
     <td>462 KiB</td>
@@ -174,7 +174,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-4.0.1.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>4.0</td>
     <td><a href="/downloads/i3-4.0.tar.bz2">i3-4.0.tar.bz2</a></td>
     <td>462 KiB</td>
