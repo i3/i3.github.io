@@ -70,6 +70,7 @@ else window.onload = loadjs;
 	menu = [
 		[ "/docs", "Docs" ],
 		[ "/screenshots", "Screens" ],
+		[ "http://faq.i3wm.org/", "FAQ" ],
 		[ "/contact", "Contact" ],
 		[ "http://bugs.i3wm.org/", "Bugs" ]
 	]
