@@ -84,7 +84,7 @@ currently distributed in the following operating systems/distributions:
 % for title, link, img, height in distros:
 <div style="display: inline; min-width: 100px"><a title="i3 in ${title}" href="${link}"><img src="${img}" width="75" height="${height}" alt="${title}" title="i3 in ${title}"></a></div>
 <% c += 1 %>
-% if c % 4 == 0:
+% if c % 5 == 0:
 <br>
 % endif
 % endfor
