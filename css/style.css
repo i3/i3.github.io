@@ -241,6 +241,10 @@ img {
     margin-bottom: 1em;
 }
 
+.screenshots, .screencasts, .video {
+    width: 100%;
+}
+
 .screenshots .shot {
     float: left;
     margin-left: 1em;
