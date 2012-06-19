@@ -50,6 +50,24 @@
             </p>
         </div>
     </div>
+
+    <br style="clear: both">
+    <br>
+
+    <div class="video clearfix">
+        <a href="http://www.youtube.com/watch?v=QnYN2CTb1hM" title="Watch i3 google tech talk on YouTube">
+        <img src="/img/techtalk.thumb.jpg" width="240" height="135" border="0" alt="tech talk thumbnail" style="float: left">
+        </a>
+        <div style="float: left">
+            <strong>Google Tech Talk about i3</strong>
+            <p style="white-space: pre">This video (1 hour) is an introduction to i3, explaining our
+motivation, a bit of history, some cool features and how we
+develop.</p>
+            <p>
+            <a href="http://www.youtube.com/watch?v=QnYN2CTb1hM">Watch it on YouTube</a>
+            </p>
+        </div>
+    </div>
 </div>
 
 <h2>Screenshots</h2>
