@@ -1,7 +1,7 @@
 Debian and Ubuntu repositories
 ==============================
-Michael Stapelberg <michael+i3@stapelberg.de>
-November 2011
+Michael Stapelberg <michael@i3wm.org>
+June 2012
 
 == When should you use our repositories?
 
@@ -64,7 +64,7 @@ Our Debian repository contains packages which are automatically built a few
 minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-# echo 'deb http://build.i3wm.org/debian/sid sid main' >> /etc/apt/sources.list
+# echo 'deb http://build.i3wm.org/debian/sid sid main' > /etc/apt/sources.list.d/i3-autobuild.list
 # apt-get update
 # apt-get --allow-unauthenticated install i3-autobuild-keyring
 # apt-get update
@@ -78,13 +78,13 @@ testing and unstable for example), +apt-get install i3+ might not get you the
 autobuilder version.
 
 To ensure that the autobuilt i3 packages will be preferred to the packages of
-your distribution, put the following entry *at the beginning* of your
-+/etc/apt/preferences+:
+your distribution, create the file
++/etc/apt/preferences.d/00-i3-autobuild.pref+ with the following contents:
 
 ----------------------------
-Package: *
+Package: i3*
 Pin: origin "build.i3wm.org"
 Pin-Priority: 1001
 ----------------------------
 
-Then, install +i3+.
+Then, run +apt-get update+ and install +i3+.

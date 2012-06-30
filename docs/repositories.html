@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.4" />
+<meta name="generator" content="AsciiDoc 8.6.6" />
 <title>i3: Debian and Ubuntu repositories</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -30,8 +30,8 @@ window.onload = function(){asciidoc.footnotes();}
 <div id="header">
 <h1>Debian and Ubuntu repositories</h1>
 <span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">November 2011</span>
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">June 2012</span>
 </div>
 <div class="sect1">
 <h2 id="_when_should_you_use_our_repositories">1. When should you use our repositories?</h2>
@@ -117,7 +117,7 @@ is oneiric at the moment.</p></div>
 minutes after every commit. To use it, run the following commands:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt># echo 'deb http://build.i3wm.org/debian/sid sid main' &gt;&gt; /etc/apt/sources.list
+<pre><tt># echo 'deb http://build.i3wm.org/debian/sid sid main' &gt; /etc/apt/sources.list.d/i3-autobuild.list
 # apt-get update
 # apt-get --allow-unauthenticated install i3-autobuild-keyring
 # apt-get update
@@ -132,15 +132,15 @@ minutes after every commit. To use it, run the following commands:</p></div>
 testing and unstable for example), <tt>apt-get install i3</tt> might not get you the
 autobuilder version.</p></div>
 <div class="paragraph"><p>To ensure that the autobuilt i3 packages will be preferred to the packages of
-your distribution, put the following entry <strong>at the beginning</strong> of your
-<tt>/etc/apt/preferences</tt>:</p></div>
+your distribution, create the file
+<tt>/etc/apt/preferences.d/00-i3-autobuild.pref</tt> with the following contents:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>Package: *
+<pre><tt>Package: i3*
 Pin: origin "build.i3wm.org"
 Pin-Priority: 1001</tt></pre>
 </div></div>
-<div class="paragraph"><p>Then, install <tt>i3</tt>.</p></div>
+<div class="paragraph"><p>Then, run <tt>apt-get update</tt> and install <tt>i3</tt>.</p></div>
 </div>
 </div>
 </div>
