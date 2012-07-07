@@ -101,10 +101,10 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 </p>
 
 <p>
-  <strong>IMPORTANT:</strong> If you use the nVidia binary driver (which does
-  not support XRandR at the moment), read <a
+  <strong>IMPORTANT:</strong> If you use the nVidia binary driver, ensure you
+  are using version 302.17 or newer. Read <a
   href="/docs/multi-monitor.html">this document</a> for an explanation and how
-  to enable the work-around!
+  to enable the work-around for older versions.
 </p>
 
 <table width="100%" id="downloads">
