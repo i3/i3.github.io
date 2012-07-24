@@ -77,6 +77,12 @@ currently distributed in the following operating systems/distributions:
 		  "/img/fedora.png",
 		  75
 		],
+		[
+		  "Exherbo",
+		  "http://git.exherbo.org/summer/packages/x11-wm/i3/index.html",
+		  "/img/exherbo.svg",
+		  85
+		],
 	]
 
 	c = 0
