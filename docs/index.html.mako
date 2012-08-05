@@ -79,6 +79,12 @@ case.
 Documents the JSON based protocol which i3bar uses.
 </p>
 
+<p>
+<a href="/docs/buildbot.html"><strong>i3 buildbot setup</strong></a><br>
+Describes the <a href="http://www.buildbot.net/">buildbot</a> setup we use for
+automatic docs, compilation and debian packages.
+</p>
+
 </div>
 
 <br style="clear: both">
