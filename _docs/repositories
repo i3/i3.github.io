@@ -1,7 +1,7 @@
 Debian and Ubuntu repositories
 ==============================
 Michael Stapelberg <michael@i3wm.org>
-June 2012
+August 2012
 
 == When should you use our repositories?
 
@@ -48,7 +48,7 @@ This Ubuntu repository contains packages which are automatically built a few
 minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-# echo 'deb http://build.i3wm.org/ubuntu/oneiric oneiric main' >> /etc/apt/sources.list
+# echo 'deb http://build.i3wm.org/ubuntu/precise precise main' >> /etc/apt/sources.list
 # apt-get update
 # apt-get --allow-unauthenticated install i3-autobuild-keyring
 # apt-get update
@@ -56,7 +56,7 @@ minutes after every commit. To use it, run the following commands:
 ---------------------------------------------------------------------------------
 
 Development versions are only available for the latest version of Ubuntu, which
-is oneiric at the moment.
+is precise at the moment.
 
 == Debian repository
 
