@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.4" />
+<meta name="generator" content="AsciiDoc 8.6.7" />
 <title>i3: i3bar input protocol</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -31,7 +31,7 @@ window.onload = function(){asciidoc.footnotes();}
 <h1>i3bar input protocol</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">February 2012</span>
+<span id="revdate">August 2012</span>
 </div>
 <div id="preamble">
 <div class="sectionbody">
@@ -100,6 +100,8 @@ consists of a single JSON hash:</p></div>
 <div class="content">
 <pre><tt>{ "version": 1 }</tt></pre>
 </div></div>
+<div class="paragraph"><p>(Note that before i3 v4.3 the precise format had to be <tt>{"version":1}</tt>,
+byte-for-byte.)</p></div>
 <div class="paragraph"><p>What follows is an infinite array (so it should be parsed by a streaming JSON
 parser, but as described above you can go for a simpler solution), whose
 elements are one array per status line. A status line is one unit of
@@ -135,6 +137,9 @@ be represented by a JSON hash:</p></div>
 <div class="paragraph"><p>Please note that this example was pretty printed for human consumption.
 i3status and others will output single statuslines in one line, separated by
 \n.</p></div>
+<div class="paragraph"><p>You can find an example of a shell script which can be used as your
+<tt>status_command</tt> in the bar configuration at
+<a href="http://code.stapelberg.de/git/i3/tree/contrib/trivial-bar-script.sh?h=next">http://code.stapelberg.de/git/i3/tree/contrib/trivial-bar-script.sh?h=next</a></p></div>
 <div class="sect2">
 <h3 id="_blocks_in_detail">2.1. Blocks in detail</h3>
 <div class="dlist"><dl>
