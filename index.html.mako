@@ -84,8 +84,7 @@ we agreed upon the following goals for i3:
   </li> 
   <li> 
     The usual elitism amongst minimal window managers: Don’t be bloated, don’t be fancy
-    (simple borders are the most decoration we want to have), don’t add support for Xft
-    and blurred fonts.
+    (simple borders are the most decoration we want to have).
     <br /> 
     However, we do not enforce unnecessary limits such as a maximum amount of source lines
     of code. If it needs to be a bit bigger, it will be.
