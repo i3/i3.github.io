@@ -1,7 +1,7 @@
 The i3 buildbot setup
 =====================
 Michael Stapelberg <michael@i3wm.org>
-August 2012
+September 2012
 
 This document explains the http://www.buildbot.net/[buildbot] setup we use to
 provide up-to-date documentation and debian packages at http://build.i3wm.org/.
@@ -373,13 +373,13 @@ This is the most complex builder of all. It uses +pbuilder-dist+, +debchange+,
 +dpkg-buildpackage+ and +reprepro+ to generate a Debian repository with a
 cleanly compiled package for amd64 and i386. In order for it to work, you need
 to install the following packages: +apt-get install devscripts dpkg-dev
-reprepro ubuntu-dev-tools+. Afterwards, you need to allow the user as which the
-buildslave runs to execute pbuilder via sudo without needing a password, so run
-+visudo+ and add a line like this one:
+reprepro ubuntu-dev-tools pbuilder+. Afterwards, you need to allow the user as
+which the buildslave runs to execute pbuilder via sudo without needing a
+password, so add a config file like this one:
 
-*sudoers line*:
+*sudoers.d*:
 ---------------------------------------------
-build    ALL= NOPASSWD: SETENV: /usr/sbin/pbuilder
+echo 'build    ALL= NOPASSWD: SETENV: /usr/sbin/pbuilder' > /etc/sudoers.d/build
 ---------------------------------------------
 
 Then, as the user as which your buildslave runs, setup the pbuilder
@@ -538,6 +538,16 @@ example, though, especially back when its only feature was announcing the build
 status:
 
 http://code.stapelberg.de/git/go-buildbot-announce/tree/src/i3build.go?id=eeebf1a546454c8a0d82ca623886bb835cd32ba0
+
+=== Creating the buildslave
+
+One more thing to note is that when creating the buildslave, you should use the
++--umask+ argument to configure the umask for all generated files:
+
+*Creating the buildslave*:
+--------------------------------------------------------------------------------------
+buildslave create-slave --umask=022 i3-buildslave buildbot.i3wm.org build-1 <password>
+--------------------------------------------------------------------------------------
 
 == Full configuration file
 
