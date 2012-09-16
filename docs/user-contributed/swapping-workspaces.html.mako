@@ -1,0 +1,56 @@
+<%!
+	section = "docs"
+%>
+<%inherit file="_templates/i3.mako" />
+<div id="content" class="usergen">
+<h1>User-contributed article: Swapping workspaces</h1>
+
+<p>
+If you have workspace 1 on one monitor and workspace 2 on another monitor and
+want to quickly swap the workspaces among the monitors, you can use i3's IPC
+mechanisms to do it. Here's how:
+</p>
+
+<p>
+i3 already includes a way to move an individual workspace from one monitor to
+another. But what we want to achieve is the <strong>simultaneous</strong>
+movement of workspaces between the monitors. To do this, we can write a script
+that detects the currently active workspace on each monitor and then moves that
+workspace to the other monitor.
+</p>
+
+<p>
+The script uses i3's <a href="http://i3wm.org/docs/ipc.html">IPC</a> via the
+<a href="https://github.com/ziberna/i3-py">i3-py Python bindings</a>.
+</p>
+
+<pre><tt>#!/usr/bin/python2.7
+
+import i3
+outputs = i3.get_outputs()
+
+# set current workspace to output 0
+i3.workspace(outputs[0][&#39;current_workspace&#39;])
+
+# ..and move it to the other output.
+# outputs wrap, so the right of the right is left ;)
+i3.move__workspace__to__output__right()
+
+# rinse and repeat
+i3.workspace(outputs[1][&#39;current_workspace&#39;])
+i3.move__workspace__to__output__right()</tt></pre>
+
+<p>
+A very simple way to use this script is as follows: Put the script in a file,
+named for example switch.py, and put switch.py and i3.py (downloaded from the
+<a href="https://github.com/ziberna/i3-py">Python bindings site</a>) in the
+same folder. I typically put it in $HOME/.i3/, the same directory which
+contains i3's config file. Next, put a keybinding like
+</p>
+<pre><tt>bindsym $mod+Shift+s exec /home/username/.i3/switch.py</tt></pre>
+<p>
+in i3's config file and restart i3 in place. The next time you press
+mod+Shift+s, your workspaces will be swapped among your monitors.
+</p>
+
+<p>Author: Sagar Behere</p>

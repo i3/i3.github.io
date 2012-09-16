@@ -202,6 +202,10 @@ img {
     width: 48%;
 }
 
+.docs p, .ugdocs p {
+    padding-left: 0.5em;
+}
+
 @font-face {
     font-family: 'Droid Sans';
     font-style: normal;
@@ -378,6 +382,26 @@ table#downloads thead tr {
 
 table#downloads tbody tr:first-child {
     opacity: 1.0;
+}
+
+.usergen pre {
+    background: #333;
+    border: 1px solid #555;
+    border-left: 5px solid #555;
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 0.5em;
+    white-space: pre;
+    color: white;
+}
+
+.usergen tt {
+    font-family: 'Droid Sans Mono', sans-serif;
+    font-size: inherit;
+}
+
+.ugdocs .author {
+    opacity: 0.3;
 }
 
 /* clearfix */
