@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.4" />
+<meta name="generator" content="AsciiDoc 8.6.7" />
 <title>i3: IPC interface (interprocess communication)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -31,7 +31,7 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <h1>IPC interface (interprocess communication)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">February 2012</span>
+<span id="revdate">August 2012</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -148,6 +148,15 @@ GET_BAR_CONFIG (6)
         returned instead.
 </p>
 </dd>
+<dt class="hdlist1">
+GET_VERSION (7)
+</dt>
+<dd>
+<p>
+        Gets the version of i3. The reply will be a JSON-encoded dictionary
+        with the major, minor, patch and human-readable version.
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p>So, a typical message could look like this:</p></div>
 <div class="listingblock">
@@ -244,6 +253,14 @@ BAR_CONFIG (6)
 <dd>
 <p>
         Reply to the GET_BAR_CONFIG message.
+</p>
+</dd>
+<dt class="hdlist1">
+VERSION (7)
+</dt>
+<dd>
+<p>
+        Reply to the GET_VERSION message.
 </p>
 </dd>
 </dl></div>
@@ -372,7 +389,7 @@ default) or whether a JSON parse error occurred.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_get_outputs_reply">3.5. GET_OUTPUTS reply</h3>
+<h3 id="_outputs_reply">3.5. OUTPUTS reply</h3>
 <div class="paragraph"><p>The reply consists of a serialized list of outputs. Each output has the
 following properties:</p></div>
 <div class="dlist"><dl>
@@ -482,7 +499,8 @@ layout (string)
 </dt>
 <dd>
 <p>
-        Can be either "default", "stacked", "tabbed", "dockarea" or "output".
+        Can be either "splith", "splitv", "stacked", "tabbed", "dockarea" or
+        "output".
         Other values might be possible in the future, should we add new
         layouts.
 </p>
@@ -494,6 +512,8 @@ orientation (string)
 <p>
         Can be either "none" (for non-split containers), "horizontal" or
         "vertical".
+        THIS FIELD IS OBSOLETE. It is still present, but your code should not
+        use it. Instead, rely on the layout field.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -538,6 +558,17 @@ geometry (map)
 <p>
         The original geometry the window specified when i3 mapped it. Used when
         switching a window to floating mode, for example.
+</p>
+</dd>
+<dt class="hdlist1">
+window (integer)
+</dt>
+<dd>
+<p>
+        The X11 window ID of the <strong>actual client window</strong> inside this container.
+        This field is set to null for split containers or otherwise empty
+        containers. This ID corresponds to what xwininfo(1) and other
+        X11-related tools display (usually in hex).
 </p>
 </dd>
 <dt class="hdlist1">
@@ -922,6 +953,60 @@ urgent_workspace_text/urgent_workspace_bar
 }</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_version_reply">3.9. VERSION reply</h3>
+<div class="paragraph"><p>The reply consists of a single JSON dictionary with the following keys:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+major (integer)
+</dt>
+<dd>
+<p>
+        The major version of i3, such as <tt>4</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+minor (integer)
+</dt>
+<dd>
+<p>
+        The minor version of i3, such as <tt>2</tt>. Changes in the IPC interface (new
+        features) will only occur with new minor (or major) releases. However,
+        bugfixes might be introduced in patch releases, too.
+</p>
+</dd>
+<dt class="hdlist1">
+patch (integer)
+</dt>
+<dd>
+<p>
+        The patch version of i3, such as <tt>1</tt> (when the complete version is
+        <tt>4.2.1</tt>). For versions such as <tt>4.2</tt>, patch will be set to <tt>0</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+human_readable (string)
+</dt>
+<dd>
+<p>
+        A human-readable version of i3 containing the precise git version,
+        build date and branch name. When you need to display the i3 version to
+        your users, use the human-readable version whenever possible (since
+        this is what <tt>i3 --version</tt> displays, too).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+   "human_readable" : "4.2-169-gf80b877 (2012-08-05, branch \"next\")",
+   "minor" : 2,
+   "patch" : 0,
+   "major" : 4
+}</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1047,17 +1132,25 @@ Perl
 </dt>
 <dd>
 <p>
-        <a href="http://search.cpan.org/search?query=AnyEvent::I3">http://search.cpan.org/search?query=AnyEvent::I3</a>
+        <a href="https://metacpan.org/module/AnyEvent::I3">https://metacpan.org/module/AnyEvent::I3</a>
 </p>
 </dd>
 <dt class="hdlist1">
 Python
 </dt>
 <dd>
+<div class="ulist"><ul>
+<li>
 <p>
-        <a href="https://github.com/whitelynx/i3ipc">https://github.com/whitelynx/i3ipc</a>
-        <a href="https://github.com/ziberna/i3-py">https://github.com/ziberna/i3-py</a> (includes higher-level features)
+<a href="https://github.com/whitelynx/i3ipc">https://github.com/whitelynx/i3ipc</a>
 </p>
+</li>
+<li>
+<p>
+<a href="https://github.com/ziberna/i3-py">https://github.com/ziberna/i3-py</a> (includes higher-level features)
+</p>
+</li>
+</ul></div>
 </dd>
 </dl></div>
 </div>

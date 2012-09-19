@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.4" />
+<meta name="generator" content="AsciiDoc 8.6.7" />
 <title>i3: i3 testsuite</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -30,8 +30,8 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <div id="header">
 <h1>i3 testsuite</h1>
 <span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">September 2011</span>
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">September 2012</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -70,7 +70,35 @@ that, but it will also be useful for every future change.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_implementation">2. Implementation</h2>
+<h2 id="_relevant_documentation">2. Relevant documentation</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Apart from this document, you should also have a look at:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+The "Modern Perl" book, which can be found at
+   <a href="http://onyxneon.com/books/modern_perl/modern_perl_a4.pdf">http://onyxneon.com/books/modern_perl/modern_perl_a4.pdf</a>
+</p>
+</li>
+<li>
+<p>
+The latest Perl documentation of the "i3test" (general testcase setup) and
+   "i3test::Test" (additional test instructions) modules:
+   <a href="http://build.i3wm.org/docs/lib-i3test.html">http://build.i3wm.org/docs/lib-i3test.html</a> respectively
+   <a href="http://build.i3wm.org/docs/lib-i3test-test.html">http://build.i3wm.org/docs/lib-i3test-test.html</a>
+</p>
+</li>
+<li>
+<p>
+The latest documentation on i3’s IPC interface:
+   <a href="http://build.i3wm.org/docs/ipc.html">http://build.i3wm.org/docs/ipc.html</a>
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_implementation">3. Implementation</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>For several reasons, the i3 testsuite has been implemented in Perl:</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -93,12 +121,18 @@ Perl is widely available and has a well-working package infrastructure.
 The author is familiar with Perl :).
 </p>
 </li>
+<li>
+<p>
+It is a good idea to use a different language for the tests than the
+   implementation itself.
+</p>
+</li>
 </ol></div>
 <div class="paragraph"><p>Please do not start programming language flamewars at this point.</p></div>
 <div class="sect2">
-<h3 id="_mechanisms">2.1. Mechanisms</h3>
+<h3 id="_mechanisms">3.1. Mechanisms</h3>
 <div class="sect3">
-<h4 id="_script_complete_run">2.1.1. Script: complete-run</h4>
+<h4 id="_script_complete_run">3.1.1. Script: complete-run</h4>
 <div class="paragraph"><p>The testcases are run by a script called <tt>complete-run.pl</tt>. It runs all
 testcases by default, but you can be more specific and let it only run one or
 more testcases. Also, it takes care of starting up a separate instance of i3
@@ -147,7 +181,7 @@ $ less latest/i3-log-for-04-floating.t</tt></pre>
 </div></div>
 </div>
 <div class="sect3">
-<h4 id="_ipc_interface">2.1.2. IPC interface</h4>
+<h4 id="_ipc_interface">3.1.2. IPC interface</h4>
 <div class="paragraph"><p>The testsuite makes extensive use of the IPC (Inter-Process Communication)
 interface which i3 provides. It is used for the startup process of i3, for
 terminating it cleanly and (most importantly) for modifying and getting the
@@ -155,7 +189,7 @@ current state (layout tree).</p></div>
 <div class="paragraph"><p>See [<a href="http://i3wm.org/docs/ipc.html">http://i3wm.org/docs/ipc.html</a>] for documentation on the IPC interface.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_x11_xcb">2.1.3. X11::XCB</h4>
+<h4 id="_x11_xcb">3.1.3. X11::XCB</h4>
 <div class="paragraph"><p>In order to open new windows, change attributes, get events, etc., the
 testsuite uses X11::XCB, a new (and quite specific to i3 at the moment) Perl
 module which uses the XCB protocol description to generate Perl bindings to
@@ -166,7 +200,7 @@ manager.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_filesystem_structure">2.2. Filesystem structure</h3>
+<h3 id="_filesystem_structure">3.2. Filesystem structure</h3>
 <div class="paragraph"><p>In the git root of i3, the testcases live in the folder <tt>testcases</tt>. This
 folder contains the <tt>complete-run.pl</tt> and <tt>Xdummy</tt> scripts and a base
 configuration file which will be used for the tests. The different testcases
@@ -196,7 +230,7 @@ conventionally named subfolder <tt>t</tt>:</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_anatomy_of_a_testcase">3. Anatomy of a testcase</h2>
+<h2 id="_anatomy_of_a_testcase">4. Anatomy of a testcase</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Learning by example is definitely a good strategy when you are wondering how to
 write a testcase. Let&#8217;s take <tt>t/11-goto.t</tt> as an easy example and go through it
@@ -388,7 +422,7 @@ IPC anymore.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="i3_sync">4. Appendix A: The i3 sync protocol</h2>
+<h2 id="i3_sync">5. Appendix A: The i3 sync protocol</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Consider the following situation: You open two windows in your testcase, then
 you use <tt>focus left</tt> and want to verify that the X11 focus has been updated
@@ -460,7 +494,7 @@ importantly, X11).</p></div>
 <div class="title">Figure 2. Diagram of the i3 sync solution</div>
 </div>
 <div class="sect2">
-<h3 id="_implementation_details">4.1. Implementation details</h3>
+<h3 id="_implementation_details">5.1. Implementation details</h3>
 <div class="paragraph"><p>The client which wants to sync with i3 initiates the protocol by sending a
 ClientMessage to the X11 root window:</p></div>
 <div class="listingblock">
@@ -492,7 +526,7 @@ the same one when getting the reply.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_appendix_b_socket_activation">5. Appendix B: Socket activation</h2>
+<h2 id="_appendix_b_socket_activation">6. Appendix B: Socket activation</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Socket activation is a mechanism which was made popular by systemd, an init
 replacement. It basically describes creating a listening socket before starting
@@ -501,7 +535,7 @@ the socket is made, hence the term socket activation.</p></div>
 <div class="paragraph"><p>The interesting part of this (in the i3 context) is that you can very precisely
 detect when the program is ready (finished its initialization).</p></div>
 <div class="sect2">
-<h3 id="_preparing_the_listening_socket">5.1. Preparing the listening socket</h3>
+<h3 id="_preparing_the_listening_socket">6.1. Preparing the listening socket</h3>
 <div class="paragraph"><p><tt>complete-run.pl</tt> will create a listening UNIX socket which it will then pass
 to i3. This socket will be used by i3 as an additional IPC socket, just like
 the one it will create on its own. Passing the socket happens implicitly
@@ -546,7 +580,7 @@ if ($pid == 0) {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_waiting_for_a_reply">5.2. Waiting for a reply</h3>
+<h3 id="_waiting_for_a_reply">6.2. Waiting for a reply</h3>
 <div class="paragraph"><p>In the parent process, we want to know when i3 is ready to answer our IPC
 requests and handle our windows. Therefore, after forking, we immediately close
 the listening socket (i3 will handle this side of the socket) and connect to it
@@ -563,7 +597,7 @@ completed successfully by the time the event loop is entered, we can now assume
 that i3 is ready.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_timing_and_conclusion">5.3. Timing and conclusion</h3>
+<h3 id="_timing_and_conclusion">6.3. Timing and conclusion</h3>
 <div class="paragraph"><p>A beautiful feature of this mechanism is that it does not depend on timing. It
 does not matter when the child process gets CPU time or when the parent process
 gets CPU time. On heavily loaded machines (or machines with multiple CPUs,

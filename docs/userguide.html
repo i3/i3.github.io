@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.4" />
+<meta name="generator" content="AsciiDoc 8.6.7" />
 <title>i3: i3 User’s Guide</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -30,8 +30,8 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <div id="header">
 <h1>i3 User’s Guide</h1>
 <span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">April 2012</span>
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">August 2012</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -40,8 +40,8 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <div id="preamble">
 <div class="sectionbody">
 <div class="paragraph"><p>This document contains all the information you need to configure and use the i3
-window manager. If it does not, please contact us on IRC (preferred) or post your
-question(s) on the mailing list.</p></div>
+window manager. If it does not, please check <a href="http://faq.i3wm.org/">http://faq.i3wm.org/</a> first, then
+contact us on IRC (preferred) or post your question(s) on the mailing list.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -100,20 +100,22 @@ horizontally or vertically again, just like the workspace. The terminology is
 or browser) and "split container" for containers that consist of one or more
 windows.</p></div>
 <div class="paragraph"><p>TODO: picture of the tree</p></div>
-<div class="paragraph"><p>To split a window vertically, press <tt>mod+v</tt>. To split it horizontally, press
-<tt>mod+h</tt>.</p></div>
+<div class="paragraph"><p>To split a window vertically, press <tt>mod+v</tt> before you create the new window.
+To split it horizontally, press <tt>mod+h</tt>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_changing_the_container_layout">2.2. Changing the container layout</h3>
 <div class="paragraph"><p>A split container can have one of the following layouts:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-default
+splith/splitv
 </dt>
 <dd>
 <p>
 Windows are sized so that every window gets an equal amount of space in the
-container.
+container. splith distributes the windows horizontally (windows are right next
+to each other), splitv distributes them vertically (windows are on top of each
+other).
 </p>
 </dd>
 <dt class="hdlist1">
@@ -135,8 +137,8 @@ a single line which is vertically split.
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>To switch modes, press <tt>mod+e</tt> for default, <tt>mod+s</tt> for stacking and
-<tt>mod+w</tt> for tabbed.</p></div>
+<div class="paragraph"><p>To switch modes, press <tt>mod+e</tt> for splith/splitv (it toggles), <tt>mod+s</tt> for
+stacking and <tt>mod+w</tt> for tabbed.</p></div>
 <div class="paragraph"><p><span class="image">
 <img src="modes.png" alt="Container modes" />
 </span></p></div>
@@ -254,23 +256,24 @@ like this:</p></div>
 <h3 id="_orientation_and_split_containers">3.2. Orientation and Split Containers</h3>
 <div class="paragraph" id="OrientationSplit"><p>It is only natural to use so-called <tt>Split Containers</tt> in order to build a
 layout when using a tree as data structure. In i3, every <tt>Container</tt> has an
-orientation (horizontal, vertical or unspecified). So, in our example with the
-workspace, the default orientation of the workspace <tt>Container</tt> is horizontal
-(most monitors are widescreen nowadays). If you change the orientation to
-vertical (<tt>mod+v</tt> in the default config) and <strong>then</strong> open two terminals, i3 will
-configure your windows like this:</p></div>
+orientation (horizontal, vertical or unspecified) and the orientation depends
+on the layout the container is in (vertical for splitv and stacking, horizontal
+for splith and tabbed). So, in our example with the workspace, the default
+layout of the workspace <tt>Container</tt> is splith (most monitors are widescreen
+nowadays). If you change the layout to splitv (<tt>mod+l</tt> in the default config)
+and <strong>then</strong> open two terminals, i3 will configure your windows like this:</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="tree-shot2.png" alt="shot2" />
 </div>
 <div class="title">Figure 2. Vertical Workspace Orientation</div>
 </div>
-<div class="paragraph"><p>An interesting new feature of the tree branch is the ability to split anything:
-Let’s assume you have two terminals on a workspace (with horizontal
-orientation), focus is on the right terminal. Now you want to open another
-terminal window below the current one. If you would just open a new terminal
-window, it would show up to the right due to the horizontal workspace
-orientation. Instead, press <tt>mod+v</tt> to create a <tt>Vertical Split Container</tt> (to
+<div class="paragraph"><p>An interesting new feature of i3 since version 4 is the ability to split anything:
+Let’s assume you have two terminals on a workspace (with splith layout, that is
+horizontal orientation), focus is on the right terminal. Now you want to open
+another terminal window below the current one. If you would just open a new
+terminal window, it would show up to the right due to the splith layout.
+Instead, press <tt>mod+v</tt> to split the container with the splitv layout (to
 open a <tt>Horizontal Split Container</tt>, use <tt>mod+h</tt>). Now you can open a new
 terminal and it will open below the current one:</p></div>
 <div class="imageblock" style="float:right;">
@@ -304,6 +307,22 @@ windows will be opened to the right of the <tt>Vertical Split Container</tt>:</p
 </div>
 <div class="title">Figure 4. Focus parent, then open new terminal</div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_implicit_containers">3.4. Implicit containers</h3>
+<div class="paragraph"><p>In some cases, i3 needs to implicitly create a container to fulfill your
+command.</p></div>
+<div class="paragraph"><p>One example is the following scenario: You start i3 with a single monitor and a
+single workspace on which you open three terminal windows. All these terminal
+windows are directly attached to one node inside i3’s layout tree, the
+workspace node. By default, the workspace node’s orientation is <tt>horizontal</tt>.</p></div>
+<div class="paragraph"><p>Now you move one of these terminals down (<tt>mod+k</tt> by default). The workspace
+node’s orientation will be changed to <tt>vertical</tt>. The terminal window you moved
+down is directly attached to the workspace and appears on the bottom of the
+screen. A new (horizontal) container was created to accomodate the other two
+terminal windows. You will notice this when switching to tabbed mode (for
+example). You would end up having one tab called "another container" and the
+other one being the terminal window you moved down.</p></div>
 </div>
 </div>
 </div>
@@ -341,21 +360,29 @@ a # and can only be used at the beginning of a line:</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_fonts">4.2. Fonts</h3>
-<div class="paragraph"><p>i3 uses X core fonts (not Xft) for rendering window titles. You can use
-<tt>xfontsel(1)</tt> to generate such a font description. To see special characters
-(Unicode), you need to use a font which supports the ISO-10646 encoding.</p></div>
+<h3 id="fonts">4.2. Fonts</h3>
+<div class="paragraph"><p>i3 has support for both X core fonts and FreeType fonts (through Pango) to
+render window titles.</p></div>
+<div class="paragraph"><p>To generate an X core font description, you can use <tt>xfontsel(1)</tt>. To see
+special characters (Unicode), you need to use a font which supports the
+ISO-10646 encoding.</p></div>
+<div class="paragraph"><p>A FreeType font description is composed by a font family, a style, a weight,
+a variant, a stretch and a size.
+FreeType fonts support right-to-left rendering and contain often more
+Unicode glyphs than X core fonts.</p></div>
 <div class="paragraph"><p>If i3 cannot open the configured font, it will output an error in the logfile
 and fall back to a working font.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>font &lt;X core font description&gt;</tt></pre>
+<pre><tt>font &lt;X core font description&gt;
+font xft:&lt;a FreeType font description&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1</tt></pre>
+<pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+font xft:DejaVu Sans Mono 10</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -385,11 +412,15 @@ Keycodes do not need to have a symbol assigned (handy for custom vendor
 your bindings in the same physical location on the keyboard, use keycodes.
 If you don’t switch layouts, and want a clean and simple config file, use
 keysyms.</p></div>
+<div class="paragraph"><p>Some tools (such as <tt>import</tt> or <tt>xdotool</tt>) might be unable to run upon a
+KeyPress event, because the keyboard/pointer is still grabbed. For these
+situations, the <tt>--release</tt> flag can be used, which will execute the command
+after the keys have been released.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym [Modifiers+]keysym command
-bindcode [Modifiers+]keycode command</tt></pre>
+<pre><tt>bindsym [--release] [Modifiers+]keysym command
+bindcode [--release] [Modifiers+]keycode command</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
@@ -401,7 +432,13 @@ bindsym mod+f fullscreen
 bindsym mod+Shift+r restart
 
 # Notebook-specific hotkeys
-bindcode 214 exec /home/michael/toggle_beamer.sh</tt></pre>
+bindcode 214 exec --no-startup-id /home/michael/toggle_beamer.sh
+
+# Simulate ctrl+v upon pressing $mod+x
+bindsym --release $mod+x exec --no-startup-id xdotool key --clearmodifiers ctrl+v
+
+# Take a screenshot upon pressing $mod+x (select an area)
+bindsym --release $mod+x exec --no-startup-id import /tmp/latest-screenshot.png</tt></pre>
 </div></div>
 <div class="paragraph"><p>Available Modifiers:</p></div>
 <div class="dlist"><dl>
@@ -506,7 +543,8 @@ start.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_border_style_for_new_windows">4.8. Border style for new windows</h3>
-<div class="paragraph"><p>This option determines which border style new windows will have.</p></div>
+<div class="paragraph"><p>This option determines which border style new windows will have. The default is
+"normal".</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -519,7 +557,23 @@ start.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_arbitrary_commands_for_specific_windows_for_window">4.9. Arbitrary commands for specific windows (for_window)</h3>
+<h3 id="_hiding_vertical_borders">4.9. Hiding vertical borders</h3>
+<div class="paragraph"><p>You can hide vertical borders adjacent to the screen edges using
+<tt>hide_edge_borders</tt>. This is useful if you are using scrollbars, or do not want
+to waste even two pixels in displayspace. Default is none.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>hide_edge_borders &lt;none|vertical|horizontal|both&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>hide_edge_borders vertical</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_arbitrary_commands_for_specific_windows_for_window">4.10. Arbitrary commands for specific windows (for_window)</h3>
 <div class="paragraph"><p>With the <tt>for_window</tt> command, you can let i3 execute any command when it
 encounters a specific window. This can be used to set windows to floating or to
 change their border style, for example.</p></div>
@@ -545,7 +599,7 @@ for_window [title="x200: ~/work"] floating enable</tt></pre>
 <div class="paragraph"><p>The valid criteria are the same as those for commands, see <a href="#command_criteria">[command_criteria]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_variables">4.10. Variables</h3>
+<h3 id="_variables">4.11. Variables</h3>
 <div class="paragraph"><p>As you learned in the section about keyboard bindings, you will have
 to configure lots of bindings containing modifier keys. If you want to save
 yourself some typing and be able to change the modifier you use later,
@@ -568,7 +622,7 @@ configuration file and run it before starting i3 (for example in your
 <tt>~/.xsession</tt> file).</p></div>
 </div>
 <div class="sect2">
-<h3 id="_automatically_putting_clients_on_specific_workspaces">4.11. Automatically putting clients on specific workspaces</h3>
+<h3 id="_automatically_putting_clients_on_specific_workspaces">4.12. Automatically putting clients on specific workspaces</h3>
 <div class="paragraph" id="assign_workspace"><p>To automatically make a specific window show up on a specific workspace, you
 can use an <strong>assignment</strong>. You can match windows by using any criteria,
 see <a href="#command_criteria">[command_criteria]</a>. It is recommended that you match on window classes
@@ -617,9 +671,24 @@ second part is the class ("URxvt" in this example).</p></div>
 logfile first (see <a href="http://i3wm.org/docs/debugging.html">http://i3wm.org/docs/debugging.html</a>). It includes more
 details about the matching process and the window’s actual class, instance and
 title when starting up.</p></div>
+<div class="paragraph"><p>Note that if you want to start an application just once on a specific
+workspace, but you don’t want to assign all instances of it permanently, you
+can make use of i3’s startup-notification support (see <a href="#exec">[exec]</a>) in your config
+file in the following way:</p></div>
+<div class="paragraph"><p><strong>Start iceweasel on workspace 3 (once)</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Start iceweasel on workspace 3, then switch back to workspace 1
+# (Being a command-line utility, i3-msg does not support startup notifications,
+#  hence the exec --no-startup-id.)
+# (Starting iceweasel with i3’s exec command is important in order to make i3
+#  create a startup notification context, without which the iceweasel window(s)
+#  cannot be matched onto the workspace on which the command was started.)
+exec --no-startup-id i3-msg 'workspace 3; exec iceweasel; workspace 1'</tt></pre>
+</div></div>
 </div>
 <div class="sect2">
-<h3 id="_automatically_starting_applications_on_i3_startup">4.12. Automatically starting applications on i3 startup</h3>
+<h3 id="_automatically_starting_applications_on_i3_startup">4.13. Automatically starting applications on i3 startup</h3>
 <div class="paragraph"><p>By using the <tt>exec</tt> keyword outside a keybinding, you can configure
 which commands will be performed by i3 on initial startup. <tt>exec</tt>
 commands will not run when restarting i3, if you need a command to run
@@ -643,7 +712,7 @@ exec --no-startup-id urxvt</tt></pre>
 <div class="paragraph"><p>The flag --no-startup-id is explained in <a href="#exec">[exec]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="workspace_screen">4.13. Automatically putting workspaces on specific screens</h3>
+<h3 id="workspace_screen">4.14. Automatically putting workspaces on specific screens</h3>
 <div class="paragraph"><p>If you assign clients to workspaces, it might be handy to put the
 workspaces on specific screens. Also, the assignment of workspaces to screens
 will determine which workspace i3 uses for a new screen when adding screens
@@ -667,7 +736,7 @@ workspace "2: vim" output VGA1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_colors">4.14. Changing colors</h3>
+<h3 id="_changing_colors">4.15. Changing colors</h3>
 <div class="paragraph"><p>You can change all colors which i3 uses to draw the window decorations.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -743,7 +812,7 @@ single windows within a split container, which are otherwise indistinguishable
 from single windows outside of a split container.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_interprocess_communication">4.15. Interprocess communication</h3>
+<h3 id="_interprocess_communication">4.16. Interprocess communication</h3>
 <div class="paragraph"><p>i3 uses unix sockets to provide an IPC interface. This allows third-party
 programs to get information from i3, such as the current workspaces
 (to display a workspace bar), and to control i3.</p></div>
@@ -765,12 +834,13 @@ user can create that directory.</p></div>
 the next section.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_focus_follows_mouse">4.16. Focus follows mouse</h3>
-<div class="paragraph"><p>If you have a setup where your mouse usually is in your way (like a touchpad
-on your laptop which you do not want to disable completely), you might want
-to disable <em>focus follows mouse</em> and control focus only by using your keyboard.
-The mouse will still be useful inside the currently active window (for example
-to click on links in your browser window).</p></div>
+<h3 id="_focus_follows_mouse">4.17. Focus follows mouse</h3>
+<div class="paragraph"><p>By default, window focus follows your mouse movements. However, if you have a
+setup where your mouse usually is in your way (like a touchpad on your laptop
+which you do not want to disable completely), you might want to disable <em>focus
+follows mouse</em> and control focus only by using your keyboard.  The mouse will
+still be useful inside the currently active window (for example to click on
+links in your browser window).</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -783,7 +853,7 @@ to click on links in your browser window).</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_popups_during_fullscreen_mode">4.17. Popups during fullscreen mode</h3>
+<h3 id="_popups_during_fullscreen_mode">4.18. Popups during fullscreen mode</h3>
 <div class="paragraph"><p>When you are in fullscreen mode, some applications still open popup windows
 (take Xpdf for example). This is because these applications may not be aware
 that they are in fullscreen mode (they do not check the corresponding hint).
@@ -814,7 +884,7 @@ Leave fullscreen mode. This is the default.
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_focus_wrapping">4.18. Focus wrapping</h3>
+<h3 id="_focus_wrapping">4.19. Focus wrapping</h3>
 <div class="paragraph"><p>When being in a tabbed or stacked container, the first container will be
 focused when you use <tt>focus down</tt> on the last container&#8201;&#8212;&#8201;the focus wraps. If
 however there is another stacked/tabbed container in that direction, focus will
@@ -836,7 +906,7 @@ will always wrap.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_forcing_xinerama">4.19. Forcing Xinerama</h3>
+<h3 id="_forcing_xinerama">4.20. Forcing Xinerama</h3>
 <div class="paragraph"><p>As explained in-depth in <a href="http://i3wm.org/docs/multi-monitor.html">http://i3wm.org/docs/multi-monitor.html</a>, some X11
 video drivers (especially the nVidia binary driver) only provide support for
 Xinerama instead of RandR. In such a situation, i3 must be told to use the
@@ -859,7 +929,7 @@ that’s it).</p></div>
 Xinerama, instead they are counted up, starting at 0: <tt>xinerama-0</tt>, <tt>xinerama-1</tt>, …</p></div>
 </div>
 <div class="sect2">
-<h3 id="_automatic_back_and_forth_when_switching_to_the_current_workspace">4.20. Automatic back-and-forth when switching to the current workspace</h3>
+<h3 id="_automatic_back_and_forth_when_switching_to_the_current_workspace">4.21. Automatic back-and-forth when switching to the current workspace</h3>
 <div class="paragraph"><p>This configuration directive enables automatic <tt>workspace back_and_forth</tt> (see
 <a href="#back_and_forth">[back_and_forth]</a>) when switching to the workspace that is currently focused.</p></div>
 <div class="paragraph"><p>For instance: Assume you are on workspace "1: www" and switch to "2: IM" using
@@ -1073,8 +1143,7 @@ bar {
 </div>
 <div class="sect2">
 <h3 id="_font">5.7. Font</h3>
-<div class="paragraph"><p>Specifies the font (again, X core font, not Xft, just like in i3) to be used in
-the bar.</p></div>
+<div class="paragraph"><p>Specifies the font to be used in the bar. See <a href="#fonts">[fonts]</a>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1085,6 +1154,7 @@ the bar.</p></div>
 <div class="content">
 <pre><tt>bar {
     font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+    font xft:DejaVu Sans Mono 10
 }</tt></pre>
 </div></div>
 </div>
@@ -1331,12 +1401,14 @@ cursor for 60 seconds.</p></div>
 <div class="sect2">
 <h3 id="_splitting_containers">6.2. Splitting containers</h3>
 <div class="paragraph"><p>The split command makes the current window a split container. Split containers
-can contain multiple windows. Every split container has an orientation, it is
-either split horizontally (a new window gets placed to the right of the current
-one) or vertically (a new window gets placed below the current one).</p></div>
+can contain multiple windows. Depending on the layout of the split container,
+new windows get placed to the right of the current one (splith) or new windows
+get placed below the current one (splitv).</p></div>
 <div class="paragraph"><p>If you apply this command to a split container with the same orientation,
 nothing will happen. If you use a different orientation, the split container’s
-orientation will be changed (if it does not have more than one window).</p></div>
+orientation will be changed (if it does not have more than one window). Use
+<tt>layout toggle split</tt> to change the layout of any split container from splitv
+to splith or vice-versa.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1351,17 +1423,30 @@ bindsym mod+h split horizontal</tt></pre>
 </div>
 <div class="sect2">
 <h3 id="_manipulating_layout">6.3. Manipulating layout</h3>
-<div class="paragraph"><p>Use <tt>layout default</tt>, <tt>layout stacking</tt> or <tt>layout tabbed</tt> to change the
-current container layout to default, stacking or tabbed layout, respectively.</p></div>
+<div class="paragraph"><p>Use <tt>layout toggle split</tt>, <tt>layout stacking</tt> or <tt>layout tabbed</tt> to change the
+current container layout to splith/splitv, stacking or tabbed layout,
+respectively.</p></div>
 <div class="paragraph"><p>To make the current window (!) fullscreen, use <tt>fullscreen</tt>, to make
 it floating (or tiling again) use <tt>floating enable</tt> respectively <tt>floating disable</tt>
 (or <tt>floating toggle</tt>):</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>layout &lt;tabbed|stacking&gt;
+layout toggle [split|all]</tt></pre>
+</div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>bindsym mod+s layout stacking
-bindsym mod+l layout default
+bindsym mod+l layout toggle split
 bindsym mod+w layout tabbed
+
+# Toggle between stacking/tabbed/split:
+bindsym mod+x layout toggle
+
+# Toggle between stacking/tabbed/splith/splitv:
+bindsym mod+x layout toggle all
 
 # Toggle fullscreen
 bindsym mod+f fullscreen
@@ -1485,18 +1570,25 @@ number or name of the workspace. To move containers to specific workspaces, use
 workspace 1, 3, 4 and 9 and you want to cycle through them with a single key
 combination. To restrict those to the current output, use <tt>workspace
 next_on_output</tt> and <tt>workspace prev_on_output</tt>. Similarly, you can use <tt>move
-container to workspace next</tt> and <tt>move container to workspace prev</tt> to move a
-container to the next/previous workspace.</p></div>
+container to workspace next</tt>, <tt>move container to workspace prev</tt> to move a
+container to the next/previous workspace and <tt>move container to workspace current</tt>
+(the last one makes sense only when used with criteria).</p></div>
+<div class="paragraph"><p>See <a href="#move_to_outputs">[move_to_outputs]</a> for how to move a container/workspace to a different
+RandR output.</p></div>
 <div class="paragraph" id="back_and_forth"><p>To switch back to the previously focused workspace, use <tt>workspace
 back_and_forth</tt>.</p></div>
-<div class="paragraph"><p>To move a container to another xrandr output such as <tt>LVDS1</tt> or <tt>VGA1</tt>, you can
-use the <tt>move container to output</tt> command followed by the name of the target
-output. You may also use <tt>left</tt>, <tt>right</tt>, <tt>up</tt>, <tt>down</tt> instead of the xrandr
-output name to move to the next output in the specified direction.</p></div>
-<div class="paragraph"><p>To move a whole workspace to another xrandr output such as <tt>LVDS1</tt> or <tt>VGA1</tt>,
-you can use the <tt>move workspace to output</tt> command followed by the name of the
-target output. You may also use <tt>left</tt>, <tt>right</tt>, <tt>up</tt>, <tt>down</tt> instead of the
-xrandr output name to move to the next output in the specified direction.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace &lt;next|prev|next_on_output|prev_on_output&gt;
+workspace back_and_forth
+workspace &lt;name&gt;
+workspace number &lt;number&gt;
+
+move [window|container] [to] workspace &lt;name&gt;
+move [window|container] [to] workspace number &lt;number&gt;
+move [window|container] [to] workspace &lt;prev|next|current&gt;</tt></pre>
+</div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1512,7 +1604,10 @@ bindsym mod+Shift+2 move container to workspace 2
 bindsym mod+b workspace back_and_forth
 
 # move the whole workspace to the next output
-bindsym mod+x move workspace to output right</tt></pre>
+bindsym mod+x move workspace to output right
+
+# move firefox to current workspace
+bindsym mod+F1 [class="Firefox"] move workspace current</tt></pre>
 </div></div>
 <div class="sect3">
 <h4 id="_named_workspaces">6.5.1. Named workspaces</h4>
@@ -1541,9 +1636,8 @@ to switch to the workspace which begins with number 1, regardless of which name
 it has. This is useful in case you are changing the workspace’s name
 dynamically.</p></div>
 </div>
-</div>
-<div class="sect2">
-<h3 id="_renaming_workspaces">6.6. Renaming workspaces</h3>
+<div class="sect3">
+<h4 id="_renaming_workspaces">6.5.2. Renaming workspaces</h4>
 <div class="paragraph"><p>You can rename workspaces. This might be useful to start with the default
 numbered workspaces, do your work, and rename the workspaces afterwards to
 reflect what’s actually on them.</p></div>
@@ -1558,6 +1652,29 @@ reflect what’s actually on them.</p></div>
 <pre><tt>i3-msg 'rename workspace 5 to 6'
 i3-msg 'rename workspace 1 to "1: www"'
 i3-msg 'rename workspace "1: www" to "10: www"'</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_moving_containers_workspaces_to_randr_outputs">6.6. Moving containers/workspaces to RandR outputs</h3>
+<div class="paragraph" id="move_to_outputs"><p>To move a container to another RandR output (addressed by names like <tt>LVDS1</tt> or
+<tt>VGA1</tt>) or to a RandR output identified by a specific direction (like <tt>left</tt>,
+<tt>right</tt>, <tt>up</tt> or <tt>down</tt>), there are two commands:</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>move container to output &lt;&lt;left|right|down|up&gt;|&lt;output&gt;&gt;
+move workspace to output &lt;&lt;left|right|down|up&gt;|&lt;output&gt;&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Move the current workspace to the next output
+# (effectively toggles when you only have two outputs)
+bindsym mod+x move workspace to output right
+
+# Put this window on the presentation output.
+bindsym mod+x move container to output VGA1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
