@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.6" />
+<meta name="generator" content="AsciiDoc 8.6.7" />
 <title>i3: i3status(1)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -30,9 +30,9 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <div id="header">
 <h1>i3status(1)</h1>
 <span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revnumber">version 2.5,</span>
-<span id="revdate">May 2012</span>
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revnumber">version 2.6,</span>
+<span id="revdate">October 2012</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -141,6 +141,7 @@ ethernet eth0 {
 battery 0 {
         format = "%status %percentage %remaining %emptytime"
         path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
 }
 
 run_watch DHCP {
@@ -242,8 +243,11 @@ best available public IPv6 address on your computer).</p></div>
 <div class="sect2">
 <h3 id="_disk">5.3. Disk</h3>
 <div class="paragraph"><p>Gets used, free, available and total amount of bytes on the given mounted filesystem.</p></div>
+<div class="paragraph"><p>These values can also be expressed in percentages with the percentage_used,
+percentage_free, percentage_avail and percentage_used_of_avail formats.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>disk /mnt/usbstick</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%free (%avail)/ %total</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%percentage_used used, %percentage_free free, %percentage_avail avail</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_run_watch">5.4. Run-watch</h3>
@@ -271,18 +275,24 @@ it using <tt>setcap cap_net_admin=ep $(which i3status)</tt>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_battery">5.7. Battery</h3>
-<div class="paragraph"><p>Gets the status (charging, discharging, running), percentage and remaining
-time of the given battery and when it&#8217;s estimated to be empty. If you want
-to use the last full capacity instead of the design capacity (when using
-the design capacity, it may happen that your battery is at 23% when fully
-charged because it’s old. In general, I want to see it this way, because
-it tells me how worn off my battery is.), just specify
+<div class="paragraph"><p>Gets the status (charging, discharging, running), percentage, remaining
+time and power consumption (in Watts) of the given battery and when it&#8217;s
+estimated to be empty. If you want to use the last full capacity instead of the
+design capacity (when using the design capacity, it may happen that your
+battery is at 23% when fully charged because it’s old. In general, I want to
+see it this way, because it tells me how worn off my battery is.), just specify
 <tt>last_full_capacity = true</tt>.</p></div>
 <div class="paragraph"><p>If your battery is represented in a non-standard path in /sys, be sure to
 modify the "path" property accordingly. The first occurence of %d gets replaced
 with the battery number, but you can just hard-code a path as well.</p></div>
+<div class="paragraph"><p>It is possible to define a low_threshold that causes the battery text to be
+colored red. The low_threshold type can be of threshold_type "time" or
+"percentage". So, if you configure low_threshold to 10 and threshold_type to
+"time", and your battery lasts another 9 minutes, it will be colored red.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>battery 0</tt></p></div>
-<div class="paragraph"><p><strong>Example format</strong>: <tt>%status %remaining (%emptytime)</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%status %remaining (%emptytime %consumption)</tt></p></div>
+<div class="paragraph"><p><strong>Example low_threshold</strong>: <tt>30</tt></p></div>
+<div class="paragraph"><p><strong>Example threshold_type</strong>: <tt>time</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_cpu_temperature">5.8. CPU-Temperature</h3>
@@ -292,7 +302,7 @@ with the battery number, but you can just hard-code a path as well.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_cpu_usage">5.9. CPU Usage</h3>
-<div class="paragraph"><p>Gets the percentual CPU usage from <tt>/proc/stat</tt>.</p></div>
+<div class="paragraph"><p>Gets the percentual CPU usage from <tt>/proc/stat</tt> (Linux) or <tt>sysctl(3)</tt> (FreeBSD/OpenBSD).</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_usage</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%usage</tt></p></div>
 </div>
@@ -320,7 +330,11 @@ details on the format string.
 <div class="sect2">
 <h3 id="_volume">5.13. Volume</h3>
 <div class="paragraph"><p>Outputs the volume of the specified mixer on the specified device. Works only
-on Linux because it uses ALSA.</p></div>
+on Linux because it uses ALSA.
+A simplified configuration can be used on FreeBSD and OpenBSD due to
+the lack of ALSA,  the <tt>device</tt>, <tt>mixer</tt> and <tt>mixder_idx</tt> options can be
+ignored on these systems. On these systems the OSS API is used instead to
+query <tt>/dev/mixer</tt> directly.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>volume master</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>♪: %volume</tt></p></div>
 <div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
@@ -414,6 +428,9 @@ do
 done</tt></pre>
 </div></div>
 <div class="paragraph"><p>Put that in some script, say <tt>.bin/my_i3status.sh</tt> and execute that instead of i3status.</p></div>
+<div class="paragraph"><p>Note that if you want to use the JSON output format (with colors in i3bar), you
+need to use a slightly more complex wrapper script. There are examples in the
+contrib/ folder, see <a href="http://code.i3wm.org/i3status/tree/contrib">http://code.i3wm.org/i3status/tree/contrib</a></p></div>
 </div>
 </div>
 <div class="sect1">

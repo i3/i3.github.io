@@ -1,7 +1,7 @@
 i3status(1)
 ===========
-Michael Stapelberg <michael+i3@stapelberg.de>
-v2.5, May 2012
+Michael Stapelberg <michael@i3wm.org>
+v2.6, October 2012
 
 == NAME
 
@@ -72,6 +72,7 @@ ethernet eth0 {
 battery 0 {
         format = "%status %percentage %remaining %emptytime"
         path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
 }
 
 run_watch DHCP {
@@ -155,9 +156,14 @@ best available public IPv6 address on your computer).
 
 Gets used, free, available and total amount of bytes on the given mounted filesystem.
 
+These values can also be expressed in percentages with the percentage_used,
+percentage_free, percentage_avail and percentage_used_of_avail formats.
+
 *Example order*: +disk /mnt/usbstick+
 
 *Example format*: +%free (%avail)/ %total+
+
+*Example format*: +%percentage_used used, %percentage_free free, %percentage_avail avail+
 
 === Run-watch
 
@@ -191,21 +197,30 @@ it using +setcap cap_net_admin=ep $(which i3status)+.
 
 === Battery
 
-Gets the status (charging, discharging, running), percentage and remaining
-time of the given battery and when it's estimated to be empty. If you want
-to use the last full capacity instead of the design capacity (when using
-the design capacity, it may happen that your battery is at 23% when fully
-charged because it’s old. In general, I want to see it this way, because
-it tells me how worn off my battery is.), just specify
+Gets the status (charging, discharging, running), percentage, remaining
+time and power consumption (in Watts) of the given battery and when it's
+estimated to be empty. If you want to use the last full capacity instead of the
+design capacity (when using the design capacity, it may happen that your
+battery is at 23% when fully charged because it’s old. In general, I want to
+see it this way, because it tells me how worn off my battery is.), just specify
 +last_full_capacity = true+.
 
 If your battery is represented in a non-standard path in /sys, be sure to
 modify the "path" property accordingly. The first occurence of %d gets replaced
 with the battery number, but you can just hard-code a path as well.
 
+It is possible to define a low_threshold that causes the battery text to be
+colored red. The low_threshold type can be of threshold_type "time" or
+"percentage". So, if you configure low_threshold to 10 and threshold_type to
+"time", and your battery lasts another 9 minutes, it will be colored red.
+
 *Example order*: +battery 0+
 
-*Example format*: +%status %remaining (%emptytime)+
+*Example format*: +%status %remaining (%emptytime %consumption)+
+
+*Example low_threshold*: +30+
+
+*Example threshold_type*: +time+
 
 === CPU-Temperature
 
@@ -217,7 +232,7 @@ Gets the temperature of the given thermal zone.
 
 === CPU Usage
 
-Gets the percentual CPU usage from +/proc/stat+.
+Gets the percentual CPU usage from +/proc/stat+ (Linux) or +sysctl(3)+ (FreeBSD/OpenBSD).
 
 *Example order*: +cpu_usage+
 
@@ -254,6 +269,10 @@ details on the format string.
 
 Outputs the volume of the specified mixer on the specified device. Works only
 on Linux because it uses ALSA.
+A simplified configuration can be used on FreeBSD and OpenBSD due to
+the lack of ALSA,  the +device+, +mixer+ and +mixder_idx+ options can be
+ignored on these systems. On these systems the OSS API is used instead to
+query +/dev/mixer+ directly.
 
 *Example order*: +volume master+
 
@@ -345,6 +364,10 @@ done
 --------------------------------------------------------------
 
 Put that in some script, say +.bin/my_i3status.sh+ and execute that instead of i3status.
+
+Note that if you want to use the JSON output format (with colors in i3bar), you
+need to use a slightly more complex wrapper script. There are examples in the
+contrib/ folder, see http://code.i3wm.org/i3status/tree/contrib
 
 == SEE ALSO
 
