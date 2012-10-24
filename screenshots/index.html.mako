@@ -123,8 +123,12 @@ To get a quick impression of i3, have a look at these screenshots.
 		  "/screenshots/i3-9.png",
 		  "/screenshots/i3-9.thumb.png",
 		  "VIM, git, MPlayer, i3bar"
+		],
+		[
+		  "/screenshots/i3-10.png",
+		  "/screenshots/i3-10.thumb.png",
+		  "Right-to-left titles"
 		]
-
 	]
 
 	c = 0
