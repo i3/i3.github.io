@@ -48,7 +48,7 @@ This Ubuntu repository contains packages which are automatically built a few
 minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-# echo 'deb http://build.i3wm.org/ubuntu/precise precise main' >> /etc/apt/sources.list
+# echo 'deb http://build.i3wm.org/ubuntu/quantal quantal main' >> /etc/apt/sources.list
 # apt-get update
 # apt-get --allow-unauthenticated install i3-autobuild-keyring
 # apt-get update
@@ -56,7 +56,7 @@ minutes after every commit. To use it, run the following commands:
 ---------------------------------------------------------------------------------
 
 Development versions are only available for the latest version of Ubuntu, which
-is precise at the moment.
+is quantal at the moment.
 
 == Debian repository
 
