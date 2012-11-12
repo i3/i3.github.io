@@ -94,6 +94,12 @@ workspaces</strong></a> <span class="author">(2012-09, by Sagar)</span><br>
 Shows how Sagar uses i3’s IPC interface to swap workspaces between two outputs.
 </p>
 
+<p>
+<a href="/docs/user-contributed/conky-i3bar.html"><strong>Using conky with
+i3bar</strong></a> <span class="author">(2012-11, by Gianrico)</span><br>
+Shows how to configure conky to generate JSON input for i3bar (with colors)!
+</p>
+
 </div>
 
 </div>
