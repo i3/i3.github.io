@@ -29,7 +29,7 @@
 
 <div id="content">
 
-<h2>Latest Video</h2>
+<h2>Latest Videos</h2>
 
 <div id="screencasts">
     <div class="video clearfix">
@@ -47,6 +47,24 @@
             </ul>
             <p>
             <a href="http://www.youtube.com/watch?v=Wx0eNaGzAZU">Watch it on YouTube</a> or <a href="/screenshots/screencast-4.1.mp4">download it (18 MB)</a>.
+            </p>
+        </div>
+    </div>
+
+    <br style="clear: both">
+    <br>
+
+    <div class="video clearfix">
+        <a href="http://www.youtube.com/watch?v=AWA8Pl57UBY" title="Watch i3 container and tree data structure screencast on YouTube">
+        <img src="/img/screencast-cons.thumb.jpg" width="240" height="135" border="0" alt="tech talk thumbnail" style="float: left">
+        </a>
+        <div style="float: left">
+            <strong>Screencast: Containers and tree data structure</strong>
+	    <p style="white-space: pre">Explains how i3 works internally so
+that you can fully understand what's going on. I expect you to have
+watched the screencast on v4.1 already.</p>
+            <p>
+            <a href="http://www.youtube.com/watch?v=AWA8Pl57UBY">Watch it on YouTube</a>
             </p>
         </div>
     </div>
