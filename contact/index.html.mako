@@ -41,9 +41,7 @@ i3-announce archives</a>.
 <p>
 <strong>If you are a package maintainer</strong> and have any questions,
 ideas, hints, problems or whatever, please do not hesitate to contact me. I
-will help you out. Just drop me an <a
-href="mailto:michael+i3@stapelberg.de">e-mail at michael+i3@stapelberg.de</a>,
-contact me using the same address (without <tt>+i3</tt>) in jabber or ask on
+will help you out. Just drop me an e-mail at michael AT i3wm DOT org or ask on
 our IRC channel (see above).
 </p>
 
