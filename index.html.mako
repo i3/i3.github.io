@@ -20,7 +20,7 @@
         <a href="/downloads">
         <span style="font-weight: bold; color: #3A8ECD; margin-right: .5em">➡</span>
         Download the latest version
-        <span style="margin-left: 2em; color: #c0c0c0">4.3</span>
+        <span style="margin-left: 2em; color: #c0c0c0">4.4</span>
         </a>
     </div>
 </div>

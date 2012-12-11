@@ -103,7 +103,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 <h2>Downloads</h2>
 
 <p>
-  The current stable version is 4.3.
+  The current stable version is 4.4.
 </p>
 
 <p>
@@ -126,6 +126,15 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
   </thead>
 
   <tbody>
+  <tr>
+    <td>4.4</td>
+    <td><a href="/downloads/i3-4.4.tar.bz2">i3-4.4.tar.bz2</a></td>
+    <td>864 KiB</td>
+    <td><a href="/downloads/i3-4.4.tar.bz2.asc">signature</a></td>
+    <td>2012-12-12</td>
+    <td><a href="/downloads/RELEASE-NOTES-4.4.txt">release notes</a></td>
+  </tr>
+
   <tr>
     <td>4.3</td>
     <td><a href="/downloads/i3-4.3.tar.bz2">i3-4.3.tar.bz2</a></td>

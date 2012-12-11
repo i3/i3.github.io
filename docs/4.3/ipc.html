@@ -1112,29 +1112,10 @@ if ($is_event) {
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
 <tt>change (string)</tt> which indicates the type of the change ("focus", "init",
 "empty", "urgent").</p></div>
-<div class="paragraph"><p>Moreover, when the change is "focus", an <tt>old (object)</tt> and a <tt>current
-(object)</tt> properties will be present with the previous and current
-workspace respectively.  When the first switch occurs (when i3 focuses
-the workspace visible at the beginning) there is no previous
-workspace, and the <tt>old</tt> property will be set to <tt>null</tt>.  Also note
-that if the previous is empty it will get destroyed when switching,
-but will still be present in the "old" property.</p></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>{
- "change": "focus",
- "current": {
-  "id": 28489712,
-  "type":4,
-  ...
- }
- "old": {
-  "id": 28489715,
-  "type": 4,
-  ...
- }
-}</tt></pre>
+<pre><tt>{ "change": "focus" }</tt></pre>
 </div></div>
 </div>
 <div class="sect2">

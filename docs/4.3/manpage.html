@@ -2,9 +2,8 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<link rel="icon" type="image/png" href="/favicon.png">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.6" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
 <title>i3: i3(1)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -31,8 +30,8 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <h1>i3(1)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revnumber">version 4.0,</span>
-<span id="revdate">July 2011</span>
+<span id="revnumber">version 3.epsilon,</span>
+<span id="revdate">March 2010</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -121,7 +120,7 @@ create i3.</p></div>
 <div class="sect2">
 <h3 id="_important_note_to_nvidia_binary_driver_users">4.2. IMPORTANT NOTE TO nVidia BINARY DRIVER USERS</h3>
 <div class="paragraph"><p>If you are using the nVidia binary graphics driver (also known as <em>blob</em>)
-you need to use the <tt>--force-xinerama</tt> flag (in your ~/.xsession) when starting
+you need to use the <tt>--force-xinerama</tt> flag (in your .xsession) when starting
 i3, like so:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -133,29 +132,33 @@ i3, like so:</p></div>
 <h3 id="_terminology">4.3. TERMINOLOGY</h3>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-Tree
+Client
 </dt>
 <dd>
 <p>
-i3 keeps your layout in a tree data structure.
+A client is X11-speak for a window.
 </p>
 </dd>
 <dt class="hdlist1">
-Window
+Table
 </dt>
 <dd>
 <p>
-An X11 window, like the Firefox browser window or a terminal emulator.
+Your workspace is managed using a table. You can move windows around and create
+new columns (move a client to the right) or rows (move it to the bottom)
+implicitly.
 </p>
+<div class="paragraph"><p>By "snapping" a client in a specific direction, you increase its colspan/rowspan.</p></div>
 </dd>
 <dt class="hdlist1">
-Split container
+Container
 </dt>
 <dd>
 <p>
-A split container contains multiple other split containers or windows.
+A container contains a variable number of clients. Each cell of the table is a
+container.
 </p>
-<div class="paragraph"><p>Containers can be used in various layouts. The default mode is called "default"
+<div class="paragraph"><p>Containers can be used in various modes. The default mode is called "default"
 and just resizes each client equally so that it fits.</p></div>
 </dd>
 <dt class="hdlist1">
@@ -163,8 +166,8 @@ Workspace
 </dt>
 <dd>
 <p>
-A workspace is a set of containers. Other window managers call this "Virtual
-Desktops".
+A workspace is a set of clients (technically speaking, it’s just a table).
+Other window managers call this "Virtual Desktops".
 </p>
 <div class="paragraph"><p>In i3, each workspace is assigned to a specific virtual screen. By default,
 screen 1 has workspace 1, screen 2 has workspace 2 and so on… However, when you
@@ -210,11 +213,35 @@ Focus window in &lt;direction&gt;.
 </p>
 </dd>
 <dt class="hdlist1">
+Mod3+&lt;direction&gt;
+</dt>
+<dd>
+<p>
+Focus container in &lt;direction&gt;.
+</p>
+</dd>
+<dt class="hdlist1">
 Mod1+Shift+&lt;direction&gt;
 </dt>
 <dd>
 <p>
 Move window to &lt;direction&gt;.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod3+Shift+&lt;direction&gt;
+</dt>
+<dd>
+<p>
+Move container to &lt;direction&gt;.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+Control+&lt;direction&gt;
+</dt>
+<dd>
+<p>
+Snap container to &lt;direction&gt;.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -242,7 +269,7 @@ Toggle fullscreen mode.
 </p>
 </dd>
 <dt class="hdlist1">
-Mod1+s
+Mod1+h
 </dt>
 <dd>
 <p>
@@ -258,28 +285,19 @@ Enable default layout for the current container.
 </p>
 </dd>
 <dt class="hdlist1">
-Mod1+w
-</dt>
-<dd>
-<p>
-Enable tabbed layout for the current container.
-</p>
-</dd>
-<dt class="hdlist1">
 Mod1+Shift+Space
 </dt>
 <dd>
 <p>
-Toggle tiling/floating for the current container.
+Toggle tiling/floating for the current window.
 </p>
 </dd>
 <dt class="hdlist1">
-Mod1+Space
+Mod1+t
 </dt>
 <dd>
 <p>
-Select the first tiling container if the current container is floating and
-vice-versa.
+Select the first tiling window if the current window is floating and vice-versa.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -299,7 +317,8 @@ Mod1+Shift+r
 </dt>
 <dd>
 <p>
-Restarts i3 in place. Your layout will be preserved.
+Restarts i3 in place (without losing any windows, but at this time, the layout
+and placement of windows is not retained).
 </p>
 </dd>
 <dt class="hdlist1">
@@ -345,94 +364,88 @@ Exits i3.
 <div class="listingblock">
 <div class="title">Sample configuration</div>
 <div class="content">
-<pre><tt># i3 config file (v4)
+<pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 
-# font for window titles. ISO 10646 = Unicode
-font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# Start terminal (Mod1+Enter)
+bind Mod1+36 exec /usr/bin/urxvt
 
-# use Mouse+Mod1 to drag floating windows to their wanted position
-floating_modifier Mod1
+# Start dmenu (Mod1+v)
+bind Mod1+55 exec /usr/bin/dmenu_run
 
-# start a terminal
-bindsym Mod1+Return exec /usr/bin/urxvt
+# Kill current client (Mod1+Shift+q)
+bind Mod1+Shift+24 kill
 
-# kill focused window
-bindsym Mod1+Shift+q kill
+# Beamer on/off
+bind Mod1+73 exec /home/michael/toggle_beamer.sh
 
-# start dmenu (a program launcher)
-bindsym Mod1+d exec /usr/bin/dmenu_run
+# Screen locking
+bind Mod1+68 exec /usr/bin/i3lock
 
-# change focus
-bindsym Mod1+j focus left
-bindsym Mod1+k focus down
-bindsym Mod1+l focus up
-bindsym Mod1+semicolon focus right
+# Restart i3 inplace (Mod1+Shift+r)
+bind Mod1+Shift+27 restart
 
-# alternatively, you can use the cursor keys:
-bindsym Mod1+Left focus left
-bindsym Mod1+Down focus down
-bindsym Mod1+Up focus up
-bindsym Mod1+Right focus right
+# Exit i3 (Mod1+Shift+e)
+bind Mod1+Shift+26 exit
 
-# move focused window
-bindsym Mod1+Shift+j move left
-bindsym Mod1+Shift+k move down
-bindsym Mod1+Shift+l move up
-bindsym Mod1+Shift+semicolon move right
+# Brightness
+bind Mod1+97 exec sudo sh -c "echo up &gt; /proc/acpi/ibm/brightness"
+bind Mod1+103 exec sudo sh -c "echo down &gt; /proc/acpi/ibm/brightness"
 
-# alternatively, you can use the cursor keys:
-bindsym Mod1+Shift+Left move left
-bindsym Mod1+Shift+Down move down
-bindsym Mod1+Shift+Up move up
-bindsym Mod1+Shift+Right move right
+# Fullscreen (Mod1+f)
+bind Mod1+41 f
 
-# split in horizontal orientation
-bindsym Mod1+h split h
+# Stacking (Mod1+h)
+bind Mod1+43 s
 
-# split in vertical orientation
-bindsym Mod1+v split v
+# Default (Mod1+e)
+bind Mod1+26 d
 
-# enter fullscreen mode for the focused container
-bindsym Mod1+f fullscreen
+# Toggle tiling/floating of the current window (Mod1+Shift+Space)
+bind Mod1+Shift+65 t
 
-# change container layout (stacked, tabbed, default)
-bindsym Mod1+s layout stacking
-bindsym Mod1+w layout tabbed
-bindsym Mod1+e layout default
+# Go into the tiling layer / floating layer, depending on whether
+# the current window is tiling / floating (Mod1+t)
+bind Mod1+28 focus ft
 
-# toggle tiling / floating
-bindsym Mod1+Shift+space floating toggle
+# Focus (Mod1+j/k/l/;)
+bind Mod1+44 h
+bind Mod1+45 j
+bind Mod1+46 k
+bind Mod1+47 l
 
-# change focus between tiling / floating windows
-bindsym Mod1+space focus mode_toggle
+# Focus Container (Mod3+j/k/l/;)
+bind Mod3+44 wch
+bind Mod3+45 wcj
+bind Mod3+46 wck
+bind Mod3+47 wcl
 
-# focus the parent container
-bindsym Mod1+a focus parent
+# Snap (Mod1+Control+j/k/l/;)
+bind Mod1+Control+44 sh
+bind Mod1+Control+45 sj
+bind Mod1+Control+46 sk
+bind Mod1+Control+47 sl
 
-# focus the child container
-#bindsym Mod1+d focus child
+# Move (Mod1+Shift+j/k/l/;)
+bind Mod1+Shift+44 mh
+bind Mod1+Shift+45 mj
+bind Mod1+Shift+46 mk
+bind Mod1+Shift+47 ml
 
-# switch to workspace
-bindsym Mod1+1 workspace 1
-bindsym Mod1+2 workspace 2
-# ..
+# Move Container (Mod3+Shift+j/k/l/;)
+bind Mod3+Shift+44 wcmh
+bind Mod3+Shift+45 wcmj
+bind Mod3+Shift+46 wcmk
+bind Mod3+Shift+47 wcml
 
-# move focused container to workspace
-bindsym Mod1+Shift+1 move workspace 1
-bindsym Mod1+Shift+2 move workspace 2
-# ...
+# Workspaces
+bind Mod1+10 1
+bind Mod1+11 2
+...
 
-# reload the configuration file
-bindsym Mod1+Shift+c reload
-# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym Mod1+Shift+r restart
-# exit i3 (logs you out of your X session)
-bindsym Mod1+Shift+e exit
-
-# display workspace buttons plus a statusline generated by i3status
-bar {
-    status_command i3status
-}</tt></pre>
+# Move to Workspace
+bind Mod1+Shift+10 1
+bind Mod1+Shift+11 2
+...</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -443,7 +456,7 @@ your login manager (xdm, slim, gdm, …) as soon as you login.</p></div>
 <div class="title">Sample xsession</div>
 <div class="content">
 <pre><tt># Disable DPMS turning off the screen
-xset -dpms
+xset dpms force on
 xset s off
 
 # Disable bell
@@ -483,39 +496,25 @@ exec /usr/bin/i3 -V -d all &gt;&gt; ~/.i3/logfile</tt></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_environment">7. ENVIRONMENT</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_i3sock">7.1. I3SOCK</h3>
-<div class="paragraph"><p>This variable overwrites the IPC socket path (placed in
-/tmp/i3-%u.XXXXXX/ipc-socket.%p by default, where %u is replaced with your UNIX
-username, %p is replaced with i3’s PID and XXXXXX is a string of random
-characters from the portable filename character set (see mkdtemp(3))). The IPC
-socket is used by external programs like i3-msg(1) or i3bar(1).</p></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_todo">8. TODO</h2>
+<h2 id="_todo">7. TODO</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>There is still lot of work to do. Please check our bugtracker for up-to-date
 information about tasks which are still not finished.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_see_also">9. SEE ALSO</h2>
+<h2 id="_see_also">8. SEE ALSO</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>You should have a copy of the userguide (featuring nice screenshots/graphics
 which is why this is not integrated into this manpage), the debugging guide,
 and the "how to hack" guide. If you are building from source, run:
  <tt>make -C docs</tt></p></div>
 <div class="paragraph"><p>You can also access these documents online at <a href="http://i3.zekjur.net/">http://i3.zekjur.net/</a></p></div>
-<div class="paragraph"><p>i3-input(1), i3-msg(1), i3-wsbar(1), i3-nagbar(1), i3-config-wizard(1),
-i3-migrate-config-to-v4(1)</p></div>
+<div class="paragraph"><p>i3-input(1), i3-msg(1), i3-wsbar(1)</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_author">10. AUTHOR</h2>
+<h2 id="_author">9. AUTHOR</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
 </div>

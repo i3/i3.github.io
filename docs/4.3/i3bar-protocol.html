@@ -95,15 +95,10 @@ the version of the protocol to be used. In case there are significant changes
 understand the old protocol version, but in order to use the new one, you need
 to provide the correct version. The header block is terminated by a newline and
 consists of a single JSON hash:</p></div>
-<div class="paragraph"><p><strong>Minimal example</strong>:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>{ "version": 1 }</tt></pre>
-</div></div>
-<div class="paragraph"><p><strong>All features example</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>{ "version": 1, "stop_signal": 10, "cont_signal": 12 }</tt></pre>
 </div></div>
 <div class="paragraph"><p>(Note that before i3 v4.3 the precise format had to be <tt>{"version":1}</tt>,
 byte-for-byte.)</p></div>
@@ -146,40 +141,7 @@ i3status and others will output single statuslines in one line, separated by
 <tt>status_command</tt> in the bar configuration at
 <a href="http://code.stapelberg.de/git/i3/tree/contrib/trivial-bar-script.sh?h=next">http://code.stapelberg.de/git/i3/tree/contrib/trivial-bar-script.sh?h=next</a></p></div>
 <div class="sect2">
-<h3 id="_header_in_detail">2.1. Header in detail</h3>
-<div class="dlist"><dl>
-<dt class="hdlist1">
-version
-</dt>
-<dd>
-<p>
-        The version number (as an integer) of the i3bar protocol you will use.
-</p>
-</dd>
-<dt class="hdlist1">
-stop_signal
-</dt>
-<dd>
-<p>
-        Specify to i3bar the signal (as an integer) to send to stop your
-        processing.
-        The default value (if none is specified) is SIGSTOP.
-</p>
-</dd>
-<dt class="hdlist1">
-cont_signal
-</dt>
-<dd>
-<p>
-        Specify to i3bar the signal (as an integer)to send to continue your
-        processing.
-        The default value (if none is specified) is SIGCONT.
-</p>
-</dd>
-</dl></div>
-</div>
-<div class="sect2">
-<h3 id="_blocks_in_detail">2.2. Blocks in detail</h3>
+<h3 id="_blocks_in_detail">2.1. Blocks in detail</h3>
 <div class="dlist"><dl>
 <dt class="hdlist1">
 full_text
@@ -218,28 +180,6 @@ color
         when it is associated.
         Colors are specified in hex (like in HTML), starting with a leading
         hash sign. For example, <tt>#ff0000</tt> means red.
-</p>
-</dd>
-<dt class="hdlist1">
-min_width
-</dt>
-<dd>
-<p>
-        The minimum width (in pixels) of the block. If the content of the
-        <tt>full_text</tt> key take less space than the specified min_width, the block
-        will be padded to the left and/or the right side, according to the <tt>align</tt>
-        key. This is useful when you want to prevent the whole status line to shift
-        when value take more or less space between each iteration.
-</p>
-</dd>
-<dt class="hdlist1">
-align
-</dt>
-<dd>
-<p>
-        Align text on the <tt>center</tt> (default), <tt>right</tt> or <tt>left</tt> of the block, when
-        the minimum width of the latter, specified by the <tt>min_width</tt> key, is not
-        reached.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -285,8 +225,6 @@ of the i3bar protocol.</p></div>
  "full_text": "E: 10.0.0.1 (1000 Mbit/s)",
  "short_text": "10.0.0.1",
  "color": "#00ff00",
- "min_width": 300,
- "align": "right",
  "urgent": false,
  "name": "ethernet",
  "instance": "eth0"

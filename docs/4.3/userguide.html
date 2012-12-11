@@ -49,16 +49,16 @@ contact us on IRC (preferred) or post your question(s) on the mailing list.</p><
 <div class="sectionbody">
 <div class="paragraph"><p>For the "too long; didn’t read" people, here is an overview of the default
 keybindings (click to see the full size image):</p></div>
-<div class="paragraph"><p><strong>Keys to use with $mod (Alt):</strong></p></div>
+<div class="paragraph"><p><strong>Keys to use with mod (alt):</strong></p></div>
 <div class="paragraph"><p><span class="image">
 <a class="image" href="keyboard-layer1.png">
-<img src="keyboard-layer1.png" alt="Keys to use with $mod (Alt)" width="600" />
+<img src="keyboard-layer1.png" alt="Keys to use with mod (alt)" width="600" />
 </a>
 </span></p></div>
-<div class="paragraph"><p><strong>Keys to use with Shift+$mod:</strong></p></div>
+<div class="paragraph"><p><strong>Keys to use with Shift+mod:</strong></p></div>
 <div class="paragraph"><p><span class="image">
 <a class="image" href="keyboard-layer2.png">
-<img src="keyboard-layer2.png" alt="Keys to use with Shift+$mod" width="600" />
+<img src="keyboard-layer2.png" alt="Keys to use with Shift+mod" width="600" />
 </a>
 </span></p></div>
 <div class="paragraph"><p>The red keys are the modifiers you need to press (by default), the blue keys
@@ -68,14 +68,14 @@ are your homerow.</p></div>
 <div class="sect1">
 <h2 id="_using_i3">2. Using i3</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Throughout this guide, the keyword <tt>$mod</tt> will be used to refer to the
-configured modifier. This is the Alt key (Mod1) by default, with windows (Mod4)
+<div class="paragraph"><p>Throughout this guide, the keyword <tt>mod</tt> will be used to refer to the
+configured modifier. This is the alt key (Mod1) by default, with windows (Mod4)
 being a popular alternative.</p></div>
 <div class="sect2">
 <h3 id="_opening_terminals_and_moving_around">2.1. Opening terminals and moving around</h3>
 <div class="paragraph"><p>One very basic operation is opening a new terminal. By default, the keybinding
-for this is $mod+Enter, that is Alt+Enter in the default configuration. By
-pressing $mod+Enter, a new terminal will be opened.  It will fill the whole
+for this is mod+Enter, that is Alt+Enter in the default configuration. By
+pressing mod+Enter, a new terminal will be opened.  It will fill the whole
 space available on your screen.</p></div>
 <div class="paragraph"><p><span class="image">
 <img src="single_terminal.png" alt="Single terminal" />
@@ -90,9 +90,9 @@ existing window (rotated displays).</p></div>
 <div class="paragraph"><p>To move the focus between the two terminals, you can use the direction keys
 which you may know from the editor <tt>vi</tt>. However, in i3, your homerow is used
 for these keys (in <tt>vi</tt>, the keys are shifted to the left by one for
-compatibility with most keyboard layouts). Therefore, <tt>$mod+J</tt> is left, <tt>$mod+K</tt>
-is down, <tt>$mod+L</tt> is up and <tt>$mod+;</tt> is right. So, to switch between the
-terminals, use <tt>$mod+K</tt> or <tt>$mod+L</tt>. Of course, you can also use the arrow keys.</p></div>
+compatibility with most keyboard layouts). Therefore, <tt>mod+J</tt> is left, <tt>mod+K</tt>
+is down, <tt>mod+L</tt> is up and <tt>mod+;</tt> is right. So, to switch between the
+terminals, use <tt>mod+K</tt> or <tt>mod+L</tt>. Of course, you can also use the arrow keys.</p></div>
 <div class="paragraph"><p>At the moment, your workspace is split (it contains two terminals) in a
 specific direction (horizontal by default). Every window can be split
 horizontally or vertically again, just like the workspace. The terminology is
@@ -100,8 +100,8 @@ horizontally or vertically again, just like the workspace. The terminology is
 or browser) and "split container" for containers that consist of one or more
 windows.</p></div>
 <div class="paragraph"><p>TODO: picture of the tree</p></div>
-<div class="paragraph"><p>To split a window vertically, press <tt>$mod+v</tt> before you create the new window.
-To split it horizontally, press <tt>$mod+h</tt>.</p></div>
+<div class="paragraph"><p>To split a window vertically, press <tt>mod+v</tt> before you create the new window.
+To split it horizontally, press <tt>mod+h</tt>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_changing_the_container_layout">2.2. Changing the container layout</h3>
@@ -137,8 +137,8 @@ a single line which is vertically split.
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>To switch modes, press <tt>$mod+e</tt> for splith/splitv (it toggles), <tt>$mod+s</tt> for
-stacking and <tt>$mod+w</tt> for tabbed.</p></div>
+<div class="paragraph"><p>To switch modes, press <tt>mod+e</tt> for splith/splitv (it toggles), <tt>mod+s</tt> for
+stacking and <tt>mod+w</tt> for tabbed.</p></div>
 <div class="paragraph"><p><span class="image">
 <img src="modes.png" alt="Container modes" />
 </span></p></div>
@@ -146,14 +146,14 @@ stacking and <tt>$mod+w</tt> for tabbed.</p></div>
 <div class="sect2">
 <h3 id="_toggling_fullscreen_mode_for_a_window">2.3. Toggling fullscreen mode for a window</h3>
 <div class="paragraph"><p>To display a window in fullscreen mode or to go out of fullscreen mode again,
-press <tt>$mod+f</tt>.</p></div>
+press <tt>mod+f</tt>.</p></div>
 <div class="paragraph"><p>There is also a global fullscreen mode in i3 in which the client will span all
 available outputs (the command is <tt>fullscreen global</tt>).</p></div>
 </div>
 <div class="sect2">
 <h3 id="_opening_other_applications">2.4. Opening other applications</h3>
 <div class="paragraph"><p>Aside from opening applications from a terminal, you can also use the handy
-<tt>dmenu</tt> which is opened by pressing <tt>$mod+d</tt> by default. Just type the name
+<tt>dmenu</tt> which is opened by pressing <tt>mod+d</tt> by default. Just type the name
 (or a part of it) of the application which you want to open. The corresponding
 application has to be in your <tt>$PATH</tt> for this to work.</p></div>
 <div class="paragraph"><p>Additionally, if you have applications you open very frequently, you can
@@ -164,7 +164,7 @@ create a keybinding for starting the application directly. See the section
 <h3 id="_closing_windows">2.5. Closing windows</h3>
 <div class="paragraph"><p>If an application does not provide a mechanism for closing (most applications
 provide a menu, the escape key or a shortcut like <tt>Control+W</tt> to close), you
-can press <tt>$mod+Shift+q</tt> to kill a window. For applications which support
+can press <tt>mod+Shift+q</tt> to kill a window. For applications which support
 the WM_DELETE protocol, this will correctly close the application (saving
 any modifications or doing other cleanup). If the application doesn’t support
 the WM_DELETE protocol your X server will kill the window and the behaviour
@@ -174,7 +174,7 @@ depends on the application.</p></div>
 <h3 id="_using_workspaces">2.6. Using workspaces</h3>
 <div class="paragraph"><p>Workspaces are an easy way to group a set of windows. By default, you are on
 the first workspace, as the bar on the bottom left indicates. To switch to
-another workspace, press <tt>$mod+num</tt> where <tt>num</tt> is the number of the workspace
+another workspace, press <tt>mod+num</tt> where <tt>num</tt> is the number of the workspace
 you want to use. If the workspace does not exist yet, it will be created.</p></div>
 <div class="paragraph"><p>A common paradigm is to put the web browser on one workspace, communication
 applications (<tt>mutt</tt>, <tt>irssi</tt>, &#8230;) on another one, and the ones with which you
@@ -186,7 +186,7 @@ focus to that screen.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_moving_windows_to_workspaces">2.7. Moving windows to workspaces</h3>
-<div class="paragraph"><p>To move a window to another workspace, simply press <tt>$mod+Shift+num</tt> where
+<div class="paragraph"><p>To move a window to another workspace, simply press <tt>mod+Shift+num</tt> where
 <tt>num</tt> is (like when switching workspaces) the number of the target workspace.
 Similarly to switching workspaces, the target workspace will be created if
 it does not yet exist.</p></div>
@@ -201,11 +201,11 @@ columns/rows with your keyboard.</p></div>
 <div class="sect2">
 <h3 id="_restarting_i3_inplace">2.9. Restarting i3 inplace</h3>
 <div class="paragraph"><p>To restart i3 inplace (and thus get into a clean state if there is a bug, or
-to upgrade to a newer version of i3) you can use <tt>$mod+Shift+r</tt>.</p></div>
+to upgrade to a newer version of i3) you can use <tt>mod+Shift+r</tt>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_exiting_i3">2.10. Exiting i3</h3>
-<div class="paragraph"><p>To cleanly exit i3 without killing your X server, you can use <tt>$mod+Shift+e</tt>.</p></div>
+<div class="paragraph"><p>To cleanly exit i3 without killing your X server, you can use <tt>mod+Shift+e</tt>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_floating">2.11. Floating</h3>
@@ -214,7 +214,7 @@ are not managed by i3, but by you. Using this mode violates the tiling
 paradigm but can be useful for some corner cases like "Save as" dialog
 windows, or toolbar windows (GIMP or similar). Those windows usually set the
 appropriate hint and are opened in floating mode by default.</p></div>
-<div class="paragraph"><p>You can toggle floating mode for a window by pressing <tt>$mod+Shift+Space</tt>. By
+<div class="paragraph"><p>You can toggle floating mode for a window by pressing <tt>mod+Shift+Space</tt>. By
 dragging the window’s titlebar with your mouse you can move the window
 around. By grabbing the borders and moving them you can resize the window. You
 can also do that by using the <a href="#floating_modifier">[floating_modifier]</a>.</p></div>
@@ -260,7 +260,7 @@ orientation (horizontal, vertical or unspecified) and the orientation depends
 on the layout the container is in (vertical for splitv and stacking, horizontal
 for splith and tabbed). So, in our example with the workspace, the default
 layout of the workspace <tt>Container</tt> is splith (most monitors are widescreen
-nowadays). If you change the layout to splitv (<tt>$mod+l</tt> in the default config)
+nowadays). If you change the layout to splitv (<tt>mod+l</tt> in the default config)
 and <strong>then</strong> open two terminals, i3 will configure your windows like this:</p></div>
 <div class="imageblock">
 <div class="content">
@@ -273,8 +273,8 @@ Let’s assume you have two terminals on a workspace (with splith layout, that i
 horizontal orientation), focus is on the right terminal. Now you want to open
 another terminal window below the current one. If you would just open a new
 terminal window, it would show up to the right due to the splith layout.
-Instead, press <tt>$mod+v</tt> to split the container with the splitv layout (to
-open a <tt>Horizontal Split Container</tt>, use <tt>$mod+h</tt>). Now you can open a new
+Instead, press <tt>mod+v</tt> to split the container with the splitv layout (to
+open a <tt>Horizontal Split Container</tt>, use <tt>mod+h</tt>). Now you can open a new
 terminal and it will open below the current one:</p></div>
 <div class="imageblock" style="float:right;">
 <div class="content">
@@ -316,7 +316,7 @@ command.</p></div>
 single workspace on which you open three terminal windows. All these terminal
 windows are directly attached to one node inside i3’s layout tree, the
 workspace node. By default, the workspace node’s orientation is <tt>horizontal</tt>.</p></div>
-<div class="paragraph"><p>Now you move one of these terminals down (<tt>$mod+k</tt> by default). The workspace
+<div class="paragraph"><p>Now you move one of these terminals down (<tt>mod+k</tt> by default). The workspace
 node’s orientation will be changed to <tt>vertical</tt>. The terminal window you moved
 down is directly attached to the workspace and appears on the bottom of the
 screen. A new (horizontal) container was created to accomodate the other two
@@ -376,15 +376,13 @@ and fall back to a working font.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>font &lt;X core font description&gt;
-font pango:[family list] [style options] [size]</tt></pre>
+font xft:&lt;a FreeType font description&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-font pango:DejaVu Sans Mono 10
-font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 11
-font pango:Terminus 11x</tt></pre>
+font xft:DejaVu Sans Mono 10</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -428,10 +426,10 @@ bindcode [--release] [Modifiers+]keycode command</tt></pre>
 <div class="listingblock">
 <div class="content">
 <pre><tt># Fullscreen
-bindsym $mod+f fullscreen
+bindsym mod+f fullscreen
 
 # Restart
-bindsym $mod+Shift+r restart
+bindsym mod+Shift+r restart
 
 # Notebook-specific hotkeys
 bindcode 214 exec --no-startup-id /home/michael/toggle_beamer.sh
@@ -546,29 +544,16 @@ start.</p></div>
 <div class="sect2">
 <h3 id="_border_style_for_new_windows">4.8. Border style for new windows</h3>
 <div class="paragraph"><p>This option determines which border style new windows will have. The default is
-"normal". Note that new_float applies only to windows which are starting out as
-floating windows, e.g. dialog windows.</p></div>
+"normal".</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>new_window &lt;normal|1pixel|none|pixel&gt;
-new_float &lt;normal|1pixel|none|pixel&gt;</tt></pre>
+<pre><tt>new_window &lt;normal|1pixel|none&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>new_window 1pixel</tt></pre>
-</div></div>
-<div class="paragraph"><p>The "normal" and "pixel" border styles support an optional border width in
-pixels:</p></div>
-<div class="paragraph"><p><strong>Example</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt># The same as new_window none
-new_window pixel 0
-
-# A 3 px border
-new_window pixel 3</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -872,14 +857,8 @@ links in your browser window).</p></div>
 <div class="paragraph"><p>When you are in fullscreen mode, some applications still open popup windows
 (take Xpdf for example). This is because these applications may not be aware
 that they are in fullscreen mode (they do not check the corresponding hint).
-There are three things which are possible to do in this situation:</p></div>
+There are two things which are possible to do in this situation:</p></div>
 <div class="olist arabic"><ol class="arabic">
-<li>
-<p>
-Display the popup if it belongs to the fullscreen application only. This is
-   the default and should be reasonable behavior for most users.
-</p>
-</li>
 <li>
 <p>
 Just ignore the popup (don’t map it). This won’t interrupt you while you are
@@ -889,19 +868,19 @@ Just ignore the popup (don’t map it). This won’t interrupt you while you are
 </li>
 <li>
 <p>
-Leave fullscreen mode.
+Leave fullscreen mode. This is the default.
 </p>
 </li>
 </ol></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>popup_during_fullscreen &lt;smart|ignore|leave_fullscreen&gt;</tt></pre>
+<pre><tt>popup_during_fullscreen &lt;ignore|leave_fullscreen&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>popup_during_fullscreen smart</tt></pre>
+<pre><tt>popup_during_fullscreen ignore</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -955,7 +934,7 @@ Xinerama, instead they are counted up, starting at 0: <tt>xinerama-0</tt>, <tt>x
 <a href="#back_and_forth">[back_and_forth]</a>) when switching to the workspace that is currently focused.</p></div>
 <div class="paragraph"><p>For instance: Assume you are on workspace "1: www" and switch to "2: IM" using
 mod+2 because somebody sent you a message. You don’t need to remember where you
-came from now, you can just press $mod+2 again to switch back to "1: www".</p></div>
+came from now, you can just press mod+2 again to switch back to "1: www".</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -965,28 +944,6 @@ came from now, you can just press $mod+2 again to switch back to "1: www".</p></
 <div class="listingblock">
 <div class="content">
 <pre><tt>workspace_auto_back_and_forth yes</tt></pre>
-</div></div>
-</div>
-<div class="sect2">
-<h3 id="_delaying_urgency_hint_reset_on_workspace_change">4.22. Delaying urgency hint reset on workspace change</h3>
-<div class="paragraph"><p>If an application on another workspace sets an urgency hint, switching to this
-workspace may lead to immediate focus of the application, which also means the
-window decoration color would be immediately resetted to <tt>client.focused</tt>. This
-may make it unnecessarily hard to tell which window originally raised the
-event.</p></div>
-<div class="paragraph"><p>In order to prevent this, you can tell i3 to delay resetting the urgency state
-by a certain time using the <tt>force_display_urgency_hint</tt> directive. Setting the
-value to 0 disables this feature.</p></div>
-<div class="paragraph"><p>The default is 500ms.</p></div>
-<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>force_display_urgency_hint &lt;timeout&gt; ms</tt></pre>
-</div></div>
-<div class="paragraph"><p><strong>Example</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>force_display_urgency_hint 500 ms</tt></pre>
 </div></div>
 </div>
 </div>
@@ -1197,7 +1154,7 @@ bar {
 <div class="content">
 <pre><tt>bar {
     font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-    font pango:DejaVu Sans Mono 10
+    font xft:DejaVu Sans Mono 10
 }</tt></pre>
 </div></div>
 </div>
@@ -1326,7 +1283,7 @@ the following keybinding:</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+x move container to workspace 3; workspace 3</tt></pre>
+<pre><tt>bindsym mod+x move container to workspace 3; workspace 3</tt></pre>
 </div></div>
 <div class="paragraph" id="command_criteria"><p>Furthermore, you can change the scope of a command, that is, which containers
 should be affected by that command, by using various criteria. These are
@@ -1335,10 +1292,10 @@ which have the class Firefox, use:</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+x [class="Firefox"] kill
+<pre><tt>bindsym mod+x [class="Firefox"] kill
 
 # same thing, but case-insensitive
-bindsym $mod+x [class="(?i)firefox"] kill</tt></pre>
+bindsym mod+x [class="(?i)firefox"] kill</tt></pre>
 </div></div>
 <div class="paragraph"><p>The criteria which are currently implemented are:</p></div>
 <div class="dlist"><dl>
@@ -1428,10 +1385,10 @@ searched in your $PATH.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt># Start the GIMP
-bindsym $mod+g exec gimp
+bindsym mod+g exec gimp
 
 # Start the terminal emulator urxvt which is not yet startup-notification-aware
-bindsym $mod+Return exec --no-startup-id urxvt</tt></pre>
+bindsym mod+Return exec --no-startup-id urxvt</tt></pre>
 </div></div>
 <div class="paragraph"><p>The <tt>--no-startup-id</tt> parameter disables startup-notification support for this
 particular exec command. With startup-notification, i3 can make sure that a
@@ -1460,8 +1417,8 @@ to splith or vice-versa.</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+v split vertical
-bindsym $mod+h split horizontal</tt></pre>
+<pre><tt>bindsym mod+v split vertical
+bindsym mod+h split horizontal</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1481,21 +1438,21 @@ layout toggle [split|all]</tt></pre>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+s layout stacking
-bindsym $mod+l layout toggle split
-bindsym $mod+w layout tabbed
+<pre><tt>bindsym mod+s layout stacking
+bindsym mod+l layout toggle split
+bindsym mod+w layout tabbed
 
 # Toggle between stacking/tabbed/split:
-bindsym $mod+x layout toggle
+bindsym mod+x layout toggle
 
 # Toggle between stacking/tabbed/splith/splitv:
-bindsym $mod+x layout toggle all
+bindsym mod+x layout toggle all
 
 # Toggle fullscreen
-bindsym $mod+f fullscreen
+bindsym mod+f fullscreen
 
 # Toggle floating/tiling
-bindsym $mod+t floating toggle</tt></pre>
+bindsym mod+t floating toggle</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1571,36 +1528,36 @@ relevant for floating containers. The default amount is 10 pixels.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt># Focus container on the left, bottom, top, right:
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym mod+j focus left
+bindsym mod+k focus down
+bindsym mod+l focus up
+bindsym mod+semicolon focus right
 
 # Focus parent container
-bindsym $mod+u focus parent
+bindsym mod+u focus parent
 
 # Focus last floating/tiling container
-bindsym $mod+g focus mode_toggle
+bindsym mod+g focus mode_toggle
 
 # Focus the output right to the current one
-bindsym $mod+x focus output right
+bindsym mod+x focus output right
 
 # Focus the big output
-bindsym $mod+x focus output HDMI-2
+bindsym mod+x focus output HDMI-2
 
 # Move container to the left, bottom, top, right:
-bindsym $mod+j move left
-bindsym $mod+k move down
-bindsym $mod+l move up
-bindsym $mod+semicolon move right
+bindsym mod+j move left
+bindsym mod+k move down
+bindsym mod+l move up
+bindsym mod+semicolon move right
 
 # Move container, but make floating containers
 # move more than the default
-bindsym $mod+j move left 20 px
+bindsym mod+j move left 20 px
 
 # Move floating container to the center
 # of all outputs
-bindsym $mod+c move absolute position center</tt></pre>
+bindsym mod+c move absolute position center</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1619,40 +1576,38 @@ container to the next/previous workspace and <tt>move container to workspace cur
 <div class="paragraph"><p>See <a href="#move_to_outputs">[move_to_outputs]</a> for how to move a container/workspace to a different
 RandR output.</p></div>
 <div class="paragraph" id="back_and_forth"><p>To switch back to the previously focused workspace, use <tt>workspace
-back_and_forth</tt>; likewise, you can move containers to the previously focused
-workspace using <tt>move container to workspace back_and_forth</tt>.</p></div>
+back_and_forth</tt>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>workspace &lt;next|prev|next_on_output|prev_on_output&gt;
 workspace back_and_forth
 workspace &lt;name&gt;
-workspace number &lt;name&gt;
+workspace number &lt;number&gt;
 
 move [window|container] [to] workspace &lt;name&gt;
-move [window|container] [to] workspace number &lt;name&gt;
+move [window|container] [to] workspace number &lt;number&gt;
 move [window|container] [to] workspace &lt;prev|next|current&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+1 workspace 1
-bindsym $mod+2 workspace 2
+<pre><tt>bindsym mod+1 workspace 1
+bindsym mod+2 workspace 2
 ...
 
-bindsym $mod+Shift+1 move container to workspace 1
-bindsym $mod+Shift+2 move container to workspace 2
+bindsym mod+Shift+1 move container to workspace 1
+bindsym mod+Shift+2 move container to workspace 2
 ...
 
 # switch between the current and the previously focused one
-bindsym $mod+b workspace back_and_forth
-bindsym $mod+Shift+b move container to workspace back_and_forth
+bindsym mod+b workspace back_and_forth
 
 # move the whole workspace to the next output
-bindsym $mod+x move workspace to output right
+bindsym mod+x move workspace to output right
 
 # move firefox to current workspace
-bindsym $mod+F1 [class="Firefox"] move workspace current</tt></pre>
+bindsym mod+F1 [class="Firefox"] move workspace current</tt></pre>
 </div></div>
 <div class="sect3">
 <h4 id="_named_workspaces">6.5.1. Named workspaces</h4>
@@ -1661,7 +1616,7 @@ workspace command, you can use an arbitrary name:</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+1 workspace mail
+<pre><tt>bindsym mod+1 workspace mail
 ...</tt></pre>
 </div></div>
 <div class="paragraph"><p>If you want the workspace to have a number <strong>and</strong> a name, just prefix the
@@ -1669,8 +1624,8 @@ number, like this:</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+1 workspace 1: mail
-bindsym $mod+2 workspace 2: www
+<pre><tt>bindsym mod+1 workspace 1: mail
+bindsym mod+2 workspace 2: www
 ...</tt></pre>
 </div></div>
 <div class="paragraph"><p>Note that the workspace will really be named "1: mail". i3 treats workspace
@@ -1679,40 +1634,29 @@ workspaces are ordered the way they appeared. When they start with a number, i3
 will order them numerically. Also, you will be able to use <tt>workspace number 1</tt>
 to switch to the workspace which begins with number 1, regardless of which name
 it has. This is useful in case you are changing the workspace’s name
-dynamically. To combine both commands you can use <tt>workspace number 1: mail</tt> to
-specify a default name if there&#8217;s currently no workspace starting with a "1".</p></div>
+dynamically.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_renaming_workspaces">6.5.2. Renaming workspaces</h4>
 <div class="paragraph"><p>You can rename workspaces. This might be useful to start with the default
 numbered workspaces, do your work, and rename the workspaces afterwards to
-reflect what’s actually on them. You can also omit the old name to rename
-the currently focused workspace. This is handy if you wan&#8217;t to use the
-rename command with <tt>i3-input</tt>.</p></div>
+reflect what’s actually on them.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>rename workspace &lt;old_name&gt; to &lt;new_name&gt;
-rename workspace to &lt;new_name&gt;</tt></pre>
+<pre><tt>rename workspace &lt;old_name&gt; to &lt;new_name&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>i3-msg 'rename workspace 5 to 6'
 i3-msg 'rename workspace 1 to "1: www"'
-i3-msg 'rename workspace "1: www" to "10: www"'
-i3-msg 'rename workspace to "2: mail"
-bindsym $mod+r exec i3-input -F 'rename workspace to %s' -P 'New name: '</tt></pre>
+i3-msg 'rename workspace "1: www" to "10: www"'</tt></pre>
 </div></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_moving_workspaces_to_a_different_screen">6.6. Moving workspaces to a different screen</h3>
-<div class="paragraph"><p>See <a href="#move_to_outputs">[move_to_outputs]</a> for how to move a container/workspace to a different
-RandR output.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_moving_containers_workspaces_to_randr_outputs">6.7. Moving containers/workspaces to RandR outputs</h3>
+<h3 id="_moving_containers_workspaces_to_randr_outputs">6.6. Moving containers/workspaces to RandR outputs</h3>
 <div class="paragraph" id="move_to_outputs"><p>To move a container to another RandR output (addressed by names like <tt>LVDS1</tt> or
 <tt>VGA1</tt>) or to a RandR output identified by a specific direction (like <tt>left</tt>,
 <tt>right</tt>, <tt>up</tt> or <tt>down</tt>), there are two commands:</p></div>
@@ -1727,14 +1671,14 @@ move workspace to output &lt;&lt;left|right|down|up&gt;|&lt;output&gt;&gt;</tt><
 <div class="content">
 <pre><tt># Move the current workspace to the next output
 # (effectively toggles when you only have two outputs)
-bindsym $mod+x move workspace to output right
+bindsym mod+x move workspace to output right
 
 # Put this window on the presentation output.
-bindsym $mod+x move container to output VGA1</tt></pre>
+bindsym mod+x move container to output VGA1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="resizingconfig">6.8. Resizing containers/windows</h3>
+<h3 id="resizingconfig">6.7. Resizing containers/windows</h3>
 <div class="paragraph"><p>If you want to resize containers/windows using your keyboard, you can use the
 <tt>resize</tt> command:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -1777,11 +1721,11 @@ default is 10 percentage points).</p></div>
 }
 
 # Enter resize mode
-bindsym $mod+r mode "resize"</tt></pre>
+bindsym mod+r mode "resize"</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_jumping_to_specific_windows">6.9. Jumping to specific windows</h3>
+<h3 id="_jumping_to_specific_windows">6.8. Jumping to specific windows</h3>
 <div class="paragraph"><p>Often when in a multi-monitor environment, you want to quickly jump to a
 specific window. For example, while working on workspace 3 you may want to
 jump to your mail client to email your boss that you’ve achieved some
@@ -1798,11 +1742,11 @@ with criteria for that.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt># Get me to the next open VIM instance
-bindsym $mod+a [class="urxvt" title="VIM"] focus</tt></pre>
+bindsym mod+a [class="urxvt" title="VIM"] focus</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_vim_like_marks_mark_goto">6.10. VIM-like marks (mark/goto)</h3>
+<h3 id="_vim_like_marks_mark_goto">6.9. VIM-like marks (mark/goto)</h3>
 <div class="paragraph" id="vim_like_marks"><p>This feature is like the jump feature: It allows you to directly jump to a
 specific window (this means switching to the appropriate workspace and setting
 focus to the windows). However, you can directly mark a specific window with
@@ -1827,7 +1771,7 @@ $ i3-msg '[con_mark="irssi"] focus'</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_border_style">6.11. Changing border style</h3>
+<h3 id="_changing_border_style">6.10. Changing border style</h3>
 <div class="paragraph"><p>To change the border of the current client, you can use <tt>border normal</tt> to use the normal
 border (including window title), <tt>border 1pixel</tt> to use a 1-pixel border (no window title)
 and <tt>border none</tt> to make the client borderless.</p></div>
@@ -1835,13 +1779,13 @@ and <tt>border none</tt> to make the client borderless.</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+t border normal
-bindsym $mod+y border 1pixel
-bindsym $mod+u border none</tt></pre>
+<pre><tt>bindsym mod+t border normal
+bindsym mod+y border 1pixel
+bindsym mod+u border none</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="stack-limit">6.12. Reloading/Restarting/Exiting</h3>
+<h3 id="stack-limit">6.11. Reloading/Restarting/Exiting</h3>
 <div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
 restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
 (if that should ever happen) or to perform an upgrade without having to restart
@@ -1850,22 +1794,20 @@ however you don’t need to (simply killing your X session is fine as well).</p>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+Shift+r restart
-bindsym $mod+Shift+w reload
-bindsym $mod+Shift+e exit</tt></pre>
+<pre><tt>bindsym mod+Shift+r restart
+bindsym mod+Shift+w reload
+bindsym mod+Shift+e exit</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_scratchpad">6.13. Scratchpad</h3>
+<h3 id="_scratchpad">6.12. Scratchpad</h3>
 <div class="paragraph"><p>There are two commands to use any existing window as scratchpad window. <tt>move
 scratchpad</tt> will move a window to the scratchpad workspace. This will make it
 invisible until you show it again. There is no way to open that workspace.
 Instead, when using <tt>scratchpad show</tt>, the window will be shown again, as a
 floating window, centered on your current workspace (using <tt>scratchpad show</tt> on
 a visible scratchpad window will make it hidden again, so you can have a
-keybinding to toggle). Note that this is just a normal floating window, so if
-you want to "remove it from scratchpad", you can simple make it tiling again
-(<tt>floating toggle</tt>).</p></div>
+keybinding to toggle).</p></div>
 <div class="paragraph"><p>As the name indicates, this is useful for having a window with your favorite
 editor always at hand. However, you can also use this for other permanently
 running applications which you don’t want to see all the time: Your music
@@ -1881,10 +1823,10 @@ scratchpad show</tt></pre>
 <div class="listingblock">
 <div class="content">
 <pre><tt># Make the currently focused window a scratchpad
-bindsym $mod+Shift+minus move scratchpad
+bindsym mod+Shift+minus move scratchpad
 
 # Show the first scratchpad window
-bindsym $mod+minus scratchpad show
+bindsym mod+minus scratchpad show
 
 # Show the sup-mail scratchpad window, if any.
 bindsym mod4+s [title="^Sup ::"] scratchpad show</tt></pre>
@@ -2003,12 +1945,6 @@ If you want some applications to generally open on the bigger screen
 If you have many workspaces on many monitors, it might get hard to keep
    track of which window you put where. Thus, you can use vim-like marks to
    quickly switch between windows. See <a href="#vim_like_marks">[vim_like_marks]</a>.
-</p>
-</li>
-<li>
-<p>
-For information on how to move existing workspaces between monitors,
-   see <a href="#_moving_containers_workspaces_to_randr_outputs">[_moving_containers_workspaces_to_randr_outputs]</a>.
 </p>
 </li>
 </ol></div>

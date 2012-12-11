@@ -31,15 +31,15 @@ window.onload = function(){asciidoc.footnotes();}
 <h1>Debugging i3: How To</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">December 2012</span>
+<span id="revdate">February 2012</span>
 </div>
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph"><p>This document describes how to debug i3 to send us useful bug
-reports, even if you have no knowledge of C programming.</p></div>
-<div class="paragraph"><p>Thank you for being interested in debugging i3. It really means
+<div class="paragraph"><p>This document describes how to debug i3 suitably for sending us useful bug
+reports, even if you have no clue of C programming.</p></div>
+<div class="paragraph"><p>First of all: Thank you for being interested in debugging i3. It really means
 something to us to get your bug fixed. If you have any questions about the
-process and/or need further help, do not hesitate to contact us!</p></div>
+debugging and/or need further help, do not hesitate to contact us!</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -54,18 +54,17 @@ i3 version 4.1.2-248-g51728ba (2012-02-12, branch "next")</tt></pre>
 <div class="paragraph"><p>Your version can look like this:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
-4.1.2 (release version)
+4.1.2
 </dt>
 <dd>
 <p>
-You are using a release version. In many cases, bugs are already
-fixed in the development version of i3. If they aren’t, we will still ask you
-to reproduce your error with the most recent development version of i3.
-Therefore, please upgrade to a development version if you can.
+You are using a release version. Please
+upgrade to a development version first, or read
+<a href="debugging-release-version.html">Debugging i3: How To (release version)</a>.
 </p>
 </dd>
 <dt class="hdlist1">
-4.1.2-248-g51728ba (development version)
+4.1.2-248-g51728ba
 </dt>
 <dd>
 <p>
@@ -76,33 +75,31 @@ latest version.
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>Development versions of i3 have logging enabled by default and are compiled
-with debug symbols.</p></div>
+<div class="paragraph"><p>Development versions of i3 have several properties which make debugging easier:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Shared memory debug logging is enabled by default. You do not have to enable
+   logging explicitly.
+</p>
+</li>
+<li>
+<p>
+Core dumps are enabled by default.
+</p>
+</li>
+<li>
+<p>
+If you are using a version from the Debian/Ubuntu autobuilder, it is
+   compiled without optimization. Debug symbols are available in the i3-wm-dbg
+   package. When compiling i3 yourself, debug mode is the default.
+</p>
+</li>
+</ol></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_enabling_logging">2. Enabling logging</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>If you are using a development version (see previous section), you don’t need
-to do anything&#8201;&#8212;&#8201;skip to section 3.</p></div>
-<div class="paragraph"><p>If you are using a release version with a custom <tt>~/.xsession</tt> (or xinitrc)
-file, execute i3 with a line like this:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt># Use 25 MiB of RAM for debug logs
-exec i3 --shmlog-size=26214400</tt></pre>
-</div></div>
-<div class="paragraph"><p>If you are <strong>NOT</strong> using an <tt>~/.xsession</tt> file but you just chose "i3" from the
-list of sessions in your desktop manager (gdm, lxdm, …), edit
-<tt>/usr/share/xsessions/i3.desktop</tt> and replace the <tt>Exec=i3</tt> line with:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>Exec=i3 --shmlog-size=26214400</tt></pre>
-</div></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_obtaining_the_debug_logfile">3. Obtaining the debug logfile</h2>
+<h2 id="_obtaining_the_debug_logfile">2. Obtaining the debug logfile</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>No matter whether i3 misbehaved in some way without crashing or whether it just
 crashed, the logfile provides all information necessary to debug the problem.</p></div>
@@ -110,43 +107,55 @@ crashed, the logfile provides all information necessary to debug the problem.</p
 bugreport), use:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>DISPLAY=:0 i3-dump-log | gzip -9c &gt; /tmp/i3.log.gz</tt></pre>
+<pre><tt>i3-dump-log | gzip -9c &gt; /tmp/i3.log.gz</tt></pre>
 </div></div>
-<div class="paragraph"><p>This command does not depend on i3 (it also works while i3 displays
-the crash dialog), but it requires a working X11 connection.</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_compiling_with_debug_symbols">4. Compiling with debug symbols</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>To actually get useful backtraces, you should make sure that your version of i3
-is compiled with debug symbols:</p></div>
+<div class="paragraph"><p>This command does not depend on i3 (it also works when i3 currently displays
+the crash dialog), but it requires a working X11 connection. When running it
+from a virtual console (Ctrl-Alt-F1), use:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>$ file `which i3`
-/usr/bin/i3: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically
-linked (uses shared libs), for GNU/Linux 2.6.18, not stripped</tt></pre>
+<pre><tt>DISPLAY=:0 i3-dump-log | gzip -9c &gt; /tmp/i3.log.gz</tt></pre>
 </div></div>
-<div class="paragraph"><p>Notice the <tt>not stripped</tt>, which is the important part. If you have a version
-which is stripped, please check whether your distribution provides debug
-symbols (package <tt>i3-wm-dbg</tt> on Debian for example) or if you can turn off
-stripping. If nothing helps, please build i3 from source.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_obtaining_a_backtrace">5. Obtaining a backtrace</h2>
+<h2 id="_obtaining_a_backtrace">3. Obtaining a backtrace</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Once you have made sure that your i3 is compiled with debug symbols and the C
-debugger <tt>gdb</tt> is installed on your machine, you can let i3 generate a
-backtrace in the crash dialog.</p></div>
-<div class="paragraph"><p>After pressing "b" in the crash dialog, you will get a file called
-<tt>/tmp/i3-backtrace.%d.%d.txt</tt> where the first <tt>%d</tt> is replaced by i3’s process
-id (PID) and the second one is incremented each time you generate a backtrace,
-starting at 0.</p></div>
+<div class="paragraph"><p>When i3 displays its crash dialog, do the following:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Switch to a virtual console (Ctrl-Alt-F1) or login from a different computer
+</p>
+</li>
+<li>
+<p>
+Generate a backtrace (see below)
+</p>
+</li>
+<li>
+<p>
+Switch back to the crash dialog (Ctrl-Alt-F7)
+</p>
+</li>
+<li>
+<p>
+Restart i3 in-place (you will keep your session), continue working
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>This is how you get a backtrace from a running i3 process:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>I3PID=$(pidof i3)
+gdb /proc/$I3PID/exe $I3PID \
+    --batch --quiet \
+    --ex 'backtrace full' &gt; /tmp/i3-backtrace.txt 2&gt;&amp;1</tt></pre>
+</div></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sending_bug_reports_debugging_on_irc">6. Sending bug reports/debugging on IRC</h2>
+<h2 id="_sending_bug_reports_debugging_on_irc">4. Sending bug reports/debugging on IRC</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>When sending bug reports, please attach the <strong>whole</strong> log file. Even if you think
 you found the section which clearly highlights the problem, additional

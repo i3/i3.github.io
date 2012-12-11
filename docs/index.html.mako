@@ -3,7 +3,7 @@
 %>
 <%inherit file="_templates/i3.mako" />
 <div id="content">
-<h2>Documentation for i3 v4.3</h2>
+<h2>Documentation for i3 v4.4</h2>
 
 <p>
 One of i3’s goals is good documentation. The documents which you will find
