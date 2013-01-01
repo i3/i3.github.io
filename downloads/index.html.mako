@@ -83,6 +83,13 @@ currently distributed in the following operating systems/distributions:
 		  "/img/exherbo.svg",
 		  85
 		],
+		[
+		  "Pibang Linux",
+		  "http://pibanglinux.org/",
+		  "/img/pibang.png",
+		  61
+		],
+
 	]
 
 	c = 0
