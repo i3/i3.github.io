@@ -149,8 +149,8 @@ TEXT
 
 # JSON for i3bar
 <%text filter="h">
- [{ "full_text" : "Home ${fs_free /home} Free" , "color" : "\#ffffff" } , 
+ [{ "full_text" : "Home ${fs_free /home} Free" , "color" : "\#ffffff" },
   { "full_text" : "RAM ${memperc}%" , "color" :
-    ${if_match ${memperc}<90}"\#ffffff"${else}"\#ff0000"${endif} } , 
+    ${if_match ${memperc}<90}"\#ffffff"${else}"\#ff0000"${endif} }],
 </%text>
-]</tt></pre>
+</tt></pre>
