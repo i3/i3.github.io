@@ -30,8 +30,8 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <div id="header">
 <h1>Hacking i3: How To</h1>
 <span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">July 2011</span>
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">February 2013</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -1488,27 +1488,17 @@ Forgetting to call <tt>floating_fix_coordinates(con, old_rect, new_rect)</tt> af
 <div class="paragraph"><p>For a short introduction into using git, see
 <a href="http://www.spheredev.org/wiki/Git_for_the_lazy">http://www.spheredev.org/wiki/Git_for_the_lazy</a> or, for more documentation, see
 <a href="http://git-scm.com/documentation">http://git-scm.com/documentation</a></p></div>
-<div class="paragraph"><p>When you want to send a patch because you fixed a bug or implemented a cool
-feature (please talk to us before working on features to see whether they are
-maybe already implemented, not possible for some some reason, or don’t fit
-into the concept), please use git to create a patchfile.</p></div>
-<div class="paragraph"><p>First of all, update your working copy to the latest version of the master
-branch:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>git pull</tt></pre>
-</div></div>
-<div class="paragraph"><p>Afterwards, make the necessary changes for your bugfix/feature. Then, review
-the changes using <tt>git diff</tt> (you might want to enable colors in the diff using
-<tt>git config diff.color auto</tt>).  When you are definitely done, use <tt>git commit
--a</tt> to commit all changes you’ve made.</p></div>
-<div class="paragraph"><p>Then, use the following command to generate a patchfile which we can directly
-apply to the branch, preserving your commit message and name:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>git format-patch origin</tt></pre>
-</div></div>
-<div class="paragraph"><p>Just send us the generated file via email.</p></div>
+<div class="paragraph"><p>Please talk to us before working on new features to see whether they will be
+accepted. There are a few things which we don’t want to see in i3, e.g. a
+command which will focus windows in an alt+tab like way.</p></div>
+<div class="paragraph"><p>When working on bugfixes, please make sure you mention that you are working on
+it in the corresponding bugreport at <a href="http://bugs.i3wm.org/">http://bugs.i3wm.org/</a>. In case there is no
+bugreport yet, please create one.</p></div>
+<div class="paragraph"><p>After you are done, please submit your work for review at <a href="http://cr.i3wm.org/">http://cr.i3wm.org/</a></p></div>
+<div class="paragraph"><p>Do not send emails to the mailing list or any author directly, and don’t submit
+them in the bugtracker, since all reviews should be done in public at
+<a href="http://cr.i3wm.org/">http://cr.i3wm.org/</a>. In order to make your review go as fast as possible, you
+could have a look at previous reviews and see what the common mistakes are.</p></div>
 </div>
 </div>
 <div class="sect1">
