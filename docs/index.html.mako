@@ -100,6 +100,12 @@ i3bar</strong></a> <span class="author">(2012-11, by Gianrico)</span><br>
 Shows how to configure conky to generate JSON input for i3bar (with colors)!
 </p>
 
+<p>
+<a href="/docs/user-contributed/py3status.html"><strong>Enhanced and extensible
+i3bar with py3status</strong></a> <span class="author">(2013-02, by Ultrabug)</span><br>
+Introduces py3status, a wrapper script for i3status which is easily extensible.
+</p>
+
 </div>
 
 </div>
