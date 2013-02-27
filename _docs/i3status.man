@@ -56,7 +56,8 @@ order += "ethernet eth0"
 order += "battery 0"
 order += "cpu_temperature 0"
 order += "load"
-order += "time"
+order += "tztime local"
+order += "tztime berlin"
 
 wireless wlan0 {
         format_up = "W: (%quality at %essid, %bitrate) %ip"
@@ -83,8 +84,13 @@ run_watch VPN {
         pidfile = "/var/run/vpnc/pid"
 }
 
-time {
-	format = "%Y-%m-%d %H:%M:%S"
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+}
+
+tztime berlin {
+        format = "%Y-%m-%d %H:%M:%S %Z"
+        timezone = "Europe/Berlin"
 }
 
 load {
@@ -142,6 +148,11 @@ with the xmonad Window Manager.
 none::
 Does not use any color codes. Separates values by the pipe symbol. This should
 be used with i3bar and can be used for custom scripts.
+
+It's also possible to use the color_good, color_degraded, color_bad directives
+to define specific colors per module. If one of these directives is defined
+in a module section its value will override the value defined in the general
+section just for this module.
 
 === IPv6
 
@@ -205,6 +216,9 @@ battery is at 23% when fully charged because it’s old. In general, I want to
 see it this way, because it tells me how worn off my battery is.), just specify
 +last_full_capacity = true+.
 
+If you want the battery percentage to be shown without decimals, add
++integer_battery_capacity = true+.
+
 If your battery is represented in a non-standard path in /sys, be sure to
 modify the "path" property accordingly. The first occurence of %d gets replaced
 with the battery number, but you can just hard-code a path as well.
@@ -224,11 +238,15 @@ colored red. The low_threshold type can be of threshold_type "time" or
 
 === CPU-Temperature
 
-Gets the temperature of the given thermal zone.
+Gets the temperature of the given thermal zone. It is possible to
+define a max_threshold that will color the temperature red in case the
+specified thermal zone is getting too hot. Defaults to 75 degrees C.
 
 *Example order*: +cpu_temperature 0+
 
 *Example format*: +T: %degrees °C+
+
+*Example max_threshold*: +42+
 
 === CPU Usage
 
@@ -241,19 +259,42 @@ Gets the percentual CPU usage from +/proc/stat+ (Linux) or +sysctl(3)+ (FreeBSD/
 === Load
 
 Gets the system load (number of processes waiting for CPU time in the last
-1, 5 and 15 minutes).
+1, 5 and 15 minutes). It is possible to define a max_threshold that will
+color the load value red in case the load average of the last minute is
+getting higher than the configured threshold. Defaults to 5.
 
 *Example order*: +load+
 
 *Example format*: +%1min %5min %15min+
 
+*Example max_threshold*: 5
+
 === Time
 
-Formats the current system time. See +strftime(3)+ for the format.
+Outputs the current time in the local timezone.
+To use a different timezone, you can set the TZ environment variable,
+or use the +tztime+ module.
+See +strftime(3)+ for details on the format string.
 
 *Example order*: +time+
 
 *Example format*: +%Y-%m-%d %H:%M:%S+
+
+=== TzTime
+
+Outputs the current time in the given timezone.
+If no timezone is given, local time will be used.
+See +strftime(3)+ for details on the format string.
+The system's timezone database is usually installed in +/usr/share/zoneinfo+.
+Files below that path make for valid timezone strings, e.g. for
++/usr/share/zoneinfo/Europe/Berlin+ you can set timezone to +Europe/Berlin+
+in the +tztime+ module.
+
+*Example order*: +tztime berlin+
+
+*Example format*: +%Y-%m-%d %H:%M:%S %Z+
+
+*Example timezone*: +Europe/Berlin+
 
 === DDate
 
@@ -368,6 +409,12 @@ Put that in some script, say +.bin/my_i3status.sh+ and execute that instead of i
 Note that if you want to use the JSON output format (with colors in i3bar), you
 need to use a slightly more complex wrapper script. There are examples in the
 contrib/ folder, see http://code.i3wm.org/i3status/tree/contrib
+
+== SIGNALS
+
+When receiving +SIGUSR1+, i3status’s nanosleep() will be interrupted and thus
+you will force an update. You can use killall -USR1 i3status to force an update
+after changing the system volume, for example.
 
 == SEE ALSO
 

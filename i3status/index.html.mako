@@ -19,26 +19,39 @@
 <h2>Releases</h2>
 
 <ul>
+  <li><a href="/i3status/i3status-2.7.tar.bz2">i3status-2.7.tar.bz2</a>
+  (<a href="/i3status/i3status-2.7.tar.bz2.asc">GPG signature</a>, 2013-02-27)</li>
+
   <li><a href="/i3status/i3status-2.6.tar.bz2">i3status-2.6.tar.bz2</a>
   (<a href="/i3status/i3status-2.6.tar.bz2.asc">GPG signature</a>, 2012-10-03)</li>
+
   <li><a href="/i3status/i3status-2.5.1.tar.bz2">i3status-2.5.1.tar.bz2</a>
   (<a href="/i3status/i3status-2.5.1.tar.bz2.asc">GPG signature</a>, 2012-05-11)</li>
+
   <li><a href="/i3status/i3status-2.5.tar.bz2">i3status-2.5.tar.bz2</a>
   (<a href="/i3status/i3status-2.5.tar.bz2.asc">GPG signature</a>, 2012-05-02)</li>
+
   <li><a href="/i3status/i3status-2.4.tar.bz2">i3status-2.4.tar.bz2</a>
   (<a href="/i3status/i3status-2.4.tar.bz2.asc">GPG signature</a>, 2011-12-27)</li>
+
   <li><a href="/i3status/i3status-2.3.tar.bz2">i3status-2.3.tar.bz2</a>
   (<a href="/i3status/i3status-2.3.tar.bz2.asc">GPG signature</a>, 2011-07-21)</li>
+
   <li><a href="/i3status/i3status-2.2.tar.bz2">i3status-2.2.tar.bz2</a>
   (<a href="/i3status/i3status-2.2.tar.bz2.asc">GPG signature</a>, 2010-09-23)</li>
+
   <li><a href="/i3status/i3status-2.1.tar.bz2">i3status-2.1.tar.bz2</a>
   (<a href="/i3status/i3status-2.1.tar.bz2.asc">GPG signature</a>, 2010-04-11)</li>
+
   <li><a href="/i3status/i3status-2.0.tar.bz2">i3status-2.0.tar.bz2</a>
   (<a href="/i3status/i3status-2.0.tar.bz2.asc">GPG signature</a>, 2009-10-27)</li>
+
   <li><a href="/i3status/i3status-1.2.tar.bz2">i3status-1.2.tar.bz2</a>
   (<a href="/i3status/i3status-1.2.tar.bz2.asc">GPG signature</a>, 2009-06-21)</li>
+
   <li><a href="/i3status/i3status-1.1.tar.bz2">i3status-1.1.tar.bz2</a>
   (<a href="/i3status/i3status-1.1.tar.bz2.asc">GPG signature</a>, 2009-06-17)</li>
+
   <li><a href="/i3status/i3status-1.0.tar.bz2">i3status-1.0.tar.bz2</a></li>
 </ul>
 
@@ -54,7 +67,7 @@
 <p>
   i3status is currently developed at <a href="http://code.i3wm.org/i3status" title="cgit">
   http://code.i3wm.org/i3status</a>. Checkouts of the master branch are intended to
-  be stable and working all the time. Integration of new features happens in a separate branch.
+  be stable and working all the time.
 </p>
 
 </div>

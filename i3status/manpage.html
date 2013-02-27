@@ -125,7 +125,8 @@ order += "ethernet eth0"
 order += "battery 0"
 order += "cpu_temperature 0"
 order += "load"
-order += "time"
+order += "tztime local"
+order += "tztime berlin"
 
 wireless wlan0 {
         format_up = "W: (%quality at %essid, %bitrate) %ip"
@@ -152,8 +153,13 @@ run_watch VPN {
         pidfile = "/var/run/vpnc/pid"
 }
 
-time {
+tztime local {
         format = "%Y-%m-%d %H:%M:%S"
+}
+
+tztime berlin {
+        format = "%Y-%m-%d %H:%M:%S %Z"
+        timezone = "Europe/Berlin"
 }
 
 load {
@@ -232,6 +238,10 @@ be used with i3bar and can be used for custom scripts.
 </p>
 </dd>
 </dl></div>
+<div class="paragraph"><p>It&#8217;s also possible to use the color_good, color_degraded, color_bad directives
+to define specific colors per module. If one of these directives is defined
+in a module section its value will override the value defined in the general
+section just for this module.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_ipv6">5.2. IPv6</h3>
@@ -282,6 +292,8 @@ design capacity (when using the design capacity, it may happen that your
 battery is at 23% when fully charged because it’s old. In general, I want to
 see it this way, because it tells me how worn off my battery is.), just specify
 <tt>last_full_capacity = true</tt>.</p></div>
+<div class="paragraph"><p>If you want the battery percentage to be shown without decimals, add
+<tt>integer_battery_capacity = true</tt>.</p></div>
 <div class="paragraph"><p>If your battery is represented in a non-standard path in /sys, be sure to
 modify the "path" property accordingly. The first occurence of %d gets replaced
 with the battery number, but you can just hard-code a path as well.</p></div>
@@ -296,9 +308,12 @@ colored red. The low_threshold type can be of threshold_type "time" or
 </div>
 <div class="sect2">
 <h3 id="_cpu_temperature">5.8. CPU-Temperature</h3>
-<div class="paragraph"><p>Gets the temperature of the given thermal zone.</p></div>
+<div class="paragraph"><p>Gets the temperature of the given thermal zone. It is possible to
+define a max_threshold that will color the temperature red in case the
+specified thermal zone is getting too hot. Defaults to 75 degrees C.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_temperature 0</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>T: %degrees °C</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>42</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_cpu_usage">5.9. CPU Usage</h3>
@@ -309,18 +324,37 @@ colored red. The low_threshold type can be of threshold_type "time" or
 <div class="sect2">
 <h3 id="_load">5.10. Load</h3>
 <div class="paragraph"><p>Gets the system load (number of processes waiting for CPU time in the last
-1, 5 and 15 minutes).</p></div>
+1, 5 and 15 minutes). It is possible to define a max_threshold that will
+color the load value red in case the load average of the last minute is
+getting higher than the configured threshold. Defaults to 5.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>load</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%1min %5min %15min</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: 5</p></div>
 </div>
 <div class="sect2">
 <h3 id="_time">5.11. Time</h3>
-<div class="paragraph"><p>Formats the current system time. See <tt>strftime(3)</tt> for the format.</p></div>
+<div class="paragraph"><p>Outputs the current time in the local timezone.
+To use a different timezone, you can set the TZ environment variable,
+or use the <tt>tztime</tt> module.
+See <tt>strftime(3)</tt> for details on the format string.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>time</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S</tt></p></div>
 </div>
 <div class="sect2">
-<h3 id="_ddate">5.12. DDate</h3>
+<h3 id="_tztime">5.12. TzTime</h3>
+<div class="paragraph"><p>Outputs the current time in the given timezone.
+If no timezone is given, local time will be used.
+See <tt>strftime(3)</tt> for details on the format string.
+The system&#8217;s timezone database is usually installed in <tt>/usr/share/zoneinfo</tt>.
+Files below that path make for valid timezone strings, e.g. for
+<tt>/usr/share/zoneinfo/Europe/Berlin</tt> you can set timezone to <tt>Europe/Berlin</tt>
+in the <tt>tztime</tt> module.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>tztime berlin</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S %Z</tt></p></div>
+<div class="paragraph"><p><strong>Example timezone</strong>: <tt>Europe/Berlin</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_ddate">5.13. DDate</h3>
 <div class="paragraph"><p>Outputs the current discordian date in user-specified format. See <tt>ddate(1)</tt> for
 details on the format string.
 <strong>Note</strong>: Neither <strong>%.</strong> nor <strong>%X</strong> are implemented yet.</p></div>
@@ -328,7 +362,7 @@ details on the format string.
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%{%a, %b %d%}, %Y%N - %H</tt></p></div>
 </div>
 <div class="sect2">
-<h3 id="_volume">5.13. Volume</h3>
+<h3 id="_volume">5.14. Volume</h3>
 <div class="paragraph"><p>Outputs the volume of the specified mixer on the specified device. Works only
 on Linux because it uses ALSA.
 A simplified configuration can be used on FreeBSD and OpenBSD due to
@@ -434,13 +468,21 @@ contrib/ folder, see <a href="http://code.i3wm.org/i3status/tree/contrib">http:/
 </div>
 </div>
 <div class="sect1">
-<h2 id="_see_also">10. SEE ALSO</h2>
+<h2 id="_signals">10. SIGNALS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When receiving <tt>SIGUSR1</tt>, i3status’s nanosleep() will be interrupted and thus
+you will force an update. You can use killall -USR1 i3status to force an update
+after changing the system volume, for example.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">11. SEE ALSO</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><tt>strftime(3)</tt>, <tt>date(1)</tt>, <tt>glob(3)</tt>, <tt>dzen2(1)</tt>, <tt>xmobar(1)</tt></p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_authors">11. AUTHORS</h2>
+<h2 id="_authors">12. AUTHORS</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
 <div class="paragraph"><p>Thorsten Toepper</p></div>
