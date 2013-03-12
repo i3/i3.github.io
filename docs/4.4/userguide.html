@@ -31,7 +31,7 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <h1>i3 User’s Guide</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">February 2013</span>
+<span id="revdate">August 2012</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -384,7 +384,7 @@ font pango:[family list] [style options] [size]</tt></pre>
 <pre><tt>font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
 font pango:DejaVu Sans Mono 10
 font pango:DejaVu Sans Mono, Terminus Bold Semi-Condensed 11
-font pango:Terminus 11px</tt></pre>
+font pango:Terminus 11x</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -648,9 +648,6 @@ starts up being named Firefox, and only when Vimperator is loaded does the
 title change. As i3 will get the title as soon as the application maps the
 window (mapping means actually displaying it on the screen), you’d need to have
 to match on <em>Firefox</em> in this case.</p></div>
-<div class="paragraph"><p>Assignments are processed by i3 in the order in which they appear in the config
-file. The first one which matches the window wins and later assignments are not
-considered.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -806,7 +803,10 @@ will be rendered.</p></div>
 <pre><tt>client.background color</tt></pre>
 </div></div>
 <div class="paragraph"><p>Only clients that do not cover the whole area of this window expose the color
-used to paint it.</p></div>
+used to paint it. If you use a color other than black for your terminals, you
+most likely want to set the client background color to the same color as your
+terminal program&#8217;s background color to avoid black gaps between the rendered
+area of the terminal and the i3 border.</p></div>
 <div class="paragraph"><p>Colors are in HTML hex format (#rrggbb), see the following example:</p></div>
 <div class="paragraph"><p><strong>Examples (default colors)</strong>:</p></div>
 <div class="listingblock">
@@ -1241,14 +1241,6 @@ statusline
 </p>
 </dd>
 <dt class="hdlist1">
-separator
-</dt>
-<dd>
-<p>
-        Text color to be used for the separator.
-</p>
-</dd>
-<dt class="hdlist1">
 focused_workspace
 </dt>
 <dd>
@@ -1294,7 +1286,6 @@ urgent_workspace
 <pre><tt>colors {
     background &lt;color&gt;
     statusline &lt;color&gt;
-    separator &lt;color&gt;
 
     colorclass &lt;border&gt; &lt;background&gt; &lt;text&gt;
 }</tt></pre>
@@ -1306,7 +1297,6 @@ urgent_workspace
     colors {
         background #000000
         statusline #ffffff
-        separator #666666
 
         focused_workspace  #4c7899 #285577 #ffffff
         active_workspace   #333333 #5f676a #ffffff
@@ -1750,7 +1740,7 @@ bindsym $mod+x move container to output VGA1</tt></pre>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>resize &lt;grow|shrink&gt; &lt;direction&gt; [&lt;px&gt; px [or &lt;ppt&gt; ppt]]</tt></pre>
+<pre><tt>resize &lt;grow|shrink&gt; &lt;direction&gt; [&lt;px&gt; px] [or &lt;ppt&gt; ppt]</tt></pre>
 </div></div>
 <div class="paragraph"><p>Direction can either be one of <tt>up</tt>, <tt>down</tt>, <tt>left</tt> or <tt>right</tt>. Or you can be
 less specific and use <tt>width</tt> or <tt>height</tt>, in which case i3 will take/give
@@ -1795,7 +1785,7 @@ bindsym $mod+r mode "resize"</tt></pre>
 <div class="paragraph"><p>Often when in a multi-monitor environment, you want to quickly jump to a
 specific window. For example, while working on workspace 3 you may want to
 jump to your mail client to email your boss that you’ve achieved some
-important goal. Instead of figuring out how to navigate to your mail client,
+important goal. Instead of figuring out how to navigate to your mailclient,
 it would be more convenient to have a shortcut. You can use the <tt>focus</tt> command
 with criteria for that.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
