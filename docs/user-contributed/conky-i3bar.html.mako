@@ -42,7 +42,7 @@ home folder and the percentage of used RAM.
 Here's a sample JSON text for achieving our goal:
 </p>
 
-<pre><tt>{ "version": 1 }
+<pre><tt>{"version":1}
 [
  [].
 
@@ -77,7 +77,7 @@ The script is quite simple:
 <pre><tt>#!/bin/sh
 
 # Send the header so that i3bar knows we want to use JSON:
-echo '{ "version": 1 }'
+echo '{"version":1}'
 
 # Begin the endless array.
 echo '['
