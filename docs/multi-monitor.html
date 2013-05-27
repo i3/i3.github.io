@@ -30,8 +30,8 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <div id="header">
 <h1>The multi-monitor situation</h1>
 <span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
-<span id="revdate">September 2011</span>
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">April 2013</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -39,15 +39,16 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 </div>
 <div id="preamble">
 <div class="sectionbody">
-<div class="paragraph"><p>…or: oh no, I have an nVidia graphics card!</p></div>
+<div class="paragraph"><p>Please upgrade your nVidia driver to version 302.17 or newer and i3 will just
+work. This document is kept around for historic reasons only.</p></div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_the_quick_fix">1. The quick fix</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>If you are using the nVidia binary graphics driver (also known as <em>blob</em>)
-you need to use the <tt>--force-xinerama</tt> flag (in your .xsession) when starting
-i3, like so:</p></div>
+before version 302.17, you need to use the <tt>--force-xinerama</tt> flag (in your
+.xsession) when starting i3, like so:</p></div>
 <div class="listingblock">
 <div class="title">Example:</div>
 <div class="content">
