@@ -1,7 +1,7 @@
 Debian and Ubuntu repositories
 ==============================
 Michael Stapelberg <michael@i3wm.org>
-August 2012
+June 2013
 
 == When should you use our repositories?
 
@@ -15,6 +15,9 @@ You are using Debian stable::
     in Debian stable can be old, however (we cannot update it after stable has
     been released). The best way is to add Debian testing and tell +apt+ to
     prefer Debian stable. You should *not* use our repository.
+    Alternatively, you can also use
+    link:http://backports.debian.org/[stable-backports (e.g. wheezy-backports for
+    Debian wheezy)].
 You are using Ubuntu::
     Only a handful of packages are maintained by Ubuntu developers. The rest is
     synchronized periodically from Debian, every 6 months. Therefore, Ubuntu
