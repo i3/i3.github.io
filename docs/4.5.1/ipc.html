@@ -789,8 +789,9 @@ VGA1
 <div class="sect2">
 <h3 id="_marks_reply">3.7. MARKS reply</h3>
 <div class="paragraph"><p>The reply consists of a single array of strings for each container that has a
-mark. A mark can only be set on one container, so the array is unique.
-The order of that array is undefined.</p></div>
+mark. The order of that array is undefined. If more than one container has the
+same mark, it will be represented multiple times in the reply (the array
+contents are not unique).</p></div>
 <div class="paragraph"><p>If no window has a mark the response will be the empty array [].</p></div>
 </div>
 <div class="sect2">
@@ -1103,15 +1104,6 @@ window (3)
         has finished fitting it into a container).
 </p>
 </dd>
-<dt class="hdlist1">
-barconfig_update (4)
-</dt>
-<dd>
-<p>
-    Sent when the hidden_state or mode field in the barconfig of any bar
-    instance was updated.
-</p>
-</dd>
 </dl></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
@@ -1205,24 +1197,6 @@ window title as "urxvt").</p></div>
   "type": 2,
   ...
  }
-}</tt></pre>
-</div></div>
-</div>
-<div class="sect2">
-<h3 id="_barconfig_update_event">4.7. barconfig_update event</h3>
-<div class="paragraph"><p>This event consists of a single serialized map reporting on options from the
-barconfig of the specified bar_id that were updated in i3. The map always
-consists of a property <tt>id (string)</tt>, which specifies to which bar instance the
-sent config update belongs, a property <tt>hidden_state (string)</tt>, which indicates
-the hidden_state of an i3bar instance, and a property <tt>mode (string)</tt>, which
-corresponds to the current mode.</p></div>
-<div class="paragraph"><p><strong>Example:</strong></p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>{
-    "id": "bar-0",
-    "hidden_state": "hide"
-    "mode": "hide"
 }</tt></pre>
 </div></div>
 </div>

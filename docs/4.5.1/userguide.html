@@ -31,7 +31,7 @@ window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
 <h1>i3 User’s Guide</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">March 2013</span>
+<span id="revdate">February 2013</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -69,8 +69,8 @@ are your homerow.</p></div>
 <h2 id="_using_i3">2. Using i3</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Throughout this guide, the keyword <tt>$mod</tt> will be used to refer to the
-configured modifier. This is the Alt key (Mod1) by default, with the Windows
-key (Mod4) being a popular alternative.</p></div>
+configured modifier. This is the Alt key (Mod1) by default, with windows (Mod4)
+being a popular alternative.</p></div>
 <div class="sect2">
 <h3 id="_opening_terminals_and_moving_around">2.1. Opening terminals and moving around</h3>
 <div class="paragraph"><p>One very basic operation is opening a new terminal. By default, the keybinding
@@ -200,7 +200,7 @@ columns/rows with your keyboard.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_restarting_i3_inplace">2.9. Restarting i3 inplace</h3>
-<div class="paragraph"><p>To restart i3 in place (and thus get into a clean state if there is a bug, or
+<div class="paragraph"><p>To restart i3 inplace (and thus get into a clean state if there is a bug, or
 to upgrade to a newer version of i3) you can use <tt>$mod+Shift+r</tt>.</p></div>
 </div>
 <div class="sect2">
@@ -209,12 +209,11 @@ to upgrade to a newer version of i3) you can use <tt>$mod+Shift+r</tt>.</p></div
 </div>
 <div class="sect2">
 <h3 id="_floating">2.11. Floating</h3>
-<div class="paragraph"><p>Floating mode is the opposite of tiling mode. The position and size of
-a window are not managed automatically by i3, but manually by
-you. Using this mode violates the tiling paradigm but can be useful
-for some corner cases like "Save as" dialog windows, or toolbar
-windows (GIMP or similar). Those windows usually set the appropriate
-hint and are opened in floating mode by default.</p></div>
+<div class="paragraph"><p>Floating mode is the opposite of tiling mode. The position and size of a window
+are not managed by i3, but by you. Using this mode violates the tiling
+paradigm but can be useful for some corner cases like "Save as" dialog
+windows, or toolbar windows (GIMP or similar). Those windows usually set the
+appropriate hint and are opened in floating mode by default.</p></div>
 <div class="paragraph"><p>You can toggle floating mode for a window by pressing <tt>$mod+Shift+Space</tt>. By
 dragging the window’s titlebar with your mouse you can move the window
 around. By grabbing the borders and moving them you can resize the window. You
@@ -330,7 +329,7 @@ other one being the terminal window you moved down.</p></div>
 <div class="sect1">
 <h2 id="configuring">4. Configuring i3</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This is where the real fun begins ;-). Most things are very dependent on your
+<div class="paragraph"><p>This is where the real fun begins ;-). Most things are very dependant on your
 ideal working environment so we can’t make reasonable defaults for them.</p></div>
 <div class="paragraph"><p>While not using a programming language for the configuration, i3 stays
 quite flexible in regards to the things you usually want your window manager
@@ -829,7 +828,7 @@ from single windows outside of a split container.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_interprocess_communication">4.16. Interprocess communication</h3>
-<div class="paragraph"><p>i3 uses Unix sockets to provide an IPC interface. This allows third-party
+<div class="paragraph"><p>i3 uses unix sockets to provide an IPC interface. This allows third-party
 programs to get information from i3, such as the current workspaces
 (to display a workspace bar), and to control i3.</p></div>
 <div class="paragraph"><p>The IPC socket is enabled by default and will be created in
@@ -1077,33 +1076,18 @@ have to have correct quoting etc.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_display_mode">5.3. Display mode</h3>
-<div class="paragraph"><p>You can either have i3bar be visible permanently at one edge of the screen
-(<tt>dock</tt> mode) or make it show up when you press your modifier key (<tt>hide</tt> mode).
-It is also possible to force i3bar to always stay hidden (<tt>invisible</tt>
+<div class="paragraph"><p>You can have i3bar either be visible permanently at one edge of the screen
+(<tt>dock</tt> mode) or make it show up when you press your modifier key (<tt>hide</tt>
 mode). The modifier key can be configured using the <tt>modifier</tt> option.</p></div>
-<div class="paragraph"><p>The mode option can be changed during runtime through the <tt>bar mode</tt> command.
-On reload the mode will be reverted to its configured value.</p></div>
 <div class="paragraph"><p>The hide mode maximizes screen space that can be used for actual windows. Also,
 i3bar sends the <tt>SIGSTOP</tt> and <tt>SIGCONT</tt> signals to the statusline process to
 save battery power.</p></div>
-<div class="paragraph"><p>Invisible mode allows to permanently maximize screen space, as the bar is never
-shown. Thus, you can configure i3bar to not disturb you by popping up because
-of an urgency hint or because the modifier key is pressed.</p></div>
-<div class="paragraph"><p>In order to control whether i3bar is hidden or shown in hide mode, there exists
-the hidden_state option, which has no effect in dock mode or invisible mode. It
-indicates the current hidden_state of the bar: (1) The bar acts like in normal
-hide mode, it is hidden and is only unhidden in case of urgency hints or by
-pressing the modifier key (<tt>hide</tt> state), or (2) it is drawn on top of the
-currently visible workspace (<tt>show</tt> state).</p></div>
-<div class="paragraph"><p>Like the mode, the hidden_state can also be controlled through i3, this can be
-done by using the <tt>bar hidden_state</tt> command.</p></div>
-<div class="paragraph"><p>The default mode is dock mode; in hide mode, the default modifier is Mod4 (usually
-the windows key). The default value for the hidden_state is hide.</p></div>
+<div class="paragraph"><p>The default is dock mode; in hide mode, the default modifier is Mod4 (usually
+the windows key).</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>mode &lt;dock|hide|invisible&gt;
-hidden_state &lt;hide|show&gt;
+<pre><tt>mode &lt;dock|hide&gt;
 modifier &lt;Modifier&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
@@ -1111,32 +1095,13 @@ modifier &lt;Modifier&gt;</tt></pre>
 <div class="content">
 <pre><tt>bar {
     mode hide
-    hidden_state hide
     modifier Mod1
 }</tt></pre>
 </div></div>
 <div class="paragraph"><p>Available modifiers are Mod1-Mod5, Shift, Control (see <tt>xmodmap(1)</tt>).</p></div>
 </div>
 <div class="sect2">
-<h3 id="_bar_id">5.4. Bar ID</h3>
-<div class="paragraph"><p>Specifies the bar ID for the configured bar instance. If this option is missing,
-the ID is set to <em>bar-x</em>, where x corresponds to the position of the embedding
-bar block in the config file (<em>bar-0</em>, <em>bar-1</em>, &#8230;).</p></div>
-<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>id &lt;bar_id&gt;</tt></pre>
-</div></div>
-<div class="paragraph"><p><strong>Example</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>bar {
-    id bar-1
-}</tt></pre>
-</div></div>
-</div>
-<div class="sect2">
-<h3 id="i3bar_position">5.5. Position</h3>
+<h3 id="i3bar_position">5.4. Position</h3>
 <div class="paragraph"><p>This option determines in which edge of the screen i3bar should show up.</p></div>
 <div class="paragraph"><p>The default is bottom.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -1153,7 +1118,7 @@ bar block in the config file (<em>bar-0</em>, <em>bar-1</em>, &#8230;).</p></div
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_output_s">5.6. Output(s)</h3>
+<h3 id="_output_s">5.5. Output(s)</h3>
 <div class="paragraph"><p>You can restrict i3bar to one or more outputs (monitors). The default is to
 handle all outputs. Restricting the outputs is useful for using different
 options for different outputs by using multiple <em>bar</em> blocks.</p></div>
@@ -1187,7 +1152,7 @@ bar {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_tray_output">5.7. Tray output</h3>
+<h3 id="_tray_output">5.6. Tray output</h3>
 <div class="paragraph"><p>i3bar by default provides a system tray area where programs such as
 NetworkManager, VLC, Pidgin, etc. can place little icons.</p></div>
 <div class="paragraph"><p>You can configure on which output (monitor) the icons should be displayed or
@@ -1220,7 +1185,7 @@ bar {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_font">5.8. Font</h3>
+<h3 id="_font">5.7. Font</h3>
 <div class="paragraph"><p>Specifies the font to be used in the bar. See <a href="#fonts">[fonts]</a>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -1237,7 +1202,7 @@ bar {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_workspace_buttons">5.9. Workspace buttons</h3>
+<h3 id="_workspace_buttons">5.8. Workspace buttons</h3>
 <div class="paragraph"><p>Specifies whether workspace buttons should be shown or not. This is useful if
 you want to display a statusline-only bar containing additional information.</p></div>
 <div class="paragraph"><p>The default is to show workspace buttons.</p></div>
@@ -1255,7 +1220,7 @@ you want to display a statusline-only bar containing additional information.</p>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_colors">5.10. Colors</h3>
+<h3 id="_colors">5.9. Colors</h3>
 <div class="paragraph"><p>As with i3, colors are in HTML hex format (#rrggbb). The following colors can
 be configured at the moment:</p></div>
 <div class="dlist"><dl>
@@ -1373,7 +1338,7 @@ the following keybinding:</p></div>
 <div class="content">
 <pre><tt>bindsym $mod+x move container to workspace 3; workspace 3</tt></pre>
 </div></div>
-<div class="paragraph" id="command_criteria"><p>Furthermore, you can change the scope of a command - that is, which containers
+<div class="paragraph" id="command_criteria"><p>Furthermore, you can change the scope of a command, that is, which containers
 should be affected by that command, by using various criteria. These are
 prefixed in square brackets to every command. If you want to kill all windows
 which have the class Firefox, use:</p></div>
@@ -1511,16 +1476,16 @@ bindsym $mod+h split horizontal</tt></pre>
 </div>
 <div class="sect2">
 <h3 id="_manipulating_layout">6.3. Manipulating layout</h3>
-<div class="paragraph"><p>Use <tt>layout toggle split</tt>, <tt>layout stacking</tt>, <tt>layout tabbed</tt>, <tt>layout splitv</tt>
-or <tt>layout splith</tt> to change the current container layout to splith/splitv,
-stacking, tabbed layout, splitv or splith, respectively.</p></div>
+<div class="paragraph"><p>Use <tt>layout toggle split</tt>, <tt>layout stacking</tt> or <tt>layout tabbed</tt> to change the
+current container layout to splith/splitv, stacking or tabbed layout,
+respectively.</p></div>
 <div class="paragraph"><p>To make the current window (!) fullscreen, use <tt>fullscreen</tt>, to make
 it floating (or tiling again) use <tt>floating enable</tt> respectively <tt>floating disable</tt>
 (or <tt>floating toggle</tt>):</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>layout &lt;default|tabbed|stacking|splitv|splith&gt;
+<pre><tt>layout &lt;tabbed|stacking&gt;
 layout toggle [split|all]</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
@@ -1851,10 +1816,9 @@ bindsym $mod+a [class="urxvt" title="VIM"] focus</tt></pre>
 <div class="paragraph" id="vim_like_marks"><p>This feature is like the jump feature: It allows you to directly jump to a
 specific window (this means switching to the appropriate workspace and setting
 focus to the windows). However, you can directly mark a specific window with
-an arbitrary label and use it afterwards. You can unmark the label in the same
-way, using the unmark command. If you don&#8217;t specify a label, unmark removes all
-marks. You do not need to ensure that your windows have unique classes or
-titles, and you do not need to change your configuration file.</p></div>
+an arbitrary label and use it afterwards.  You do not need to ensure that your
+windows have unique classes or titles, and you do not need to change your
+configuration file.</p></div>
 <div class="paragraph"><p>As the command needs to include the label with which you want to mark the
 window, you cannot simply bind it to a key.  <tt>i3-input</tt> is a tool created
 for this purpose: It lets you input a command and sends the command to i3. It
@@ -1863,15 +1827,13 @@ can also prefix this command and display a custom prompt for the input dialog.</
 <div class="listingblock">
 <div class="content">
 <pre><tt>mark identifier
-[con_mark="identifier"] focus
-unmark identifier</tt></pre>
+[con_mark="identifier"] focus</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Example (in a terminal)</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>$ i3-msg mark irssi
-$ i3-msg '[con_mark="irssi"] focus'
-$ i3-msg unmark irssi</tt></pre>
+$ i3-msg '[con_mark="irssi"] focus'</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1889,90 +1851,42 @@ bindsym $mod+u border none</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="shmlog">6.12. Enabling shared memory logging</h3>
-<div class="paragraph"><p>As described in <a href="http://i3wm.org/docs/debugging.html">http://i3wm.org/docs/debugging.html</a>, i3 can log to a shared
-memory buffer, which you can dump using <tt>i3-dump-log</tt>. The <tt>shmlog</tt> command
-allows you to enable or disable the shared memory logging at runtime.</p></div>
-<div class="paragraph"><p>Note that when using <tt>shmlog &lt;size_in_bytes&gt;</tt>, the current log will be
-discarded and a new one will be started.</p></div>
-<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>shmlog &lt;size_in_bytes&gt;
-shmlog &lt;on|off|toggle&gt;</tt></pre>
-</div></div>
+<h3 id="stack-limit">6.12. Reloading/Restarting/Exiting</h3>
+<div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
+restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
+(if that should ever happen) or to perform an upgrade without having to restart
+your X session. To exit i3 properly, you can use the <tt>exit</tt> command,
+however you don’t need to (simply killing your X session is fine as well).</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt># Enable/disable logging
-bindsym $mod+x shmlog toggle
-
-# or, from a terminal:
-# increase the shared memory log buffer to 50 MiB
-i3-msg shmlog $((50*1024*1024))</tt></pre>
+<pre><tt>bindsym $mod+Shift+r restart
+bindsym $mod+Shift+w reload
+bindsym $mod+Shift+e exit</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_enabling_debug_logging">6.13. Enabling debug logging</h3>
-<div class="paragraph"><p>The <tt>debuglog</tt> command allows you to enable or disable debug logging at
-runtime. Debug logging is much more verbose than non-debug logging. This
-command does not activate shared memory logging (shmlog), and as such is most
-likely useful in combination with the above-described <a href="#shmlog">[shmlog]</a> command.</p></div>
-<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>debuglog &lt;on|off|toggle&gt;</tt></pre>
-</div></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_strong_examples_strong">7. <strong>Examples</strong>:</h2>
-<div class="sectionbody">
-<div class="paragraph"><p># Enable/disable logging
-bindsym $mod+x debuglog toggle</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>=== Reloading/Restarting/Exiting
-
-You can make i3 reload its configuration file with +reload+. You can also
-restart i3 inplace with the +restart+ command to get it out of some weird state
-(if that should ever happen) or to perform an upgrade without having to restart
-your X session. To exit i3 properly, you can use the +exit+ command,
-however you don’t need to (simply killing your X session is fine as well).
-
-*Examples*:</tt></pre>
-</div></div>
-<div class="paragraph"><p>bindsym $mod+Shift+r restart
-bindsym $mod+Shift+w reload
-bindsym $mod+Shift+e exit</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>=== Scratchpad
-
-There are two commands to use any existing window as scratchpad window. +move
-scratchpad+ will move a window to the scratchpad workspace. This will make it
+<h3 id="_scratchpad">6.13. Scratchpad</h3>
+<div class="paragraph"><p>There are two commands to use any existing window as scratchpad window. <tt>move
+scratchpad</tt> will move a window to the scratchpad workspace. This will make it
 invisible until you show it again. There is no way to open that workspace.
-Instead, when using +scratchpad show+, the window will be shown again, as a
-floating window, centered on your current workspace (using +scratchpad show+ on
+Instead, when using <tt>scratchpad show</tt>, the window will be shown again, as a
+floating window, centered on your current workspace (using <tt>scratchpad show</tt> on
 a visible scratchpad window will make it hidden again, so you can have a
 keybinding to toggle). Note that this is just a normal floating window, so if
 you want to "remove it from scratchpad", you can simple make it tiling again
-(+floating toggle+).
-
-As the name indicates, this is useful for having a window with your favorite
+(<tt>floating toggle</tt>).</p></div>
+<div class="paragraph"><p>As the name indicates, this is useful for having a window with your favorite
 editor always at hand. However, you can also use this for other permanently
 running applications which you don’t want to see all the time: Your music
-player, alsamixer, maybe even your mail client…?
+player, alsamixer, maybe even your mail client…?</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>move scratchpad
 
-*Syntax*:</tt></pre>
+scratchpad show</tt></pre>
 </div></div>
-<div class="paragraph"><p>move scratchpad</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_scratchpad_show">8. scratchpad show</h2>
-<div class="sectionbody">
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1985,42 +1899,11 @@ bindsym $mod+minus scratchpad show
 # Show the sup-mail scratchpad window, if any.
 bindsym mod4+s [title="^Sup ::"] scratchpad show</tt></pre>
 </div></div>
-<div class="sect2">
-<h3 id="_i3bar_control">8.1. i3bar control</h3>
-<div class="paragraph"><p>There are two options in the configuration of each i3bar instance that can be
-changed during runtime by invoking a command through i3. The commands <tt>bar
-hidden_state</tt> and <tt>bar mode</tt> allow setting the current hidden_state
-respectively mode option of each bar. It is also possible to toggle between
-hide state and show state as well as between dock mode and hide mode. Each
-i3bar instance can be controlled individually by specifying a bar_id, if none
-is given, the command is executed for all bar instances.</p></div>
-<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>bar hidden_state hide|show|toggle [&lt;bar_id&gt;]
-
-bar mode dock|hide|invisible|toggle [&lt;bar_id&gt;]</tt></pre>
-</div></div>
-<div class="paragraph"><p><strong>Examples</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt># Toggle between hide state and show state
-bindsym $mod+m bar hidden_state toggle
-
-# Toggle between dock mode and hide mode
-bindsym $mod+n bar mode toggle
-
-# Set the bar instance with id 'bar-1' to switch to hide mode
-bindsym $mod+b bar mode hide bar-1
-
-# Set the bar instance with id 'bar-1' to always stay hidden
-bindsym $mod+Shift+b bar mode invisible bar-1</tt></pre>
-</div></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="multi_monitor">9. Multiple monitors</h2>
+<h2 id="multi_monitor">7. Multiple monitors</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>As you can see in the goal list on the website, i3 was specifically developed
 with support for multiple monitors in mind. This section will explain how to
@@ -2043,7 +1926,7 @@ create an unlimited number of workspaces in i3 and tie them to specific
 screens, you can have the "traditional" approach of having X workspaces per
 screen by changing your configuration (using modes, for example).</p></div>
 <div class="sect2">
-<h3 id="_configuring_your_monitors">9.1. Configuring your monitors</h3>
+<h3 id="_configuring_your_monitors">7.1. Configuring your monitors</h3>
 <div class="paragraph"><p>To help you get going if you have never used multiple monitors before, here is
 a short overview of the xrandr options which will probably be of interest to
 you. It is always useful to get an overview of the current screen configuration.
@@ -2106,7 +1989,7 @@ only what you can see in xrandr.</p></div>
 <div class="paragraph"><p>See also <a href="#presentations">[presentations]</a> for more examples of multi-monitor setups.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_interesting_configuration_for_multi_monitor_environments">9.2. Interesting configuration for multi-monitor environments</h3>
+<h3 id="_interesting_configuration_for_multi_monitor_environments">7.2. Interesting configuration for multi-monitor environments</h3>
 <div class="paragraph"><p>There are several things to configure in i3 which may be interesting if you
 have more than one monitor:</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -2143,10 +2026,10 @@ For information on how to move existing workspaces between monitors,
 </div>
 </div>
 <div class="sect1">
-<h2 id="_i3_and_the_rest_of_your_software_world">10. i3 and the rest of your software world</h2>
+<h2 id="_i3_and_the_rest_of_your_software_world">8. i3 and the rest of your software world</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_displaying_a_status_line">10.1. Displaying a status line</h3>
+<h3 id="_displaying_a_status_line">8.1. Displaying a status line</h3>
 <div class="paragraph"><p>A very common thing amongst users of exotic window managers is a status line at
 some corner of the screen. It is an often superior replacement to the widget
 approach you have in the task bar of a traditional desktop environment.</p></div>
@@ -2163,14 +2046,14 @@ on which hint the application sets. With i3bar, you can configure its position,
 see <a href="#i3bar_position">[i3bar_position]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_giving_presentations_multi_monitor">10.2. Giving presentations (multi-monitor)</h3>
+<h3 id="_giving_presentations_multi_monitor">8.2. Giving presentations (multi-monitor)</h3>
 <div class="paragraph"><p>When giving a presentation, you typically want the audience to see what you see
 on your screen and then go through a series of slides (if the presentation is
 simple). For more complex presentations, you might want to have some notes
 which only you can see on your screen, while the audience can only see the
 slides.</p></div>
 <div class="sect3">
-<h4 id="presentations">10.2.1. Case 1: everybody gets the same output</h4>
+<h4 id="presentations">8.2.1. Case 1: everybody gets the same output</h4>
 <div class="paragraph"><p>This is the simple case. You connect your computer to the video projector,
 turn on both (computer and video projector) and configure your X server to
 clone the internal flat panel of your computer to the video output:</p></div>
@@ -2183,7 +2066,7 @@ your screen will be left untouched (it will show the X background). So, in
 our example, this would be 1024x768 (my notebook has 1280x800).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_case_2_you_can_see_more_than_your_audience">10.2.2. Case 2: you can see more than your audience</h4>
+<h4 id="_case_2_you_can_see_more_than_your_audience">8.2.2. Case 2: you can see more than your audience</h4>
 <div class="paragraph"><p>This case is a bit harder. First of all, you should configure the VGA output
 somewhere near your internal flat panel, say right of it:</p></div>
 <div class="listingblock">

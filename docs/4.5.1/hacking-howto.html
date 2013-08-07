@@ -134,7 +134,7 @@ moving/resizing windows while you usually want to get some work done. After
 all, most users sooner or later tend to lay out their windows in a way which
 corresponds to tiling or stacking mode in i3. Therefore, why not let i3 do this
 for you? Certainly, it’s faster than you could ever do it.</p></div>
-<div class="paragraph"><p>The problem with most tiling window managers is that they are too inflexible.
+<div class="paragraph"><p>The problem with most tiling window managers is that they are too unflexible.
 In my opinion, a window manager is just another tool, and similar to vim which
 can edit all kinds of text files (like source code, HTML, …) and is not limited
 to a specific file type, a window manager should not limit itself to a certain
@@ -683,7 +683,7 @@ The override_redirect must not be set. Windows with override_redirect shall
 </p>
 </li>
 </ul></div>
-<div class="paragraph"><p>Afterwards, i3 gets the initial geometry and reparents the window (see
+<div class="paragraph"><p>Afterwards, i3 gets the intial geometry and reparents the window (see
 <tt>reparent_window()</tt>) if it wasn’t already managed.</p></div>
 <div class="paragraph"><p>Reparenting means that for each window which is reparented, a new window,
 slightly larger than the original one, is created. The original window is then
@@ -704,7 +704,7 @@ target workspace is not visible, the window will not be mapped.</p></div>
 <div class="sect1">
 <h2 id="_what_happens_when_an_application_is_started">9. What happens when an application is started?</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>i3 does not care about applications. All it notices is when new windows are
+<div class="paragraph"><p>i3 does not care for applications. All it notices is when new windows are
 mapped (see <tt>src/handlers.c</tt>, <tt>handle_map_request()</tt>). The window is then
 reparented (see section "Manage windows").</p></div>
 <div class="paragraph"><p>After reparenting the window, <tt>render_tree()</tt> is called which renders the
@@ -876,7 +876,7 @@ position/size is different: They are placed next to each other on a single line
 </div>
 <div class="sect3">
 <h4 id="_dock_area_layout">14.3.4. Dock area layout</h4>
-<div class="paragraph"><p>This is a special case. Users cannot choose the dock area layout, but it will be
+<div class="paragraph"><p>This is a special case. Users cannot chose the dock area layout, but it will be
 set for the dock area containers. In the dockarea layout (at the moment!),
 windows will be placed above each other.</p></div>
 </div>
@@ -1486,11 +1486,9 @@ Forgetting to call <tt>floating_fix_coordinates(con, old_rect, new_rect)</tt> af
 <div class="sect1">
 <h2 id="_using_git_sending_patches">20. Using git / sending patches</h2>
 <div class="sectionbody">
-<div class="sect2">
-<h3 id="_introduction">20.1. Introduction</h3>
 <div class="paragraph"><p>For a short introduction into using git, see
-<a href="http://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy">http://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy</a>
-or, for more documentation, see <a href="http://git-scm.com/documentation">http://git-scm.com/documentation</a></p></div>
+<a href="http://www.spheredev.org/wiki/Git_for_the_lazy">http://www.spheredev.org/wiki/Git_for_the_lazy</a> or, for more documentation, see
+<a href="http://git-scm.com/documentation">http://git-scm.com/documentation</a></p></div>
 <div class="paragraph"><p>Please talk to us before working on new features to see whether they will be
 accepted. There are a few things which we don’t want to see in i3, e.g. a
 command which will focus windows in an alt+tab like way.</p></div>
@@ -1502,17 +1500,6 @@ bugreport yet, please create one.</p></div>
 them in the bugtracker, since all reviews should be done in public at
 <a href="http://cr.i3wm.org/">http://cr.i3wm.org/</a>. In order to make your review go as fast as possible, you
 could have a look at previous reviews and see what the common mistakes are.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_which_branch_to_use">20.2. Which branch to use?</h3>
-<div class="paragraph"><p>Work on i3 generally happens in two branches: “master” and “next”. Since
-“master” is what people get when they check out the git repository, its
-contents are always stable. That is, it contains the source code of the latest
-release, plus any bugfixes that were applied since that release.</p></div>
-<div class="paragraph"><p>New features are only found in the “next” branch. Therefore, if you are working
-on a new feature, use the “next” branch. If you are working on a bugfix, use
-the “next” branch, too, but make sure your code also works on “master”.</p></div>
-</div>
 </div>
 </div>
 <div class="sect1">

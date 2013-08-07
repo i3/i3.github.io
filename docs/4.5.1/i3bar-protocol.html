@@ -103,7 +103,7 @@ consists of a single JSON hash:</p></div>
 <div class="paragraph"><p><strong>All features example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>{ "version": 1, "stop_signal": 10, "cont_signal": 12, "click_events": true }</tt></pre>
+<pre><tt>{ "version": 1, "stop_signal": 10, "cont_signal": 12 }</tt></pre>
 </div></div>
 <div class="paragraph"><p>(Note that before i3 v4.3 the precise format had to be <tt>{"version":1}</tt>,
 byte-for-byte.)</p></div>
@@ -174,15 +174,6 @@ cont_signal
         Specify to i3bar the signal (as an integer)to send to continue your
         processing.
         The default value (if none is specified) is SIGCONT.
-</p>
-</dd>
-<dt class="hdlist1">
-click_events
-</dt>
-<dd>
-<p>
-        If specified and true i3bar will write a infinite array (same as above)
-        to your stdin.
 </p>
 </dd>
 </dl></div>
@@ -337,50 +328,6 @@ used to set the minimum width:</p></div>
  "instance": "eth0",
  "separator": true,
  "separator_block_width": 9
-}</tt></pre>
-</div></div>
-</div>
-<div class="sect2">
-<h3 id="_click_events">2.3. Click events</h3>
-<div class="paragraph"><p>If enabled i3bar will send you notifications if the user clicks on a block and
-looks like this:</p></div>
-<div class="dlist"><dl>
-<dt class="hdlist1">
-name
-</dt>
-<dd>
-<p>
-        Name of the block, if set
-</p>
-</dd>
-<dt class="hdlist1">
-instance
-</dt>
-<dd>
-<p>
-        Instance of the block, if set
-</p>
-</dd>
-<dt class="hdlist1">
-x, y
-</dt>
-<dd>
-<p>
-        X11 root window coordinates where the click occured
-button:
-        X11 button ID (for example 1 to 3 for left/middle/right mouse button)
-</p>
-</dd>
-</dl></div>
-<div class="paragraph"><p><strong>Example</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>{
- "name": "ethernet",
- "instance": "eth0",
- "button": 1,
- "x": 1320,
- "y": 1400
 }</tt></pre>
 </div></div>
 </div>
