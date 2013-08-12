@@ -631,11 +631,12 @@ variables can be handy.</p></div>
 <pre><tt>set $m Mod1
 bindsym $m+Shift+r restart</tt></pre>
 </div></div>
-<div class="paragraph"><p>Variables are directly replaced in the file when parsing. There is no fancy
-handling and there are absolutely no plans to change this. If you need a more
-dynamic configuration you should create a little script which generates a
-configuration file and run it before starting i3 (for example in your
-<tt>~/.xsession</tt> file).</p></div>
+<div class="paragraph"><p>Variables are directly replaced in the file when parsing. Variables expansion
+is not recursive so it is not possible to define a variable with a value
+containing another variable. There is no fancy handling and there are
+absolutely no plans to change this. If you need a more dynamic configuration
+you should create a little script which generates a configuration file and run
+it before starting i3 (for example in your <tt>~/.xsession</tt> file).</p></div>
 </div>
 <div class="sect2">
 <h3 id="_automatically_putting_clients_on_specific_workspaces">4.12. Automatically putting clients on specific workspaces</h3>
@@ -1923,56 +1924,50 @@ likely useful in combination with the above-described <a href="#shmlog">[shmlog]
 <div class="content">
 <pre><tt>debuglog &lt;on|off|toggle&gt;</tt></pre>
 </div></div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_strong_examples_strong">7. <strong>Examples</strong>:</h2>
-<div class="sectionbody">
-<div class="paragraph"><p># Enable/disable logging
-bindsym $mod+x debuglog toggle</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>=== Reloading/Restarting/Exiting
-
-You can make i3 reload its configuration file with +reload+. You can also
-restart i3 inplace with the +restart+ command to get it out of some weird state
-(if that should ever happen) or to perform an upgrade without having to restart
-your X session. To exit i3 properly, you can use the +exit+ command,
-however you don’t need to (simply killing your X session is fine as well).
-
-*Examples*:</tt></pre>
+<pre><tt># Enable/disable logging
+bindsym $mod+x debuglog toggle</tt></pre>
 </div></div>
-<div class="paragraph"><p>bindsym $mod+Shift+r restart
-bindsym $mod+Shift+w reload
-bindsym $mod+Shift+e exit</p></div>
+</div>
+<div class="sect2">
+<h3 id="_reloading_restarting_exiting">6.14. Reloading/Restarting/Exiting</h3>
+<div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
+restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
+(if that should ever happen) or to perform an upgrade without having to restart
+your X session. To exit i3 properly, you can use the <tt>exit</tt> command,
+however you don’t need to (simply killing your X session is fine as well).</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>=== Scratchpad
-
-There are two commands to use any existing window as scratchpad window. +move
-scratchpad+ will move a window to the scratchpad workspace. This will make it
+<pre><tt>bindsym $mod+Shift+r restart
+bindsym $mod+Shift+w reload
+bindsym $mod+Shift+e exit</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_scratchpad">6.15. Scratchpad</h3>
+<div class="paragraph"><p>There are two commands to use any existing window as scratchpad window. <tt>move
+scratchpad</tt> will move a window to the scratchpad workspace. This will make it
 invisible until you show it again. There is no way to open that workspace.
-Instead, when using +scratchpad show+, the window will be shown again, as a
-floating window, centered on your current workspace (using +scratchpad show+ on
+Instead, when using <tt>scratchpad show</tt>, the window will be shown again, as a
+floating window, centered on your current workspace (using <tt>scratchpad show</tt> on
 a visible scratchpad window will make it hidden again, so you can have a
 keybinding to toggle). Note that this is just a normal floating window, so if
 you want to "remove it from scratchpad", you can simple make it tiling again
-(+floating toggle+).
-
-As the name indicates, this is useful for having a window with your favorite
+(<tt>floating toggle</tt>).</p></div>
+<div class="paragraph"><p>As the name indicates, this is useful for having a window with your favorite
 editor always at hand. However, you can also use this for other permanently
 running applications which you don’t want to see all the time: Your music
-player, alsamixer, maybe even your mail client…?
+player, alsamixer, maybe even your mail client…?</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>move scratchpad
 
-*Syntax*:</tt></pre>
+scratchpad show</tt></pre>
 </div></div>
-<div class="paragraph"><p>move scratchpad</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_scratchpad_show">8. scratchpad show</h2>
-<div class="sectionbody">
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1985,8 +1980,9 @@ bindsym $mod+minus scratchpad show
 # Show the sup-mail scratchpad window, if any.
 bindsym mod4+s [title="^Sup ::"] scratchpad show</tt></pre>
 </div></div>
+</div>
 <div class="sect2">
-<h3 id="_i3bar_control">8.1. i3bar control</h3>
+<h3 id="_i3bar_control">6.16. i3bar control</h3>
 <div class="paragraph"><p>There are two options in the configuration of each i3bar instance that can be
 changed during runtime by invoking a command through i3. The commands <tt>bar
 hidden_state</tt> and <tt>bar mode</tt> allow setting the current hidden_state
@@ -2020,7 +2016,7 @@ bindsym $mod+Shift+b bar mode invisible bar-1</tt></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="multi_monitor">9. Multiple monitors</h2>
+<h2 id="multi_monitor">7. Multiple monitors</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>As you can see in the goal list on the website, i3 was specifically developed
 with support for multiple monitors in mind. This section will explain how to
@@ -2043,7 +2039,7 @@ create an unlimited number of workspaces in i3 and tie them to specific
 screens, you can have the "traditional" approach of having X workspaces per
 screen by changing your configuration (using modes, for example).</p></div>
 <div class="sect2">
-<h3 id="_configuring_your_monitors">9.1. Configuring your monitors</h3>
+<h3 id="_configuring_your_monitors">7.1. Configuring your monitors</h3>
 <div class="paragraph"><p>To help you get going if you have never used multiple monitors before, here is
 a short overview of the xrandr options which will probably be of interest to
 you. It is always useful to get an overview of the current screen configuration.
@@ -2106,7 +2102,7 @@ only what you can see in xrandr.</p></div>
 <div class="paragraph"><p>See also <a href="#presentations">[presentations]</a> for more examples of multi-monitor setups.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_interesting_configuration_for_multi_monitor_environments">9.2. Interesting configuration for multi-monitor environments</h3>
+<h3 id="_interesting_configuration_for_multi_monitor_environments">7.2. Interesting configuration for multi-monitor environments</h3>
 <div class="paragraph"><p>There are several things to configure in i3 which may be interesting if you
 have more than one monitor:</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -2143,10 +2139,10 @@ For information on how to move existing workspaces between monitors,
 </div>
 </div>
 <div class="sect1">
-<h2 id="_i3_and_the_rest_of_your_software_world">10. i3 and the rest of your software world</h2>
+<h2 id="_i3_and_the_rest_of_your_software_world">8. i3 and the rest of your software world</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_displaying_a_status_line">10.1. Displaying a status line</h3>
+<h3 id="_displaying_a_status_line">8.1. Displaying a status line</h3>
 <div class="paragraph"><p>A very common thing amongst users of exotic window managers is a status line at
 some corner of the screen. It is an often superior replacement to the widget
 approach you have in the task bar of a traditional desktop environment.</p></div>
@@ -2163,14 +2159,14 @@ on which hint the application sets. With i3bar, you can configure its position,
 see <a href="#i3bar_position">[i3bar_position]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_giving_presentations_multi_monitor">10.2. Giving presentations (multi-monitor)</h3>
+<h3 id="_giving_presentations_multi_monitor">8.2. Giving presentations (multi-monitor)</h3>
 <div class="paragraph"><p>When giving a presentation, you typically want the audience to see what you see
 on your screen and then go through a series of slides (if the presentation is
 simple). For more complex presentations, you might want to have some notes
 which only you can see on your screen, while the audience can only see the
 slides.</p></div>
 <div class="sect3">
-<h4 id="presentations">10.2.1. Case 1: everybody gets the same output</h4>
+<h4 id="presentations">8.2.1. Case 1: everybody gets the same output</h4>
 <div class="paragraph"><p>This is the simple case. You connect your computer to the video projector,
 turn on both (computer and video projector) and configure your X server to
 clone the internal flat panel of your computer to the video output:</p></div>
@@ -2183,7 +2179,7 @@ your screen will be left untouched (it will show the X background). So, in
 our example, this would be 1024x768 (my notebook has 1280x800).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_case_2_you_can_see_more_than_your_audience">10.2.2. Case 2: you can see more than your audience</h4>
+<h4 id="_case_2_you_can_see_more_than_your_audience">8.2.2. Case 2: you can see more than your audience</h4>
 <div class="paragraph"><p>This case is a bit harder. First of all, you should configure the VGA output
 somewhere near your internal flat panel, say right of it:</p></div>
 <div class="listingblock">
