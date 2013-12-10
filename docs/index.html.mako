@@ -106,6 +106,13 @@ i3bar with py3status</strong></a> <span class="author">(2013-02, by Ultrabug)</s
 Introduces py3status, a wrapper script for i3status which is easily extensible.
 </p>
 
+<p>
+<a href="/docs/tshirts.html"><strong>i3wm T-shirts</strong></a>
+<span class="author">(2013-12, by Stefan)</span><br>
+Where and how to order official i3 T-shirts.
+</p>
+
+
 </div>
 
 </div>
