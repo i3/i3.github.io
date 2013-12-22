@@ -110,7 +110,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
 <h2>Downloads</h2>
 
 <p>
-  The current stable version is 4.6.
+  The current stable version is 4.7.
 </p>
 
 <p>
@@ -133,6 +133,15 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
   </thead>
 
   <tbody>
+  <tr>
+    <td>4.7</td>
+    <td><a href="/downloads/i3-4.7.tar.bz2">i3-4.7.tar.bz2</a></td>
+    <td>876 KiB</td>
+    <td><a href="/downloads/i3-4.7.tar.bz2.asc">signature</a></td>
+    <td>2013-12-22</td>
+    <td><a href="/downloads/RELEASE-NOTES-4.7.txt">release notes</a></td>
+  </tr>
+
   <tr>
     <td>4.6</td>
     <td><a href="/downloads/i3-4.6.tar.bz2">i3-4.6.tar.bz2</a></td>
@@ -169,7 +178,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-4.4.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>4.3</td>
     <td><a href="/downloads/i3-4.3.tar.bz2">i3-4.3.tar.bz2</a></td>
     <td>833 KiB</td>
@@ -187,7 +196,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-4.2.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>4.1.2</td>
     <td><a href="/downloads/i3-4.1.2.tar.bz2">i3-4.1.2.tar.bz2</a></td>
     <td>550 KiB</td>
@@ -196,7 +205,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-4.1.2.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>4.1.1</td>
     <td><a href="/downloads/i3-4.1.1.tar.bz2">i3-4.1.1.tar.bz2</a></td>
     <td>551 KiB</td>
@@ -205,7 +214,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-4.1.1.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>4.1</td>
     <td><a href="/downloads/i3-4.1.tar.bz2">i3-4.1.tar.bz2</a></td>
     <td>551 KiB</td>
@@ -214,7 +223,7 @@ We also provide <a href="/docs/repositories.html">Debian and Ubuntu repositories
     <td><a href="/downloads/RELEASE-NOTES-4.1.txt">release notes</a></td>
   </tr>
 
-  <tr>
+  <tr class="oldversion">
     <td>4.0.2</td>
     <td><a href="/downloads/i3-4.0.2.tar.bz2">i3-4.0.2.tar.bz2</a></td>
     <td>465 KiB</td>
