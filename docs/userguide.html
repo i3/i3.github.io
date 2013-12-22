@@ -320,7 +320,7 @@ workspace node. By default, the workspace node’s orientation is <tt>horizontal
 <div class="paragraph"><p>Now you move one of these terminals down (<tt>$mod+k</tt> by default). The workspace
 node’s orientation will be changed to <tt>vertical</tt>. The terminal window you moved
 down is directly attached to the workspace and appears on the bottom of the
-screen. A new (horizontal) container was created to accomodate the other two
+screen. A new (horizontal) container was created to accommodate the other two
 terminal windows. You will notice this when switching to tabbed mode (for
 example). You would end up having one tab called "another container" and the
 other one being the terminal window you moved down.</p></div>
@@ -517,7 +517,7 @@ floating_maximum_size -1 x -1</tt></pre>
 (anything wider than high) get horizontal orientation, rotated monitors
 (anything higher than wide) get vertical orientation.</p></div>
 <div class="paragraph"><p>With the <tt>default_orientation</tt> configuration directive, you can override that
-behaviour.</p></div>
+behavior.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -911,7 +911,7 @@ Leave fullscreen mode.
 <div class="paragraph"><p>When being in a tabbed or stacked container, the first container will be
 focused when you use <tt>focus down</tt> on the last container&#8201;&#8212;&#8201;the focus wraps. If
 however there is another stacked/tabbed container in that direction, focus will
-be set on that container. This is the default behaviour so you can navigate to
+be set on that container. This is the default behavior so you can navigate to
 all your windows without having to use <tt>focus parent</tt>.</p></div>
 <div class="paragraph"><p>If you want the focus to <strong>always</strong> wrap and you are aware of using <tt>focus
 parent</tt> to switch to different containers, you can use the
@@ -973,7 +973,7 @@ came from now, you can just press $mod+2 again to switch back to "1: www".</p></
 <h3 id="_delaying_urgency_hint_reset_on_workspace_change">4.22. Delaying urgency hint reset on workspace change</h3>
 <div class="paragraph"><p>If an application on another workspace sets an urgency hint, switching to this
 workspace may lead to immediate focus of the application, which also means the
-window decoration color would be immediately resetted to <tt>client.focused</tt>. This
+window decoration color would be immediately reseted to <tt>client.focused</tt>. This
 may make it unnecessarily hard to tell which window originally raised the
 event.</p></div>
 <div class="paragraph"><p>In order to prevent this, you can tell i3 to delay resetting the urgency state
@@ -1256,7 +1256,27 @@ you want to display a statusline-only bar containing additional information.</p>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_colors">5.10. Colors</h3>
+<h3 id="_binding_mode_indicator">5.10. Binding Mode indicator</h3>
+<div class="paragraph"><p>Specifies whether the current binding mode indicator should be shown or not.
+This is useful if you want to hide the workspace buttons but still be able
+to see the current binding mode indicator.
+For an example of a <tt>mode</tt> definition, see <a href="#resizingconfig">[resizingconfig]</a>.</p></div>
+<div class="paragraph"><p>The default is to show the mode indicator.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>binding_mode_indicator &lt;yes|no&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bar {
+    binding_mode_indicator no
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_colors">5.11. Colors</h3>
 <div class="paragraph"><p>As with i3, colors are in HTML hex format (#rrggbb). The following colors can
 be configured at the moment:</p></div>
 <div class="dlist"><dl>
@@ -1320,7 +1340,7 @@ urgent_workspace
 <dd>
 <p>
         Border, background and text color for a workspace button when the workspace
-        window with the urgency hint set.
+        contains a window with the urgency hint set. Also applies to <tt>mode</tt> indicators.
 </p>
 </dd>
 </dl></div>
@@ -1375,16 +1395,27 @@ the following keybinding:</p></div>
 <pre><tt>bindsym $mod+x move container to workspace 3; workspace 3</tt></pre>
 </div></div>
 <div class="paragraph" id="command_criteria"><p>Furthermore, you can change the scope of a command - that is, which containers
-should be affected by that command, by using various criteria. These are
-prefixed in square brackets to every command. If you want to kill all windows
-which have the class Firefox, use:</p></div>
+should be affected by that command, by using various criteria. The criteria
+are specified before any command in a pair of square brackets and are separated
+by space.</p></div>
+<div class="paragraph"><p>When using multiple commands, separate them by using a <tt>,</tt> (a comma) instead of
+a semicolon. Criteria apply only until the next semicolon, so if you use a
+semicolon to separate commands, only the first one will be executed for the
+matched window(s).</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym $mod+x [class="Firefox"] kill
+<pre><tt># if you want to kill all windows which have the class Firefox, use:
+bindsym $mod+x [class="Firefox"] kill
 
 # same thing, but case-insensitive
-bindsym $mod+x [class="(?i)firefox"] kill</tt></pre>
+bindsym $mod+x [class="(?i)firefox"] kill
+
+# kill only the About dialog from Firefox
+bindsym $mod+x [class="Firefox" window_role="About"] kill
+
+# enable floating mode and move container to workspace 4
+for_window [class="^evil-app$"] floating enable, move container to workspace 4</tt></pre>
 </div></div>
 <div class="paragraph"><p>The criteria which are currently implemented are:</p></div>
 <div class="dlist"><dl>
@@ -1733,7 +1764,7 @@ specify a default name if there&#8217;s currently no workspace starting with a "
 <div class="paragraph"><p>You can rename workspaces. This might be useful to start with the default
 numbered workspaces, do your work, and rename the workspaces afterwards to
 reflect what’s actually on them. You can also omit the old name to rename
-the currently focused workspace. This is handy if you wan&#8217;t to use the
+the currently focused workspace. This is handy if you want to use the
 rename command with <tt>i3-input</tt>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -1748,7 +1779,7 @@ rename workspace to &lt;new_name&gt;</tt></pre>
 i3-msg 'rename workspace 1 to "1: www"'
 i3-msg 'rename workspace "1: www" to "10: www"'
 i3-msg 'rename workspace to "2: mail"
-bindsym $mod+r exec i3-input -F 'rename workspace to %s' -P 'New name: '</tt></pre>
+bindsym $mod+r exec i3-input -F 'rename workspace to "%s"' -P 'New name: '</tt></pre>
 </div></div>
 </div>
 </div>

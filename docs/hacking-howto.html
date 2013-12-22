@@ -192,19 +192,12 @@ picture, either browse all header files or use doxygen if you prefer that).
 </p>
 </dd>
 <dt class="hdlist1">
-src/cfgparse.l
+src/config_parser.c
 </dt>
 <dd>
 <p>
-Contains the lexer for i3’s configuration file, written for <tt>flex(1)</tt>.
-</p>
-</dd>
-<dt class="hdlist1">
-src/cfgparse.y
-</dt>
-<dd>
-<p>
-Contains the parser for i3’s configuration file, written for <tt>bison(1)</tt>.
+Contains a custom configuration parser. See src/command_parser.c for rationale
+ on why we use a custom parser.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -217,19 +210,13 @@ clicks initiate resizing and thus are relatively complex).
 </p>
 </dd>
 <dt class="hdlist1">
-src/cmdparse.l
+src/command_parser.c
 </dt>
 <dd>
 <p>
-Contains the lexer for i3 commands, written for <tt>flex(1)</tt>.
-</p>
-</dd>
-<dt class="hdlist1">
-src/cmdparse.y
-</dt>
-<dd>
-<p>
-Contains the parser for i3 commands, written for <tt>bison(1)</tt>.
+Contains a hand-written parser to parse commands (commands are what
+you bind on keys and what you can send to i3 using the IPC interface, like
+<em>move left</em> or <em>workspace 4</em>).
 </p>
 </dd>
 <dt class="hdlist1">
