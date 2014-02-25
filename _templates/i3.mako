@@ -88,7 +88,7 @@ else window.onload = loadjs;
         </div>
 
 	<div id="footer" lang="de">
-	© 2009-2012 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+	© 2009-2014 Michael Stapelberg, <a href="/impress.html">Impressum</a>
 	</div>
     </body>
 </html>
