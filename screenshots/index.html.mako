@@ -146,6 +146,11 @@ To get a quick impression of i3, have a look at these screenshots.
 		  "/screenshots/i3-10.png",
 		  "/screenshots/i3-10.thumb.png",
 		  "Right-to-left titles"
+		],
+		[
+		  "/screenshots/i3-11.jpg",
+		  "/screenshots/i3-11.thumb.jpg",
+		  "dzen2, VIM, bash, top"
 		]
 	]
 
