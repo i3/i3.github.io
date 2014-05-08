@@ -73,8 +73,9 @@ h1#title {
     width: 458px;
     float: left;
     margin: 0;
-    background-image: url(../img/logo.png);
+    background-image: url(../img/logo.svg);
     background-repeat: no-repeat;
+    background-size: 436px 146px;
     text-indent: -9999px;
 }
 
