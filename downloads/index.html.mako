@@ -20,25 +20,25 @@ currently distributed in the following operating systems/distributions:
 		[
 		  "Debian GNU/Linux",
 		  "http://packages.debian.org/sid/i3",
-		  "/img/debian.png",
+		  "/img/debian.svg",
 		  93
 		],
 		[
 		  "Arch Linux",
 		  "http://www.archlinux.org/packages/community/x86_64/i3-wm/",
-		  "/img/archlinux.png",
+		  "/img/archlinux.svg",
 		  75
 		],
 		[
 		  "Gentoo Linux",
 		  "http://packages.gentoo.org/package/x11-wm/i3",
-		  "/img/gentoo-logo.png",
+		  "/img/gentoo-logo.svg",
 		  79
 		],
 		[
 		  "Ubuntu Linux",
 		  "http://packages.ubuntu.com/i3",
-		  "/img/ubuntu.png",
+		  "/img/ubuntu.svg",
 		  75
 		],
 		[
@@ -50,7 +50,7 @@ currently distributed in the following operating systems/distributions:
 		[
 		  "NetBSD",
 		  "http://pkgsrc.se/wip/i3",
-		  "/img/netbsd_logo.png",
+		  "/img/netbsd_logo.svg",
 		  56
 		],
 		[
@@ -62,8 +62,8 @@ currently distributed in the following operating systems/distributions:
 		[
 		  "openSUSE",
 		  "http://software.opensuse.org/package/i3",
-		  "/img/opensuse.png",
-		  95
+		  "/img/opensuse.svg",
+		  48
 		],
 		[
 		  "Mageia",
@@ -74,7 +74,7 @@ currently distributed in the following operating systems/distributions:
 		[
 		  "Fedora",
 		  "https://admin.fedoraproject.org/pkgdb/acls/name/i3",
-		  "/img/fedora.png",
+		  "/img/fedora.svg",
 		  75
 		],
 		[
