@@ -89,7 +89,12 @@ currently distributed in the following operating systems/distributions:
 		  "/img/pibang.png",
 		  61
 		],
-
+		[
+		  "Slackware",
+		  "http://slackbuilds.org/desktop/i3/",
+		  "/img/slackware.svg",
+		  75
+		],
 	]
 
 	c = 0
