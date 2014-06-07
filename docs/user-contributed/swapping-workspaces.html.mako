@@ -34,11 +34,11 @@ i3.workspace(outputs[0][&#39;current_workspace&#39;])
 
 # ..and move it to the other output.
 # outputs wrap, so the right of the right is left ;)
-i3.move__workspace__to__output__right()
+i3.command('move', 'workspace to output right')
 
 # rinse and repeat
 i3.workspace(outputs[1][&#39;current_workspace&#39;])
-i3.move__workspace__to__output__right()</tt></pre>
+i3.command('move', 'workspace to output right')</tt></pre>
 
 <p>
 A very simple way to use this script is as follows: Put the script in a file,
