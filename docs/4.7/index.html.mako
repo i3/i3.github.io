@@ -20,12 +20,6 @@ Introduction and reference. Read this!
 </p>
 
 <p>
-<a href="/docs/layout-saving.html"><strong>Layout saving/restoring</strong></a><br>
-Explains how to save a layout and restore it in a new i3 session.
-</p>
-
-
-<p>
 <a href="/docs/multi-monitor.html"><strong>Multi-monitor</strong></a><br>
 Interesting for users of the nVidia driver.
 </p>

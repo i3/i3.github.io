@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <h1>IPC interface (interprocess communication)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">February 2014</span>
+<span id="revdate">October 2012</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -279,13 +279,12 @@ VERSION (7)
 </div>
 <div class="sect2">
 <h3 id="_command_reply">3.2. COMMAND reply</h3>
-<div class="paragraph"><p>The reply consists of a list of serialized maps for each command that was
-parsed. Each has the property <tt>success (bool)</tt> and may also include a
-human-readable error message in the property <tt>error (string)</tt>.</p></div>
+<div class="paragraph"><p>The reply consists of a single serialized map. At the moment, the only
+property is <tt>success (bool)</tt>, but this will be expanded in future versions.</p></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>[{ "success": true }]</tt></pre>
+<pre><tt>{ "success": true }</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -423,12 +422,12 @@ active (boolean)
 </p>
 </dd>
 <dt class="hdlist1">
-current_workspace (string)
+current_workspace (integer)
 </dt>
 <dd>
 <p>
-        The name of the current workspace that is visible on this output. <tt>null</tt> if
-        the output is not active.
+        The current workspace which is visible on this output. <tt>null</tt> if the
+        output is not active.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -448,7 +447,7 @@ rect (map)
  {
   "name": "LVDS1",
   "active": true,
-  "current_workspace": "4",
+  "current_workspace": 4,
   "rect": {
    "x": 0,
    "y": 0,
@@ -459,7 +458,7 @@ rect (map)
  {
   "name": "VGA1",
   "active": true,
-  "current_workspace": "1",
+  "current_workspace": 1,
   "rect": {
    "x": 1280,
    "y": 0,
@@ -495,18 +494,7 @@ name (string)
         The internal name of this container. For all containers which are part
         of the tree structure down to the workspace contents, this is set to a
         nice human-readable name of the container.
-        For containers that have an X11 window, the content is the title
-        (_NET_WM_NAME property) of that window.
         For all other containers, the content is not defined (yet).
-</p>
-</dd>
-<dt class="hdlist1">
-type (string)
-</dt>
-<dd>
-<p>
-        Type of this container. Can be one of "root", "output", "con",
-        "floating_con", "workspace" or "dockarea".
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1121,8 +1109,7 @@ window (3)
 <dd>
 <p>
         Sent when a client&#8217;s window is successfully reparented (that is when i3
-        has finished fitting it into a container), when a window received input
-        focus or when certain properties of the window have changed.
+        has finished fitting it into a container).
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1131,7 +1118,7 @@ barconfig_update (4)
 <dd>
 <p>
     Sent when the hidden_state or mode field in the barconfig of any bar
-    instance was updated and when the config is reloaded.
+    instance was updated.
 </p>
 </dd>
 </dl></div>
@@ -1173,12 +1160,12 @@ but will still be present in the "old" property.</p></div>
  "change": "focus",
  "current": {
   "id": 28489712,
-  "type": "workspace",
+  "type":4,
   ...
  }
  "old": {
   "id": 28489715,
-  "type": "workspace",
+  "type": 4,
   ...
  }
 }</tt></pre>
@@ -1210,34 +1197,13 @@ mode is simply named default.</p></div>
 <div class="sect2">
 <h3 id="_window_event">4.6. window event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
-<tt>change (string)</tt> which indicates the type of the change</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<tt>new</tt> - the window has become managed by i3
-</p>
-</li>
-<li>
-<p>
-<tt>focus</tt> - the window has received input focus
-</p>
-</li>
-<li>
-<p>
-<tt>title</tt> - the window&#8217;s title has changed
-</p>
-</li>
-<li>
-<p>
-<tt>fullscreen_mode</tt> - the window has entered or exited fullscreen mode
-</p>
-</li>
-</ul></div>
+<tt>change (string)</tt> which currently can indicate only that a new window
+has been successfully reparented (the value will be "new").</p></div>
 <div class="paragraph"><p>Additionally a <tt>container (object)</tt> field will be present, which consists
-of the window&#8217;s parent container. Be aware that for the "new" event, the
-container will hold the initial name of the newly reparented window (e.g.
-if you run urxvt with a shell that changes the title, you will still at
-this point get the window title as "urxvt").</p></div>
+of the window&#8217;s parent container. Be aware that the container will hold
+the initial name of the newly reparented window (e.g. if you run urxvt
+with a shell that changes the title, you will still at this point get the
+window title as "urxvt").</p></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
 <div class="content">
@@ -1245,7 +1211,7 @@ this point get the window title as "urxvt").</p></div>
  "change": "new",
  "container": {
   "id": 35569536,
-  "type": "con",
+  "type": 2,
   ...
  }
 }</tt></pre>
@@ -1254,8 +1220,20 @@ this point get the window title as "urxvt").</p></div>
 <div class="sect2">
 <h3 id="_barconfig_update_event">4.7. barconfig_update event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map reporting on options from the
-barconfig of the specified bar_id that were updated in i3. This event is the
-same as a <tt>GET_BAR_CONFIG</tt> reply for the bar with the given id.</p></div>
+barconfig of the specified bar_id that were updated in i3. The map always
+consists of a property <tt>id (string)</tt>, which specifies to which bar instance the
+sent config update belongs, a property <tt>hidden_state (string)</tt>, which indicates
+the hidden_state of an i3bar instance, and a property <tt>mode (string)</tt>, which
+corresponds to the current mode.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+    "id": "bar-0",
+    "hidden_state": "hide"
+    "mode": "hide"
+}</tt></pre>
+</div></div>
 </div>
 </div>
 </div>
@@ -1272,25 +1250,53 @@ C
 <dd>
 <p>
         i3 includes a headerfile <tt>i3/ipc.h</tt> which provides you all constants.
+        However, there is no library yet.
 </p>
-<div class="literalblock">
-<div class="content">
-<pre><tt>        https://github.com/acrisci/i3ipc-glib
-Go::
-        * https://github.com/proxypoke/i3ipc
-JavaScript::
-        * https://github.com/acrisci/i3ipc-gjs
-Lua::
-        * https:/github.com/acrisci/i3ipc-lua
-Perl::
-        * https://metacpan.org/module/AnyEvent::I3
-Python::
-        * https://github.com/acrisci/i3ipc-python
-        * https://github.com/whitelynx/i3ipc (not maintained)
-        * https://github.com/ziberna/i3-py (not maintained)
-Ruby::
-        http://github.com/badboy/i3-ipc</tt></pre>
-</div></div>
+</dd>
+<dt class="hdlist1">
+Ruby
+</dt>
+<dd>
+<p>
+        <a href="http://github.com/badboy/i3-ipc">http://github.com/badboy/i3-ipc</a>
+</p>
+</dd>
+<dt class="hdlist1">
+Perl
+</dt>
+<dd>
+<p>
+        <a href="https://metacpan.org/module/AnyEvent::I3">https://metacpan.org/module/AnyEvent::I3</a>
+</p>
+</dd>
+<dt class="hdlist1">
+Python
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/whitelynx/i3ipc">https://github.com/whitelynx/i3ipc</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/ziberna/i3-py">https://github.com/ziberna/i3-py</a> (includes higher-level features)
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Go
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/proxypoke/i3ipc">https://github.com/proxypoke/i3ipc</a>
+</p>
+</li>
+</ul></div>
 </dd>
 </dl></div>
 </div>
