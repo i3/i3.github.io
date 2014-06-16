@@ -1,11 +1,11 @@
-<%!
-	section = "screens"
-	javascript = 'gallery.min.2.js'
-	require_jquery = True
-	js_callback = 'initGallery();'
-%>
-<%inherit file="_templates/i3.mako" />
-
+---
+layout: default
+title: Screens
+group: Screens
+require_jquery: true
+javascript: gallery.min.2.js
+js_callback: initGallery();
+---
 <div id="mask">
 </div>
 
@@ -95,80 +95,20 @@ To get a quick impression of i3, have a look at these screenshots.
 </p>
 
 <div class="screenshots clearfix">
-<%
-	screens = [
-		[
-		  "/screenshots/i3-1.png",
-		  "/screenshots/i3-1.thumb.png",
-		  "Vimperator, VIM, MPlayer, dzen2"
-		],
-		[
-		  "/screenshots/i3-2.png",
-		  "/screenshots/i3-2.thumb.png",
-		  "Vimperator, VIM, xpdf, bc"
-		],
-		[
-		  "/screenshots/i3-3.png",
-		  "/screenshots/i3-3.thumb.png",
-		  "PCManFM, ROXTerm, evince"
-		],
-		[
-		  "/screenshots/i3-4.png",
-		  "/screenshots/i3-4.thumb.png",
-		  "i3 logo out of terminals"
-		],
-		[
-		  "/screenshots/i3-6.png",
-		  "/screenshots/i3-6.thumb.png",
-		  "VIM, zsh, i3status (FreeBSD)"
-		],
-		[
-		  "/screenshots/i3-7.png",
-		  "/screenshots/i3-7.thumb.png",
-		  "GIMP, urxvt (both floating)"
-		],
-		[
-		  "/screenshots/i3-5.png",
-		  "/screenshots/i3-5.thumb.png",
-		  "mc, xosview, MPlayer, irssi, gajim"
-		],
-		[
-		  "/screenshots/i3-8.jpg",
-		  "/screenshots/i3-8.thumb.jpg",
-		  "git, synergy, htop, urxvt"
-		],
-		[
-		  "/screenshots/i3-9.png",
-		  "/screenshots/i3-9.thumb.png",
-		  "VIM, git, MPlayer, i3bar"
-		],
-		[
-		  "/screenshots/i3-10.png",
-		  "/screenshots/i3-10.thumb.png",
-		  "Right-to-left titles"
-		],
-		[
-		  "/screenshots/i3-11.jpg",
-		  "/screenshots/i3-11.thumb.jpg",
-		  "dzen2, VIM, bash, top"
-		]
-	]
-
-	c = 0
-%>
-% for link, thumb, description in screens:
-
-    <div class="shot">
-        <a href="${link}"><img src="${thumb}" width="240" alt="(Screenshot) ${description}"></a><br>
-        <span>${description}</span>
-    </div>
-
-<% c += 1 %>
-% if (c % 3) == 0:
+{% include screenshot.html link="/screenshots/i3-1.png" thumb="/screenshots/i3-1.thumb.png" description="Vimperator, VIM, MPlayer, dzen2" %}
+{% include screenshot.html link="/screenshots/i3-2.png" thumb="/screenshots/i3-2.thumb.png" description="Vimperator, VIM, xpdf, bc" %}
+{% include screenshot.html link="/screenshots/i3-3.png" thumb="/screenshots/i3-3.thumb.png" description="PCManFM, ROXTerm, evince" %}
 <br>
-% endif
-% endfor
-
+{% include screenshot.html link="/screenshots/i3-4.png" thumb="/screenshots/i3-4.thumb.png" description="i3 logo out of terminals" %}
+{% include screenshot.html link="/screenshots/i3-6.png" thumb="/screenshots/i3-6.thumb.png" description="VIM, zsh, i3status (FreeBSD)" %}
+{% include screenshot.html link="/screenshots/i3-7.png" thumb="/screenshots/i3-7.thumb.png" description="GIMP, urxvt (both floating)" %}
+<br>
+{% include screenshot.html link="/screenshots/i3-5.png" thumb="/screenshots/i3-5.thumb.png" description="mc, xosview, MPlayer, irssi, gajim" %}
+{% include screenshot.html link="/screenshots/i3-8.jpg" thumb="/screenshots/i3-8.thumb.jpg" description="git, synergy, htop, urxvt" %}
+{% include screenshot.html link="/screenshots/i3-9.png" thumb="/screenshots/i3-9.thumb.png" description="VIM, git, MPlayer, i3bar" %}
+<br>
+{% include screenshot.html link="/screenshots/i3-10.png" thumb="/screenshots/i3-10.thumb.png" description="Right-to-left titles" %}
+{% include screenshot.html link="/screenshots/i3-11.jpg" thumb="/screenshots/i3-11.thumb.jpg" description="dzen2, VIM, bash, top" %}
 </div>
 
 </div>
