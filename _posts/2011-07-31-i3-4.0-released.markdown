@@ -1,8 +1,0 @@
----
-date: 2011/07/31 23:59:59
-title: "i3 v4.0 released"
----
-
-i3 v4.0 has just been released! Read the <a
-href="http://i3wm.org/downloads/RELEASE-NOTES-4.0.txt">release notes</a> and
-get it from the download page :).
