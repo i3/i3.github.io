@@ -51,7 +51,7 @@ This Ubuntu repository contains packages which are automatically built a few
 minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-# echo 'deb http://build.i3wm.org/ubuntu/raring raring main' >> /etc/apt/sources.list
+# echo 'deb http://build.i3wm.org/ubuntu/trusty trusty main' >> /etc/apt/sources.list
 # apt-get update
 # apt-get --allow-unauthenticated install i3-autobuild-keyring
 # apt-get update
@@ -59,7 +59,7 @@ minutes after every commit. To use it, run the following commands:
 ---------------------------------------------------------------------------------
 
 Development versions are only available for the latest version of Ubuntu, which
-is raring at the moment.
+is trusty at the moment.
 
 == Debian repository
 
