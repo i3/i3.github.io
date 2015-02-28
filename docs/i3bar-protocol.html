@@ -2,9 +2,9 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <title>i3: i3bar input protocol</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -197,7 +197,8 @@ full_text
 <p>
         The most simple block you can think of is one which just includes the
         only required key, the <tt>full_text</tt> key. i3bar will display the string
-        value and that’s it.
+        value parsed as
+        <a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">Pango markup</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -250,7 +251,7 @@ align
 </dt>
 <dd>
 <p>
-        Align text on the <tt>center</tt> (default), <tt>right</tt> or <tt>left</tt> of the block, when
+        Align text on the <tt>center</tt>, <tt>right</tt> or <tt>left</tt> (default) of the block, when
         the minimum width of the latter, specified by the <tt>min_width</tt> key, is not
         reached.
 </p>

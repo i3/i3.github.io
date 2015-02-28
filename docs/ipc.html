@@ -2,9 +2,9 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <title>i3: IPC interface (interprocess communication)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <h1>IPC interface (interprocess communication)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">February 2014</span>
+<span id="revdate">October 2014</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -299,7 +299,7 @@ num (integer)
 <dd>
 <p>
         The logical number of the workspace. Corresponds to the command
-        to switch to this workspace.
+        to switch to this workspace. For named workspaces, this will be -1.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -581,6 +581,16 @@ window_rect (map)
         So, when using the <tt>default</tt> layout, you will have a 2 pixel border on
         each side, making the window_rect <tt>{ "x": 2, "y": 0, "width": 632,
         "height": 366 }</tt> (for example).
+</p>
+</dd>
+<dt class="hdlist1">
+deco_rect (map)
+</dt>
+<dd>
+<p>
+        The coordinates of the <strong>window decoration</strong> inside its container. These
+        coordinates are relative to the container and do not include the actual
+        client window.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1080,7 +1090,7 @@ you can register to an event.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>type: SUBSCRIBE
-payload: [ "workspace", "focus" ]</tt></pre>
+payload: [ "workspace", "output" ]</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1134,6 +1144,15 @@ barconfig_update (4)
     instance was updated and when the config is reloaded.
 </p>
 </dd>
+<dt class="hdlist1">
+binding (5)
+</dt>
+<dd>
+<p>
+        Sent when a configured command binding is triggered with the keyboard or
+        mouse
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
@@ -1158,14 +1177,15 @@ if ($is_event) {
 <h3 id="_workspace_event">4.3. workspace event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
 <tt>change (string)</tt> which indicates the type of the change ("focus", "init",
-"empty", "urgent").</p></div>
-<div class="paragraph"><p>Moreover, when the change is "focus", an <tt>old (object)</tt> and a <tt>current
-(object)</tt> properties will be present with the previous and current
-workspace respectively.  When the first switch occurs (when i3 focuses
-the workspace visible at the beginning) there is no previous
-workspace, and the <tt>old</tt> property will be set to <tt>null</tt>.  Also note
-that if the previous is empty it will get destroyed when switching,
-but will still be present in the "old" property.</p></div>
+"empty", "urgent"). A <tt>current (object)</tt> property will be present with the
+affected workspace whenever the type of event affects a workspace (otherwise,
+it will be +null).</p></div>
+<div class="paragraph"><p>When the change is "focus", an <tt>old (object)</tt> property will be present with the
+previous workspace.  When the first switch occurs (when i3 focuses the
+workspace visible at the beginning) there is no previous workspace, and the
+<tt>old</tt> property will be set to <tt>null</tt>.  Also note that if the previous is empty
+it will get destroyed when switching, but will still be present in the "old"
+property.</p></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
 <div class="content">
@@ -1219,6 +1239,11 @@ mode is simply named default.</p></div>
 </li>
 <li>
 <p>
+<tt>close</tt> - the window has closed
+</p>
+</li>
+<li>
+<p>
 <tt>focus</tt> - the window has received input focus
 </p>
 </li>
@@ -1230,6 +1255,21 @@ mode is simply named default.</p></div>
 <li>
 <p>
 <tt>fullscreen_mode</tt> - the window has entered or exited fullscreen mode
+</p>
+</li>
+<li>
+<p>
+<tt>move</tt> - the window has changed its position in the tree
+</p>
+</li>
+<li>
+<p>
+<tt>floating</tt> - the window has transitioned to or from floating
+</p>
+</li>
+<li>
+<p>
+<tt>urgent</tt> - the window has become urgent or lost its urgent status
 </p>
 </li>
 </ul></div>
@@ -1257,6 +1297,77 @@ this point get the window title as "urxvt").</p></div>
 barconfig of the specified bar_id that were updated in i3. This event is the
 same as a <tt>GET_BAR_CONFIG</tt> reply for the bar with the given id.</p></div>
 </div>
+<div class="sect2">
+<h3 id="_binding_event">4.8. binding event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map reporting on the details of a
+binding that ran a command because of user input. The <tt>change (sring)</tt> field
+indicates what sort of binding event was triggered (right now it will always be
+<tt>"run"</tt> but may be expanded in the future).</p></div>
+<div class="paragraph"><p>The <tt>binding (object)</tt> field contains details about the binding that was run:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+command (string)
+</dt>
+<dd>
+<p>
+        The i3 command that is configured to run for this binding.
+</p>
+</dd>
+<dt class="hdlist1">
+mods (array of strings)
+</dt>
+<dd>
+<p>
+        The modifier keys that were configured with this binding.
+</p>
+</dd>
+<dt class="hdlist1">
+input_code (integer)
+</dt>
+<dd>
+<p>
+        If the binding was configured with <tt>bindcode</tt>, this will be the key code
+        that was given for the binding. If the binding is a mouse binding, it will be
+        the number of the mouse button that was pressed. Otherwise it will be 0.
+</p>
+</dd>
+<dt class="hdlist1">
+symbol (string or null)
+</dt>
+<dd>
+<p>
+        If this is a keyboard binding that was configured with <tt>bindsym</tt>, this
+        field will contain the given symbol. Otherwise it will be <tt>null</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+input_type (string)
+</dt>
+<dd>
+<p>
+        This will be <tt>"keyboard"</tt> or <tt>"mouse"</tt> depending on whether or not this was
+        a keyboard or a mouse binding.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "change": "run",
+ "binding": {
+  "command": "nop",
+  "mods": [
+    "shift",
+    "ctrl"
+  ],
+  "input_code": 0,
+  "symbol": "t",
+  "input_type": "keyboard"
+ }
+}</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1270,27 +1381,100 @@ know):</p></div>
 C
 </dt>
 <dd>
+<div class="ulist"><ul>
+<li>
 <p>
-        i3 includes a headerfile <tt>i3/ipc.h</tt> which provides you all constants.
+i3 includes a headerfile <tt>i3/ipc.h</tt> which provides you all constants.
 </p>
-<div class="literalblock">
-<div class="content">
-<pre><tt>        https://github.com/acrisci/i3ipc-glib
-Go::
-        * https://github.com/proxypoke/i3ipc
-JavaScript::
-        * https://github.com/acrisci/i3ipc-gjs
-Lua::
-        * https:/github.com/acrisci/i3ipc-lua
-Perl::
-        * https://metacpan.org/module/AnyEvent::I3
-Python::
-        * https://github.com/acrisci/i3ipc-python
-        * https://github.com/whitelynx/i3ipc (not maintained)
-        * https://github.com/ziberna/i3-py (not maintained)
-Ruby::
-        http://github.com/badboy/i3-ipc</tt></pre>
-</div></div>
+</li>
+<li>
+<p>
+<a href="https://github.com/acrisci/i3ipc-glib">https://github.com/acrisci/i3ipc-glib</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Go
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/proxypoke/i3ipc">https://github.com/proxypoke/i3ipc</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+JavaScript
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/acrisci/i3ipc-gjs">https://github.com/acrisci/i3ipc-gjs</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Lua
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/acrisci/i3ipc-lua">https://github.com/acrisci/i3ipc-lua</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Perl
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://metacpan.org/module/AnyEvent::I3">https://metacpan.org/module/AnyEvent::I3</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Python
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/acrisci/i3ipc-python">https://github.com/acrisci/i3ipc-python</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/whitelynx/i3ipc">https://github.com/whitelynx/i3ipc</a> (not maintained)
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/ziberna/i3-py">https://github.com/ziberna/i3-py</a> (not maintained)
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Ruby
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="http://github.com/badboy/i3-ipc">http://github.com/badboy/i3-ipc</a>
+</p>
+</li>
+</ul></div>
 </dd>
 </dl></div>
 </div>

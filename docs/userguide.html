@@ -2,9 +2,9 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <title>i3: i3 User’s Guide</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -148,7 +148,7 @@ stacking and <tt>$mod+w</tt> for tabbed.</p></div>
 <div class="paragraph"><p>To display a window in fullscreen mode or to go out of fullscreen mode again,
 press <tt>$mod+f</tt>.</p></div>
 <div class="paragraph"><p>There is also a global fullscreen mode in i3 in which the client will span all
-available outputs (the command is <tt>fullscreen global</tt>).</p></div>
+available outputs (the command is <tt>fullscreen toggle global</tt>).</p></div>
 </div>
 <div class="sect2">
 <h3 id="_opening_other_applications">2.4. Opening other applications</h3>
@@ -205,7 +205,8 @@ to upgrade to a newer version of i3) you can use <tt>$mod+Shift+r</tt>.</p></div
 </div>
 <div class="sect2">
 <h3 id="_exiting_i3">2.10. Exiting i3</h3>
-<div class="paragraph"><p>To cleanly exit i3 without killing your X server, you can use <tt>$mod+Shift+e</tt>.</p></div>
+<div class="paragraph"><p>To cleanly exit i3 without killing your X server, you can use <tt>$mod+Shift+e</tt>.
+By default, a dialog will ask you to confirm if you really want to quit.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_floating">2.11. Floating</h3>
@@ -430,7 +431,7 @@ bindcode [--release] [Modifiers+]keycode command</tt></pre>
 <div class="listingblock">
 <div class="content">
 <pre><tt># Fullscreen
-bindsym $mod+f fullscreen
+bindsym $mod+f fullscreen toggle
 
 # Restart
 bindsym $mod+Shift+r restart
@@ -469,7 +470,39 @@ workspaces is totally convenient. Try it :-).
 </dl></div>
 </div>
 <div class="sect2">
-<h3 id="floating_modifier">4.4. The floating modifier</h3>
+<h3 id="mousebindings">4.4. Mouse bindings</h3>
+<div class="paragraph"><p>A mouse binding makes i3 execute a command upon pressing a specific mouse
+button in the scope of the clicked container (see <a href="#command_criteria">[command_criteria]</a>). You
+can configure mouse bindings in a similar way to key bindings.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym [--release] [--whole-window] [Modifiers+]button[n] command</tt></pre>
+</div></div>
+<div class="paragraph"><p>By default, the binding will only run when you click on the titlebar of the
+window. If the <tt>--whole-window</tt> flag is given, it will run when any part of the
+window is clicked. If the <tt>--release</tt> flag is given, it will run when the mouse
+button is released.</p></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># The middle button over a titlebar kills the window
+bindsym --release button2 kill
+
+# The middle button and a modifer over any part of the window kills the window
+bindsym --whole-window $mod+button2 kill
+
+# The right button toggles floating
+bindsym button3 floating toggle
+bindsym $mod+button3 floating toggle
+
+# The side buttons move the window around
+bindsym button9 move left
+bindsym button8 move right</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="floating_modifier">4.5. The floating modifier</h3>
 <div class="paragraph"><p>To move floating windows with your mouse, you can either grab their titlebar
 or configure the so called floating modifier which you can then press and
 click anywhere in the window itself to move it. The most common setup is to
@@ -492,7 +525,7 @@ ratio will be preserved).</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_constraining_floating_window_size">4.5. Constraining floating window size</h3>
+<h3 id="_constraining_floating_window_size">4.6. Constraining floating window size</h3>
 <div class="paragraph"><p>The maximum and minimum dimensions of floating windows can be specified. If
 either dimension of <tt>floating_maximum_size</tt> is specified as -1, that dimension
 will be unconstrained with respect to its maximum value. If either dimension of
@@ -513,7 +546,7 @@ floating_maximum_size -1 x -1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_orientation_for_new_workspaces">4.6. Orientation for new workspaces</h3>
+<h3 id="_orientation_for_new_workspaces">4.7. Orientation for new workspaces</h3>
 <div class="paragraph"><p>New workspaces get a reasonable default orientation: Wide-screen monitors
 (anything wider than high) get horizontal orientation, rotated monitors
 (anything higher than wide) get vertical orientation.</p></div>
@@ -531,7 +564,7 @@ behavior.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_layout_mode_for_new_containers">4.7. Layout mode for new containers</h3>
+<h3 id="_layout_mode_for_new_containers">4.8. Layout mode for new containers</h3>
 <div class="paragraph"><p>This option determines in which mode new containers on workspace level will
 start.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -546,7 +579,7 @@ start.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_border_style_for_new_windows">4.8. Border style for new windows</h3>
+<h3 id="_border_style_for_new_windows">4.9. Border style for new windows</h3>
 <div class="paragraph"><p>This option determines which border style new windows will have. The default is
 "normal". Note that new_float applies only to windows which are starting out as
 floating windows, e.g. dialog windows.</p></div>
@@ -574,7 +607,7 @@ new_window pixel 3</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_hiding_vertical_borders">4.9. Hiding vertical borders</h3>
+<h3 id="_hiding_vertical_borders">4.10. Hiding vertical borders</h3>
 <div class="paragraph"><p>You can hide vertical borders adjacent to the screen edges using
 <tt>hide_edge_borders</tt>. This is useful if you are using scrollbars, or do not want
 to waste even two pixels in displayspace. Default is none.</p></div>
@@ -590,7 +623,7 @@ to waste even two pixels in displayspace. Default is none.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_arbitrary_commands_for_specific_windows_for_window">4.10. Arbitrary commands for specific windows (for_window)</h3>
+<h3 id="_arbitrary_commands_for_specific_windows_for_window">4.11. Arbitrary commands for specific windows (for_window)</h3>
 <div class="paragraph"><p>With the <tt>for_window</tt> command, you can let i3 execute any command when it
 encounters a specific window. This can be used to set windows to floating or to
 change their border style, for example.</p></div>
@@ -616,7 +649,7 @@ for_window [title="x200: ~/work"] floating enable</tt></pre>
 <div class="paragraph"><p>The valid criteria are the same as those for commands, see <a href="#command_criteria">[command_criteria]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_variables">4.11. Variables</h3>
+<h3 id="_variables">4.12. Variables</h3>
 <div class="paragraph"><p>As you learned in the section about keyboard bindings, you will have
 to configure lots of bindings containing modifier keys. If you want to save
 yourself some typing and be able to change the modifier you use later,
@@ -640,7 +673,7 @@ you should create a little script which generates a configuration file and run
 it before starting i3 (for example in your <tt>~/.xsession</tt> file).</p></div>
 </div>
 <div class="sect2">
-<h3 id="_automatically_putting_clients_on_specific_workspaces">4.12. Automatically putting clients on specific workspaces</h3>
+<h3 id="_automatically_putting_clients_on_specific_workspaces">4.13. Automatically putting clients on specific workspaces</h3>
 <div class="paragraph" id="assign_workspace"><p>To automatically make a specific window show up on a specific workspace, you
 can use an <strong>assignment</strong>. You can match windows by using any criteria,
 see <a href="#command_criteria">[command_criteria]</a>. It is recommended that you match on window classes
@@ -709,7 +742,7 @@ exec --no-startup-id i3-msg 'workspace 3; exec iceweasel; workspace 1'</tt></pre
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_automatically_starting_applications_on_i3_startup">4.13. Automatically starting applications on i3 startup</h3>
+<h3 id="_automatically_starting_applications_on_i3_startup">4.14. Automatically starting applications on i3 startup</h3>
 <div class="paragraph"><p>By using the <tt>exec</tt> keyword outside a keybinding, you can configure
 which commands will be performed by i3 on initial startup. <tt>exec</tt>
 commands will not run when restarting i3, if you need a command to run
@@ -733,7 +766,7 @@ exec --no-startup-id urxvt</tt></pre>
 <div class="paragraph"><p>The flag --no-startup-id is explained in <a href="#exec">[exec]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="workspace_screen">4.14. Automatically putting workspaces on specific screens</h3>
+<h3 id="workspace_screen">4.15. Automatically putting workspaces on specific screens</h3>
 <div class="paragraph"><p>If you assign clients to workspaces, it might be handy to put the
 workspaces on specific screens. Also, the assignment of workspaces to screens
 will determine which workspace i3 uses for a new screen when adding screens
@@ -757,7 +790,7 @@ workspace "2: vim" output VGA1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_colors">4.15. Changing colors</h3>
+<h3 id="_changing_colors">4.16. Changing colors</h3>
 <div class="paragraph"><p>You can change all colors which i3 uses to draw the window decorations.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -840,7 +873,7 @@ single windows within a split container, which are otherwise indistinguishable
 from single windows outside of a split container.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_interprocess_communication">4.16. Interprocess communication</h3>
+<h3 id="_interprocess_communication">4.17. Interprocess communication</h3>
 <div class="paragraph"><p>i3 uses Unix sockets to provide an IPC interface. This allows third-party
 programs to get information from i3, such as the current workspaces
 (to display a workspace bar), and to control i3.</p></div>
@@ -862,7 +895,7 @@ user can create that directory.</p></div>
 the next section.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_focus_follows_mouse">4.17. Focus follows mouse</h3>
+<h3 id="_focus_follows_mouse">4.18. Focus follows mouse</h3>
 <div class="paragraph"><p>By default, window focus follows your mouse movements. However, if you have a
 setup where your mouse usually is in your way (like a touchpad on your laptop
 which you do not want to disable completely), you might want to disable <em>focus
@@ -881,7 +914,7 @@ links in your browser window).</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_mouse_warping">4.18. Mouse warping</h3>
+<h3 id="_mouse_warping">4.19. Mouse warping</h3>
 <div class="paragraph"><p>By default, when switching focus to a window on a different output (e.g.
 focusing a window on workspace 3 on output VGA-1, coming from workspace 2 on
 LVDS-1), the mouse cursor is warped to the center of that window.</p></div>
@@ -900,7 +933,7 @@ behavior described above.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_popups_during_fullscreen_mode">4.19. Popups during fullscreen mode</h3>
+<h3 id="_popups_during_fullscreen_mode">4.20. Popups during fullscreen mode</h3>
 <div class="paragraph"><p>When you are in fullscreen mode, some applications still open popup windows
 (take Xpdf for example). This is because these applications may not be aware
 that they are in fullscreen mode (they do not check the corresponding hint).
@@ -937,7 +970,7 @@ Leave fullscreen mode.
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_focus_wrapping">4.20. Focus wrapping</h3>
+<h3 id="_focus_wrapping">4.21. Focus wrapping</h3>
 <div class="paragraph"><p>When being in a tabbed or stacked container, the first container will be
 focused when you use <tt>focus down</tt> on the last container&#8201;&#8212;&#8201;the focus wraps. If
 however there is another stacked/tabbed container in that direction, focus will
@@ -959,7 +992,7 @@ will always wrap.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_forcing_xinerama">4.21. Forcing Xinerama</h3>
+<h3 id="_forcing_xinerama">4.22. Forcing Xinerama</h3>
 <div class="paragraph"><p>As explained in-depth in <a href="http://i3wm.org/docs/multi-monitor.html">http://i3wm.org/docs/multi-monitor.html</a>, some X11
 video drivers (especially the nVidia binary driver) only provide support for
 Xinerama instead of RandR. In such a situation, i3 must be told to use the
@@ -982,7 +1015,7 @@ that’s it).</p></div>
 Xinerama, instead they are counted up, starting at 0: <tt>xinerama-0</tt>, <tt>xinerama-1</tt>, …</p></div>
 </div>
 <div class="sect2">
-<h3 id="_automatic_back_and_forth_when_switching_to_the_current_workspace">4.22. Automatic back-and-forth when switching to the current workspace</h3>
+<h3 id="_automatic_back_and_forth_when_switching_to_the_current_workspace">4.23. Automatic back-and-forth when switching to the current workspace</h3>
 <div class="paragraph"><p>This configuration directive enables automatic <tt>workspace back_and_forth</tt> (see
 <a href="#back_and_forth">[back_and_forth]</a>) when switching to the workspace that is currently focused.</p></div>
 <div class="paragraph"><p>For instance: Assume you are on workspace "1: www" and switch to "2: IM" using
@@ -1000,7 +1033,7 @@ came from now, you can just press $mod+2 again to switch back to "1: www".</p></
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_delaying_urgency_hint_reset_on_workspace_change">4.23. Delaying urgency hint reset on workspace change</h3>
+<h3 id="_delaying_urgency_hint_reset_on_workspace_change">4.24. Delaying urgency hint reset on workspace change</h3>
 <div class="paragraph"><p>If an application on another workspace sets an urgency hint, switching to this
 workspace may lead to immediate focus of the application, which also means the
 window decoration color would be immediately reset to <tt>client.focused</tt>. This
@@ -1149,7 +1182,28 @@ modifier &lt;Modifier&gt;</tt></pre>
 <div class="paragraph"><p>Available modifiers are Mod1-Mod5, Shift, Control (see <tt>xmodmap(1)</tt>).</p></div>
 </div>
 <div class="sect2">
-<h3 id="_bar_id">5.4. Bar ID</h3>
+<h3 id="_mouse_button_commands">5.4. Mouse button commands</h3>
+<div class="paragraph"><p>Specifies a command to run when a button was pressed on i3bar to override the
+default behavior. Currently only the mouse wheel buttons are supported. This is
+useful for disabling the scroll wheel action or running scripts that implement
+custom behavior for these buttons.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>wheel_up_cmd &lt;command&gt;
+wheel_down_cmd &lt;command&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bar {
+    wheel_up_cmd nop
+    wheel_down_cmd exec ~/.i3/scripts/custom_wheel_down
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_bar_id">5.5. Bar ID</h3>
 <div class="paragraph"><p>Specifies the bar ID for the configured bar instance. If this option is missing,
 the ID is set to <em>bar-x</em>, where x corresponds to the position of the embedding
 bar block in the config file (<em>bar-0</em>, <em>bar-1</em>, &#8230;).</p></div>
@@ -1167,7 +1221,7 @@ bar block in the config file (<em>bar-0</em>, <em>bar-1</em>, &#8230;).</p></div
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="i3bar_position">5.5. Position</h3>
+<h3 id="i3bar_position">5.6. Position</h3>
 <div class="paragraph"><p>This option determines in which edge of the screen i3bar should show up.</p></div>
 <div class="paragraph"><p>The default is bottom.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -1184,7 +1238,7 @@ bar block in the config file (<em>bar-0</em>, <em>bar-1</em>, &#8230;).</p></div
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_output_s">5.6. Output(s)</h3>
+<h3 id="_output_s">5.7. Output(s)</h3>
 <div class="paragraph"><p>You can restrict i3bar to one or more outputs (monitors). The default is to
 handle all outputs. Restricting the outputs is useful for using different
 options for different outputs by using multiple <em>bar</em> blocks.</p></div>
@@ -1218,7 +1272,7 @@ bar {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_tray_output">5.7. Tray output</h3>
+<h3 id="_tray_output">5.8. Tray output</h3>
 <div class="paragraph"><p>i3bar by default provides a system tray area where programs such as
 NetworkManager, VLC, Pidgin, etc. can place little icons.</p></div>
 <div class="paragraph"><p>You can configure on which output (monitor) the icons should be displayed or
@@ -1251,7 +1305,7 @@ bar {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_font">5.8. Font</h3>
+<h3 id="_font">5.9. Font</h3>
 <div class="paragraph"><p>Specifies the font to be used in the bar. See <a href="#fonts">[fonts]</a>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -1268,7 +1322,7 @@ bar {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_workspace_buttons">5.9. Workspace buttons</h3>
+<h3 id="_workspace_buttons">5.10. Workspace buttons</h3>
 <div class="paragraph"><p>Specifies whether workspace buttons should be shown or not. This is useful if
 you want to display a statusline-only bar containing additional information.</p></div>
 <div class="paragraph"><p>The default is to show workspace buttons.</p></div>
@@ -1286,7 +1340,7 @@ you want to display a statusline-only bar containing additional information.</p>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_strip_workspace_numbers">5.10. Strip workspace numbers</h3>
+<h3 id="_strip_workspace_numbers">5.11. Strip workspace numbers</h3>
 <div class="paragraph"><p>Specifies whether workspace numbers should be displayed within the workspace
 buttons. This is useful if you want to have a named workspace that stays in
 order on the bar according to its number without displaying the number prefix.</p></div>
@@ -1309,7 +1363,7 @@ workspaces to "1:I", "2:II", "3:III", "4:IV", &#8230;</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_binding_mode_indicator">5.11. Binding Mode indicator</h3>
+<h3 id="_binding_mode_indicator">5.12. Binding Mode indicator</h3>
 <div class="paragraph"><p>Specifies whether the current binding mode indicator should be shown or not.
 This is useful if you want to hide the workspace buttons but still be able
 to see the current binding mode indicator.
@@ -1329,7 +1383,7 @@ For an example of a <tt>mode</tt> definition, see <a href="#resizingconfig">[res
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_colors">5.12. Colors</h3>
+<h3 id="_colors">5.13. Colors</h3>
 <div class="paragraph"><p>As with i3, colors are in HTML hex format (#rrggbb). The following colors can
 be configured at the moment:</p></div>
 <div class="dlist"><dl>
@@ -1599,9 +1653,12 @@ bindsym $mod+h split horizontal</tt></pre>
 <div class="paragraph"><p>Use <tt>layout toggle split</tt>, <tt>layout stacking</tt>, <tt>layout tabbed</tt>, <tt>layout splitv</tt>
 or <tt>layout splith</tt> to change the current container layout to splith/splitv,
 stacking, tabbed layout, splitv or splith, respectively.</p></div>
-<div class="paragraph"><p>To make the current window (!) fullscreen, use <tt>fullscreen</tt>, to make
-it floating (or tiling again) use <tt>floating enable</tt> respectively <tt>floating disable</tt>
-(or <tt>floating toggle</tt>):</p></div>
+<div class="paragraph"><p>To make the current window (!) fullscreen, use <tt>fullscreen enable</tt> (or
+<tt>fullscreen enable global</tt> for the global mode), to leave either fullscreen
+mode use <tt>fullscreen disable</tt>, and to toggle between these two states use
+<tt>fullscreen toggle</tt> (or <tt>fullscreen toggle global</tt>).</p></div>
+<div class="paragraph"><p>Likewise, to make the current window floating (or tiling again) use <tt>floating
+enable</tt> respectively <tt>floating disable</tt> (or <tt>floating toggle</tt>):</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1622,7 +1679,7 @@ bindsym $mod+x layout toggle
 bindsym $mod+x layout toggle all
 
 # Toggle fullscreen
-bindsym $mod+f fullscreen
+bindsym $mod+f fullscreen toggle
 
 # Toggle floating/tiling
 bindsym $mod+t floating toggle</tt></pre>
@@ -1748,6 +1805,9 @@ container to the next/previous workspace and <tt>move container to workspace cur
 (the last one makes sense only when used with criteria).</p></div>
 <div class="paragraph"><p>See <a href="#move_to_outputs">[move_to_outputs]</a> for how to move a container/workspace to a different
 RandR output.</p></div>
+<div class="paragraph"><p>Workspace names are parsed as
+<a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">Pango markup</a>
+by i3bar.</p></div>
 <div class="paragraph" id="back_and_forth"><p>To switch back to the previously focused workspace, use <tt>workspace
 back_and_forth</tt>; likewise, you can move containers to the previously focused
 workspace using <tt>move container to workspace back_and_forth</tt>.</p></div>
@@ -1768,6 +1828,7 @@ move [window|container] [to] workspace &lt;prev|next|current&gt;</tt></pre>
 <div class="content">
 <pre><tt>bindsym $mod+1 workspace 1
 bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3:&lt;span foreground="red"&gt;vim&lt;/span&gt;
 ...
 
 bindsym $mod+Shift+1 move container to workspace 1

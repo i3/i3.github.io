@@ -2,9 +2,9 @@
     "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
-<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
 <title>i3: i3 testsuite</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -138,6 +138,8 @@ to install all of them.</p></div>
 client, simply called <tt>cpan</tt>. It comes with every Perl installation and can be
 used to install the testsuite. Many users prefer to use the more modern
 <tt>cpanminus</tt> instead, though (because it asks no questions and just works):</p></div>
+<div class="paragraph"><p>The tests additionally require <tt>Xephyr(1)</tt> to run a nested X server. Install
+<tt>xserver-xephyr</tt> on Debian or <tt>xorg-xserver-xephyr</tt> on Arch Linux.</p></div>
 <div class="listingblock">
 <div class="title">Installing testsuite dependencies using cpanminus (preferred)</div>
 <div class="content">
@@ -165,7 +167,11 @@ more testcases. Also, it takes care of starting up a separate instance of i3
 with an appropriate configuration file and creates a folder for each run
 containing the appropriate i3 logfile for each testcase. The latest folder can
 always be found under the symlink <tt>latest/</tt>. Unless told differently, it will
-run the tests on a separate X server instance (using the Xdummy script).</p></div>
+run the tests on a separate X server instance (using Xephyr).</p></div>
+<div class="paragraph"><p>Xephyr will open a window where you can inspect the running test. You can run
+the tests without an X session with Xvfb, such as with <tt>xvfb-run
+./complete-run</tt>. This will also speed up the tests signficantly especially on
+machines without a powerful video card.</p></div>
 <div class="listingblock">
 <div class="title">Example invocation of complete-run.pl+</div>
 <div class="content">
@@ -208,11 +214,10 @@ $ less latest/i3-log-for-04-floating.t</tt></pre>
 <div class="paragraph"><p>If your attempt to run the tests with a bare call to ./complete-run.pl fails, try this:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>$ ./complete-run.pl --parallel=1 --keep-xdummy-output</tt></pre>
+<pre><tt>$ ./complete-run.pl --parallel=1 --keep-xserver-output</tt></pre>
 </div></div>
-<div class="paragraph"><p>One common cause of failures is not having the X dummy server module
-installed.  Under Debian and Ubuntu this is the package
-<tt>xserver-xorg-video-dummy</tt>.</p></div>
+<div class="paragraph"><p>This will show the output of Xephyr, which is the X server implementation we
+use for testing.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_ipc_interface">3.2.2. IPC interface</h4>
@@ -236,10 +241,9 @@ manager.</p></div>
 <div class="sect2">
 <h3 id="_filesystem_structure">3.3. Filesystem structure</h3>
 <div class="paragraph"><p>In the git root of i3, the testcases live in the folder <tt>testcases</tt>. This
-folder contains the <tt>complete-run.pl</tt> and <tt>Xdummy</tt> scripts and a base
-configuration file which will be used for the tests. The different testcases
-(their file extension is .t, not .pl) themselves can be found in the
-conventionally named subfolder <tt>t</tt>:</p></div>
+folder contains the <tt>complete-run.pl</tt> and a base configuration file which will
+be used for the tests. The different testcases (their file extension is .t, not
+.pl) themselves can be found in the conventionally named subfolder <tt>t</tt>:</p></div>
 <div class="listingblock">
 <div class="title">Filesystem structure</div>
 <div class="content">
@@ -257,8 +261,7 @@ conventionally named subfolder <tt>t</tt>:</p></div>
 │   │   ├── ...
 │   │   ├── omitted for brevity
 │   │   ├── ...
-│   │   └── 74-regress-focus-toggle.t
-│   └── Xdummy</tt></pre>
+│   │   └── 74-regress-focus-toggle.t</tt></pre>
 </div></div>
 </div>
 </div>
