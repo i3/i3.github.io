@@ -1,11 +1,11 @@
 i3status(1)
 ===========
 Michael Stapelberg <michael@i3wm.org>
-v2.6, October 2012
+v2.9, March 2015
 
 == NAME
 
-i3status - Generates a status line for dzen2 or xmobar
+i3status - Generates a status line for i3bar, dzen2 or xmobar
 
 == SYNOPSIS
 
@@ -50,7 +50,8 @@ general {
 order += "ipv6"
 order += "disk /"
 order += "run_watch DHCP"
-order += "run_watch VPN"
+order += "run_watch VPNC"
+order += "path_exists VPN"
 order += "wireless wlan0"
 order += "ethernet eth0"
 order += "battery 0"
@@ -72,6 +73,10 @@ ethernet eth0 {
 
 battery 0 {
         format = "%status %percentage %remaining %emptytime"
+        format_down = "No battery"
+        status_chr = "⚇ CHR""
+        status_bat = "⚡ BAT"
+        status_full = "☻ FULL"
         path = "/sys/class/power_supply/BAT%d/uevent"
         low_threshold = 10
 }
@@ -80,8 +85,14 @@ run_watch DHCP {
         pidfile = "/var/run/dhclient*.pid"
 }
 
-run_watch VPN {
+run_watch VPNC {
+        # file containing the PID of a vpnc process
         pidfile = "/var/run/vpnc/pid"
+}
+
+path_exists VPN {
+        # path exists when a VPN tunnel launched by nmcli/nm-applet is active
+        path = "/proc/sys/net/ipv4/conf/tun0"
 }
 
 tztime local {
@@ -124,7 +135,8 @@ color_good = "#00FF00"
 
 Likewise, you can use the +color_separator+ directive to specify the color that
 will be used to paint the separator bar. The separator is always output in
-color, even when colors are disabled by the +colors+ directive.
+color, even when colors are disabled by the +colors+ directive. This option has
+no effect when +output_format+ is set to +i3bar+ or +none+.
 
 The +interval+ directive specifies the time in seconds for which i3status will
 sleep before printing the next status line.
@@ -145,14 +157,47 @@ managers like dwm, wmii and xmonad though it will work with any windowmanger
 xmobar::
 xmobar is a minimalistic, text based, status bar. It was designed to work
 with the xmonad Window Manager.
+term::
+Use ANSI Escape sequences to produce a terminal-output as close as possible to
+the graphical outputs. This makes debugging your config file a little bit
+easier because the terminal-output of i3status becomes much more readable, but
+should only used for such quick glances, because it will only support very
+basic output-features (for example you only get 3 bits of color depth).
 none::
-Does not use any color codes. Separates values by the pipe symbol. This should
-be used with i3bar and can be used for custom scripts.
+Does not use any color codes. Separates values by the pipe symbol by default.
+This should be used with i3bar and can be used for custom scripts.
 
 It's also possible to use the color_good, color_degraded, color_bad directives
 to define specific colors per module. If one of these directives is defined
 in a module section its value will override the value defined in the general
 section just for this module.
+
+If you don't fancy the vertical separators between modules i3status/i3bar
+uses by default, you can employ the +separator+ directive to configure how
+modules are separated. You can either disable the default separator altogether
+setting it to the empty string. You might then define separation as part of a
+module's format string. This is your only option when using the i3bar output
+format as the separator is drawn by i3bar directly otherwise. For the other
+output formats, the provided non-empty string will be automatically enclosed
+with the necessary coloring bits if color support is enabled.
+
+*Example configuration*:
+-------------------------------------------------------------
+general {
+    output_format = "xmobar"
+    separator = "  "
+}
+
+order += "load"
+order += "disk /"
+
+load {
+    format = "[ load: %1min, %5min, %15min ]"
+}
+disk "/" {
+    format = "%avail"
+}
+-------------------------------------------------------------
 
 === IPv6
 
@@ -161,7 +206,7 @@ best available public IPv6 address on your computer).
 
 *Example format_up*: +%ip+
 
-*Example format_down* +no IPv6+
+*Example format_down*: +no IPv6+
 
 === Disk
 
@@ -170,11 +215,44 @@ Gets used, free, available and total amount of bytes on the given mounted filesy
 These values can also be expressed in percentages with the percentage_used,
 percentage_free, percentage_avail and percentage_used_of_avail formats.
 
+Byte sizes are presented in a human readable format using a set of prefixes
+whose type can be specified via the "prefix_type" option. Three sets of
+prefixes are available:
+
+binary::
+IEC prefixes (Ki, Mi, Gi, Ti) represent multiples of powers of 1024.
+This is the default.
+decimal::
+SI prefixes (k, M, G, T) represent multiples of powers of 1000.
+custom::
+The custom prefixes (K, M, G, T) represent multiples of powers of 1024.
+
+It is possible to define a low_threshold that causes the disk text to be
+displayed using color_bad. The low_threshold type can be of threshold_type
+"bytes_free", "bytes_avail", "percentage_free", or "percentage_avail", where
+the former two can be prepended by a generic prefix (k, m, g, t) having
+prefix_type. So, if you configure low_threshold to 2, threshold_type to
+"gbytes_avail", and prefix_type to "binary", and the remaining available disk
+space is below 2 GiB, it will be colored bad. If not specified, threshold_type
+is assumed to be "percentage_avail" and low_threshold to be set to 0, which
+implies no coloring at all.
+
+You can define a different format with the option "format_not_mounted"
+which is used if the path is not a mount point. So you can just empty
+the output for the given path with adding »format_not_mounted=""«
+to the config section.
+
 *Example order*: +disk /mnt/usbstick+
 
 *Example format*: +%free (%avail)/ %total+
 
 *Example format*: +%percentage_used used, %percentage_free free, %percentage_avail avail+
+
+*Example prefix_type*: +custom+
+
+*Example low_threshold*: +5+
+
+*Example threshold_type*: +percentage_free+
 
 === Run-watch
 
@@ -186,21 +264,36 @@ a specific application, such as a VPN client or your DHCP client is running.
 
 *Example format*: +%title: %status+
 
+=== Path-exists
+
+Checks if the given path exists in the filesystem. You can use this to check if
+something is active, like for example a VPN tunnel managed by NetworkManager.
+
+*Example order*: +path_exists VPN+
+
+*Example format*: +%title: %status+
+
 === Wireless
 
-Gets the link quality and ESSID of the given wireless network interface. You
-can specify different format strings for the network being connected or not
-connected.
+Gets the link quality, frequency and ESSID of the given wireless network
+interface. You can specify different format strings for the network being
+connected or not connected.
+
+The special interface name `_first_` will be replaced by the first wireless
+network interface found on the system (excluding devices starting with "lo").
 
 *Example order*: +wireless wlan0+
 
-*Example format*: +W: (%quality at %essid, %bitrate) %ip+
+*Example format*: +W: (%quality at %essid, %bitrate / %frequency) %ip+
 
 === Ethernet
 
 Gets the IP address and (if possible) the link speed of the given ethernet
 interface. Getting the link speed requires the cap_net_admin capability. Set
 it using +setcap cap_net_admin=ep $(which i3status)+.
+
+The special interface name `_first_` will be replaced by the first non-wireless
+network interface found on the system (excluding devices starting with "lo").
 
 *Example order*: +ethernet eth0+
 
@@ -214,27 +307,46 @@ estimated to be empty. If you want to use the last full capacity instead of the
 design capacity (when using the design capacity, it may happen that your
 battery is at 23% when fully charged because it’s old. In general, I want to
 see it this way, because it tells me how worn off my battery is.), just specify
-+last_full_capacity = true+.
++last_full_capacity = true+. You can hide seconds in the remaining time and
+empty time estimations by setting +hide_seconds = true+.
 
 If you want the battery percentage to be shown without decimals, add
 +integer_battery_capacity = true+.
 
 If your battery is represented in a non-standard path in /sys, be sure to
-modify the "path" property accordingly. The first occurence of %d gets replaced
-with the battery number, but you can just hard-code a path as well.
+modify the "path" property accordingly, i.e. pointing to the uevent file on
+your system. The first occurence of %d gets replaced with the battery number,
+but you can just hard-code a path as well.
 
 It is possible to define a low_threshold that causes the battery text to be
 colored red. The low_threshold type can be of threshold_type "time" or
 "percentage". So, if you configure low_threshold to 10 and threshold_type to
 "time", and your battery lasts another 9 minutes, it will be colored red.
 
+Optionally custom strings including any UTF-8 symbols can be used for different
+battery states. This makes it possible to display individual symbols
+for each state (charging, discharging, full)
+Of course it will also work with special iconic fonts, such as FontAwesome.
+If any of this special status strings is omitted, the default (CHR, BAT, FULL)
+is used.
+
 *Example order*: +battery 0+
 
 *Example format*: +%status %remaining (%emptytime %consumption)+
 
+*Example format_down*: +No battery+
+
+*Example status_chr*: +⚇ CHR+
+
+*Example status_bat*: +⚡ BAT+
+
+*Example status_full*: +☻ FULL+
+
 *Example low_threshold*: +30+
 
 *Example threshold_type*: +time+
+
+*Example path*: +/sys/class/power_supply/CMB1/uevent+
 
 === CPU-Temperature
 
@@ -247,6 +359,8 @@ specified thermal zone is getting too hot. Defaults to 75 degrees C.
 *Example format*: +T: %degrees °C+
 
 *Example max_threshold*: +42+
+
+*Example path*: +/sys/devices/platform/coretemp.0/temp1_input+
 
 === CPU Usage
 
@@ -267,7 +381,7 @@ getting higher than the configured threshold. Defaults to 5.
 
 *Example format*: +%1min %5min %15min+
 
-*Example max_threshold*: 5
+*Example max_threshold*: +"0,1"+
 
 === Time
 
@@ -311,21 +425,53 @@ details on the format string.
 Outputs the volume of the specified mixer on the specified device. Works only
 on Linux because it uses ALSA.
 A simplified configuration can be used on FreeBSD and OpenBSD due to
-the lack of ALSA,  the +device+, +mixer+ and +mixder_idx+ options can be
+the lack of ALSA,  the +device+ and +mixer+ options can be
 ignored on these systems. On these systems the OSS API is used instead to
-query +/dev/mixer+ directly.
+query +/dev/mixer+ directly if +mixer_dix+ is -1, otherwise
++/dev/mixer++mixer_idx+.
 
 *Example order*: +volume master+
 
 *Example format*: +♪: %volume+
+*Example format_muted*: +♪: 0%%+
 
 *Example configuration*:
 -------------------------------------------------------------
 volume master {
 	format = "♪: %volume"
+	format_muted = "♪: muted (%volume)"
 	device = "default"
 	mixer = "Master"
 	mixer_idx = 0
+}
+-------------------------------------------------------------
+
+== Universal module options
+
+When using the i3bar output format, there are a few additional options that
+can be used with all modules to customize their appearance:
+
+align::
+	The alignment policy to use when the minimum width (see below) is not
+	reached. Either +center+ (default), +right+ or +left+.
+min_width::
+	The minimum width (in pixels) the module should occupy. If the module takes
+	less space than the specified size, the block will be padded to the left
+	and/or the right side, according to the defined alignment policy. This is
+	useful when you want to prevent the whole status line from shifting when
+	values take more or less space between each iteration.
+	The option can also be a string. In this case, the width of the given text
+	determines the minimum width of the block. This is useful when you want to
+	set a sensible minimum width regardless of which font you are using, and at
+	what particular size. Please note that a number enclosed with quotes will
+	still be treated as a number.
+
+*Example configuration*:
+-------------------------------------------------------------
+disk "/" {
+    format = "%avail"
+    align = "left"
+    min_width = 100
 }
 -------------------------------------------------------------
 
