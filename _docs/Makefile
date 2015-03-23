@@ -51,4 +51,5 @@ i3status.html: i3status.man
 
 clean:
 	rm -f */*.{aux,log,toc,bm,pdf,dvi}
-	rm -f *.log *.html
+	rm -f *.log
+	find . -maxdepth 1 -name "*.html" -and \! -name "refcard.html" -delete
