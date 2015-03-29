@@ -1323,7 +1323,25 @@ bar {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_workspace_buttons">5.10. Workspace buttons</h3>
+<h3 id="_custom_separator_symbol">5.10. Custom separator symbol</h3>
+<div class="paragraph"><p>Specifies a custom symbol to be used for the separator as opposed to the vertical,
+one pixel thick separator. Note that you may have to adjust the <tt>sep_block_width</tt>
+property.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>separator_symbol &lt;symbol&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bar {
+    separator_symbol ":|:"
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_workspace_buttons">5.11. Workspace buttons</h3>
 <div class="paragraph"><p>Specifies whether workspace buttons should be shown or not. This is useful if
 you want to display a statusline-only bar containing additional information.</p></div>
 <div class="paragraph"><p>The default is to show workspace buttons.</p></div>
@@ -1341,7 +1359,7 @@ you want to display a statusline-only bar containing additional information.</p>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_strip_workspace_numbers">5.11. Strip workspace numbers</h3>
+<h3 id="_strip_workspace_numbers">5.12. Strip workspace numbers</h3>
 <div class="paragraph"><p>Specifies whether workspace numbers should be displayed within the workspace
 buttons. This is useful if you want to have a named workspace that stays in
 order on the bar according to its number without displaying the number prefix.</p></div>
@@ -1364,7 +1382,7 @@ workspaces to "1:I", "2:II", "3:III", "4:IV", &#8230;</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_binding_mode_indicator">5.12. Binding Mode indicator</h3>
+<h3 id="_binding_mode_indicator">5.13. Binding Mode indicator</h3>
 <div class="paragraph"><p>Specifies whether the current binding mode indicator should be shown or not.
 This is useful if you want to hide the workspace buttons but still be able
 to see the current binding mode indicator.
@@ -1384,7 +1402,7 @@ For an example of a <tt>mode</tt> definition, see <a href="#resizingconfig">[res
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_colors">5.13. Colors</h3>
+<h3 id="_colors">5.14. Colors</h3>
 <div class="paragraph"><p>As with i3, colors are in HTML hex format (#rrggbb). The following colors can
 be configured at the moment:</p></div>
 <div class="dlist"><dl>
@@ -2128,7 +2146,27 @@ bindsym mod4+s [title="^Sup ::"] scratchpad show</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_i3bar_control">6.16. i3bar control</h3>
+<h3 id="_nop">6.16. Nop</h3>
+<div class="paragraph"><p>There is a no operation command <tt>nop</tt> which allows you to override default
+behavior. This can be useful for, e.g., disabling a focus change on clicks with
+the middle mouse button.</p></div>
+<div class="paragraph"><p>The optional <tt>comment</tt> argument is ignored, but will be printed to the log file
+for debugging purposes.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>nop [&lt;comment&gt;]</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Disable focus change for clicks on titlebars
+# with the middle mouse button
+bindsym button2 nop</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_i3bar_control">6.17. i3bar control</h3>
 <div class="paragraph"><p>There are two options in the configuration of each i3bar instance that can be
 changed during runtime by invoking a command through i3. The commands <tt>bar
 hidden_state</tt> and <tt>bar mode</tt> allow setting the current hidden_state

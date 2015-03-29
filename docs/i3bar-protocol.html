@@ -196,10 +196,8 @@ full_text
 </dt>
 <dd>
 <p>
-        The most simple block you can think of is one which just includes the
-        only required key, the <tt>full_text</tt> key. i3bar will display the string
-        value parsed as
-        <a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">Pango markup</a>.
+        The <tt>full_text</tt> will be displayed by i3bar on the status line. This is the
+        only required key.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -299,6 +297,16 @@ separator_block_width
         this gap, a separator line will be drawn unless <tt>separator</tt> is
         disabled. Normally, you want to set this to an odd value (the default
         is 9 pixels), since the separator line is drawn in the middle.
+</p>
+</dd>
+<dt class="hdlist1">
+markup
+</dt>
+<dd>
+<p>
+        A string that indicates how the text of the block should be parsed. Set to
+        <tt>"pango"</tt> to use <a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">Pango markup</a>.
+        Set to <tt>"none"</tt> to not use any markup (default).
 </p>
 </dd>
 </dl></div>

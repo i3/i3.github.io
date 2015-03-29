@@ -273,6 +273,36 @@ output standard-conforming JSON.</p></div>
 </div>
 </div>
 </div>
+<div class="sect1">
+<h2 id="_troubleshooting">4. Troubleshooting</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_restoring_a_vertically_split_workspace">4.1. Restoring a vertically split workspace</h3>
+<div class="paragraph"><p>When using <tt>i3-save-tree</tt> with the <tt>--workspace</tt> switch, only the <strong>contents</strong> of
+the workspace will be dumped. This means that properties of the workspace
+itself will be lost.</p></div>
+<div class="paragraph"><p>This is relevant for, e.g., a vertically split container as the base container of
+a workspace. Since the split mode is a property of the workspace, it will not be
+stored. In this case, you will have to manually wrap your layout in such a
+container:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>// vim:ts=4:sw=4:et
+{
+    // this is a manually added container to restore the vertical split
+    "layout": "splitv",
+    "percent": 0.5,
+    "type": "con",
+    "nodes": [
+
+        // the dumped workspace layout goes here
+
+    ]
+}</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
 </div>
 <div id="footnotes"><hr /></div>
 <div id="footer" lang="de">
