@@ -42,8 +42,10 @@ release of i3. To use it, run the following commands:
 # apt-get install i3
 ---------------------------------------------------------------------------------
 
-The following Ubuntu versions are currently available: oneiric, precise, quantal,
-raring, saucy, trusty.
+All Ubuntu versions which are currently supported by Ubuntu itself are also supported by
+this repository. See link:https://wiki.ubuntu.com/Releases[Ubuntu releases] for details.
+
+Packages for unsupported Ubuntu versions might exist but may disappear any time.
 
 === Development releases
 
