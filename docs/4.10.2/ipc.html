@@ -1,0 +1,1489 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
+<title>i3: IPC interface (interprocess communication)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="https://faq.i3wm.org/">FAQ</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>IPC interface (interprocess communication)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">October 2014</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document describes how to interface with i3 from a separate process. This
+is useful for example to remote-control i3 (to write test cases for example) or
+to get various information like the current workspaces to implement an external
+workspace bar.</p></div>
+<div class="paragraph"><p>The method of choice for IPC in our case is a unix socket because it has very
+little overhead on both sides and is usually available without headaches in
+most languages. In the default configuration file, the ipc-socket gets created
+in <tt>/tmp/i3-%u.XXXXXX/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username, <tt>%p</tt> is
+the PID of i3 and XXXXXX is a string of random characters from the portable
+filename character set (see mkdtemp(3)). You can get the socketpath from i3 by
+calling <tt>i3 --get-socketpath</tt>.</p></div>
+<div class="paragraph"><p>All i3 utilities, like <tt>i3-msg</tt> and <tt>i3-input</tt> will read the <tt>I3_SOCKET_PATH</tt>
+X11 property, stored on the X11 root window.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Warning</div>
+</td>
+<td class="content">
+<div class="title">Use an existing library!</div>There are existing libraries for many languages. You can have a look at
+<a href="#libraries">[libraries]</a> or search the web if your language of choice is not mentioned.
+Usually, it is not necessary to implement low-level communication with i3
+directly.</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_establishing_a_connection">1. Establishing a connection</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To establish a connection, simply open the IPC socket. The following code
+snippet illustrates this in Perl:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>use IO::Socket::UNIX;
+chomp(my $path = qx(i3 --get-socketpath));
+my $sock = IO::Socket::UNIX-&gt;new(Peer =&gt; $path);</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sending_messages_to_i3">2. Sending messages to i3</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To send a message to i3, you have to format in the binary message format which
+i3 expects. This format specifies a magic string in the beginning to ensure
+the integrity of messages (to prevent follow-up errors). Following the magic
+string comes the length of the payload of the message as 32-bit integer, and
+the type of the message as 32-bit integer (the integers are not converted, so
+they are in native byte order).</p></div>
+<div class="paragraph"><p>The magic string currently is "i3-ipc" and will only be changed when a change
+in the IPC API is done which breaks compatibility (we hope that we don’t need
+to do that).</p></div>
+<div class="paragraph"><p>Currently implemented message types are the following:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+COMMAND (0)
+</dt>
+<dd>
+<p>
+        The payload of the message is a command for i3 (like the commands you
+        can bind to keys in the configuration file) and will be executed
+        directly after receiving it.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_WORKSPACES (1)
+</dt>
+<dd>
+<p>
+        Gets the current workspaces. The reply will be a JSON-encoded list of
+        workspaces (see the reply section).
+</p>
+</dd>
+<dt class="hdlist1">
+SUBSCRIBE (2)
+</dt>
+<dd>
+<p>
+        Subscribes your connection to certain events. See <a href="#events">[events]</a> for a
+        description of this message and the concept of events.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_OUTPUTS (3)
+</dt>
+<dd>
+<p>
+        Gets the current outputs. The reply will be a JSON-encoded list of outputs
+        (see the reply section).
+</p>
+</dd>
+<dt class="hdlist1">
+GET_TREE (4)
+</dt>
+<dd>
+<p>
+        Gets the layout tree. i3 uses a tree as data structure which includes
+        every container. The reply will be the JSON-encoded tree (see the reply
+        section).
+</p>
+</dd>
+<dt class="hdlist1">
+GET_MARKS (5)
+</dt>
+<dd>
+<p>
+        Gets a list of marks (identifiers for containers to easily jump to them
+        later). The reply will be a JSON-encoded list of window marks (see
+        reply section).
+</p>
+</dd>
+<dt class="hdlist1">
+GET_BAR_CONFIG (6)
+</dt>
+<dd>
+<p>
+        Gets the configuration (as JSON map) of the workspace bar with the
+        given ID. If no ID is provided, an array with all configured bar IDs is
+        returned instead.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_VERSION (7)
+</dt>
+<dd>
+<p>
+        Gets the version of i3. The reply will be a JSON-encoded dictionary
+        with the major, minor, patch and human-readable version.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>So, a typical message could look like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>"i3-ipc" &lt;message length&gt; &lt;message type&gt; &lt;payload&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>Or, as a hexdump:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>00000000  69 33 2d 69 70 63 04 00  00 00 00 00 00 00 65 78  |i3-ipc........ex|
+00000010  69 74                                             |it|</tt></pre>
+</div></div>
+<div class="paragraph"><p>To generate and send such a message, you could use the following code in Perl:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>sub format_ipc_command {
+    my ($msg) = @_;
+    my $len;
+    # Get the real byte count (vs. amount of characters)
+    { use bytes; $len = length($msg); }
+    return "i3-ipc" . pack("LL", $len, 0) . $msg;
+}
+
+$sock-&gt;write(format_ipc_command("exit"));</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_receiving_replies_from_i3">3. Receiving replies from i3</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Replies from i3 usually consist of a simple string (the length of the string
+is the message_length, so you can consider them length-prefixed) which in turn
+contain the JSON serialization of a data structure. For example, the
+GET_WORKSPACES message returns an array of workspaces (each workspace is a map
+with certain attributes).</p></div>
+<div class="sect2">
+<h3 id="_reply_format">3.1. Reply format</h3>
+<div class="paragraph"><p>The reply format is identical to the normal message format. There also is
+the magic string, then the message length, then the message type and the
+payload.</p></div>
+<div class="paragraph"><p>The following reply types are implemented:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+COMMAND (0)
+</dt>
+<dd>
+<p>
+        Confirmation/Error code for the COMMAND message.
+</p>
+</dd>
+<dt class="hdlist1">
+WORKSPACES (1)
+</dt>
+<dd>
+<p>
+        Reply to the GET_WORKSPACES message.
+</p>
+</dd>
+<dt class="hdlist1">
+SUBSCRIBE (2)
+</dt>
+<dd>
+<p>
+        Confirmation/Error code for the SUBSCRIBE message.
+</p>
+</dd>
+<dt class="hdlist1">
+OUTPUTS (3)
+</dt>
+<dd>
+<p>
+        Reply to the GET_OUTPUTS message.
+</p>
+</dd>
+<dt class="hdlist1">
+TREE (4)
+</dt>
+<dd>
+<p>
+        Reply to the GET_TREE message.
+</p>
+</dd>
+<dt class="hdlist1">
+MARKS (5)
+</dt>
+<dd>
+<p>
+        Reply to the GET_MARKS message.
+</p>
+</dd>
+<dt class="hdlist1">
+BAR_CONFIG (6)
+</dt>
+<dd>
+<p>
+        Reply to the GET_BAR_CONFIG message.
+</p>
+</dd>
+<dt class="hdlist1">
+VERSION (7)
+</dt>
+<dd>
+<p>
+        Reply to the GET_VERSION message.
+</p>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_command_reply">3.2. COMMAND reply</h3>
+<div class="paragraph"><p>The reply consists of a list of serialized maps for each command that was
+parsed. Each has the property <tt>success (bool)</tt> and may also include a
+human-readable error message in the property <tt>error (string)</tt>.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>[{ "success": true }]</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_workspaces_reply">3.3. WORKSPACES reply</h3>
+<div class="paragraph"><p>The reply consists of a serialized list of workspaces. Each workspace has the
+following properties:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+num (integer)
+</dt>
+<dd>
+<p>
+        The logical number of the workspace. Corresponds to the command
+        to switch to this workspace. For named workspaces, this will be -1.
+</p>
+</dd>
+<dt class="hdlist1">
+name (string)
+</dt>
+<dd>
+<p>
+        The name of this workspace (by default num+1), as changed by the
+        user. Encoded in UTF-8.
+</p>
+</dd>
+<dt class="hdlist1">
+visible (boolean)
+</dt>
+<dd>
+<p>
+        Whether this workspace is currently visible on an output (multiple
+        workspaces can be visible at the same time).
+</p>
+</dd>
+<dt class="hdlist1">
+focused (boolean)
+</dt>
+<dd>
+<p>
+        Whether this workspace currently has the focus (only one workspace
+        can have the focus at the same time).
+</p>
+</dd>
+<dt class="hdlist1">
+urgent (boolean)
+</dt>
+<dd>
+<p>
+        Whether a window on this workspace has the "urgent" flag set.
+</p>
+</dd>
+<dt class="hdlist1">
+rect (map)
+</dt>
+<dd>
+<p>
+        The rectangle of this workspace (equals the rect of the output it
+        is on), consists of x, y, width, height.
+</p>
+</dd>
+<dt class="hdlist1">
+output (string)
+</dt>
+<dd>
+<p>
+        The video output this workspace is on (LVDS1, VGA1, …).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>[
+ {
+  "num": 0,
+  "name": "1",
+  "visible": true,
+  "focused": true,
+  "urgent": false,
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "width": 1280,
+   "height": 800
+  },
+  "output": "LVDS1"
+ },
+ {
+  "num": 1,
+  "name": "2",
+  "visible": false,
+  "focused": false,
+  "urgent": false,
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "width": 1280,
+   "height": 800
+  },
+  "output": "LVDS1"
+ }
+]</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_subscribe_reply">3.4. SUBSCRIBE reply</h3>
+<div class="paragraph"><p>The reply consists of a single serialized map. The only property is
+<tt>success (bool)</tt>, indicating whether the subscription was successful (the
+default) or whether a JSON parse error occurred.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "success": true }</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_outputs_reply">3.5. OUTPUTS reply</h3>
+<div class="paragraph"><p>The reply consists of a serialized list of outputs. Each output has the
+following properties:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+name (string)
+</dt>
+<dd>
+<p>
+        The name of this output (as seen in <tt>xrandr(1)</tt>). Encoded in UTF-8.
+</p>
+</dd>
+<dt class="hdlist1">
+active (boolean)
+</dt>
+<dd>
+<p>
+        Whether this output is currently active (has a valid mode).
+</p>
+</dd>
+<dt class="hdlist1">
+current_workspace (string)
+</dt>
+<dd>
+<p>
+        The name of the current workspace that is visible on this output. <tt>null</tt> if
+        the output is not active.
+</p>
+</dd>
+<dt class="hdlist1">
+rect (map)
+</dt>
+<dd>
+<p>
+        The rectangle of this output (equals the rect of the output it
+        is on), consists of x, y, width, height.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>[
+ {
+  "name": "LVDS1",
+  "active": true,
+  "current_workspace": "4",
+  "rect": {
+   "x": 0,
+   "y": 0,
+   "width": 1280,
+   "height": 800
+  }
+ },
+ {
+  "name": "VGA1",
+  "active": true,
+  "current_workspace": "1",
+  "rect": {
+   "x": 1280,
+   "y": 0,
+   "width": 1280,
+   "height": 1024
+  },
+ }
+]</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_tree_reply">3.6. TREE reply</h3>
+<div class="paragraph"><p>The reply consists of a serialized tree. Each node in the tree (representing
+one container) has at least the properties listed below. While the nodes might
+have more properties, please do not use any properties which are not documented
+here. They are not yet finalized and will probably change!</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+id (integer)
+</dt>
+<dd>
+<p>
+        The internal ID (actually a C pointer value) of this container. Do not
+        make any assumptions about it. You can use it to (re-)identify and
+        address containers when talking to i3.
+</p>
+</dd>
+<dt class="hdlist1">
+name (string)
+</dt>
+<dd>
+<p>
+        The internal name of this container. For all containers which are part
+        of the tree structure down to the workspace contents, this is set to a
+        nice human-readable name of the container.
+        For containers that have an X11 window, the content is the title
+        (_NET_WM_NAME property) of that window.
+        For all other containers, the content is not defined (yet).
+</p>
+</dd>
+<dt class="hdlist1">
+type (string)
+</dt>
+<dd>
+<p>
+        Type of this container. Can be one of "root", "output", "con",
+        "floating_con", "workspace" or "dockarea".
+</p>
+</dd>
+<dt class="hdlist1">
+border (string)
+</dt>
+<dd>
+<p>
+        Can be either "normal", "none" or "1pixel", dependending on the
+        container’s border style.
+</p>
+</dd>
+<dt class="hdlist1">
+current_border_width (integer)
+</dt>
+<dd>
+<p>
+        Number of pixels of the border width.
+</p>
+</dd>
+<dt class="hdlist1">
+layout (string)
+</dt>
+<dd>
+<p>
+        Can be either "splith", "splitv", "stacked", "tabbed", "dockarea" or
+        "output".
+        Other values might be possible in the future, should we add new
+        layouts.
+</p>
+</dd>
+<dt class="hdlist1">
+orientation (string)
+</dt>
+<dd>
+<p>
+        Can be either "none" (for non-split containers), "horizontal" or
+        "vertical".
+        THIS FIELD IS OBSOLETE. It is still present, but your code should not
+        use it. Instead, rely on the layout field.
+</p>
+</dd>
+<dt class="hdlist1">
+percent (float)
+</dt>
+<dd>
+<p>
+        The percentage which this container takes in its parent. A value of
+        <tt>null</tt> means that the percent property does not make sense for this
+        container, for example for the root container.
+</p>
+</dd>
+<dt class="hdlist1">
+rect (map)
+</dt>
+<dd>
+<p>
+        The absolute display coordinates for this container. Display
+        coordinates means that when you have two 1600x1200 monitors on a single
+        X11 Display (the standard way), the coordinates of the first window on
+        the second monitor are <tt>{ "x": 1600, "y": 0, "width": 1600, "height":
+        1200 }</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+window_rect (map)
+</dt>
+<dd>
+<p>
+        The coordinates of the <strong>actual client window</strong> inside its container.
+        These coordinates are relative to the container and do not include the
+        window decoration (which is actually rendered on the parent container).
+        So, when using the <tt>default</tt> layout, you will have a 2 pixel border on
+        each side, making the window_rect <tt>{ "x": 2, "y": 0, "width": 632,
+        "height": 366 }</tt> (for example).
+</p>
+</dd>
+<dt class="hdlist1">
+deco_rect (map)
+</dt>
+<dd>
+<p>
+        The coordinates of the <strong>window decoration</strong> inside its container. These
+        coordinates are relative to the container and do not include the actual
+        client window.
+</p>
+</dd>
+<dt class="hdlist1">
+geometry (map)
+</dt>
+<dd>
+<p>
+        The original geometry the window specified when i3 mapped it. Used when
+        switching a window to floating mode, for example.
+</p>
+</dd>
+<dt class="hdlist1">
+window (integer)
+</dt>
+<dd>
+<p>
+        The X11 window ID of the <strong>actual client window</strong> inside this container.
+        This field is set to null for split containers or otherwise empty
+        containers. This ID corresponds to what xwininfo(1) and other
+        X11-related tools display (usually in hex).
+</p>
+</dd>
+<dt class="hdlist1">
+urgent (bool)
+</dt>
+<dd>
+<p>
+        Whether this container (window or workspace) has the urgency hint set.
+</p>
+</dd>
+<dt class="hdlist1">
+focused (bool)
+</dt>
+<dd>
+<p>
+        Whether this container is currently focused.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Please note that in the following example, I have left out some keys/values
+which are not relevant for the type of the node. Otherwise, the example would
+be by far too long (it already is quite long, despite showing only 1 window and
+one dock window).</p></div>
+<div class="paragraph"><p>It is useful to have an overview of the structure before taking a look at the
+JSON dump:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+root
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+LVDS1
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+topdock
+</p>
+</li>
+<li>
+<p>
+content
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+workspace 1
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+window 1
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+bottomdock
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+dock window 1
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+VGA1
+</p>
+</li>
+</ul></div>
+</li>
+</ul></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "id": 6875648,
+ "name": "root",
+ "rect": {
+   "x": 0,
+   "y": 0,
+   "width": 1280,
+   "height": 800
+ },
+ "nodes": [
+
+   {
+    "id": 6878320,
+    "name": "LVDS1",
+    "layout": "output",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "width": 1280,
+      "height": 800
+    },
+    "nodes": [
+
+      {
+       "id": 6878784,
+       "name": "topdock",
+       "layout": "dockarea",
+       "orientation": "vertical",
+       "rect": {
+         "x": 0,
+         "y": 0,
+         "width": 1280,
+         "height": 0
+       },
+      },
+
+      {
+       "id": 6879344,
+       "name": "content",
+       "rect": {
+         "x": 0,
+         "y": 0,
+         "width": 1280,
+         "height": 782
+       },
+       "nodes": [
+
+         {
+          "id": 6880464,
+          "name": "1",
+          "orientation": "horizontal",
+          "rect": {
+            "x": 0,
+            "y": 0,
+            "width": 1280,
+            "height": 782
+          },
+          "floating_nodes": [],
+          "nodes": [
+
+            {
+             "id": 6929968,
+             "name": "#aa0000",
+             "border": "normal",
+             "percent": 1,
+             "rect": {
+               "x": 0,
+               "y": 18,
+               "width": 1280,
+               "height": 782
+             }
+            }
+
+          ]
+         }
+
+       ]
+      },
+
+      {
+       "id": 6880208,
+       "name": "bottomdock",
+       "layout": "dockarea",
+       "orientation": "vertical",
+       "rect": {
+         "x": 0,
+         "y": 782,
+         "width": 1280,
+         "height": 18
+       },
+       "nodes": [
+
+         {
+          "id": 6931312,
+          "name": "#00aa00",
+          "percent": 1,
+          "rect": {
+            "x": 0,
+            "y": 782,
+            "width": 1280,
+            "height": 18
+          }
+         }
+
+       ]
+      }
+    ]
+   }
+ ]
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_marks_reply">3.7. MARKS reply</h3>
+<div class="paragraph"><p>The reply consists of a single array of strings for each container that has a
+mark. A mark can only be set on one container, so the array is unique.
+The order of that array is undefined.</p></div>
+<div class="paragraph"><p>If no window has a mark the response will be the empty array [].</p></div>
+</div>
+<div class="sect2">
+<h3 id="_bar_config_reply">3.8. BAR_CONFIG reply</h3>
+<div class="paragraph"><p>This can be used by third-party workspace bars (especially i3bar, but others
+are free to implement compatible alternatives) to get the <tt>bar</tt> block
+configuration from i3.</p></div>
+<div class="paragraph"><p>Depending on the input, the reply is either:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+empty input
+</dt>
+<dd>
+<p>
+        An array of configured bar IDs
+</p>
+</dd>
+<dt class="hdlist1">
+Bar ID
+</dt>
+<dd>
+<p>
+        A JSON map containing the configuration for the specified bar.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Each bar configuration has the following properties:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+id (string)
+</dt>
+<dd>
+<p>
+        The ID for this bar. Included in case you request multiple
+        configurations and want to differentiate the different replies.
+</p>
+</dd>
+<dt class="hdlist1">
+mode (string)
+</dt>
+<dd>
+<p>
+        Either <tt>dock</tt> (the bar sets the dock window type) or <tt>hide</tt> (the bar
+        does not show unless a specific key is pressed).
+</p>
+</dd>
+<dt class="hdlist1">
+position (string)
+</dt>
+<dd>
+<p>
+        Either <tt>bottom</tt> or <tt>top</tt> at the moment.
+</p>
+</dd>
+<dt class="hdlist1">
+status_command (string)
+</dt>
+<dd>
+<p>
+        Command which will be run to generate a statusline. Each line on stdout
+        of this command will be displayed in the bar. At the moment, no
+        formatting is supported.
+</p>
+</dd>
+<dt class="hdlist1">
+font (string)
+</dt>
+<dd>
+<p>
+        The font to use for text on the bar.
+</p>
+</dd>
+<dt class="hdlist1">
+workspace_buttons (boolean)
+</dt>
+<dd>
+<p>
+        Display workspace buttons or not? Defaults to true.
+</p>
+</dd>
+<dt class="hdlist1">
+binding_mode_indicator (boolean)
+</dt>
+<dd>
+<p>
+        Display the mode indicator or not? Defaults to true.
+</p>
+</dd>
+<dt class="hdlist1">
+verbose (boolean)
+</dt>
+<dd>
+<p>
+        Should the bar enable verbose output for debugging? Defaults to false.
+</p>
+</dd>
+<dt class="hdlist1">
+colors (map)
+</dt>
+<dd>
+<p>
+        Contains key/value pairs of colors. Each value is a color code in hex,
+        formatted #rrggbb (like in HTML).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>The following colors can be configured at the moment:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+background
+</dt>
+<dd>
+<p>
+        Background color of the bar.
+</p>
+</dd>
+<dt class="hdlist1">
+statusline
+</dt>
+<dd>
+<p>
+        Text color to be used for the statusline.
+</p>
+</dd>
+<dt class="hdlist1">
+separator
+</dt>
+<dd>
+<p>
+        Text color to be used for the separator.
+</p>
+</dd>
+<dt class="hdlist1">
+focused_workspace_text/focused_workspace_bg
+</dt>
+<dd>
+<p>
+        Text color/background color for a workspace button when the workspace
+        has focus.
+</p>
+</dd>
+<dt class="hdlist1">
+active_workspace_text/active_workspace_bg
+</dt>
+<dd>
+<p>
+        Text color/background color for a workspace button when the workspace
+        is active (visible) on some output, but the focus is on another one.
+        You can only tell this apart from the focused workspace when you are
+        using multiple monitors.
+</p>
+</dd>
+<dt class="hdlist1">
+inactive_workspace_text/inactive_workspace_bg
+</dt>
+<dd>
+<p>
+        Text color/background color for a workspace button when the workspace
+        does not have focus and is not active (visible) on any output. This
+        will be the case for most workspaces.
+</p>
+</dd>
+<dt class="hdlist1">
+urgent_workspace_text/urgent_workspace_bar
+</dt>
+<dd>
+<p>
+        Text color/background color for workspaces which contain at least one
+        window with the urgency hint set.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example of configured bars:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>["bar-bxuqzf"]</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example of bar configuration:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "id": "bar-bxuqzf",
+ "mode": "dock",
+ "position": "bottom",
+ "status_command": "i3status",
+ "font": "-misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1",
+ "workspace_buttons": true,
+ "binding_mode_indicator": true,
+ "verbose": false,
+ "colors": {
+   "background": "#c0c0c0",
+   "statusline": "#00ff00",
+   "focused_workspace_text": "#ffffff",
+   "focused_workspace_bg": "#000000"
+ }
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_version_reply">3.9. VERSION reply</h3>
+<div class="paragraph"><p>The reply consists of a single JSON dictionary with the following keys:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+major (integer)
+</dt>
+<dd>
+<p>
+        The major version of i3, such as <tt>4</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+minor (integer)
+</dt>
+<dd>
+<p>
+        The minor version of i3, such as <tt>2</tt>. Changes in the IPC interface (new
+        features) will only occur with new minor (or major) releases. However,
+        bugfixes might be introduced in patch releases, too.
+</p>
+</dd>
+<dt class="hdlist1">
+patch (integer)
+</dt>
+<dd>
+<p>
+        The patch version of i3, such as <tt>1</tt> (when the complete version is
+        <tt>4.2.1</tt>). For versions such as <tt>4.2</tt>, patch will be set to <tt>0</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+human_readable (string)
+</dt>
+<dd>
+<p>
+        A human-readable version of i3 containing the precise git version,
+        build date and branch name. When you need to display the i3 version to
+        your users, use the human-readable version whenever possible (since
+        this is what <tt>i3 --version</tt> displays, too).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+   "human_readable" : "4.2-169-gf80b877 (2012-08-05, branch \"next\")",
+   "minor" : 2,
+   "patch" : 0,
+   "major" : 4
+}</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_events">4. Events</h2>
+<div class="sectionbody">
+<div class="paragraph" id="events"><p>To get informed when certain things happen in i3, clients can subscribe to
+events. Events consist of a name (like "workspace") and an event reply type
+(like I3_IPC_EVENT_WORKSPACE). The events sent by i3 are in the same format
+as replies to specific commands. However, the highest bit of the message type
+is set to 1 to indicate that this is an event reply instead of a normal reply.</p></div>
+<div class="paragraph"><p>Caveat: As soon as you subscribe to an event, it is not guaranteed any longer
+that the requests to i3 are processed in order. This means, the following
+situation can happen: You send a GET_WORKSPACES request but you receive a
+"workspace" event before receiving the reply to GET_WORKSPACES. If your
+program does not want to cope which such kinds of race conditions (an
+event based library may not have a problem here), I suggest you create a
+separate connection to receive events.</p></div>
+<div class="sect2">
+<h3 id="_subscribing_to_events">4.1. Subscribing to events</h3>
+<div class="paragraph"><p>By sending a message of type SUBSCRIBE with a JSON-encoded array as payload
+you can register to an event.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>type: SUBSCRIBE
+payload: [ "workspace", "output" ]</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_available_events">4.2. Available events</h3>
+<div class="paragraph"><p>The numbers in parenthesis is the event type (keep in mind that you need to
+strip the highest bit first).</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+workspace (0)
+</dt>
+<dd>
+<p>
+        Sent when the user switches to a different workspace, when a new
+        workspace is initialized or when a workspace is removed (because the
+        last client vanished).
+</p>
+</dd>
+<dt class="hdlist1">
+output (1)
+</dt>
+<dd>
+<p>
+        Sent when RandR issues a change notification (of either screens,
+        outputs, CRTCs or output properties).
+</p>
+</dd>
+<dt class="hdlist1">
+mode (2)
+</dt>
+<dd>
+<p>
+        Sent whenever i3 changes its binding mode.
+</p>
+</dd>
+<dt class="hdlist1">
+window (3)
+</dt>
+<dd>
+<p>
+        Sent when a client&#8217;s window is successfully reparented (that is when i3
+        has finished fitting it into a container), when a window received input
+        focus or when certain properties of the window have changed.
+</p>
+</dd>
+<dt class="hdlist1">
+barconfig_update (4)
+</dt>
+<dd>
+<p>
+    Sent when the hidden_state or mode field in the barconfig of any bar
+    instance was updated and when the config is reloaded.
+</p>
+</dd>
+<dt class="hdlist1">
+binding (5)
+</dt>
+<dd>
+<p>
+        Sent when a configured command binding is triggered with the keyboard or
+        mouse
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># the appropriate 4 bytes read from the socket are stored in $input
+
+# unpack a 32-bit unsigned integer
+my $message_type = unpack("L", $input);
+
+# check if the highest bit is 1
+my $is_event = (($message_type &gt;&gt; 31) == 1);
+
+# use the other bits
+my $event_type = ($message_type &amp; 0x7F);
+
+if ($is_event) {
+  say "Received event of type $event_type";
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_workspace_event">4.3. workspace event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map containing a property
+<tt>change (string)</tt> which indicates the type of the change ("focus", "init",
+"empty", "urgent"). A <tt>current (object)</tt> property will be present with the
+affected workspace whenever the type of event affects a workspace (otherwise,
+it will be +null).</p></div>
+<div class="paragraph"><p>When the change is "focus", an <tt>old (object)</tt> property will be present with the
+previous workspace.  When the first switch occurs (when i3 focuses the
+workspace visible at the beginning) there is no previous workspace, and the
+<tt>old</tt> property will be set to <tt>null</tt>.  Also note that if the previous is empty
+it will get destroyed when switching, but will still be present in the "old"
+property.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "change": "focus",
+ "current": {
+  "id": 28489712,
+  "type": "workspace",
+  ...
+ }
+ "old": {
+  "id": 28489715,
+  "type": "workspace",
+  ...
+ }
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_output_event">4.4. output event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map containing a property
+<tt>change (string)</tt> which indicates the type of the change (currently only
+"unspecified").</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "change": "unspecified" }</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_mode_event">4.5. mode event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map containing a property
+<tt>change (string)</tt> which holds the name of current mode in use. The name
+is the same as specified in config when creating a mode. The default
+mode is simply named default.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "change": "default" }</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_window_event">4.6. window event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map containing a property
+<tt>change (string)</tt> which indicates the type of the change</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<tt>new</tt> - the window has become managed by i3
+</p>
+</li>
+<li>
+<p>
+<tt>close</tt> - the window has closed
+</p>
+</li>
+<li>
+<p>
+<tt>focus</tt> - the window has received input focus
+</p>
+</li>
+<li>
+<p>
+<tt>title</tt> - the window&#8217;s title has changed
+</p>
+</li>
+<li>
+<p>
+<tt>fullscreen_mode</tt> - the window has entered or exited fullscreen mode
+</p>
+</li>
+<li>
+<p>
+<tt>move</tt> - the window has changed its position in the tree
+</p>
+</li>
+<li>
+<p>
+<tt>floating</tt> - the window has transitioned to or from floating
+</p>
+</li>
+<li>
+<p>
+<tt>urgent</tt> - the window has become urgent or lost its urgent status
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Additionally a <tt>container (object)</tt> field will be present, which consists
+of the window&#8217;s parent container. Be aware that for the "new" event, the
+container will hold the initial name of the newly reparented window (e.g.
+if you run urxvt with a shell that changes the title, you will still at
+this point get the window title as "urxvt").</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "change": "new",
+ "container": {
+  "id": 35569536,
+  "type": "con",
+  ...
+ }
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_barconfig_update_event">4.7. barconfig_update event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map reporting on options from the
+barconfig of the specified bar_id that were updated in i3. This event is the
+same as a <tt>GET_BAR_CONFIG</tt> reply for the bar with the given id.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_binding_event">4.8. binding event</h3>
+<div class="paragraph"><p>This event consists of a single serialized map reporting on the details of a
+binding that ran a command because of user input. The <tt>change (sring)</tt> field
+indicates what sort of binding event was triggered (right now it will always be
+<tt>"run"</tt> but may be expanded in the future).</p></div>
+<div class="paragraph"><p>The <tt>binding (object)</tt> field contains details about the binding that was run:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+command (string)
+</dt>
+<dd>
+<p>
+        The i3 command that is configured to run for this binding.
+</p>
+</dd>
+<dt class="hdlist1">
+mods (array of strings)
+</dt>
+<dd>
+<p>
+        The modifier keys that were configured with this binding.
+</p>
+</dd>
+<dt class="hdlist1">
+input_code (integer)
+</dt>
+<dd>
+<p>
+        If the binding was configured with <tt>bindcode</tt>, this will be the key code
+        that was given for the binding. If the binding is a mouse binding, it will be
+        the number of the mouse button that was pressed. Otherwise it will be 0.
+</p>
+</dd>
+<dt class="hdlist1">
+symbol (string or null)
+</dt>
+<dd>
+<p>
+        If this is a keyboard binding that was configured with <tt>bindsym</tt>, this
+        field will contain the given symbol. Otherwise it will be <tt>null</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+input_type (string)
+</dt>
+<dd>
+<p>
+        This will be <tt>"keyboard"</tt> or <tt>"mouse"</tt> depending on whether or not this was
+        a keyboard or a mouse binding.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "change": "run",
+ "binding": {
+  "command": "nop",
+  "mods": [
+    "shift",
+    "ctrl"
+  ],
+  "input_code": 0,
+  "symbol": "t",
+  "input_type": "keyboard"
+ }
+}</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also_existing_libraries">5. See also (existing libraries)</h2>
+<div class="sectionbody">
+<div class="paragraph" id="libraries"><p>For some languages, libraries are available (so you don’t have to implement
+all this on your own). This list names some (if you wrote one, please let me
+know):</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+C
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+i3 includes a headerfile <tt>i3/ipc.h</tt> which provides you all constants.
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/acrisci/i3ipc-glib">https://github.com/acrisci/i3ipc-glib</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Go
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/proxypoke/i3ipc">https://github.com/proxypoke/i3ipc</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+JavaScript
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/acrisci/i3ipc-gjs">https://github.com/acrisci/i3ipc-gjs</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Lua
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/acrisci/i3ipc-lua">https://github.com/acrisci/i3ipc-lua</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Perl
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://metacpan.org/module/AnyEvent::I3">https://metacpan.org/module/AnyEvent::I3</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Python
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/acrisci/i3ipc-python">https://github.com/acrisci/i3ipc-python</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/whitelynx/i3ipc">https://github.com/whitelynx/i3ipc</a> (not maintained)
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/ziberna/i3-py">https://github.com/ziberna/i3-py</a> (not maintained)
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Ruby
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="http://github.com/badboy/i3-ipc">http://github.com/badboy/i3-ipc</a>
+</p>
+</li>
+</ul></div>
+</dd>
+</dl></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>
