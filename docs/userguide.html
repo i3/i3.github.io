@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.8" />
+<meta name="generator" content="AsciiDoc 8.6.9" />
 <title>i3: i3 User’s Guide</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -749,6 +749,9 @@ which commands will be performed by i3 on initial startup. <tt>exec</tt>
 commands will not run when restarting i3, if you need a command to run
 also when restarting i3 you should use the <tt>exec_always</tt>
 keyword. These commands will be run in order.</p></div>
+<div class="paragraph"><p>See <a href="#command_chaining">[command_chaining]</a> for details on the special meaning of <tt>;</tt> (semicolon)
+and <tt>,</tt> (comma): they chain commands together in i3, so you need to use quoted
+strings if they appear in your command.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1620,7 +1623,10 @@ information on how to use them.</p></div>
 <div class="paragraph"><p>What good is a window manager if you can’t actually start any applications?
 The exec command starts an application by passing the command you specify to a
 shell. This implies that you can use globbing (wildcards) and programs will be
-searched in your $PATH.</p></div>
+searched in your <tt>$PATH</tt>.</p></div>
+<div class="paragraph"><p>See <a href="#command_chaining">[command_chaining]</a> for details on the special meaning of <tt>;</tt> (semicolon)
+and <tt>,</tt> (comma): they chain commands together in i3, so you need to use quoted
+strings if they appear in your command.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
