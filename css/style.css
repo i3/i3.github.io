@@ -394,6 +394,7 @@ table#downloads tbody tr:first-child {
     padding-right: 0.5em;
     white-space: pre;
     color: white;
+    overflow: auto;
 }
 
 .usergen tt {
