@@ -1,0 +1,411 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.9" />
+<title>i3: i3bar input protocol</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes();}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="https://faq.i3wm.org/">FAQ</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>i3bar input protocol</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">August 2012</span>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document explains the protocol in which i3bar expects its input. It
+provides support for colors, urgency, shortening and easy manipulation.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rationale_for_chosing_json">1. Rationale for chosing JSON</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Before describing the protocol, let’s cover why JSON is a building block of
+this protocol.</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Other bar display programs such as dzen2 or xmobar are using in-band
+   signaling: they recognize certain sequences (like ^fg(#330000) in your input
+   text). We would like to avoid that and separate information from
+   meta-information. By information, we mean the actual output, like the IP
+   address of your ethernet adapter and by meta-information, we mean in which
+   color it should be displayed right now.
+</p>
+</li>
+<li>
+<p>
+It is easy to write a simple script which manipulates part(s) of the input.
+   Each block of information (like a block for the disk space indicator, a block
+   for the current IP address, etc.) can be identified specifically and modified
+   in whichever way you like.
+</p>
+</li>
+<li>
+<p>
+It remains easy to write a simple script which just suffixes (or prefixes) a
+   status line input, because tools like i3status will output their JSON in
+   such a way that each line array will be terminated by a newline. Therefore,
+   you are not required to use a streaming JSON parser, but you can use any
+   JSON parser and write your script in any programming language. In fact, you
+   can decide to not bother with the JSON parsing at all and just inject your
+   output at a specific position (beginning or end).
+</p>
+</li>
+<li>
+<p>
+Relying on JSON does not introduce any new dependencies. In fact, the IPC
+   interface of i3 also uses JSON, therefore i3bar already depends on JSON.
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>The only point against using JSON is computational complexity. If that really
+bothers you, just use the plain text input format (which i3bar will continue to
+support).</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_protocol">2. The protocol</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The first message of the protocol is a header block, which contains (at least)
+the version of the protocol to be used. In case there are significant changes
+(not only additions), the version will be incremented. i3bar will still
+understand the old protocol version, but in order to use the new one, you need
+to provide the correct version. The header block is terminated by a newline and
+consists of a single JSON hash:</p></div>
+<div class="paragraph"><p><strong>Minimal example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "version": 1 }</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>All features example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "version": 1, "stop_signal": 10, "cont_signal": 12, "click_events": true }</tt></pre>
+</div></div>
+<div class="paragraph"><p>(Note that before i3 v4.3 the precise format had to be <tt>{"version":1}</tt>,
+byte-for-byte.)</p></div>
+<div class="paragraph"><p>What follows is an infinite array (so it should be parsed by a streaming JSON
+parser, but as described above you can go for a simpler solution), whose
+elements are one array per status line. A status line is one unit of
+information which should be displayed at a time. i3bar will not display any
+input until the status line is complete. In each status line, every block will
+be represented by a JSON hash:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>[
+
+ [
+  {
+   "full_text": "E: 10.0.0.1 (1000 Mbit/s)",
+   "color": "#00ff00"
+  },
+  {
+   "full_text": "2012-01-05 20:00:01"
+  }
+ ],
+
+ [
+  {
+   "full_text": "E: 10.0.0.1 (1000 Mbit/s)",
+   "color": "#00ff00"
+  },
+  {
+   "full_text": "2012-01-05 20:00:02"
+  }
+ ],
+ …</tt></pre>
+</div></div>
+<div class="paragraph"><p>Please note that this example was pretty printed for human consumption.
+i3status and others will output single statuslines in one line, separated by
+\n.</p></div>
+<div class="paragraph"><p>You can find an example of a shell script which can be used as your
+<tt>status_command</tt> in the bar configuration at
+<a href="http://code.stapelberg.de/git/i3/tree/contrib/trivial-bar-script.sh?h=next">http://code.stapelberg.de/git/i3/tree/contrib/trivial-bar-script.sh?h=next</a></p></div>
+<div class="sect2">
+<h3 id="_header_in_detail">2.1. Header in detail</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+version
+</dt>
+<dd>
+<p>
+        The version number (as an integer) of the i3bar protocol you will use.
+</p>
+</dd>
+<dt class="hdlist1">
+stop_signal
+</dt>
+<dd>
+<p>
+        Specify to i3bar the signal (as an integer) to send to stop your
+        processing.
+        The default value (if none is specified) is SIGSTOP.
+</p>
+</dd>
+<dt class="hdlist1">
+cont_signal
+</dt>
+<dd>
+<p>
+        Specify to i3bar the signal (as an integer)to send to continue your
+        processing.
+        The default value (if none is specified) is SIGCONT.
+</p>
+</dd>
+<dt class="hdlist1">
+click_events
+</dt>
+<dd>
+<p>
+        If specified and true i3bar will write a infinite array (same as above)
+        to your stdin.
+</p>
+</dd>
+</dl></div>
+</div>
+<div class="sect2">
+<h3 id="_blocks_in_detail">2.2. Blocks in detail</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+full_text
+</dt>
+<dd>
+<p>
+        The <tt>full_text</tt> will be displayed by i3bar on the status line. This is the
+        only required key.
+</p>
+</dd>
+<dt class="hdlist1">
+short_text
+</dt>
+<dd>
+<p>
+        Where appropriate, the <tt>short_text</tt> (string) entry should also be
+        provided. It will be used in case the status line needs to be shortened
+        because it uses more space than your screen provides. For example, when
+        displaying an IPv6 address, the prefix is usually (!) more relevant
+        than the suffix, because the latter stays constant when using autoconf,
+        while the prefix changes. When displaying the date, the time is more
+        important than the date (it is more likely that you know which day it
+        is than what time it is).
+</p>
+</dd>
+<dt class="hdlist1">
+color
+</dt>
+<dd>
+<p>
+        To make the current state of the information easy to spot, colors can
+        be used. For example, the wireless block could be displayed in red
+        (using the <tt>color</tt> (string) entry) if the card is not associated with
+        any network and in green or yellow (depending on the signal strength)
+        when it is associated.
+        Colors are specified in hex (like in HTML), starting with a leading
+        hash sign. For example, <tt>#ff0000</tt> means red.
+</p>
+</dd>
+<dt class="hdlist1">
+min_width
+</dt>
+<dd>
+<p>
+        The minimum width (in pixels) of the block. If the content of the
+        <tt>full_text</tt> key take less space than the specified min_width, the block
+        will be padded to the left and/or the right side, according to the <tt>align</tt>
+        key. This is useful when you want to prevent the whole status line to shift
+        when value take more or less space between each iteration.
+        The value can also be a string. In this case, the width of the text given
+        by <tt>min_width</tt> determines the minimum width of the block. This is useful
+        when you want to set a sensible minimum width regardless of which font you
+        are using, and at what particular size.
+</p>
+</dd>
+<dt class="hdlist1">
+align
+</dt>
+<dd>
+<p>
+        Align text on the <tt>center</tt>, <tt>right</tt> or <tt>left</tt> (default) of the block, when
+        the minimum width of the latter, specified by the <tt>min_width</tt> key, is not
+        reached.
+</p>
+</dd>
+<dt class="hdlist1">
+name and instance
+</dt>
+<dd>
+<p>
+        Every block should have a unique <tt>name</tt> (string) entry so that it can
+        be easily identified in scripts which process the output. i3bar
+        completely ignores the name and instance fields. Make sure to also
+        specify an <tt>instance</tt> (string) entry where appropriate. For example,
+        the user can have multiple disk space blocks for multiple mount points.
+</p>
+</dd>
+<dt class="hdlist1">
+urgent
+</dt>
+<dd>
+<p>
+        A boolean which specifies whether the current value is urgent. Examples
+        are battery charge values below 1 percent or no more available disk
+        space (for non-root users). The presentation of urgency is up to i3bar.
+</p>
+</dd>
+<dt class="hdlist1">
+separator
+</dt>
+<dd>
+<p>
+        A boolean which specifies whether a separator line should be drawn
+        after this block. The default is true, meaning the separator line will
+        be drawn. Note that if you disable the separator line, there will still
+        be a gap after the block, unless you also use <tt>separator_block_width</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+separator_block_width
+</dt>
+<dd>
+<p>
+        The amount of pixels to leave blank after the block. In the middle of
+        this gap, a separator line will be drawn unless <tt>separator</tt> is
+        disabled. Normally, you want to set this to an odd value (the default
+        is 9 pixels), since the separator line is drawn in the middle.
+</p>
+</dd>
+<dt class="hdlist1">
+markup
+</dt>
+<dd>
+<p>
+        A string that indicates how the text of the block should be parsed. Set to
+        <tt>"pango"</tt> to use <a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">Pango markup</a>.
+        Set to <tt>"none"</tt> to not use any markup (default).
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>If you want to put in your own entries into a block, prefix the key with an
+underscore (_). i3bar will ignore all keys it doesn’t understand, and prefixing
+them with an underscore makes it clear in every script that they are not part
+of the i3bar protocol.</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "full_text": "E: 10.0.0.1 (1000 Mbit/s)",
+ "_ethernet_vendor": "Intel"
+}</tt></pre>
+</div></div>
+<div class="paragraph"><p>In the following example, the longest (widest) possible value of the block is
+used to set the minimum width:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "full_text": "CPU 4%",
+ "min_width": "CPU 100%",
+ "align": "left"
+}</tt></pre>
+</div></div>
+<div class="paragraph"><p>An example of a block which uses all possible entries follows:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "full_text": "E: 10.0.0.1 (1000 Mbit/s)",
+ "short_text": "10.0.0.1",
+ "color": "#00ff00",
+ "min_width": 300,
+ "align": "right",
+ "urgent": false,
+ "name": "ethernet",
+ "instance": "eth0",
+ "separator": true,
+ "separator_block_width": 9
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_click_events">2.3. Click events</h3>
+<div class="paragraph"><p>If enabled i3bar will send you notifications if the user clicks on a block and
+looks like this:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+name
+</dt>
+<dd>
+<p>
+        Name of the block, if set
+</p>
+</dd>
+<dt class="hdlist1">
+instance
+</dt>
+<dd>
+<p>
+        Instance of the block, if set
+</p>
+</dd>
+<dt class="hdlist1">
+x, y
+</dt>
+<dd>
+<p>
+        X11 root window coordinates where the click occured
+</p>
+</dd>
+<dt class="hdlist1">
+button
+</dt>
+<dd>
+<p>
+        X11 button ID (for example 1 to 3 for left/middle/right mouse button)
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "name": "ethernet",
+ "instance": "eth0",
+ "button": 1,
+ "x": 1320,
+ "y": 1400
+}</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>

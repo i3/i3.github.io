@@ -1,0 +1,474 @@
+---
+layout: default
+title: Docs
+group: Docs
+---
+<div id="content" class="usergen">
+<h1>User-contributed article: Lukáš Zapletal’s i3 configuration</h1>
+
+<p>I was keeping sight on i3 for some time after I saw Michael&#8217;s <a href='http://www.youtube.com/watch?v=QnYN2CTb1hM'>presentation at Google</a> the other day. Last weekend, I upgraded my Fedora 17 and when I noticed i3 version 4.2 in the repositories, I gave it a try. First of all, I have to admit I&#8217;ve fallen in love. Totally.</p>
+
+<p>It&#8217;s a tiling window manager which is lightweight yet powerful. What I like about i3 is ease of adopting it. Michael, the main author of this awesome software, made the default configuration very sane. And i3 is also very fast by it&#8217;s (UNIX) design. Last but not least, i3 saves every pixel on the screen. You can get the most from your screen(s). And yes - it <em>does</em> support multiple screens very nicely.</p>
+
+<p>Instead of describing how it looks like when you use i3, I&#8217;d rather publish my (pretty new) configuration describing each line of it. Before I start, I need to highlight one thing. It&#8217;s a <strong>tiling</strong> window manager. You manage windows into tiles, it&#8217;s the basic idea. While you can turn windows into &#8220;normal&#8221; (the correct term is &#8220;floating&#8221;) mode, you loose lots of things and this is not the mode you want to work in. It is mainly used by i3 for dialogs, tooltips or other temporary windows.</p>
+
+<h2 id='installation'>Installation</h2>
+
+<p>Is pretty straightforward. We need i3 itself and several other highly recommended apps I will describe later. In short: simple screen locker, starter menu and simple notification daemon.</p>
+
+<pre><tt># yum -y install i3 i3lock dmenu dunst</tt></pre>
+
+<p>Please note dunst is not in Fedora 17 repositories, but I have created a <a href='https://bugzilla.redhat.com/show_bug.cgi?id=852211'>review request</a>. Feel free to take it for review.</p>
+
+<p>Exit your desktop environment or window manager and log on into i3 from the GDM menu (if you use it). i3 will ask to create initial configuration during the first start. Say yes and do not worry - reloading/restarting i3 is fluent and you can do this zillions of times without loosing a single window.</p>
+
+<h2 id='i3_configuration'>i3 configuration</h2>
+
+<p>Configuration is located in <strong>.i3/config</strong>. Let&#8217;s do the walkthrough.</p>
+
+<pre><tt>set $mod Mod4</tt></pre>
+
+<p>i3 works best with a modifier key set to ALT (Mod1) or WIN (Mod4). I have a windows key on my keyboard unused anyway, so I use it as my main modifier key (with few exceptions bellow).</p>
+
+<pre><tt># font for window titles. ISO 10646 = Unicode
+font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1</tt></pre>
+
+<p>Basic font for windows titles. I was experimenting with my favourite one - Terminus - but the default (misc-fixed) works great and is narrower.</p>
+
+<pre><tt># Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod</tt></pre>
+
+<p>By default windows has 1 pixel border, so it&#8217;s difficult to resize them with mouse. With this option, you can <em>move</em> windows with modifier + left click and <em>resize</em> with modifier + right click. I bet Apple patented this already, but who cares.</p>
+
+<pre><tt># start a terminal
+bindsym $mod+Return exec i3-sensible-terminal</tt></pre>
+
+<p>I am starting terminals a lot. Like fifty a day, or even more. Michael&#8217;s default configuration has this binding and I keep it. By the way i3 has several i3-* scripts (three I guess) which tries to find &#8220;the best&#8221; terminal (editor etc). In my case its urxvt and vim, but i3-* will find out from ENV variables of course.</p>
+
+<pre><tt># kill focused window
+bindsym $mod+Shift+Q kill</tt></pre>
+
+<p>As you will notice shortly, i3 does not draw any minimize, maximize and close buttons. Except the latter, they are useless. It turns out every single application has an exit path (usually using Ctrl+q or something like that), so you don&#8217;t need the [X] button. Few apps do not support it (like very old xev), you can use this shortcut that tries to close it nicely first and it kills it if it does not work.</p>
+
+<pre><tt># start dmenu (a program launcher)
+bindsym $mod+d exec dmenu_run</tt></pre>
+
+<p>Do you think there is a start menu or icons on a desktop in i3? Well, it&#8217;s a window manager. Of course not. By default it uses excellent dmenu starter and this simple wrapper that ships with it. Basically, it makes a cache of all executable applications and shows them while you type in a top bar. It&#8217;s fast. It&#8217;s awesome.</p>
+
+<pre><tt># reload/restart/exit
+bindsym $mod+Shift+C reload
+bindsym $mod+Shift+R restart
+bindsym $mod+Shift+E exit</tt></pre>
+
+<p>Few default key bindings you will like when playing with configuration.</p>
+
+<pre><tt># screen locker (first move to &quot;safe&quot; workspace without any chat app)
+bindsym Control+Mod1+l exec i3-msg workspace 1 &amp;&amp; i3lock -c 111111 -d</tt></pre>
+
+<p>My invention here. Locking a screen is an easy task, but unlocking it without providing your password to other team folks via IRC channel is a challenge (for a guy in the <a href='http://pulpproject.org'>Pulp team</a> ;-) therefore I switch to the first workspace first where is <em>not</em> my IRC chat. Ever. I have to admit the issue is more when you don&#8217;t have your screen lock, but it was fun to create this key.</p>
+
+<p>Please note i3lock built into Fedora 17 does <em>NOT</em> support loading of images. The software itself is capable of loading images instead of solid color, but this feature was not built. Just stick with a solid color for now.</p>
+
+<p>By the way, you just saw i3-msg command which is distributed with i3 distribution. Every single command you see here in the bindsym and exec statements can be sent to i3 using i3-msg. You can create shell scripts with starting up applications, moving them around, changing workspaces and I can&#8217;t possibly imagine what can you do with it. Everything.</p>
+
+<pre><tt># change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+#bindsym $mod+uring focus right</tt></pre>
+
+<p>Default configuration for moving around. Notice this is not exactly what we know from Vim (its HJKL there). I thought I will hate it, but I got used to it in two hours. The commented line is for Czech keyboard layout (there is u with ring instead of semicolon) - ignore it if you don&#8217;t use this one.</p>
+
+<pre><tt># alternatively, you can use the cursor keys:
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right</tt></pre>
+
+<p>I sometimes use arrow keys, usually when I don&#8217;t have my hands in the working position. It is likely when I eat :-)</p>
+
+<pre><tt># move focused window
+bindsym $mod+Shift+J move left
+bindsym $mod+Shift+K move down
+bindsym $mod+Shift+L move up
+bindsym $mod+Shift+colon move right</tt></pre>
+
+<p>Moving windows around is so simple with tiling managers. Just hold shift and you drag the window there.</p>
+
+<pre><tt># alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right</tt></pre>
+
+<p>I don&#8217;t use this with arrow keys, but it&#8217;s defined by default. Why not.</p>
+
+<pre><tt># split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v</tt></pre>
+
+<p>This is important. By default i3 splits the screen according to the screen size. For wide screens it&#8217;s usually horizontal split. You can configure this behavior if you want, but sometimes you want to split different way. That is what these bindings are for. i3 remembers that for the workspace, so you can split multiple windows easily.</p>
+
+<pre><tt># enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen</tt></pre>
+
+<p>Fullscreen is something you don&#8217;t use many times with standard window managers, but in tiling mode it is pretty useful. I use it a lot when I wan&#8217;t to &#8220;zoom in&#8221; a window.</p>
+
+<pre><tt># change container layout (stacked, tabbed, default)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout default</tt></pre>
+
+<p>Unique feature of i3, I would say. Best thing what you can do is to <a href='http://i3wm.org/docs/userguide.html#_changing_the_container_layout'>see a picture</a>. You can switch from tiling (default) to tabbed and stacking mode. You can have multiple Firefox instances in windows tabs if you want to. By the way, the i3 User&#8217;s Guide is the definitive document you want to read twice.</p>
+
+<pre><tt># toggle tiling / floating
+bindsym $mod+Shift+space floating toggle</tt></pre>
+
+<p>Some applications does not work well in the tiling mode, because all windows are maximalized by default and according to your screen size and number of other containers there first application can be quite stretched. If your application looks weird, you can always switch to the floating (&#8220;normal&#8221;) mode, and back and forth with this key mapping. By default, i3 recognizes dialogs and tool windows, so you do not to switch all windows. Actually I had to switch only one application by now.</p>
+
+<pre><tt># change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle</tt></pre>
+
+<p>If you have multiple windows in tiling and floating mode, you want to switch between those two groups. You do it with this key.</p>
+
+<pre><tt># focus the parent container
+#bindsym $mod+a focus parent
+
+# focus the child container
+#bindcode $mod+d focus child</tt></pre>
+
+<p>I have to admit I never used this, because I try to keep number of windows on each workspace low (up to 6 I would say). It moves focus to parent or child window, perhaps more usable with more windows. Share your experiences with this. Notice it&#8217;s disabled because I use mod+d for the dmenu.</p>
+
+<pre><tt># next/previous workspace
+bindsym Mod1+Tab focus right
+bindsym Mod1+Shift+Tab focus left
+bindsym $mod+Tab workspace back_and_forth</tt></pre>
+
+<p>This is not standard binding, but I find Alt+Tab pretty useful combination. It&#8217;s handy (I use my right hand for mouse) and it was not used by i3. So I started using it for cycling through windows on one workspace. If you have various (horizontal and vertical splits), it does not cycle through all of them. It&#8217;s only moving in vertical movement (right - left). I wish there has been a option like &#8220;focus cycle&#8221; in the next i3 version.</p>
+
+<p>Shift does the other way around while Win+Tab switches to the last used weapon. Sorry, I said weapon? I mean workspace.</p>
+
+<pre><tt># switch to workspace
+bindsym $mod+ampersand workspace 1
+bindsym $mod+eacute workspace 2
+bindsym $mod+quotedbl workspace 3
+bindsym $mod+apostrophe workspace 4
+bindsym $mod+parenleft workspace 5
+bindsym $mod+minus workspace 6
+bindsym $mod+egrave workspace 7
+bindsym $mod+underscore workspace 8
+bindsym $mod+ccedilla workspace 9
+bindsym $mod+agrave workspace 10
+#bindsym $mod+1 workspace 1
+#bindsym $mod+2 workspace 2
+#bindsym $mod+3 workspace 3
+#bindsym $mod+4 workspace 4
+#bindsym $mod+5 workspace 5
+#bindsym $mod+6 workspace 6
+#bindsym $mod+7 workspace 7
+#bindsym $mod+8 workspace 8
+#bindsym $mod+9 workspace 9
+#bindsym $mod+0 workspace 10
+
+# switch to workspace (f1-f4)
+bindsym F1 workspace 1
+bindsym F2 workspace 2
+bindsym F3 workspace 3
+bindsym F4 workspace 4
+bindsym Mod1+F1 workspace 5
+bindsym Mod1+F2 workspace 6
+bindsym Mod1+F3 workspace 7
+bindsym Mod1+F4 workspace 8</tt></pre>
+
+<p>Okay, the first block is default binding. But for many years I decided to leverage F1-F4 keys for workspace movement. Until now, I was using only four workspaces (OpenBox, KDE/GNOME, Fluxbox and XFce), but with i3 and its good support of multiple screens I can afford eight now. Each screen has four independent workspaces.</p>
+
+<p>Please note the commented part is for Czech layout, therefore if you use this layout uncomment it and delete the above.</p>
+
+<p>Now let me explain <em>function keys</em> a bit. First of all I realized many years ago that no one (including me) ever use F1 key. It&#8217;s reserved, it&#8217;s for help. But everybody is googling these days instead searching through built-in docs. The same for F2, F3 and F4. Maybe some IDEs offer some important stuff, but I use Vim that has no function keys binding. That is the reason why I gave up with those keys and use them for workspace switching.</p>
+
+<p>With i3 I have decided also to map Alt+F1-F4 for accessing numbers five to eight. It just seem natural for me now. I am giving up with Alt-F2 (Run App in GNOME) or Alt-F4 (Close App), but this does no work in i3 anymore. Few apps still react on Alt-F4, but there is a different combination available for that.</p>
+
+<p>If you occasionally need those keys, you can create a re-mapping that would trigger them with Win+F1-F4 keys. But in terminals you can always use ESC combination (ESC;1 for F1). I don&#8217;t use any X11 application that needs that.</p>
+
+<p>Therefore workspaces 1-4 are on the laptop screen (LDVS1) and 5-8 are on the main monitor (HDMI1). And there is one workspace hidden called scratch one. More about it later.</p>
+
+<pre><tt># move focused container to workspace
+bindsym $mod+Shift+1 move container to workspace 1
+bindsym $mod+Shift+2 move container to workspace 2
+bindsym $mod+Shift+3 move container to workspace 3
+bindsym $mod+Shift+4 move container to workspace 4
+bindsym $mod+Shift+5 move container to workspace 5
+bindsym $mod+Shift+6 move container to workspace 6
+bindsym $mod+Shift+7 move container to workspace 7
+bindsym $mod+Shift+8 move container to workspace 8
+bindsym $mod+Shift+9 move container to workspace 9
+bindsym $mod+Shift+0 move container to workspace 10</tt></pre>
+
+<p>Default setting for transferring windows (containers) among workspaces. Those works for both Czech and English layout and are installed by default.</p>
+
+<pre><tt># border changing
+bindsym $mod+b border toggle</tt></pre>
+
+<p>I cycle through normal, 1pixel and none values with this keybinding. By default it&#8217;s bound to mod+t, mod+y and mod+u.</p>
+
+<pre><tt># scratchpad
+bindsym $mod+m move scratchpad
+bindsym $mod+o scratchpad show</tt></pre>
+
+<p>Now THIS is cool. There is one hidden workspace that is nowhere and everywhere. It&#8217;s empty by default, thus invisible. You can move there any window you want with mod+m. Container is switched over to floating mode and it&#8217;s centered on the screen giving it some decent size. Than you can quickly show this window with mod+o key. If you hit it twice, it disappears.</p>
+
+<p>This is cool feature, I like to have an extra terminal there for quick looks while I am working. Maybe you want your favourite e-mail application there. Or something other you want to keep hidden<code>n</code>handy.</p>
+
+<p>Please note floating applications always stays on top of tiled containers. So scratchpad is not intended for long tasks. It&#8217;s better for short tasks you need to do many times a day. Oh, you can open scratchpad on top of any workspace you want. This is also great for copy and paste.</p>
+
+<pre><tt># resize window (you can also use the mouse for that)
+mode &quot;resize&quot; {
+  # These bindings trigger as soon as you enter the resize mode
+  bindsym j resize shrink width 10 px or 10 ppt
+  bindsym k resize grow height 10 px or 10 ppt
+  bindsym l resize shrink height 10 px or 10 ppt
+  bindsym semicolon resize grow width 10 px or 10 ppt
+  #bindsym uring resize grow width 10 px or 10 ppt
+
+  # same bindings, but for the arrow keys
+  bindsym 113 resize shrink width 10 px or 10 ppt
+  bindsym 116 resize grow height 10 px or 10 ppt
+  bindsym 111 resize shrink height 10 px or 10 ppt
+  bindsym 114 resize grow width 10 px or 10 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode &quot;default&quot;
+  bindsym Escape mode &quot;default&quot;
+}
+
+bindsym $mod+r mode &quot;resize&quot;</tt></pre>
+
+<p>I like to resize windows with mouse, but with keys it&#8217;s more fun and also much faster. I need to get used to it. You enter resize mode with mod+r combination, then usint JKL and semicolon (note uring for my Czech layout) you change the window size. And than you <em>must</em> switch back to the normal mode with ESC or ENTER key. Standard key bindings are not available in the resize mode and you will notice why nothing is working. Remember, you <em>need to return</em>.</p>
+
+<p>I bet you can create your own modes like &#8220;work&#8221; and &#8220;fun&#8221; with totally different key bindings. Never tried this.</p>
+
+<pre><tt># pulse audio volume control
+bindsym XF86AudioLowerVolume exec /usr/bin/pactl set-sink-volume 0 -- &#39;-5%&#39;
+bindsym XF86AudioRaiseVolume exec /usr/bin/pactl set-sink-volume 0 -- &#39;+5%&#39;
+bindsym XF86AudioMute exec /usr/bin/pactl set-sink-volume 0 0
+bindsym XF86Launch1 exec /usr/bin/pactl play-sample that_was_easy
+bindsym XF86MonBrightnessUp exec /usr/bin/xbacklight -inc 10
+bindsym XF86MonBrightnessDown exec /usr/bin/xbacklight -dec 5</tt></pre>
+
+<p>Few ThinkPad laptop key bindings for controlling volume, brightness and ThinkVantage for playing That Was Easy (TM) sample just for fun. I don&#8217;t use laptop keyboard much.</p>
+
+<pre><tt># $mod+n reserved for close all notifications
+# see ~/.config/dunst/dunstrc for more</tt></pre>
+
+<p>Just a note for myself not to override mod+n which is used by dunst. More about it later.</p>
+
+<pre><tt># one bar on both screens
+bar {
+  position top
+  mode hide
+  modifier $mod
+  status_command i3status
+  tray_output LVDS1
+}</tt></pre>
+
+<p>i3 uses i3bar application to draw a very minimalistic bar that can be positioned on the top or bottom of the screen (all screens by default). I like having my bar on top. Content of the bar is delivered with an external program using IPC - i3status in my case. More about its configuration later.</p>
+
+<p>Only one bar can contain tray area - laptop screen in my case. The bar is very thin, tray icons are also small. I like it. The &#8220;mode hide&#8221; statement hides the bar and opens it once I hit &#8220;modifier&#8221; key, or on a workspace highlight. By the way when the bar is hidden, i3 also notifies the i3status program so it&#8217;s not feeding with data to save CPU time and thus battery.</p>
+
+<p>By default i3bar shows workspaces and you can switch them with a mouse. It&#8217;s good not to disable this (even if you don&#8217;t use mouse for that) just to have a nice overview about all workspaces which are kind a dynamic (like in GNOME 3), they appear once you move there for the first time and disappear when you leave it (and there is no other container on it). Therefore you can work with them like in GNOME 3 if you want. I have my numbers 9 and 10 ready for that.</p>
+
+<pre><tt># workspace screens
+workspace 1 output HDMI1
+workspace 2 output HDMI1
+workspace 3 output HDMI1
+workspace 4 output HDMI1
+workspace 5 output LVDS1
+workspace 6 output LVDS1
+workspace 7 output LVDS1
+workspace 8 output LVDS1</tt></pre>
+
+<p>i3 works <strong>very well</strong> with multiple monitors. The default behavior is where you create a workspace it stays there forever, or until you disconnect the screen respectively. Therefore it&#8217;s up to you where you create your workspaces.</p>
+
+<p>I like to have an order in this, workspaces 1-4 are on the main screen, 5-8 are on the laptop. Therefore I explicitly say this in my configuration. By the way you can easily move workspaces across screens, but I don&#8217;t use any key bindings for that.</p>
+
+<p>When you disconnect your laptop from dock, everything stays &#8220;as is&#8221; until xrandr notice the screen is off. This is not by default and I like this behavior (depends on your distribution). You can switch off the screen using xranrd command, but sometimes I prefer to attend a meeting or something and then returning without <em>any</em> change (having workspaces on the main screen invisible for a while). I like to have an option in this case. Of course once i3 determines screen has been turned off using xrandr, it moves all workspaces to the remaining screen.</p>
+
+<p>You can also do this manually with <em>i3-msg workspace N output OUTPUT</em> therefore I created two bash scripts dock and undock that transfers all my workspaces in/out of LDVDS1. This is awesome, I really love this feature. I have never seen a window manager that plays THAT nicely with multiple screens.</p>
+
+<pre><tt># workspace assignment (use &quot;xprop&quot;)
+assign [class=&quot;^Google-chrome$&quot;] 3
+assign [class=&quot;^URxvt$&quot; instance=&quot;^mail$&quot;] 4
+assign [class=&quot;^Xchat$&quot;] 5
+assign [class=&quot;^Rednotebook$&quot;] 6
+assign [class=&quot;^Decibel-audio-player.py$&quot;] 7
+assign [title=&quot;Lingea Lexicon 5$&quot;] 8
+
+# custom window settings
+for_window [class=&quot;^URxvt$&quot; instance=&quot;scratchpad&quot;] border 1pixel; move scratchpad
+for_window [class=&quot;^Google-chrome$&quot;] border none
+for_window [title=&quot;Lingea Lexicon 5$&quot;] border none
+
+# get elluminate working
+for_window [title=&quot;^Elluminate Live!&quot;] floating enable
+for_window [title=&quot;^Application Sharing&quot;] floating enable
+for_window [class=&quot;^net-sourceforge-jnlp-runtime-Boot$&quot; title=&quot;^Downloading&quot;] floating enable</tt></pre>
+
+<p>In this block, I force some applications to start on specific screens. You can see apps that I use everyday. IRC chat, notebook, audio player, dictionary, browser and that&#8217;s it.</p>
+
+<p>Than if I start a terminal with the name of &#8220;scratchpad&#8221; it changes its border to 1pixel and moves to the background &#8211; scratchpad, remember? This is cool.</p>
+
+<p>And I need to use Elluminate application for desktop sharing and meetings. It&#8217;s a Java application that does not look nice in the tiled mode, therefore I force it into floating mode. Good news is it is working actually, if you use it with Sun JRE. There are not many window managers Elluminate is working in, seriously.</p>
+
+<pre><tt># before autostart
+exec --no-startup-id pactl upload-sample ~/.i3/that_was_easy.wav that_was_easy
+exec urxvt -name scratchpad -e bash
+exec ~/.i3/autostart
+
+# autostart
+exec google-chrome
+exec urxvt -name mail -e bash -c &quot;mutt&quot;
+exec xchat
+exec rednotebook
+exec decibel-audio-player
+exec lexicon</tt></pre>
+
+<p>The last block is just auto starting some applications during startup. I load the funny sample, open a scratchpad terminal (which goes to the background automatically) and then I start a shell script with additional commands. I could put this into .xinitrc, but I keep it here. And then some applications.</p>
+
+<p>When I start my laptop, I get the same. Everyday. Cool, isn&#8217;t it?</p>
+
+<h2 id='autostart'>Autostart</h2>
+
+<p>My autostart script triggers some settings and spawns some daemons. It&#8217;s totally optional in i3, you could do everything using &#8220;exec&#8221; commands, but I leveraged my old xinitrc script for that. Let&#8217;s do the showcase again.</p>
+
+<pre><tt>#!/bin/sh
+
+## Desktop background color
+xsetroot -solid &#39;#101010&#39; &amp;</tt></pre>
+
+<p>Again, i3 is a window manager, not a desktop environment. I don&#8217;t like &#8220;wallpapers, I just set a decent color here.</p>
+
+<pre><tt>## Set startup volume
+pactl set-sink-volume 0 &#39;20%&#39; &amp;</tt></pre>
+
+<p>I hate random volume after start. Can cause injuries with my speakers. Every time I start my laptop, volume is set to 20 per cent.</p>
+
+<pre><tt>## Disable beeps
+xset -b &amp;</tt></pre>
+
+<p>Don&#8217;t like PC-speaker beeping at all.</p>
+
+<pre><tt>## Keybord layout setting
+setxkbmap -layout cz,us -option grp:shift_shift_toggle &amp;</tt></pre>
+
+<p>I told you &#8211; Czech layout.</p>
+
+<pre><tt>## DPMS monitor setting (standby -&gt; suspend -&gt; off) (seconds)
+xset dpms 300 600 900 &amp;</tt></pre>
+
+<p>I do not use screen &#8220;savers&#8221;, blank it after 5 minutes, suspend and then go off after 5+5 minutes. THIS is screen saving.</p>
+
+<pre><tt>## Set LCD brightness
+xbacklight -set 90 &amp;</tt></pre>
+
+<p>The same story as with volume, backlight set to 90 % after start.</p>
+
+<pre><tt>## Clipboard manager
+LC_ALL=C parcellite &amp;</tt></pre>
+
+<p>Parcellite clipboard manager is widely used, and I love it for my patches that strips whitespace. Go ahead, try it and enable this feature in the preferences. Czech translation is totally wrong, therefore I start it in English.</p>
+
+<pre><tt>## OSD
+dunst &amp;</tt></pre>
+
+<p>And notification daemon. More about it later.</p>
+
+<h2 id='bar'>Bar</h2>
+
+<p>As I described earlier, i3bar program uses i3status &#8211; lightweight status generator designed to be very efficient by issuing a very small number of system calls. No scripting support, no external commands. Communication with i3bar is very simple using pipes, if you really need an external command, you can create a wrapper that adds some more info to the i3status output.</p>
+
+<p>Configuration is pretty straightforward, I will not comment that. I refresh the status line every four seconds, but my bar is hidden most of time, therefore refreshing is suspended which saves you even more cpu ticks!</p>
+
+<pre><tt>general {
+  colors = true
+  interval = 4
+}
+
+order += &quot;disk /home&quot;
+order += &quot;disk /&quot;
+order += &quot;run_watch VPN&quot;
+order += &quot;wireless wlan0&quot;
+order += &quot;ethernet em1&quot;
+order += &quot;battery 0&quot;
+order += &quot;volume master&quot;
+order += &quot;load&quot;
+order += &quot;time&quot;
+
+wireless wlan0 {
+  format_up = &quot;W: (%quality at %essid) %ip&quot;
+  format_down = &quot;W: down&quot;
+}
+
+ethernet em1 {
+  # sudo setcap cap_net_admin=ep $(which i3status)
+  format_up = &quot;E: %ip (%speed)&quot;
+  format_down = &quot;E: down&quot;
+}
+
+battery 0 {
+  format = &quot;%status %percentage %remaining&quot;
+}
+
+run_watch VPN {
+  pidfile = &quot;/var/run/openvpn.pid&quot;
+}
+
+time {
+  format = &quot;%d.%m.%Y %H:%M&quot;
+}
+
+load {
+  format = &quot;%1min&quot;
+}
+
+disk &quot;/&quot; {
+  format = &quot;%free&quot;
+}
+
+disk &quot;/home&quot; {
+  format = &quot;%free&quot;
+}
+
+volume master {
+  format = &quot;♪: %volume&quot;
+  device = &quot;default&quot;
+  mixer = &quot;Master&quot;
+  mixer_idx = 0
+}</tt></pre>
+
+<p>To test it, you can just run <em>i3status</em>. It will fall back to simple text output (real communication with i3bar is with colors):</p>
+
+<pre><tt>$ i3status 
+132,1 GB | 56,2 GB | VPN: yes | W: down | E: 192.168.1.1 (1000 Mbit/s) | FULL 55,92% | ♪: 63% | 1,56 | 28.08.2012 19:46</tt></pre>
+
+<p>As you may noticed, my ThinkPad battery is dying.</p>
+
+<h2 id='osd'>OSD</h2>
+
+<p>I use dunst as a notification daemon. It&#8217;s very simple and it looks like a dmenu. The configuration is stored in <em>~/.config/dunst/dunstrc</em> and the default one works great. And it also plays well with multi-monitor setups - you can choose screen to show notifications on and it can also follow your mouse or keyboard (pops up on the screen you actually work on).</p>
+
+<p>Dunst can group same messages, stack them, sort them by urgency, wrap words and keep messages when computer is in idle (so you would miss them). One can configure colors, format and other basic things for the pop up windows.</p>
+
+<p>I took the default configuration from <em>/usr/share/dunst/dunstrc</em> and kept the sane defaults. The most important setting change for me was:</p>
+
+<pre><tt>close_all = mod4+n</tt></pre>
+
+<p>I use Win+n to close all notifications. Nice.</p>
+
+<h2 id='wrapup'>Wrap-up</h2>
+
+<p>Okay, I think I showed you <a href='http://i3wm.org'>i3</a>. Highly recommended tiling window manager. Share your opinions on this page with me!</p>
+
+<p><strong>Update</strong>: I have pushed all my configuration files to <a href='https://github.com/lzap/doti3'>git repository</a>.</p>
