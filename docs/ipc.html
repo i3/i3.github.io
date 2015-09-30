@@ -947,42 +947,50 @@ separator
 </p>
 </dd>
 <dt class="hdlist1">
-focused_workspace_text/focused_workspace_bg
+focused_workspace_text/focused_workspace_bg/focused_workspace_border
 </dt>
 <dd>
 <p>
-        Text color/background color for a workspace button when the workspace
+        Text/background/border color for a workspace button when the workspace
         has focus.
 </p>
 </dd>
 <dt class="hdlist1">
-active_workspace_text/active_workspace_bg
+active_workspace_text/active_workspace_bg/active_workspace_border
 </dt>
 <dd>
 <p>
-        Text color/background color for a workspace button when the workspace
+        Text/background/border color for a workspace button when the workspace
         is active (visible) on some output, but the focus is on another one.
         You can only tell this apart from the focused workspace when you are
         using multiple monitors.
 </p>
 </dd>
 <dt class="hdlist1">
-inactive_workspace_text/inactive_workspace_bg
+inactive_workspace_text/inactive_workspace_bg/inactive_workspace_border
 </dt>
 <dd>
 <p>
-        Text color/background color for a workspace button when the workspace
+        Text/background/border color for a workspace button when the workspace
         does not have focus and is not active (visible) on any output. This
         will be the case for most workspaces.
 </p>
 </dd>
 <dt class="hdlist1">
-urgent_workspace_text/urgent_workspace_bar
+urgent_workspace_text/urgent_workspace_bg/urgent_workspace_border
 </dt>
 <dd>
 <p>
-        Text color/background color for workspaces which contain at least one
+        Text/background/border color for workspaces which contain at least one
         window with the urgency hint set.
+</p>
+</dd>
+<dt class="hdlist1">
+binding_mode_text/binding_mode_bg/binding_mode_border
+</dt>
+<dd>
+<p>
+        Text/background/border color for the binding mode indicator.
 </p>
 </dd>
 </dl></div>
@@ -1054,12 +1062,21 @@ human_readable (string)
         this is what <tt>i3 --version</tt> displays, too).
 </p>
 </dd>
+<dt class="hdlist1">
+loaded_config_file_name (string)
+</dt>
+<dd>
+<p>
+        The current config path.
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>{
    "human_readable" : "4.2-169-gf80b877 (2012-08-05, branch \"next\")",
+   "loaded_config_file_name" : "/home/hwangcc23/.i3/config",
    "minor" : 2,
    "patch" : 0,
    "major" : 4
@@ -1315,11 +1332,11 @@ command (string)
 </p>
 </dd>
 <dt class="hdlist1">
-mods (array of strings)
+event_state_mask (array of strings)
 </dt>
 <dd>
 <p>
-        The modifier keys that were configured with this binding.
+        The group and modifier keys that were configured with this binding.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1358,7 +1375,7 @@ input_type (string)
  "change": "run",
  "binding": {
   "command": "nop",
-  "mods": [
+  "event_state_mask": [
     "shift",
     "ctrl"
   ],
@@ -1472,7 +1489,24 @@ Ruby
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="http://github.com/badboy/i3-ipc">http://github.com/badboy/i3-ipc</a>
+<a href="https://github.com/veelenga/i3ipc-ruby">https://github.com/veelenga/i3ipc-ruby</a>
+</p>
+</li>
+<li>
+<p>
+<a href="https://github.com/badboy/i3-ipc">https://github.com/badboy/i3-ipc</a> (not maintained)
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+Rust
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/tmerr/i3ipc-rs">https://github.com/tmerr/i3ipc-rs</a>
 </p>
 </li>
 </ul></div>

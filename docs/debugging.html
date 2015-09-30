@@ -44,10 +44,10 @@ process and/or need further help, do not hesitate to contact us!</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_verify_you_are_using_i3_4_10_4">1. Verify you are using i3 ≥ 4.10.4</h2>
+<h2 id="_verify_you_are_using_i3_4_11">1. Verify you are using i3 ≥ 4.11</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Only the latest major version of i3 is supported, i.e. version 4.7 currently.
-To verify which version you are running, use:</p></div>
+<div class="paragraph"><p>Only the latest major version of i3 is supported. To verify which version
+you are running, use:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>$ i3 --moreversion 2&gt;&amp;- || i3 --version
@@ -112,8 +112,70 @@ fly:</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_obtaining_the_debug_logfile">3. Obtaining the debug logfile</h2>
+<h2 id="_reproducing_the_problem">3. Reproducing the problem</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>Before submitting an issue, please make sure to close down on the problem as
+much as you can yourself. Here are some steps you should consider:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Find a deterministic, reliable way to reproduce the problem and provide it
+  with your bug report.
+</p>
+</li>
+<li>
+<p>
+Try using the default i3 config to reproduce the problem. If the issue does
+  not appear with the default config, gradually adapt it to track down what
+  change(s) to the config introduce the problem.
+</p>
+</li>
+<li>
+<p>
+Reproduce the problem with a minimal setup, i.e., only use as few applications,
+  windows and steps as necessary.
+</p>
+</li>
+<li>
+<p>
+In addition, try to stick to applications that are common and, even more
+  importantly, free / open source.
+</p>
+</li>
+<li>
+<p>
+Before obtaining the log file, restart i3 in-place, execute the steps to
+  reproduce the problem and then save the logs. This keeps the log file as
+  small as possible and necessary.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Please be aware that we cannot support compatibility issues with closed-source
+software, as digging into compatibility problems without having access to the
+source code is too time-consuming. Additionally, experience has shown that
+often, the software in question is responsible for the issue. Please raise an
+issue with the software in question, not i3.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_obtaining_the_debug_logfile">4. Obtaining the debug logfile</h2>
+<div class="sectionbody">
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>Logs may contain sensitive information, so please inspect the log before
+submitting it. Logs may be viewed by anyone, once posted. If you choose to
+redact the log, make an effort not to discard information which may be relevant
+to the issue you are reporting.</p></div>
+<div class="paragraph"><p>The best way to avoid submitting such information is to only run the necessary
+steps to reproduce the behavior when saving the log file. This will also make
+analyzing the log file easier.</p></div>
+</td>
+</tr></table>
+</div>
 <div class="paragraph"><p>No matter whether i3 misbehaved in some way without crashing or whether it just
 crashed, the logfile provides all information necessary to debug the problem.</p></div>
 <div class="paragraph"><p>To upload a compressed version of the logfile (for a bugreport), use:</p></div>
@@ -128,7 +190,7 @@ your bug report.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_on_crashes_obtaining_a_backtrace">4. On crashes: Obtaining a backtrace</h2>
+<h2 id="_on_crashes_obtaining_a_backtrace">5. On crashes: Obtaining a backtrace</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>When i3 crashes, it will display a dialog stating “i3 just crashed”, offering
 you to save a backtrace to a text file.</p></div>
@@ -154,7 +216,7 @@ starting at 0.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sending_bug_reports_debugging_on_irc">5. Sending bug reports/debugging on IRC</h2>
+<h2 id="_sending_bug_reports_debugging_on_irc">6. Sending bug reports/debugging on IRC</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>When sending bug reports, please attach the <strong>whole</strong> log file. Even if you think
 you found the section which clearly highlights the problem, additional
@@ -163,6 +225,24 @@ information might be necessary to completely diagnose the problem.</p></div>
 such as <a href="http://nopaste.info">http://nopaste.info</a> or <a href="http://pastebin.com">http://pastebin.com</a> because pasting large
 amounts of text in IRC sometimes leads to incomplete lines (servers have line
 length limitations) or flood kicks.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debugging_i3bar">7. Debugging i3bar</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To debug i3bar problems, add <tt>verbose yes</tt> to all <tt>bar {}</tt> blocks in your i3
+config, reload your config and then restart all i3bar instances like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ i3 reload
+$ killall i3bar
+$ for c in $(i3-msg -t get_bar_config | python -c \
+      'import json,sys;print("\n".join(json.load(sys.stdin)))'); do \
+    (i3bar --bar_id=$c &gt;i3bar.$c.log 2&gt;&amp;1) &amp; \
+  done;</tt></pre>
+</div></div>
+<div class="paragraph"><p>There will now be <tt>i3bar.*.log</tt> files in your current directory that you can provide
+in your bug report.</p></div>
 </div>
 </div>
 </div>

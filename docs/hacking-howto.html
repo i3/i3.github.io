@@ -721,10 +721,12 @@ can reconfigure themselves).</p></div>
 <div class="sect1">
 <h2 id="_net_wm_state">10. _NET_WM_STATE</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Only the _NET_WM_STATE_FULLSCREEN atom is handled. It calls
-&#8220;toggle_fullscreen()&#8221; for the specific client which just configures the
-client to use the whole screen on which it currently is. Also, it is set as
-fullscreen_client for the i3Screen.</p></div>
+<div class="paragraph"><p>Only the _NET_WM_STATE_FULLSCREEN and _NET_WM_STATE_DEMANDS_ATTENTION atoms
+are handled.</p></div>
+<div class="paragraph"><p>The former calls &#8220;toggle_fullscreen()&#8221; for the specific client which just
+configures the client to use the whole screen on which it currently is.
+Also, it is set as fullscreen_client for the i3Screen.</p></div>
+<div class="paragraph"><p>The latter is used to set, read and display urgency hints.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -1052,8 +1054,8 @@ unmapped if it should not be visible anymore. <tt>WM_STATE</tt> will be set to
 <div class="paragraph"><p><tt>x_draw_decoration</tt> draws window decorations. It is run for every leaf
 container (representing an actual X11 window) and for every non-leaf container
 which is in a stacked/tabbed container (because stacked/tabbed containers
-display a window decoration for split containers, which at the moment just says
-"another container").</p></div>
+display a window decoration for split containers, which consists of a representation
+of the child container&#8217;s names.</p></div>
 <div class="paragraph"><p>Then, parameters are collected to be able to determine whether this decoration
 drawing is actually necessary or was already done. This saves a substantial
 number of redraws (depending on your workload, but far over 50%).</p></div>
@@ -1078,9 +1080,9 @@ all commands.</p></div>
 <div class="paragraph"><p>In earlier versions of i3, interpreting these commands was done using lex and
 yacc, but experience has shown that lex and yacc are not well suited for our
 command language. Therefore, starting from version 4.2, we use a custom parser
-for user commands (not yet for the configuration file).
+for user commands and the configuration file.
 The input specification for this parser can be found in the file
-<tt>parser-specs/commands.spec</tt>. Should you happen to use Vim as an editor, use
+<tt>parser-specs/*.spec</tt>. Should you happen to use Vim as an editor, use
 :source parser-specs/highlighting.vim to get syntax highlighting for this file
 (highlighting files for other editors are welcome).</p></div>
 <div class="listingblock">
@@ -1118,11 +1120,14 @@ features. This is its definition:</p></div>
 <pre><tt># workspace next|prev|next_on_output|prev_on_output
 # workspace back_and_forth
 # workspace &lt;name&gt;
+# workspace number &lt;number&gt;
 state WORKSPACE:
   direction = 'next_on_output', 'prev_on_output', 'next', 'prev'
       -&gt; call cmd_workspace($direction)
   'back_and_forth'
       -&gt; call cmd_workspace_back_and_forth()
+  'number'
+      -&gt; WORKSPACE_NUMBER
   workspace = string
       -&gt; call cmd_workspace_name($workspace)</tt></pre>
 </div></div>
@@ -1189,6 +1194,16 @@ workspace &lt;name&gt;
         single quotes), but just called string. Other possible tokens are word
         (the same as string, but stops matching at a whitespace) and end
         (matches the end of the input).
+</p>
+</dd>
+<dt class="hdlist1">
+workspace number &lt;number&gt;
+</dt>
+<dd>
+<p>
+        The workspace command has to be followed by the keyword <tt>number</tt>. It
+        then transitions into the state <tt>WORKSPACE_NUMBER</tt>, where the actual
+        parameter will be read.
 </p>
 </dd>
 </dl></div>
@@ -1489,26 +1504,30 @@ Forgetting to call <tt>floating_fix_coordinates(con, old_rect, new_rect)</tt> af
 <a href="http://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy">http://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy</a>
 or, for more documentation, see <a href="http://git-scm.com/documentation">http://git-scm.com/documentation</a></p></div>
 <div class="paragraph"><p>Please talk to us before working on new features to see whether they will be
-accepted. There are a few things which we don’t want to see in i3, e.g. a
-command which will focus windows in an alt+tab like way.</p></div>
+accepted. A good way for this is to open an issue and asking for opinions on it.
+Even for accepted features, this can be a good way to refine an idea upfront. However,
+we don&#8217;t want to see certain features in i3, e.g., switching window focus in an
+Alt+Tab like way.</p></div>
 <div class="paragraph"><p>When working on bugfixes, please make sure you mention that you are working on
-it in the corresponding bugreport at <a href="https://github.com/i3/i3/issues">https://github.com/i3/i3/issues</a> In case
-there is no bugreport yet, please create one.</p></div>
-<div class="paragraph"><p>After you are done, please submit your work for review at <a href="https://github.com/i3/i3">https://github.com/i3/i3</a></p></div>
+it in the corresponding bug report at <a href="https://github.com/i3/i3/issues">https://github.com/i3/i3/issues</a>. In case
+there is no bug report yet, please create one.</p></div>
+<div class="paragraph"><p>After you are done, please submit your work for review as a pull request at
+<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>.</p></div>
 <div class="paragraph"><p>Do not send emails to the mailing list or any author directly, and don’t submit
 them in the bugtracker, since all reviews should be done in public at
-<a href="http://cr.i3wm.org/">http://cr.i3wm.org/</a>. In order to make your review go as fast as possible, you
+<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>. In order to make your review go as fast as possible, you
 could have a look at previous reviews and see what the common mistakes are.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_which_branch_to_use">20.2. Which branch to use?</h3>
-<div class="paragraph"><p>Work on i3 generally happens in two branches: “master” and “next”. Since
-“master” is what people get when they check out the git repository, its
-contents are always stable. That is, it contains the source code of the latest
-release, plus any bugfixes that were applied since that release.</p></div>
+<div class="paragraph"><p>Work on i3 generally happens in two branches: “master” and “next” (the latter
+being the default branch, the one that people get when they check out the git
+repository).</p></div>
+<div class="paragraph"><p>The contents of “master” are always stable. That is, it contains the source code
+of the latest release, plus any bugfixes that were applied since that release.</p></div>
 <div class="paragraph"><p>New features are only found in the “next” branch. Therefore, if you are working
-on a new feature, use the “next” branch. If you are working on a bugfix, use
-the “next” branch, too, but make sure your code also works on “master”.</p></div>
+on a new feature, use the “next” branch. If you are working on a bugfix, use the
+“next” branch, too, but make sure your code also works on “master”.</p></div>
 </div>
 </div>
 </div>

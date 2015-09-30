@@ -221,7 +221,25 @@ $ less latest/i3-log-for-04-floating.t</tt></pre>
 use for testing.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_ipc_interface">3.2.2. IPC interface</h4>
+<h4 id="_coverage_testing">3.2.2. Coverage testing</h4>
+<div class="paragraph"><p>Coverage testing is possible with <tt>lcov</tt>, the front-end for GCC&#8217;s coverage
+testing tool <tt>gcov</tt>. The testcases can generate a nice html report that tells
+you which functions and lines were covered during a run of the tests. You can
+use this tool to judge how effective your tests are.</p></div>
+<div class="paragraph"><p>To use test coverage tools, first compile with coverage enabled.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>COVERAGE=1 make</tt></pre>
+</div></div>
+<div class="paragraph"><p>Then run the tests with the <tt>--coverage-testing</tt> flag.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>./complete-run.pl --coverage-testing</tt></pre>
+</div></div>
+<div class="paragraph"><p>Then open <tt>latest/i3-coverage/index.html</tt> in your web browser.</p></div>
+</div>
+<div class="sect3">
+<h4 id="_ipc_interface">3.2.3. IPC interface</h4>
 <div class="paragraph"><p>The testsuite makes extensive use of the IPC (Inter-Process Communication)
 interface which i3 provides. It is used for the startup process of i3, for
 terminating it cleanly and (most importantly) for modifying and getting the
@@ -229,7 +247,7 @@ current state (layout tree).</p></div>
 <div class="paragraph"><p>See [<a href="http://i3wm.org/docs/ipc.html">http://i3wm.org/docs/ipc.html</a>] for documentation on the IPC interface.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_x11_xcb">3.2.3. X11::XCB</h4>
+<h4 id="_x11_xcb">3.2.4. X11::XCB</h4>
 <div class="paragraph"><p>In order to open new windows, change attributes, get events, etc., the
 testsuite uses X11::XCB, a new (and quite specific to i3 at the moment) Perl
 module which uses the XCB protocol description to generate Perl bindings to
