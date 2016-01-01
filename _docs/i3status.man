@@ -1,11 +1,11 @@
 i3status(1)
 ===========
 Michael Stapelberg <michael@i3wm.org>
-v2.9, March 2015
+v2.10, January 2016
 
 == NAME
 
-i3status - Generates a status line for i3bar, dzen2 or xmobar
+i3status - Generates a status line for i3bar, dzen2, xmobar or lemonbar
 
 == SYNOPSIS
 
@@ -25,7 +25,7 @@ configuration files in the following order:
 == DESCRIPTION
 
 i3status is a small program (about 1500 SLOC) for generating a status bar for
-i3bar, dzen2, xmobar or similar programs. It is designed to be very
+i3bar, dzen2, xmobar, lemonbar or similar programs. It is designed to be very
 efficient by issuing a very small number of system calls, as one generally
 wants to update such a status line every second. This ensures that even under
 high load, your status bar is updated correctly. Also, it saves a bit of energy
@@ -74,7 +74,7 @@ ethernet eth0 {
 battery 0 {
         format = "%status %percentage %remaining %emptytime"
         format_down = "No battery"
-        status_chr = "⚇ CHR""
+        status_chr = "⚇ CHR"
         status_bat = "⚡ BAT"
         status_full = "☻ FULL"
         path = "/sys/class/power_supply/BAT%d/uevent"
@@ -157,6 +157,9 @@ managers like dwm, wmii and xmonad though it will work with any windowmanger
 xmobar::
 xmobar is a minimalistic, text based, status bar. It was designed to work
 with the xmonad Window Manager.
+lemonbar::
+lemonbar is a lightweight bar based entirely on XCB. It has full UTF-8 support
+and is EWMH compliant.
 term::
 Use ANSI Escape sequences to produce a terminal-output as close as possible to
 the graphical outputs. This makes debugging your config file a little bit
@@ -180,6 +183,13 @@ module's format string. This is your only option when using the i3bar output
 format as the separator is drawn by i3bar directly otherwise. For the other
 output formats, the provided non-empty string will be automatically enclosed
 with the necessary coloring bits if color support is enabled.
+
+i3bar supports Pango markup, allowing your format strings to specify font
+color, size, etc. by setting the +markup+ directive to "pango". Note that the
+ampersand ("&"), less-than ("<"), greater-than (">"), single-quote ("'"), and
+double-quote (""") characters need to be replaced with "`&amp;`", "`&lt;`",
+"`&gt;`", "`&apos;`", and "`&quot;`" respectively. This is done automatically
+for generated content (e.g. wireless ESSID, time).
 
 *Example configuration*:
 -------------------------------------------------------------
@@ -238,8 +248,8 @@ is assumed to be "percentage_avail" and low_threshold to be set to 0, which
 implies no coloring at all.
 
 You can define a different format with the option "format_not_mounted"
-which is used if the path is not a mount point. So you can just empty
-the output for the given path with adding »format_not_mounted=""«
+which is used if the path does not exist or is not a mount point. So you can just empty
+the output for the given path with adding +format_not_mounted=""+
 to the config section.
 
 *Example order*: +disk /mnt/usbstick+
@@ -259,6 +269,8 @@ to the config section.
 Expands the given path to a pidfile and checks if the process ID found inside
 is valid (that is, if the process is running). You can use this to check if
 a specific application, such as a VPN client or your DHCP client is running.
+There also is an option "format_down". You can hide the output with
++format_down=""+.
 
 *Example order*: +run_watch DHCP+
 
@@ -268,6 +280,8 @@ a specific application, such as a VPN client or your DHCP client is running.
 
 Checks if the given path exists in the filesystem. You can use this to check if
 something is active, like for example a VPN tunnel managed by NetworkManager.
+There also is an option "format_down". You can hide the output with
++format_down=""+.
 
 *Example order*: +path_exists VPN+
 
@@ -410,6 +424,18 @@ in the +tztime+ module.
 
 *Example timezone*: +Europe/Berlin+
 
+If you would like to use markup in this section, there is a separate
++format_time+ option that is automatically escaped. Its output then replaces
+%time in the format string.
+
+*Example configuration (markup)*:
+-------------------------------------------------------------
+tztime time {
+	format = "<span foreground='#ffffff'>time:</span> %time"
+	format_time = "%H:%M %Z"
+}
+-------------------------------------------------------------
+
 === DDate
 
 Outputs the current discordian date in user-specified format. See +ddate(1)+ for
@@ -422,17 +448,31 @@ details on the format string.
 
 === Volume
 
-Outputs the volume of the specified mixer on the specified device. Works only
-on Linux because it uses ALSA.
-A simplified configuration can be used on FreeBSD and OpenBSD due to
-the lack of ALSA,  the +device+ and +mixer+ options can be
-ignored on these systems. On these systems the OSS API is used instead to
-query +/dev/mixer+ directly if +mixer_dix+ is -1, otherwise
-+/dev/mixer++mixer_idx+.
+Outputs the volume of the specified mixer on the specified device.  PulseAudio
+and ALSA (Linux only) are supported.  If PulseAudio is absent, a simplified
+configuration can be used on FreeBSD and OpenBSD due to the lack of ALSA,  the
++device+ and +mixer+ options can be ignored on these systems. On these systems
+the OSS API is used instead to query +/dev/mixer+ directly if +mixer_idx+ is
+-1, otherwise +/dev/mixer++mixer_idx+.
+
+To get PulseAudio volume information, one must use the following format in the
+device line:
+
+ device = "pulse"
+
+or
+
+ device = "pulse:N"
+
+where N is the index of the PulseAudio sink. If no sink is specified the
+default is used. If the device string is missing or is set to "default",
+PulseAudio will be tried if detected and will fallback to ALSA (Linux)
+or OSS (FreeBSD/OpenBSD).
 
 *Example order*: +volume master+
 
 *Example format*: +♪: %volume+
+
 *Example format_muted*: +♪: 0%%+
 
 *Example configuration*:
@@ -443,6 +483,14 @@ volume master {
 	device = "default"
 	mixer = "Master"
 	mixer_idx = 0
+}
+-------------------------------------------------------------
+*Example configuration (PulseAudio)*:
+-------------------------------------------------------------
+volume master {
+	format = "♪: %volume"
+	format_muted = "♪: muted (%volume)"
+	device = "pulse:1"
 }
 -------------------------------------------------------------
 
