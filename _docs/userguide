@@ -152,7 +152,7 @@ and move it to the wanted size.
 See <<resizingconfig>> for how to configure i3 to be able to resize
 columns/rows with your keyboard.
 
-=== Restarting i3 inplace
+=== Restarting i3 in place
 
 To restart i3 in place (and thus get into a clean state if there is a bug, or
 to upgrade to a newer version of i3) you can use +$mod+Shift+r+.
@@ -2236,7 +2236,7 @@ bindsym $mod+x debuglog toggle
 === Reloading/Restarting/Exiting
 
 You can make i3 reload its configuration file with +reload+. You can also
-restart i3 inplace with the +restart+ command to get it out of some weird state
+restart i3 in place with the +restart+ command to get it out of some weird state
 (if that should ever happen) or to perform an upgrade without having to restart
 your X session. To exit i3 properly, you can use the +exit+ command,
 however you don’t need to (simply killing your X session is fine as well).

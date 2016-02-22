@@ -64,7 +64,7 @@ now.
 
  • Floating now works for everything!
 
- • Your layout is now preserved when doing an inplace restart.
+ • Your layout is now preserved when doing an in place restart.
 
  • When you have an error in your config file, a new program called i3-nagbar
    will tell you so. It offers you two buttons: One to view the error in your
