@@ -62,7 +62,7 @@ keybindings (click to see the full size image):</p></div>
 </a>
 </span></p></div>
 <div class="paragraph"><p>The red keys are the modifiers you need to press (by default), the blue keys
-are your homerow.</p></div>
+are your home row.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -88,7 +88,7 @@ existing window (rotated displays).</p></div>
 <img src="two_terminals.png" alt="Two terminals" />
 </span></p></div>
 <div class="paragraph"><p>To move the focus between the two terminals, you can use the direction keys
-which you may know from the editor <tt>vi</tt>. However, in i3, your homerow is used
+which you may know from the editor <tt>vi</tt>. However, in i3, your home row is used
 for these keys (in <tt>vi</tt>, the keys are shifted to the left by one for
 compatibility with most keyboard layouts). Therefore, <tt>mod+J</tt> is left, <tt>mod+K</tt>
 is down, <tt>mod+L</tt> is up and <tt>mod+;</tt> is right. So, to switch between the
@@ -165,7 +165,7 @@ provide a menu, the escape key or a shortcut like <tt>Control+W</tt> to close), 
 can press <tt>mod+Shift+q</tt> to kill a window. For applications which support
 the WM_DELETE protocol, this will correctly close the application (saving
 any modifications or doing other cleanup). If the application doesn’t support
-the WM_DELETE protocol your X server will kill the window and the behaviour
+the WM_DELETE protocol your X server will kill the window and the behavior
 depends on the application.</p></div>
 </div>
 <div class="sect2">
@@ -191,14 +191,14 @@ it does not yet exist.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_resizing">2.8. Resizing</h3>
-<div class="paragraph"><p>The easiest way to resize a container is by using the mouse: Grab the border
+<div class="paragraph"><p>By default, you can resize a container by using the mouse: Grab the border
 and move it to the wanted size.</p></div>
-<div class="paragraph"><p>See <a href="#resizingconfig">[resizingconfig]</a> for how to configure i3 to be able to resize
+<div class="paragraph"><p>See <a href="#resizing_containers">[resizing_containers]</a> for how to configure i3 to be able to resize
 columns/rows with your keyboard.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_restarting_i3_inplace">2.9. Restarting i3 inplace</h3>
-<div class="paragraph"><p>To restart i3 inplace (and thus get into a clean state if there is a bug, or
+<h3 id="_restarting_i3_inplace">2.9. Restarting i3 in place</h3>
+<div class="paragraph"><p>To restart i3 in place (and thus get into a clean state if there is a bug, or
 to upgrade to a newer version of i3) you can use <tt>mod+Shift+r</tt>.</p></div>
 </div>
 <div class="sect2">
@@ -216,7 +216,7 @@ appropriate hint and are opened in floating mode by default.</p></div>
 dragging the window’s titlebar with your mouse you can move the window
 around. By grabbing the borders and moving them you can resize the window. You
 can also do that by using the <a href="#floating_modifier">[floating_modifier]</a>.</p></div>
-<div class="paragraph"><p>For resizing floating windows with your keyboard, see <a href="#resizingconfig">[resizingconfig]</a>.</p></div>
+<div class="paragraph"><p>For resizing floating windows with your keyboard, see <a href="#resizing_containers">[resizing_containers]</a>.</p></div>
 <div class="paragraph"><p>Floating windows are always on top of tiling windows.</p></div>
 </div>
 </div>
@@ -477,7 +477,7 @@ floating_maximum_size -1 x -1</tt></pre>
 (anything wider than high) get horizontal orientation, rotated monitors
 (anything higher than wide) get vertical orientation.</p></div>
 <div class="paragraph"><p>With the <tt>default_orientation</tt> configuration directive, you can override that
-behaviour.</p></div>
+behavior.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -818,7 +818,7 @@ Leave fullscreen mode. This is the default.
 <div class="paragraph"><p>When being in a tabbed or stacked container, the first container will be
 focused when you use <tt>focus down</tt> on the last container&#8201;&#8212;&#8201;the focus wraps. If
 however there is another stacked/tabbed container in that direction, focus will
-be set on that container. This is the default behaviour so you can navigate to
+be set on that container. This is the default behavior so you can navigate to
 all your windows without having to use <tt>focus parent</tt>.</p></div>
 <div class="paragraph"><p>If you want the focus to <strong>always</strong> wrap and you are aware of using <tt>focus
 parent</tt> to switch to different containers, you can use the
@@ -1561,7 +1561,7 @@ i3-msg 'rename workspace "1: www" to "10: www"'</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="resizingconfig">6.7. Resizing containers/windows</h3>
+<h3 id="resizing_containers">6.7. Resizing containers/windows</h3>
 <div class="paragraph"><p>If you want to resize containers/windows using your keyboard, you can use the
 <tt>resize</tt> command:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -1670,7 +1670,7 @@ bindsym mod+u border none</tt></pre>
 <div class="sect2">
 <h3 id="stack-limit">6.11. Reloading/Restarting/Exiting</h3>
 <div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
-restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
+restart i3 in place with the <tt>restart</tt> command to get it out of some weird state
 (if that should ever happen) or to perform an upgrade without having to restart
 your X session. To exit i3 properly, you can use the <tt>exit</tt> command,
 however you don’t need to (simply killing your X session is fine as well).</p></div>

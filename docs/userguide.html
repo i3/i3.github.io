@@ -63,7 +63,7 @@ keybindings (click to see the full size image):</p></div>
 </a>
 </span></p></div>
 <div class="paragraph"><p>The red keys are the modifiers you need to press (by default), the blue keys
-are your homerow.</p></div>
+are your home row.</p></div>
 <div class="paragraph"><p>Note that when starting i3 without a config file, i3-config-wizard will offer
 you to create a config file in which the key positions (!) match what you see
 in the image above, regardless of the keyboard layout you are using. If you
@@ -95,7 +95,7 @@ existing window (rotated displays).</p></div>
 <img src="two_terminals.png" alt="Two terminals" />
 </span></p></div>
 <div class="paragraph"><p>To move the focus between the two terminals, you can use the direction keys
-which you may know from the editor <tt>vi</tt>. However, in i3, your homerow is used
+which you may know from the editor <tt>vi</tt>. However, in i3, your home row is used
 for these keys (in <tt>vi</tt>, the keys are shifted to the left by one for
 compatibility with most keyboard layouts). Therefore, <tt>$mod+J</tt> is left, <tt>$mod+K</tt>
 is down, <tt>$mod+L</tt> is up and <tt>$mod+;</tt> is right. So, to switch between the
@@ -174,7 +174,7 @@ provide a menu, the escape key or a shortcut like <tt>Control+W</tt> to close), 
 can press <tt>$mod+Shift+q</tt> to kill a window. For applications which support
 the WM_DELETE protocol, this will correctly close the application (saving
 any modifications or doing other cleanup). If the application doesn’t support
-the WM_DELETE protocol your X server will kill the window and the behaviour
+the WM_DELETE protocol your X server will kill the window and the behavior
 depends on the application.</p></div>
 </div>
 <div class="sect2">
@@ -200,13 +200,13 @@ it does not yet exist.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_resizing">2.8. Resizing</h3>
-<div class="paragraph"><p>The easiest way to resize a container is by using the mouse: Grab the border
+<div class="paragraph"><p>By default, you can resize a container by using the mouse: Grab the border
 and move it to the wanted size.</p></div>
-<div class="paragraph"><p>See <a href="#resizingconfig">[resizingconfig]</a> for how to configure i3 to be able to resize
+<div class="paragraph"><p>See <a href="#resizing_containers">[resizing_containers]</a> for how to configure i3 to be able to resize
 columns/rows with your keyboard.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_restarting_i3_inplace">2.9. Restarting i3 inplace</h3>
+<h3 id="_restarting_i3_inplace">2.9. Restarting i3 in place</h3>
 <div class="paragraph"><p>To restart i3 in place (and thus get into a clean state if there is a bug, or
 to upgrade to a newer version of i3) you can use <tt>$mod+Shift+r</tt>.</p></div>
 </div>
@@ -228,7 +228,7 @@ dragging the window’s titlebar with your mouse you can move the window
 around. By grabbing the borders and moving them you can resize the window. You
 can also do that by using the <a href="#floating_modifier">[floating_modifier]</a>. Another way to resize
 floating windows using the mouse is to right-click on the titlebar and drag.</p></div>
-<div class="paragraph"><p>For resizing floating windows with your keyboard, see <a href="#resizingconfig">[resizingconfig]</a>.</p></div>
+<div class="paragraph"><p>For resizing floating windows with your keyboard, see <a href="#resizing_containers">[resizing_containers]</a>.</p></div>
 <div class="paragraph"><p>Floating windows are always on top of tiling windows.</p></div>
 </div>
 </div>
@@ -1574,7 +1574,7 @@ workspaces to "1:I", "2:II", "3:III", "4:IV", &#8230;</p></div>
 <div class="paragraph"><p>Specifies whether the current binding mode indicator should be shown or not.
 This is useful if you want to hide the workspace buttons but still be able
 to see the current binding mode indicator.
-For an example of a <tt>mode</tt> definition, see <a href="#resizingconfig">[resizingconfig]</a>.</p></div>
+For an example of a <tt>mode</tt> definition, see <a href="#resizing_containers">[resizing_containers]</a>.</p></div>
 <div class="paragraph"><p>The default is to show the mode indicator.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -2241,7 +2241,7 @@ after the currently focused child within that container.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="resizingconfig">6.11. Resizing containers/windows</h3>
+<h3 id="resizing_containers">6.11. Resizing containers/windows</h3>
 <div class="paragraph"><p>If you want to resize containers/windows using your keyboard, you can use the
 <tt>resize</tt> command:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -2435,7 +2435,7 @@ shmlog on|off|toggle</tt></pre>
 <pre><tt># Enable/disable logging
 bindsym $mod+x shmlog toggle
 
-# or, from a terminal:
+# or from a terminal:
 # increase the shared memory log buffer to 50 MiB
 i3-msg shmlog $((50*1024*1024))</tt></pre>
 </div></div>
@@ -2461,7 +2461,7 @@ bindsym $mod+x debuglog toggle</tt></pre>
 <div class="sect2">
 <h3 id="_reloading_restarting_exiting">6.18. Reloading/Restarting/Exiting</h3>
 <div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
-restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
+restart i3 in place with the <tt>restart</tt> command to get it out of some weird state
 (if that should ever happen) or to perform an upgrade without having to restart
 your X session. To exit i3 properly, you can use the <tt>exit</tt> command,
 however you don’t need to (simply killing your X session is fine as well).</p></div>

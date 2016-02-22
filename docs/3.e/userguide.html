@@ -65,7 +65,7 @@ keybindings (click to see the full size image):</p></div>
 keyboard layout you actually use. The key positions are what matters (of course
 you can also use keysymbols, see <a href="#keybindings">[keybindings]</a>).</p></div>
 <div class="paragraph"><p>The red keys are the modifiers you need to press (by default), the blue keys
-are your homerow.</p></div>
+are your home row.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -92,7 +92,7 @@ the size of the cell that holds them.</p></div>
 <img src="two_terminals.png" alt="Two terminals" />
 </span></p></div>
 <div class="paragraph"><p>To move the focus between the two terminals, you use the direction keys which
-you may know from the editor <tt>vi</tt>. However, in i3, your homerow is used for
+you may know from the editor <tt>vi</tt>. However, in i3, your home row is used for
 these keys (in <tt>vi</tt>, the keys are shifted to the left by one for compatibility
 with most keyboard layouts). Therefore, <tt>Mod1+J</tt> is left, <tt>Mod1+K</tt> is down,
 <tt>Mod1+L</tt> is up and <tt>Mod1+;</tt> is right. So, to switch between the terminals,
@@ -166,7 +166,7 @@ provide a menu, the escape key or a shortcut like <tt>Control+W</tt> to close), 
 can press <tt>Mod1+Shift+q</tt> to kill a window. For applications which support
 the WM_DELETE protocol, this will correctly close the application (saving
 any modifications or doing other cleanup). If the application doesn’t support
-the WM_DELETE protocol your X server will kill the window and the behaviour
+the WM_DELETE protocol your X server will kill the window and the behavior
 depends on the application.</p></div>
 </div>
 <div class="sect2">
@@ -197,12 +197,12 @@ and move it to the wanted size. Please keep in mind that each cell of the table
 holds a <tt>container</tt> and thus you cannot horizontally resize single windows.  If
 you need applications with different horizontal sizes, place them in seperate
 cells one above the other.</p></div>
-<div class="paragraph"><p>See <a href="#resizingconfig">[resizingconfig]</a> for how to configure i3 to be able to resize
+<div class="paragraph"><p>See <a href="#resizing_containers">[resizing_containers]</a> for how to configure i3 to be able to resize
 columns/rows with your keyboard.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_restarting_i3_inplace">2.9. Restarting i3 inplace</h3>
-<div class="paragraph"><p>To restart i3 inplace (and thus get into a clean state if there is a bug, or
+<h3 id="_restarting_i3_inplace">2.9. Restarting i3 in place</h3>
+<div class="paragraph"><p>To restart i3 in place (and thus get into a clean state if there is a bug, or
 to upgrade to a newer version of i3) you can use <tt>Mod1+Shift+r</tt>. Be aware,
 though, that this kills your current layout and all the windows you have opened
 will be put in a default container in only one cell. Saving layouts will be
@@ -234,7 +234,7 @@ windows, or toolbar windows (GIMP or similar).</p></div>
 dragging the window’s titlebar with your mouse you can move the window
 around. By grabbing the borders and moving them you can resize the window. You
 can also do that by using the <a href="#floating_modifier">[floating_modifier]</a>.</p></div>
-<div class="paragraph"><p>For resizing floating windows with your keyboard, see <a href="#resizingconfig">[resizingconfig]</a>.</p></div>
+<div class="paragraph"><p>For resizing floating windows with your keyboard, see <a href="#resizing_containers">[resizing_containers]</a>.</p></div>
 <div class="paragraph"><p>Floating windows are always on top of tiling windows.</p></div>
 </div>
 </div>
@@ -743,7 +743,7 @@ bindsym Mod1+p pw</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="resizingconfig">4.4. Resizing columns/rows</h3>
+<h3 id="resizing_containers">4.4. Resizing columns/rows</h3>
 <div class="paragraph"><p>If you want to resize columns/rows using your keyboard, you can use the
 <tt>resize</tt> command, I recommend using it inside a so called <tt>mode</tt>:</p></div>
 <div class="listingblock">
@@ -912,7 +912,7 @@ stack-limit rows 5</tt></pre>
 <div class="sect2">
 <h3 id="_reloading_restarting_exiting">4.10. Reloading/Restarting/Exiting</h3>
 <div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
-restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
+restart i3 in place with the <tt>restart</tt> command to get it out of some weird state
 (if that should ever happen) or to perform an upgrade without having to restart
 your X session. However, your layout is not preserved at the moment, meaning
 that all open windows will end up in a single container in default layout
