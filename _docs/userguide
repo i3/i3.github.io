@@ -146,7 +146,7 @@ it does not yet exist.
 
 === Resizing
 
-The easiest way to resize a container is by using the mouse: Grab the border
+By default, you can resize a container by using the mouse: Grab the border
 and move it to the wanted size.
 
 See <<resizingconfig>> for how to configure i3 to be able to resize
