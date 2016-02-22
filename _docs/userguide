@@ -21,7 +21,7 @@ image:keyboard-layer1.png["Keys to use with $mod (Alt)",width=600,link="keyboard
 image:keyboard-layer2.png["Keys to use with Shift+$mod",width=600,link="keyboard-layer2.png"]
 
 The red keys are the modifiers you need to press (by default), the blue keys
-are your homerow.
+are your home row.
 
 Note that when starting i3 without a config file, i3-config-wizard will offer
 you to create a config file in which the key positions (!) match what you see
@@ -53,7 +53,7 @@ existing window (rotated displays).
 image:two_terminals.png[Two terminals]
 
 To move the focus between the two terminals, you can use the direction keys
-which you may know from the editor +vi+. However, in i3, your homerow is used
+which you may know from the editor +vi+. However, in i3, your home row is used
 for these keys (in +vi+, the keys are shifted to the left by one for
 compatibility with most keyboard layouts). Therefore, +$mod+J+ is left, +$mod+K+
 is down, +$mod+L+ is up and `$mod+;` is right. So, to switch between the

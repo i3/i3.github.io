@@ -92,7 +92,7 @@ are connected to these outputs.
 Here is a short overview of the default keybindings:
 
 j/k/l/;::
-Direction keys (left, down, up, right). They are on your homerow (see the mark
+Direction keys (left, down, up, right). They are on your home row (see the mark
 on your "j" key). Alternatively, you can use the cursor keys.
 
 Mod1+<direction>::
