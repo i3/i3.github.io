@@ -947,6 +947,32 @@ separator
 </p>
 </dd>
 <dt class="hdlist1">
+focused_background
+</dt>
+<dd>
+<p>
+        Background color of the bar on the currently focused monitor output.
+</p>
+</dd>
+<dt class="hdlist1">
+focused_statusline
+</dt>
+<dd>
+<p>
+        Text color to be used for the statusline on the currently focused
+        monitor output.
+</p>
+</dd>
+<dt class="hdlist1">
+focused_separator
+</dt>
+<dd>
+<p>
+        Text color to be used for the separator on the currently focused
+        monitor output.
+</p>
+</dd>
+<dt class="hdlist1">
 focused_workspace_text/focused_workspace_bg/focused_workspace_border
 </dt>
 <dd>
@@ -1238,11 +1264,15 @@ property.</p></div>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
 <tt>change (string)</tt> which holds the name of current mode in use. The name
 is the same as specified in config when creating a mode. The default
-mode is simply named default.</p></div>
+mode is simply named default. It contains a second property, <tt>pango_markup</tt>, which
+defines whether pango markup shall be used for displaying this mode.</p></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>{ "change": "default" }</tt></pre>
+<pre><tt>{
+  "change": "default",
+  "pango_markup": true
+}</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -1408,6 +1438,18 @@ i3 includes a headerfile <tt>i3/ipc.h</tt> which provides you all constants.
 <li>
 <p>
 <a href="https://github.com/acrisci/i3ipc-glib">https://github.com/acrisci/i3ipc-glib</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+C++
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/drmgc/i3ipcpp">https://github.com/drmgc/i3ipcpp</a>
 </p>
 </li>
 </ul></div>
