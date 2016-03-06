@@ -1,0 +1,269 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
+<title>i3: Tree branch: Migrating</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="http://bugs.i3wm.org/">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>Tree branch: Migrating</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
+<span id="revdate">November 2010</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The tree branch (referring to a branch of i3 in the git repository) is the new
+version of i3. Due to the very deep changes and heavy refactoring of the source
+source, we decided to develop it in a seperate branch (instead of using the
+next/master-branch system like before).</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_current_status">2. Current status</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Currently, the code is mostly working. Some of the i3 core developers have been
+using the tree branch version for a few weeks now. So, if you are eager to try
+out the new features and help us find bugs, give it a try!</p></div>
+<div class="paragraph"><p>At the same time, a word of warning is appropriate: This version of i3 might
+crash unexpectedly, so please be careful with important data (do not work for
+two days without saving…).</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_getting_the_latest_tree_branch_version">3. Getting the latest tree branch version</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Check out the latest version:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ git clone -b tree git://code.stapelberg.de/i3</tt></pre>
+</div></div>
+<div class="paragraph"><p>Then build and install it (has the same dependencies as the latest stable i3
+version):</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ cd i3
+$ make
+$ sudo cp i3 /usr/bin/i3-tree</tt></pre>
+</div></div>
+<div class="paragraph"><p>…and execute <tt>i3-tree</tt> instead of <tt>i3</tt> in your Xsession.</p></div>
+<div class="paragraph"><p><strong>IMPORTANT:</strong> Please note that configuration file compatibility is not yet done.
+So, make sure you use/customize the provided <tt>i3.config</tt> file.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_tree">4. Tree</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The most important change and reason for the name is that i3 stores all
+information about the X11 outputs, workspaces and layout of the windows on them
+in a tree. The root node is the X11 root window, followed by the X11 outputs,
+then workspaces and finally the windows themselve. In previous versions of i3
+we had multiple lists (of outputs, workspaces) and a table for each workspace.
+That approach turned out to be complicated to use (snapping), understand and
+implement.</p></div>
+<div class="sect2">
+<h3 id="_the_tree_consists_of_containers">4.1. The tree consists of Containers</h3>
+<div class="paragraph"><p>The building blocks of our tree are so called <tt>Containers</tt>. A <tt>Container</tt> can
+host a window (meaning an X11 window, one that you can actually see and use,
+like a browser). Alternatively, it could contain one or more <tt>Containers</tt>. A
+simple example is the workspace: When you start i3 with a single monitor, a
+single workspace and you open two terminal windows, you will end up with a tree
+like this:</p></div>
+<div class="imageblock" style="float:right;">
+<div class="content">
+<img src="tree-layout2.png" alt="layout2" />
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="tree-shot4.png" alt="shot4" />
+</div>
+<div class="title">Figure 1. Two terminals on standard workspace</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_orientation_and_split_containers">4.2. Orientation and Split Containers</h3>
+<div class="paragraph" id="OrientationSplit"><p>It is only natural to use so-called <tt>Split Containers</tt> in order to build a
+layout when using a tree as data structure. In i3, every <tt>Container</tt> has an
+orientation (horizontal, vertical or unspecified). So, in our example with the
+workspace, the default orientation of the workspace <tt>Container</tt> is horizontal
+(most monitors are widescreen nowadays). If you change the orientation to
+vertical (<tt>Alt+v</tt> in the default config) and <strong>then</strong> open two terminals, i3 will
+configure your windows like this:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="tree-shot2.png" alt="shot2" />
+</div>
+<div class="title">Figure 2. Vertical Workspace Orientation</div>
+</div>
+<div class="paragraph"><p>An interesting new feature of the tree branch is the ability to split anything:
+Let’s assume you have two terminals on a workspace (with horizontal
+orientation), focus is on the right terminal. Now you want to open another
+terminal window below the current one. If you would just open a new terminal
+window, it would show up to the right due to the horizontal workspace
+orientation. Instead, press <tt>Alt+v</tt> to create a <tt>Vertical Split Container</tt> (to
+open a <tt>Horizontal Split Container</tt>, use <tt>Alt+h</tt>). Now you can open a new
+terminal and it will open below the current one:</p></div>
+<div class="imageblock" style="float:right;">
+<div class="content">
+<img src="tree-layout1.png" alt="Layout" />
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="tree-shot1.png" alt="shot" />
+</div>
+<div class="title">Figure 3. Vertical Split Container</div>
+</div>
+<div style="clear:both;"></div>
+<div class="paragraph"><p>You probably guessed it already: There is no limit on how deep your hierarchy
+of splits can be.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_level_up">4.3. Level up</h3>
+<div class="paragraph"><p>Let’s stay with our example from above. We have a terminal on the left and two
+vertically split terminals on the right, focus is on the bottom right one. When
+you open a new terminal, it will open below the current one.</p></div>
+<div class="paragraph"><p>So, how can you open a new terminal window to the <strong>right</strong> of the current one?
+The solution is to use <tt>level up</tt>, which will focus the <tt>Parent Container</tt> of
+the current <tt>Container</tt>. In this case, you would focus the <tt>Vertical Split
+Container</tt> which is <strong>inside</strong> the horizontally oriented workspace. Thus, now new
+windows will be opened to the right of the <tt>Vertical Split Container</tt>:</p></div>
+<div class="imageblock">
+<div class="content">
+<img src="tree-shot3.png" alt="shot3" />
+</div>
+<div class="title">Figure 4. Level Up, then open new terminal</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_commands">5. Commands</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The authoritive reference for commands is <tt>src/cmdparse.y</tt>. You can also find
+most commands in <tt>i3.config</tt>. Here comes a short overview over the important
+commands:</p></div>
+<div class="sect2">
+<h3 id="_manipulating_layout">5.1. Manipulating layout</h3>
+<div class="listingblock">
+<div class="content">
+<pre><tt>layout &lt;default|stacked|tabbed&gt;</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_changing_focus">5.2. Changing Focus</h3>
+<div class="listingblock">
+<div class="content">
+<pre><tt>next &lt;horizontal|vertical&gt;
+prev &lt;horizontal|vertical&gt;</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="title">Examples:</div>
+<div class="content">
+<pre><tt>bindsym Mod1+Left prev h
+bindsym Mod1+Right next h
+bindsym Mod1+Down next v
+bindsym Mod1+Up prev v</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_moving">5.3. Moving</h3>
+<div class="listingblock">
+<div class="content">
+<pre><tt>move &lt;before|after&gt; &lt;horizontal|vertical&gt;</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="title">Examples:</div>
+<div class="content">
+<pre><tt>bindsym Mod1+Shift+Left move before h
+bindsym Mod1+Shift+Right move after h
+bindsym Mod1+Shift+Down move before v
+bindsym Mod1+Shift+Up move after v</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_changing_workspace">5.4. Changing workspace</h3>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace &lt;name&gt;</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="title">Examples:</div>
+<div class="content">
+<pre><tt>bindsym Mod1+1 workspace 1
+bindsym Mod1+2 workspace 2
+…</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_moving_containers_to_workspaces">5.5. Moving Containers to workspaces</h3>
+<div class="listingblock">
+<div class="content">
+<pre><tt>move workspace &lt;name&gt;</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym Mod1+Shift+1 move workspace 1
+bindsym Mod1+Shift+2 move workspace 2
+…</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_changing_border_style">5.6. Changing border style</h3>
+<div class="listingblock">
+<div class="content">
+<pre><tt>border &lt;normal|none|1pixel&gt;</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_changing_container_mode">5.7. Changing container mode</h3>
+<div class="listingblock">
+<div class="content">
+<pre><tt>mode &lt;tiling|floating|toggle&gt;</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_rest">6. The rest</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>What is not mentioned here explicitly is either unchanged and can be read in
+the <a href="http://i3.zekjur.net/docs/userguide.html">i3 User’s Guide</a> or it is not yet
+implemented.</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>
