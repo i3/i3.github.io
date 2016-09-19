@@ -28,7 +28,8 @@ The script uses i3's <a href="http://i3wm.org/docs/ipc.html">IPC</a> via the
 <pre><tt>#!/usr/bin/python2.7
 
 import i3
-outputs = i3.get_outputs()
+# retrieve only active outputs
+outputs = filter(lambda output: output[&#39;active&#39;], i3.get_outputs())
 
 # set current workspace to output 0
 i3.workspace(outputs[0][&#39;current_workspace&#39;])
