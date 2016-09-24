@@ -52,7 +52,7 @@ This Ubuntu repository contains packages which are automatically built a few
 minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-# echo 'deb http://dl.bintray.com/i3/i3-autobuild-ubuntu wily main' > /etc/apt/sources.list.d/i3-autobuild.list
+# echo 'deb http://dl.bintray.com/i3/i3-autobuild-ubuntu xenial main' > /etc/apt/sources.list.d/i3-autobuild.list
 # apt-get update
 # apt-get --allow-unauthenticated install i3-autobuild-keyring
 # rm -f /var/lib/apt/lists/dl.bintray.com_i3_i3-autobuild-ubuntu_*
@@ -61,7 +61,7 @@ minutes after every commit. To use it, run the following commands:
 ---------------------------------------------------------------------------------
 
 Development versions are only available for the latest version of Ubuntu, which
-is wily at the moment.
+is xenial at the moment.
 
 == Debian repository
 
