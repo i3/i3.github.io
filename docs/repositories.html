@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes();},
 <h1>Debian and Ubuntu repositories</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">April 2016</span>
+<span id="revdate">September 2016</span>
 </div>
 <div class="sect1">
 <h2 id="_when_should_you_use_our_repositories">1. When should you use our repositories?</h2>
@@ -106,6 +106,7 @@ minutes after every commit. To use it, run the following commands:</p></div>
 <pre><tt># echo 'deb http://dl.bintray.com/i3/i3-autobuild-ubuntu wily main' &gt; /etc/apt/sources.list.d/i3-autobuild.list
 # apt-get update
 # apt-get --allow-unauthenticated install i3-autobuild-keyring
+# rm -f /var/lib/apt/lists/dl.bintray.com_i3_i3-autobuild-ubuntu_*
 # apt-get update
 # apt-get install i3</tt></pre>
 </div></div>
@@ -124,6 +125,7 @@ minutes after every commit. To use it, run the following commands:</p></div>
 <pre><tt># echo 'deb http://dl.bintray.com/i3/i3-autobuild sid main' &gt; /etc/apt/sources.list.d/i3-autobuild.list
 # apt-get update
 # apt-get --allow-unauthenticated install i3-autobuild-keyring
+# rm -f /var/lib/apt/lists/dl.bintray.com_i3_i3-autobuild-ubuntu_*
 # apt-get update
 # apt-get install i3</tt></pre>
 </div></div>
