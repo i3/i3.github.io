@@ -170,6 +170,14 @@ GET_VERSION (7)
         with the major, minor, patch and human-readable version.
 </p>
 </dd>
+<dt class="hdlist1">
+GET_BINDING_MODES (8)
+</dt>
+<dd>
+<p>
+        Gets a list of currently configured binding modes.
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p>So, a typical message could look like this:</p></div>
 <div class="listingblock">
@@ -274,6 +282,14 @@ VERSION (7)
 <dd>
 <p>
         Reply to the GET_VERSION message.
+</p>
+</dd>
+<dt class="hdlist1">
+BINDING_MODES (8)
+</dt>
+<dd>
+<p>
+        Reply to the GET_BINDING_MODES message.
 </p>
 </dd>
 </dl></div>
@@ -515,7 +531,7 @@ border (string)
 </dt>
 <dd>
 <p>
-        Can be either "normal", "none" or "1pixel", dependending on the
+        Can be either "normal", "none" or "pixel", depending on the
         container’s border style.
 </p>
 </dd>
@@ -1109,6 +1125,15 @@ loaded_config_file_name (string)
 }</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_binding_modes_reply">3.10. BINDING_MODES reply</h3>
+<div class="paragraph"><p>The reply consists of an array of all currently configured binding modes.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>["default", "resize"]</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1282,42 +1307,47 @@ defines whether pango markup shall be used for displaying this mode.</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-<tt>new</tt> - the window has become managed by i3
+<tt>new</tt> – the window has become managed by i3
 </p>
 </li>
 <li>
 <p>
-<tt>close</tt> - the window has closed
+<tt>close</tt> – the window has closed
 </p>
 </li>
 <li>
 <p>
-<tt>focus</tt> - the window has received input focus
+<tt>focus</tt> – the window has received input focus
 </p>
 </li>
 <li>
 <p>
-<tt>title</tt> - the window&#8217;s title has changed
+<tt>title</tt> – the window&#8217;s title has changed
 </p>
 </li>
 <li>
 <p>
-<tt>fullscreen_mode</tt> - the window has entered or exited fullscreen mode
+<tt>fullscreen_mode</tt> – the window has entered or exited fullscreen mode
 </p>
 </li>
 <li>
 <p>
-<tt>move</tt> - the window has changed its position in the tree
+<tt>move</tt> – the window has changed its position in the tree
 </p>
 </li>
 <li>
 <p>
-<tt>floating</tt> - the window has transitioned to or from floating
+<tt>floating</tt> – the window has transitioned to or from floating
 </p>
 </li>
 <li>
 <p>
-<tt>urgent</tt> - the window has become urgent or lost its urgent status
+<tt>urgent</tt> – the window has become urgent or lost its urgent status
+</p>
+</li>
+<li>
+<p>
+<tt>mark</tt> – a mark has been added to or removed from the window
 </p>
 </li>
 </ul></div>

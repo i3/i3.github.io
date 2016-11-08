@@ -171,7 +171,7 @@ always be found under the symlink <tt>latest/</tt>. Unless told differently, it 
 run the tests on a separate X server instance (using Xephyr).</p></div>
 <div class="paragraph"><p>Xephyr will open a window where you can inspect the running test. You can run
 the tests without an X session with Xvfb, such as with <tt>xvfb-run
-./complete-run</tt>. This will also speed up the tests signficantly especially on
+./complete-run</tt>. This will also speed up the tests significantly especially on
 machines without a powerful video card.</p></div>
 <div class="listingblock">
 <div class="title">Example invocation of complete-run.pl+</div>
@@ -252,7 +252,7 @@ current state (layout tree).</p></div>
 testsuite uses X11::XCB, a new (and quite specific to i3 at the moment) Perl
 module which uses the XCB protocol description to generate Perl bindings to
 X11. They work in a very similar way to libxcb (which i3 uses) and provide
-relatively high-level interfaces (objects such as <tt>X11::XCB::Window</tt>) aswell as
+relatively high-level interfaces (objects such as <tt>X11::XCB::Window</tt>) as well as
 access to the low-level interface, which is very useful when testing a window
 manager.</p></div>
 </div>
@@ -492,7 +492,7 @@ my $right = open_window($x);
 cmd 'focus left';
 is($x-&gt;input_focus, $left-&gt;id, 'left window focused');</tt></pre>
 </div></div>
-<div class="paragraph"><p>However, the test fails. Sometimes. Apparantly, there is a race condition in
+<div class="paragraph"><p>However, the test fails. Sometimes. Apparently, there is a race condition in
 your test. If you think about it, this is because you are using two different
 pieces of software: You tell i3 to update focus, i3 confirms that, and then you
 ask X11 to give you the current focus. There is a certain time i3 needs to
@@ -665,7 +665,7 @@ activation, we decreased the total amount of time necessary to run all tests
 (72 files at the time of writing) from &gt; 100 seconds to 16 seconds. This makes
 it significantly more attractive to run the test suite more often (or at all)
 during development.</p></div>
-<div class="paragraph"><p>An alternative approach to using socket activation is polling for the existance
+<div class="paragraph"><p>An alternative approach to using socket activation is polling for the existence
 of the IPC socket and connecting to it. While this might be slightly easier to
 implement, it wastes CPU time and is considerably uglier than this solution
 :). After all, <tt>lib/SocketActivation.pm</tt> contains only 54 SLOC.</p></div>
