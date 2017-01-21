@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <h1>i3status(1)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revnumber">version 2.10,</span>
-<span id="revdate">January 2016</span>
+<span id="revnumber">version 2.11,</span>
+<span id="revdate">January 2017</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -66,22 +66,22 @@ configuration files in the following order:
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
-~/.i3status.conf
-</p>
-</li>
-<li>
-<p>
 ~/.config/i3status/config (or $XDG_CONFIG_HOME/i3status/config if set)
 </p>
 </li>
 <li>
 <p>
-/etc/i3status.conf
+/etc/xdg/i3status/config (or $XDG_CONFIG_DIRS/i3status/config if set)
 </p>
 </li>
 <li>
 <p>
-/etc/xdg/i3status/config (or $XDG_CONFIG_DIRS/i3status/config if set)
+~/.i3status.conf
+</p>
+</li>
+<li>
+<p>
+/etc/i3status.conf
 </p>
 </li>
 </ol></div>
@@ -144,8 +144,9 @@ ethernet eth0 {
 battery 0 {
         format = "%status %percentage %remaining %emptytime"
         format_down = "No battery"
-        status_chr = "⚇ CHR"
-        status_bat = "⚡ BAT"
+        status_chr = "⚡ CHR"
+        status_bat = "🔋 BAT"
+        status_unk = "? UNK"
         status_full = "☻ FULL"
         path = "/sys/class/power_supply/BAT%d/uevent"
         low_threshold = 10
@@ -359,16 +360,16 @@ prefix_type. So, if you configure low_threshold to 2, threshold_type to
 "gbytes_avail", and prefix_type to "binary", and the remaining available disk
 space is below 2 GiB, it will be colored bad. If not specified, threshold_type
 is assumed to be "percentage_avail" and low_threshold to be set to 0, which
-implies no coloring at all.</p></div>
+implies no coloring at all. You can customize the output format when below
+low_threshold with format_below_threshold.</p></div>
 <div class="paragraph"><p>You can define a different format with the option "format_not_mounted"
-which is used if the path does not exist or is not a mount point. So you can just empty
-the output for the given path with adding <tt>format_not_mounted=""</tt>
-to the config section.</p></div>
+which is used if the path does not exist or is not a mount point. Defaults to "".</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>disk /mnt/usbstick</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%free (%avail)/ %total</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%percentage_used used, %percentage_free free, %percentage_avail avail</tt></p></div>
 <div class="paragraph"><p><strong>Example prefix_type</strong>: <tt>custom</tt></p></div>
 <div class="paragraph"><p><strong>Example low_threshold</strong>: <tt>5</tt></p></div>
+<div class="paragraph"><p><strong>Example format_below_threshold</strong>: <tt>Warning: %percentage_avail</tt></p></div>
 <div class="paragraph"><p><strong>Example threshold_type</strong>: <tt>percentage_free</tt></p></div>
 </div>
 <div class="sect2">
@@ -412,7 +413,7 @@ network interface found on the system (excluding devices starting with "lo").</p
 </div>
 <div class="sect2">
 <h3 id="_battery">5.8. Battery</h3>
-<div class="paragraph"><p>Gets the status (charging, discharging, running), percentage, remaining
+<div class="paragraph"><p>Gets the status (charging, discharging, unknown, full), percentage, remaining
 time and power consumption (in Watts) of the given battery and when it&#8217;s
 estimated to be empty. If you want to use the last full capacity instead of the
 design capacity (when using the design capacity, it may happen that your
@@ -424,53 +425,80 @@ empty time estimations by setting <tt>hide_seconds = true</tt>.</p></div>
 <tt>integer_battery_capacity = true</tt>.</p></div>
 <div class="paragraph"><p>If your battery is represented in a non-standard path in /sys, be sure to
 modify the "path" property accordingly, i.e. pointing to the uevent file on
-your system. The first occurence of %d gets replaced with the battery number,
+your system. The first occurrence of %d gets replaced with the battery number,
 but you can just hard-code a path as well.</p></div>
 <div class="paragraph"><p>It is possible to define a low_threshold that causes the battery text to be
 colored red. The low_threshold type can be of threshold_type "time" or
 "percentage". So, if you configure low_threshold to 10 and threshold_type to
 "time", and your battery lasts another 9 minutes, it will be colored red.</p></div>
+<div class="paragraph"><p>To show an aggregate of all batteries in the system, use "all" as the number. In
+this case (for Linux), the /sys path must contain the "%d" sequence. Otherwise,
+the number indicates the battery index as reported in /sys.</p></div>
 <div class="paragraph"><p>Optionally custom strings including any UTF-8 symbols can be used for different
 battery states. This makes it possible to display individual symbols
-for each state (charging, discharging, full)
+for each state (charging, discharging, unknown, full)
 Of course it will also work with special iconic fonts, such as FontAwesome.
-If any of this special status strings is omitted, the default (CHR, BAT, FULL)
-is used.</p></div>
-<div class="paragraph"><p><strong>Example order</strong>: <tt>battery 0</tt></p></div>
+If any of these special status strings are omitted, the default (CHR, BAT, UNK,
+FULL) is used.</p></div>
+<div class="paragraph"><p><strong>Example order (for the first battery)</strong>: <tt>battery 0</tt></p></div>
+<div class="paragraph"><p><strong>Example order (aggregate of all batteries)</strong>: <tt>battery all</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%status %remaining (%emptytime %consumption)</tt></p></div>
 <div class="paragraph"><p><strong>Example format_down</strong>: <tt>No battery</tt></p></div>
-<div class="paragraph"><p><strong>Example status_chr</strong>: <tt>⚇ CHR</tt></p></div>
-<div class="paragraph"><p><strong>Example status_bat</strong>: <tt>⚡ BAT</tt></p></div>
+<div class="paragraph"><p><strong>Example status_chr</strong>: <tt>⚡ CHR</tt></p></div>
+<div class="paragraph"><p><strong>Example status_bat</strong>: <tt>🔋 BAT</tt></p></div>
+<div class="paragraph"><p><strong>Example status_unk</strong>: <tt>? UNK</tt></p></div>
 <div class="paragraph"><p><strong>Example status_full</strong>: <tt>☻ FULL</tt></p></div>
 <div class="paragraph"><p><strong>Example low_threshold</strong>: <tt>30</tt></p></div>
 <div class="paragraph"><p><strong>Example threshold_type</strong>: <tt>time</tt></p></div>
-<div class="paragraph"><p><strong>Example path</strong>: <tt>/sys/class/power_supply/CMB1/uevent</tt></p></div>
+<div class="paragraph"><p><strong>Example path (%d replaced by title number)</strong>: <tt>/sys/class/power_supply/CMB%d/uevent</tt></p></div>
+<div class="paragraph"><p><strong>Example path (ignoring the number)</strong>: <tt>/sys/class/power_supply/CMB1/uevent</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_cpu_temperature">5.9. CPU-Temperature</h3>
 <div class="paragraph"><p>Gets the temperature of the given thermal zone. It is possible to
 define a max_threshold that will color the temperature red in case the
-specified thermal zone is getting too hot. Defaults to 75 degrees C.</p></div>
+specified thermal zone is getting too hot. Defaults to 75 degrees C. The
+output format when above max_threshold can be customized with
+format_above_threshold.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_temperature 0</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>T: %degrees °C</tt></p></div>
 <div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>42</tt></p></div>
+<div class="paragraph"><p><strong>Example format_above_threshold</strong>: <tt>Warning T above threshold: %degrees °C</tt></p></div>
 <div class="paragraph"><p><strong>Example path</strong>: <tt>/sys/devices/platform/coretemp.0/temp1_input</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_cpu_usage">5.10. CPU Usage</h3>
-<div class="paragraph"><p>Gets the percentual CPU usage from <tt>/proc/stat</tt> (Linux) or <tt>sysctl(3)</tt> (FreeBSD/OpenBSD).</p></div>
+<div class="paragraph"><p>Gets the percentual CPU usage from <tt>/proc/stat</tt> (Linux) or <tt>sysctl(3)</tt>
+(FreeBSD/OpenBSD).</p></div>
+<div class="paragraph"><p>It is possible to define a max_threshold that will color the load
+value red in case the CPU average over the last interval is getting
+higher than the configured threshold. Defaults to 95. The output
+format when above max_threshold can be customized with
+format_above_threshold.</p></div>
+<div class="paragraph"><p>It is possible to define a degraded_threshold that will color the load
+value yellow in case the CPU average over the last interval is getting
+higher than the configured threshold.  Defaults to 90. The output format
+when above degraded threshold can be customized with
+format_above_degraded_threshold.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_usage</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%usage</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>75</tt></p></div>
+<div class="paragraph"><p><strong>Example format_above_threshold</strong>: <tt>Warning above threshold: %usage</tt></p></div>
+<div class="paragraph"><p><strong>Example degraded_threshold</strong>: <tt>25</tt></p></div>
+<div class="paragraph"><p><strong>Example format_above_degraded_threshold</strong>: <tt>Warning above degraded threshold: %usage</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_load">5.11. Load</h3>
 <div class="paragraph"><p>Gets the system load (number of processes waiting for CPU time in the last
 1, 5 and 15 minutes). It is possible to define a max_threshold that will
 color the load value red in case the load average of the last minute is
-getting higher than the configured threshold. Defaults to 5.</p></div>
+getting higher than the configured threshold. Defaults to 5. The output
+format when above max_threshold can be customized with
+format_above_threshold.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>load</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%1min %5min %15min</tt></p></div>
 <div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>"0,1"</tt></p></div>
+<div class="paragraph"><p><strong>Example format_above_threshold</strong>: <tt>Warning: %1min %5min %15min</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_time">5.12. Time</h3>
@@ -489,19 +517,22 @@ See <tt>strftime(3)</tt> for details on the format string.
 The system&#8217;s timezone database is usually installed in <tt>/usr/share/zoneinfo</tt>.
 Files below that path make for valid timezone strings, e.g. for
 <tt>/usr/share/zoneinfo/Europe/Berlin</tt> you can set timezone to <tt>Europe/Berlin</tt>
-in the <tt>tztime</tt> module.</p></div>
+in the <tt>tztime</tt> module.
+To override the locale settings of your environment, set the <tt>locale</tt> option.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>tztime berlin</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S %Z</tt></p></div>
 <div class="paragraph"><p><strong>Example timezone</strong>: <tt>Europe/Berlin</tt></p></div>
+<div class="paragraph"><p><strong>Example locale</strong>: <tt>de_DE.UTF-8</tt></p></div>
 <div class="paragraph"><p>If you would like to use markup in this section, there is a separate
 <tt>format_time</tt> option that is automatically escaped. Its output then replaces
 %time in the format string.</p></div>
 <div class="paragraph"><p><strong>Example configuration (markup)</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>tztime time {
+<pre><tt>tztime berlin {
         format = "&lt;span foreground='#ffffff'&gt;time:&lt;/span&gt; %time"
         format_time = "%H:%M %Z"
+        timezone = "Europe/Berlin"
 }</tt></pre>
 </div></div>
 </div>
@@ -532,10 +563,17 @@ device line:</p></div>
 <div class="content">
 <pre><tt>device = "pulse:N"</tt></pre>
 </div></div>
-<div class="paragraph"><p>where N is the index of the PulseAudio sink. If no sink is specified the
-default is used. If the device string is missing or is set to "default",
-PulseAudio will be tried if detected and will fallback to ALSA (Linux)
-or OSS (FreeBSD/OpenBSD).</p></div>
+<div class="paragraph"><p>where N is the index or name of the PulseAudio sink. You can obtain the name of
+the sink with the following command:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>$ pacmd list-sinks | grep name:
+           name: &lt;alsa_output.pci-0000_00_14.2.analog-stereo&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>The name is what&#8217;s inside the angle brackets, not including them. If no sink is
+specified the default sink is used. If the device string is missing or is set
+to "default", PulseAudio will be tried if detected and will fallback to ALSA
+(Linux) or OSS (FreeBSD/OpenBSD).</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>volume master</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>♪: %volume</tt></p></div>
 <div class="paragraph"><p><strong>Example format_muted</strong>: <tt>♪: 0%%</tt></p></div>
@@ -557,6 +595,14 @@ or OSS (FreeBSD/OpenBSD).</p></div>
         format = "♪: %volume"
         format_muted = "♪: muted (%volume)"
         device = "pulse:1"
+}</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>volume master {
+        format = "♪: %volume"
+        format_muted = "♪: muted (%volume)"
+        device = "pulse:alsa_output.pci-0000_00_14.2.analog-stereo"
 }</tt></pre>
 </div></div>
 </div>
@@ -594,6 +640,27 @@ min_width
         still be treated as a number.
 </p>
 </dd>
+<dt class="hdlist1">
+separator
+</dt>
+<dd>
+<p>
+        A boolean value which specifies whether a separator line should be drawn
+        after this block. The default is true, meaning the separator line will be
+        drawn. Note that if you disable the separator line, there will still be a
+        gap after the block, unless you also use separator_block_width.
+</p>
+</dd>
+<dt class="hdlist1">
+separator_block_width
+</dt>
+<dd>
+<p>
+        The amount of pixels to leave blank after the block. In the middle of this
+        gap, a separator symbol will be drawn unless separator is disabled. This is
+        why the specified width should leave enough space for the separator symbol.
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
 <div class="listingblock">
@@ -602,6 +669,8 @@ min_width
     format = "%avail"
     align = "left"
     min_width = 100
+    separator = false
+    separator_block_width = 1
 }</tt></pre>
 </div></div>
 </div>
@@ -686,7 +755,7 @@ done</tt></pre>
 <div class="paragraph"><p>Put that in some script, say <tt>.bin/my_i3status.sh</tt> and execute that instead of i3status.</p></div>
 <div class="paragraph"><p>Note that if you want to use the JSON output format (with colors in i3bar), you
 need to use a slightly more complex wrapper script. There are examples in the
-contrib/ folder, see <a href="http://code.i3wm.org/i3status/tree/contrib">http://code.i3wm.org/i3status/tree/contrib</a></p></div>
+contrib/ folder, see <a href="https://github.com/i3/i3status/tree/master/contrib">https://github.com/i3/i3status/tree/master/contrib</a></p></div>
 </div>
 </div>
 <div class="sect1">

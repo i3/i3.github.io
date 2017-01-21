@@ -1,7 +1,7 @@
 i3status(1)
 ===========
 Michael Stapelberg <michael@i3wm.org>
-v2.10, January 2016
+v2.11, January 2017
 
 == NAME
 
@@ -17,10 +17,10 @@ i3status [-c configfile] [-h] [-v]
 Specifies an alternate configuration file path. By default, i3status looks for
 configuration files in the following order:
 
-1. ~/.i3status.conf
-2. ~/.config/i3status/config (or $XDG_CONFIG_HOME/i3status/config if set)
-3. /etc/i3status.conf
-4. /etc/xdg/i3status/config (or $XDG_CONFIG_DIRS/i3status/config if set)
+1. ~/.config/i3status/config (or $XDG_CONFIG_HOME/i3status/config if set)
+2. /etc/xdg/i3status/config (or $XDG_CONFIG_DIRS/i3status/config if set)
+3. ~/.i3status.conf
+4. /etc/i3status.conf
 
 == DESCRIPTION
 
@@ -74,8 +74,9 @@ ethernet eth0 {
 battery 0 {
         format = "%status %percentage %remaining %emptytime"
         format_down = "No battery"
-        status_chr = "⚇ CHR"
-        status_bat = "⚡ BAT"
+        status_chr = "⚡ CHR"
+        status_bat = "🔋 BAT"
+        status_unk = "? UNK"
         status_full = "☻ FULL"
         path = "/sys/class/power_supply/BAT%d/uevent"
         low_threshold = 10
@@ -245,12 +246,11 @@ prefix_type. So, if you configure low_threshold to 2, threshold_type to
 "gbytes_avail", and prefix_type to "binary", and the remaining available disk
 space is below 2 GiB, it will be colored bad. If not specified, threshold_type
 is assumed to be "percentage_avail" and low_threshold to be set to 0, which
-implies no coloring at all.
+implies no coloring at all. You can customize the output format when below
+low_threshold with format_below_threshold.
 
 You can define a different format with the option "format_not_mounted"
-which is used if the path does not exist or is not a mount point. So you can just empty
-the output for the given path with adding +format_not_mounted=""+
-to the config section.
+which is used if the path does not exist or is not a mount point. Defaults to "".
 
 *Example order*: +disk /mnt/usbstick+
 
@@ -261,6 +261,8 @@ to the config section.
 *Example prefix_type*: +custom+
 
 *Example low_threshold*: +5+
+
+*Example format_below_threshold*: +Warning: %percentage_avail+
 
 *Example threshold_type*: +percentage_free+
 
@@ -315,7 +317,7 @@ network interface found on the system (excluding devices starting with "lo").
 
 === Battery
 
-Gets the status (charging, discharging, running), percentage, remaining
+Gets the status (charging, discharging, unknown, full), percentage, remaining
 time and power consumption (in Watts) of the given battery and when it's
 estimated to be empty. If you want to use the last full capacity instead of the
 design capacity (when using the design capacity, it may happen that your
@@ -329,7 +331,7 @@ If you want the battery percentage to be shown without decimals, add
 
 If your battery is represented in a non-standard path in /sys, be sure to
 modify the "path" property accordingly, i.e. pointing to the uevent file on
-your system. The first occurence of %d gets replaced with the battery number,
+your system. The first occurrence of %d gets replaced with the battery number,
 but you can just hard-code a path as well.
 
 It is possible to define a low_threshold that causes the battery text to be
@@ -337,22 +339,30 @@ colored red. The low_threshold type can be of threshold_type "time" or
 "percentage". So, if you configure low_threshold to 10 and threshold_type to
 "time", and your battery lasts another 9 minutes, it will be colored red.
 
+To show an aggregate of all batteries in the system, use "all" as the number. In
+this case (for Linux), the /sys path must contain the "%d" sequence. Otherwise,
+the number indicates the battery index as reported in /sys.
+
 Optionally custom strings including any UTF-8 symbols can be used for different
 battery states. This makes it possible to display individual symbols
-for each state (charging, discharging, full)
+for each state (charging, discharging, unknown, full)
 Of course it will also work with special iconic fonts, such as FontAwesome.
-If any of this special status strings is omitted, the default (CHR, BAT, FULL)
-is used.
+If any of these special status strings are omitted, the default (CHR, BAT, UNK,
+FULL) is used.
 
-*Example order*: +battery 0+
+*Example order (for the first battery)*: +battery 0+
+
+*Example order (aggregate of all batteries)*: +battery all+
 
 *Example format*: +%status %remaining (%emptytime %consumption)+
 
 *Example format_down*: +No battery+
 
-*Example status_chr*: +⚇ CHR+
+*Example status_chr*: +⚡ CHR+
 
-*Example status_bat*: +⚡ BAT+
+*Example status_bat*: +🔋 BAT+
+
+*Example status_unk*: +? UNK+
 
 *Example status_full*: +☻ FULL+
 
@@ -360,13 +370,17 @@ is used.
 
 *Example threshold_type*: +time+
 
-*Example path*: +/sys/class/power_supply/CMB1/uevent+
+*Example path (%d replaced by title number)*: +/sys/class/power_supply/CMB%d/uevent+
+
+*Example path (ignoring the number)*: +/sys/class/power_supply/CMB1/uevent+
 
 === CPU-Temperature
 
 Gets the temperature of the given thermal zone. It is possible to
 define a max_threshold that will color the temperature red in case the
-specified thermal zone is getting too hot. Defaults to 75 degrees C.
+specified thermal zone is getting too hot. Defaults to 75 degrees C. The
+output format when above max_threshold can be customized with
+format_above_threshold.
 
 *Example order*: +cpu_temperature 0+
 
@@ -374,28 +388,55 @@ specified thermal zone is getting too hot. Defaults to 75 degrees C.
 
 *Example max_threshold*: +42+
 
+*Example format_above_threshold*: +Warning T above threshold: %degrees °C+
+
 *Example path*: +/sys/devices/platform/coretemp.0/temp1_input+
 
 === CPU Usage
 
-Gets the percentual CPU usage from +/proc/stat+ (Linux) or +sysctl(3)+ (FreeBSD/OpenBSD).
+Gets the percentual CPU usage from +/proc/stat+ (Linux) or +sysctl(3)+
+(FreeBSD/OpenBSD).
+
+It is possible to define a max_threshold that will color the load
+value red in case the CPU average over the last interval is getting
+higher than the configured threshold. Defaults to 95. The output
+format when above max_threshold can be customized with
+format_above_threshold.
+
+It is possible to define a degraded_threshold that will color the load
+value yellow in case the CPU average over the last interval is getting
+higher than the configured threshold.  Defaults to 90. The output format
+when above degraded threshold can be customized with
+format_above_degraded_threshold.
 
 *Example order*: +cpu_usage+
 
 *Example format*: +%usage+
+
+*Example max_threshold*: +75+
+
+*Example format_above_threshold*: +Warning above threshold: %usage+
+
+*Example degraded_threshold*: +25+
+
+*Example format_above_degraded_threshold*: +Warning above degraded threshold: %usage+
 
 === Load
 
 Gets the system load (number of processes waiting for CPU time in the last
 1, 5 and 15 minutes). It is possible to define a max_threshold that will
 color the load value red in case the load average of the last minute is
-getting higher than the configured threshold. Defaults to 5.
+getting higher than the configured threshold. Defaults to 5. The output 
+format when above max_threshold can be customized with
+format_above_threshold.
 
 *Example order*: +load+
 
 *Example format*: +%1min %5min %15min+
 
 *Example max_threshold*: +"0,1"+
+
+*Example format_above_threshold*: +Warning: %1min %5min %15min+
 
 === Time
 
@@ -417,6 +458,7 @@ The system's timezone database is usually installed in +/usr/share/zoneinfo+.
 Files below that path make for valid timezone strings, e.g. for
 +/usr/share/zoneinfo/Europe/Berlin+ you can set timezone to +Europe/Berlin+
 in the +tztime+ module.
+To override the locale settings of your environment, set the +locale+ option.
 
 *Example order*: +tztime berlin+
 
@@ -424,15 +466,18 @@ in the +tztime+ module.
 
 *Example timezone*: +Europe/Berlin+
 
+*Example locale*: +de_DE.UTF-8+
+
 If you would like to use markup in this section, there is a separate
 +format_time+ option that is automatically escaped. Its output then replaces
 %time in the format string.
 
 *Example configuration (markup)*:
 -------------------------------------------------------------
-tztime time {
+tztime berlin {
 	format = "<span foreground='#ffffff'>time:</span> %time"
 	format_time = "%H:%M %Z"
+	timezone = "Europe/Berlin"
 }
 -------------------------------------------------------------
 
@@ -464,10 +509,16 @@ or
 
  device = "pulse:N"
 
-where N is the index of the PulseAudio sink. If no sink is specified the
-default is used. If the device string is missing or is set to "default",
-PulseAudio will be tried if detected and will fallback to ALSA (Linux)
-or OSS (FreeBSD/OpenBSD).
+where N is the index or name of the PulseAudio sink. You can obtain the name of
+the sink with the following command:
+
+ $ pacmd list-sinks | grep name:
+            name: <alsa_output.pci-0000_00_14.2.analog-stereo>
+
+The name is what's inside the angle brackets, not including them. If no sink is
+specified the default sink is used. If the device string is missing or is set
+to "default", PulseAudio will be tried if detected and will fallback to ALSA
+(Linux) or OSS (FreeBSD/OpenBSD).
 
 *Example order*: +volume master+
 
@@ -493,6 +544,13 @@ volume master {
 	device = "pulse:1"
 }
 -------------------------------------------------------------
+-------------------------------------------------------------
+volume master {
+	format = "♪: %volume"
+	format_muted = "♪: muted (%volume)"
+	device = "pulse:alsa_output.pci-0000_00_14.2.analog-stereo"
+}
+-------------------------------------------------------------
 
 == Universal module options
 
@@ -513,6 +571,15 @@ min_width::
 	set a sensible minimum width regardless of which font you are using, and at
 	what particular size. Please note that a number enclosed with quotes will
 	still be treated as a number.
+separator::
+	A boolean value which specifies whether a separator line should be drawn
+	after this block. The default is true, meaning the separator line will be
+	drawn. Note that if you disable the separator line, there will still be a
+	gap after the block, unless you also use separator_block_width.
+separator_block_width::
+	The amount of pixels to leave blank after the block. In the middle of this
+	gap, a separator symbol will be drawn unless separator is disabled. This is
+	why the specified width should leave enough space for the separator symbol.
 
 *Example configuration*:
 -------------------------------------------------------------
@@ -520,6 +587,8 @@ disk "/" {
     format = "%avail"
     align = "left"
     min_width = 100
+    separator = false
+    separator_block_width = 1
 }
 -------------------------------------------------------------
 
@@ -602,7 +671,7 @@ Put that in some script, say +.bin/my_i3status.sh+ and execute that instead of i
 
 Note that if you want to use the JSON output format (with colors in i3bar), you
 need to use a slightly more complex wrapper script. There are examples in the
-contrib/ folder, see http://code.i3wm.org/i3status/tree/contrib
+contrib/ folder, see https://github.com/i3/i3status/tree/master/contrib
 
 == SIGNALS
 
