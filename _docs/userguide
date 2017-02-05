@@ -2089,6 +2089,21 @@ i3-msg 'rename workspace to "2: mail"'
 bindsym $mod+r exec i3-input -F 'rename workspace to "%s"' -P 'New name: '
 --------------------------------------------------------------------------
 
+If you want to rename workspaces on demand while keeping the navigation stable,
+you can use a setup like this:
+
+*Example*:
+-------------------------
+set $workspace1 1: mail
+set $workspace2 2: www
+bindsym $mod+1 workspace number $workspace1
+bindsym $mod+2 workspace number $workspace2
+-------------------------
+
+The command +workspace number 1: mail+ will switch to workspace 1 and ignore the
+text part. Even when the workspace has been renamed to "1: Web", the above
+command will still switch to it.
+
 === Moving workspaces to a different screen
 
 See <<move_to_outputs>> for how to move a container/workspace to a different
