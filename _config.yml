@@ -1,4 +1,4 @@
 # dummy comment to trigger a page build
 name: i3
 markdown: redcarpet
-pygments: true
+highlighter: pygments
