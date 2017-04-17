@@ -29,7 +29,7 @@ The script uses i3's <a href="http://i3wm.org/docs/ipc.html">IPC</a> via the
 
 import i3
 # retrieve only active outputs
-outputs = filter(lambda output: output[&#39;active&#39;], i3.get_outputs())
+outputs = list(filter(lambda output: output[&#39;active&#39;], i3.get_outputs()))
 
 # set current workspace to output 0
 i3.workspace(outputs[0][&#39;current_workspace&#39;])
@@ -49,7 +49,7 @@ named for example switch.py, and put switch.py and i3.py (downloaded from the
 same folder. I typically put it in $HOME/.i3/, the same directory which
 contains i3's config file. Next, put a keybinding like
 </p>
-<pre><tt>bindsym $mod+Shift+s exec /home/username/.i3/switch.py</tt></pre>
+<pre><tt>bindsym $mod+Shift+s exec python /home/username/.i3/switch.py</tt></pre>
 <p>
 in i3's config file and restart i3 in place. The next time you press
 mod+Shift+s, your workspaces will be swapped among your monitors.
