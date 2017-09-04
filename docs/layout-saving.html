@@ -301,6 +301,29 @@ container:</p></div>
 }</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_placeholders_using_window_title_matches_don_8217_t_swallow_the_window">4.2. Placeholders using window title matches don&#8217;t swallow the window</h3>
+<div class="paragraph"><p>If you use the <tt>title</tt> attribute to match a window and find that it doesn&#8217;t
+work or only works sometimes, the reason might be that the application sets the
+title only after making the window visible. This will be especially true for
+programs running inside terminal emulators, e.g., <tt>urxvt -e irssi</tt> when
+matching on <tt>title: "irssi"</tt>.</p></div>
+<div class="paragraph"><p>One way to deal with this is to not rely on the title, but instead use, e.g.,
+the <tt>instance</tt> attribute and running the program to set this window instance to
+that value:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Run irssi via
+# urxvt -name "irssi-container" -e irssi
+
+"swallows": [
+    {
+        "class": "URxvt",
+        "instance": "irssi-container"
+    }
+]</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 </div>

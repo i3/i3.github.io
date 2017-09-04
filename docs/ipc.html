@@ -440,6 +440,14 @@ active (boolean)
 </p>
 </dd>
 <dt class="hdlist1">
+primary (boolean)
+</dt>
+<dd>
+<p>
+        Whether this output is currently the primary output.
+</p>
+</dd>
+<dt class="hdlist1">
 current_workspace (string)
 </dt>
 <dd>
@@ -482,7 +490,7 @@ rect (map)
    "y": 0,
    "width": 1280,
    "height": 1024
-  },
+  }
  }
 ]</tt></pre>
 </div></div>
@@ -746,7 +754,7 @@ VGA1
          "y": 0,
          "width": 1280,
          "height": 0
-       },
+       }
       },
 
       {
@@ -1222,6 +1230,14 @@ binding (5)
         mouse
 </p>
 </dd>
+<dt class="hdlist1">
+shutdown (6)
+</dt>
+<dd>
+<p>
+        Sent when the ipc shuts down because of a restart or exit by user command
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
@@ -1246,9 +1262,9 @@ if ($is_event) {
 <h3 id="_workspace_event">4.3. workspace event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
 <tt>change (string)</tt> which indicates the type of the change ("focus", "init",
-"empty", "urgent"). A <tt>current (object)</tt> property will be present with the
-affected workspace whenever the type of event affects a workspace (otherwise,
-it will be +null).</p></div>
+"empty", "urgent", "reload", "rename", "restored", "move"). A
+<tt>current (object)</tt> property will be present with the affected workspace
+whenever the type of event affects a workspace (otherwise, it will be +null).</p></div>
 <div class="paragraph"><p>When the change is "focus", an <tt>old (object)</tt> property will be present with the
 previous workspace.  When the first switch occurs (when i3 focuses the
 workspace visible at the beginning) there is no previous workspace, and the
@@ -1378,7 +1394,7 @@ same as a <tt>GET_BAR_CONFIG</tt> reply for the bar with the given id.</p></div>
 <div class="sect2">
 <h3 id="_binding_event">4.8. binding event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map reporting on the details of a
-binding that ran a command because of user input. The <tt>change (sring)</tt> field
+binding that ran a command because of user input. The <tt>change (string)</tt> field
 indicates what sort of binding event was triggered (right now it will always be
 <tt>"run"</tt> but may be expanded in the future).</p></div>
 <div class="paragraph"><p>The <tt>binding (object)</tt> field contains details about the binding that was run:</p></div>
@@ -1446,6 +1462,20 @@ input_type (string)
 }</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_shutdown_event">4.9. shutdown event</h3>
+<div class="paragraph"><p>This event is triggered when the connection to the ipc is about to shutdown
+because of a user action such as a <tt>restart</tt> or <tt>exit</tt> command. The <tt>change
+(string)</tt> field indicates why the ipc is shutting down. It can be either
+<tt>"restart"</tt> or <tt>"exit"</tt>.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "change": "restart"
+}</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1491,7 +1521,7 @@ Go
 <div class="ulist"><ul>
 <li>
 <p>
-<a href="https://github.com/proxypoke/i3ipc">https://github.com/proxypoke/i3ipc</a>
+<a href="https://github.com/mdirkse/i3ipc-go">https://github.com/mdirkse/i3ipc-go</a>
 </p>
 </li>
 </ul></div>
@@ -1579,6 +1609,18 @@ Rust
 <li>
 <p>
 <a href="https://github.com/tmerr/i3ipc-rs">https://github.com/tmerr/i3ipc-rs</a>
+</p>
+</li>
+</ul></div>
+</dd>
+<dt class="hdlist1">
+OCaml
+</dt>
+<dd>
+<div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/Armael/ocaml-i3ipc">https://github.com/Armael/ocaml-i3ipc</a>
 </p>
 </li>
 </ul></div>

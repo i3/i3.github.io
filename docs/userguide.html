@@ -363,6 +363,14 @@ file. Also, the created config file will use the key symbols of your current
 keyboard layout. To start the wizard, use the command <tt>i3-config-wizard</tt>.
 Please note that you must not have <tt>~/.i3/config</tt>, otherwise the wizard will
 exit.</p></div>
+<div class="paragraph"><p>Since i3 4.0, a new configuration format is used. i3 will try to automatically
+detect the format version of a config file based on a few different keywords,
+but if you want to make sure that your config is read with the new format,
+include the following line in your config file:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># i3 config file (v4)</tt></pre>
+</div></div>
 <div class="sect2">
 <h3 id="_comments">4.1. Comments</h3>
 <div class="paragraph"><p>It is possible and recommended to use comments in your configuration file to
@@ -490,7 +498,7 @@ can configure mouse bindings in a similar way to key bindings.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>bindsym [--release] [--border] [--whole-window] [&lt;Modifiers&gt;+]button&lt;n&gt; command</tt></pre>
+<pre><tt>bindsym [--release] [--border] [--whole-window] [--exclude-titlebar] [&lt;Modifiers&gt;+]button&lt;n&gt; command</tt></pre>
 </div></div>
 <div class="paragraph"><p>By default, the binding will only run when you click on the titlebar of the
 window. If the <tt>--release</tt> flag is given, it will run when the mouse button
@@ -498,6 +506,8 @@ is released.</p></div>
 <div class="paragraph"><p>If the <tt>--whole-window</tt> flag is given, the binding will also run when any part
 of the window is clicked, with the exception of the border. To have a bind run
 when the border is clicked, specify the <tt>--border</tt> flag.</p></div>
+<div class="paragraph"><p>If the <tt>--exclude-titlebar</tt> flag is given, the titlebar will not be considered
+for the keybinding.</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -549,7 +559,7 @@ mode &lt;name&gt;</tt></pre>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt># Press $mod+o followed by either f, t, Esc or Return to launch firefox,
+<pre><tt># Press $mod+o followed by either f, t, Escape or Return to launch firefox,
 # thunderbird or return to the default mode, respectively.
 set $mode_launcher Launch: [f]irefox [t]hunderbird
 bindsym $mod+o mode "$mode_launcher"
@@ -558,7 +568,7 @@ mode "$mode_launcher" {
     bindsym f exec firefox
     bindsym t exec thunderbird
 
-    bindsym Esc mode "default"
+    bindsym Escape mode "default"
     bindsym Return mode "default"
 }</tt></pre>
 </div></div>
@@ -1018,12 +1028,12 @@ the next section.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_focus_follows_mouse">4.21. Focus follows mouse</h3>
-<div class="paragraph"><p>By default, window focus follows your mouse movements. However, if you have a
-setup where your mouse usually is in your way (like a touchpad on your laptop
-which you do not want to disable completely), you might want to disable <em>focus
-follows mouse</em> and control focus only by using your keyboard.  The mouse will
-still be useful inside the currently active window (for example to click on
-links in your browser window).</p></div>
+<div class="paragraph"><p>By default, window focus follows your mouse movements as the mouse crosses
+window borders. However, if you have a setup where your mouse usually is in your
+way (like a touchpad on your laptop which you do not want to disable
+completely), you might want to disable <em>focus follows mouse</em> and control focus
+only by using your keyboard.  The mouse will still be useful inside the
+currently active window (for example to click on links in your browser window).</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1226,9 +1236,9 @@ none
 </div>
 <div class="sect2">
 <h3 id="show_marks">4.29. Drawing marks on window decoration</h3>
-<div class="paragraph"><p>If activated, marks on windows are drawn in their window decoration. However,
-any mark starting with an underscore in its name (<tt>_</tt>) will not be drawn even if
-this option is activated.</p></div>
+<div class="paragraph"><p>If activated, marks (see <a href="#vim_like_marks">[vim_like_marks]</a>) on windows are drawn in their window
+decoration. However, any mark starting with an underscore in its name (<tt>_</tt>) will
+not be drawn even if this option is activated.</p></div>
 <div class="paragraph"><p>The default for this option is <tt>yes</tt>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -1504,7 +1514,7 @@ directive multiple times.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>output &lt;output&gt;</tt></pre>
+<pre><tt>output primary|&lt;output&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
@@ -1525,7 +1535,19 @@ bar {
         background #000000
         statusline #ffffff
     }
+}
+
+# show bar on the primary monitor and on HDMI2
+bar {
+    output primary
+    output HDMI2
+    status_command i3status
 }</tt></pre>
+</div></div>
+<div class="paragraph"><p>Note that you might not have a primary output configured yet. To do so, run:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>xrandr --output &lt;output&gt; --primary</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -2047,7 +2069,8 @@ The <tt>toggle</tt> option will toggle the orientation of the split container if
 contains a single window. Otherwise it makes the current window a split
 container with opposite orientation compared to the parent container.
 Use <tt>layout toggle split</tt> to change the layout of any split container from
-splitv to splith or vice-versa.</p></div>
+splitv to splith or vice-versa. You can also define a custom sequence of layouts
+to cycle through with <tt>layout toggle</tt>, see <a href="#manipulating_layout">[manipulating_layout]</a>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -2066,6 +2089,10 @@ bindsym $mod+t split toggle</tt></pre>
 <div class="paragraph"><p>Use <tt>layout toggle split</tt>, <tt>layout stacking</tt>, <tt>layout tabbed</tt>, <tt>layout splitv</tt>
 or <tt>layout splith</tt> to change the current container layout to splith/splitv,
 stacking, tabbed layout, splitv or splith, respectively.</p></div>
+<div class="paragraph"><p>Specify up to four layouts after <tt>layout toggle</tt> to cycle through them. Every
+time the command is executed, the layout specified after the currently active
+one will be applied. If the currently active layout is not in the list, the
+first layout in the list will be activated.</p></div>
 <div class="paragraph"><p>To make the current window (!) fullscreen, use <tt>fullscreen enable</tt> (or
 <tt>fullscreen enable global</tt> for the global mode), to leave either fullscreen
 mode use <tt>fullscreen disable</tt>, and to toggle between these two states use
@@ -2076,7 +2103,8 @@ enable</tt> respectively <tt>floating disable</tt> (or <tt>floating toggle</tt>)
 <div class="listingblock">
 <div class="content">
 <pre><tt>layout default|tabbed|stacking|splitv|splith
-layout toggle [split|all]</tt></pre>
+layout toggle [split|all]
+layout toggle [split|tabbed|stacking|splitv|splith] [split|tabbed|stacking|splitv|splith]…</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
@@ -2090,6 +2118,15 @@ bindsym $mod+x layout toggle
 
 # Toggle between stacking/tabbed/splith/splitv:
 bindsym $mod+x layout toggle all
+
+# Toggle between stacking/tabbed/splith:
+bindsym $mod+x layout toggle stacking tabbed splith
+
+# Toggle between splitv/tabbed
+bindsym $mod+x layout toggle splitv tabbed
+
+# Toggle between last split layout/tabbed/stacking
+bindsym $mod+x layout toggle split tabbed stacking
 
 # Toggle fullscreen
 bindsym $mod+f fullscreen toggle
@@ -2167,7 +2204,7 @@ output
 <div class="content">
 <pre><tt>focus left|right|down|up
 focus parent|child|floating|tiling|mode_toggle
-focus output left|right|up|down|&lt;output&gt;</tt></pre>
+focus output left|right|up|down|primary|&lt;output&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
@@ -2188,52 +2225,93 @@ bindsym $mod+g focus mode_toggle
 bindsym $mod+x focus output right
 
 # Focus the big output
-bindsym $mod+x focus output HDMI-2</tt></pre>
+bindsym $mod+x focus output HDMI-2
+
+# Focus the primary output
+bindsym $mod+x focus output primary</tt></pre>
 </div></div>
-</div>
-<div class="sect2">
-<h3 id="_moving_containers">6.5. Moving containers</h3>
-<div class="paragraph"><p>Use the <tt>move</tt> command to move a container.</p></div>
-<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt># Moves the container into the given direction.
+<pre><tt>Note that you might not have a primary output configured yet. To do so, run:</tt></pre>
+</div></div>
+<div class="paragraph"><p>xrandr --output &lt;output&gt; --primary</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>=== Moving containers
+
+Use the +move+ command to move a container.
+
+*Syntax*:</tt></pre>
+</div></div>
+<div class="paragraph"><p># Moves the container into the given direction.
 # The optional pixel argument specifies how far the
 # container should be moved if it is floating and
 # defaults to 10 pixels.
-move &lt;left|right|down|up&gt; [&lt;px&gt; px]
-
-# Moves the container either to a specific location
-# or to the center of the screen. If 'absolute' is
+move &lt;left|right|down|up&gt; [&lt;px&gt; px]</p></div>
+<div class="paragraph"><p># Moves the container either to a specific location
+# or to the center of the screen. If <em>absolute</em> is
 # used, it is moved to the center of all outputs.
-move [absolute] position [[&lt;px&gt; px] [&lt;px&gt; px]|center]
-
-# Moves the container to the current position of the
+move [absolute] position &lt;pos_x&gt; [px] &lt;pos_y&gt; [px]
+move [absolute] position center</p></div>
+<div class="paragraph"><p># Moves the container to the current position of the
 # mouse cursor. Only affects floating containers.
-move position mouse</tt></pre>
-</div></div>
-<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+move position mouse</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt># Move container to the left, bottom, top, right
+<pre><tt>*Examples*:</tt></pre>
+</div></div>
+<div class="paragraph"><p># Move container to the left, bottom, top, right
 bindsym $mod+j move left
 bindsym $mod+k move down
 bindsym $mod+l move up
-bindsym $mod+semicolon move right
-
-# Move container, but make floating containers
+bindsym $mod+semicolon move right</p></div>
+<div class="paragraph"><p># Move container, but make floating containers
 # move more than the default
-bindsym $mod+j move left 20 px
+bindsym $mod+j move left 20 px</p></div>
+<div class="paragraph"><p># Move floating container to the center of all outputs
+bindsym $mod+c move absolute position center</p></div>
+<div class="paragraph"><p># Move container to the current position of the cursor
+bindsym $mod+m move position mouse</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>=== Swapping containers
 
-# Move floating container to the center of all outputs
-bindsym $mod+c move absolute position center
+Two containers can be swapped (i.e., move to each other's position) by using
+the +swap+ command. They will assume the position and geometry of the container
+they are swapped with.
 
-# Move container to the current position of the cursor
-bindsym $mod+m move position mouse</tt></pre>
+The first container to participate in the swapping can be selected through the
+normal command criteria process with the focused window being the usual
+fallback if no criteria are specified. The second container can be selected
+using one of the following methods:
+
++id+:: The X11 window ID of a client window.
++con_id+:: The i3 container ID of a container.
++mark+:: A container with the specified mark, see &lt;&lt;vim_like_marks&gt;&gt;.
+
+Note that swapping does not work with all containers. Most notably, swapping
+floating containers or containers that have a parent-child relationship to one
+another does not work.
+
+*Syntax*:</tt></pre>
 </div></div>
 </div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_swap_container_with_id_con_id_mark_lt_arg_gt">7. swap container with id|con_id|mark &lt;arg&gt;</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Swaps the focused container with the container marked »swapee«.
+swap container with mark swapee
+
+# Swaps container marked »A« and »B«
+[con_mark="^A$"] swap container with mark B</tt></pre>
+</div></div>
 <div class="sect2">
-<h3 id="_sticky_floating_windows">6.6. Sticky floating windows</h3>
+<h3 id="_sticky_floating_windows">7.1. Sticky floating windows</h3>
 <div class="paragraph"><p>If you want a window to stick to the glass, i.e., have it stay on screen even
 if you switch to another workspace, you can use the <tt>sticky</tt> command. For
 example, this can be useful for notepads, a media player or a video chat
@@ -2253,7 +2331,7 @@ for_window [instance=notepad] sticky enable</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_named_workspaces_moving_to_workspaces">6.7. Changing (named) workspaces/moving to workspaces</h3>
+<h3 id="_changing_named_workspaces_moving_to_workspaces">7.2. Changing (named) workspaces/moving to workspaces</h3>
 <div class="paragraph"><p>To change to a specific workspace, use the <tt>workspace</tt> command, followed by the
 number or name of the workspace. Pass the optional flag
 <tt>--no-auto-back-and-forth</tt> to disable <a href="#back_and_forth">[back_and_forth]</a> for this specific call
@@ -2313,7 +2391,7 @@ bindsym $mod+x move workspace to output right
 bindsym $mod+F1 [class="Firefox"] move workspace current</tt></pre>
 </div></div>
 <div class="sect3">
-<h4 id="_named_workspaces">6.7.1. Named workspaces</h4>
+<h4 id="_named_workspaces">7.2.1. Named workspaces</h4>
 <div class="paragraph"><p>Workspaces are identified by their name. So, instead of using numbers in the
 workspace command, you can use an arbitrary name:</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
@@ -2341,7 +2419,7 @@ dynamically. To combine both commands you can use <tt>workspace number 1: mail</
 specify a default name if there&#8217;s currently no workspace starting with a "1".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_renaming_workspaces">6.7.2. Renaming workspaces</h4>
+<h4 id="_renaming_workspaces">7.2.2. Renaming workspaces</h4>
 <div class="paragraph"><p>You can rename workspaces. This might be useful to start with the default
 numbered workspaces, do your work, and rename the workspaces afterwards to
 reflect what’s actually on them. You can also omit the old name to rename
@@ -2362,23 +2440,37 @@ i3-msg 'rename workspace "1: www" to "10: www"'
 i3-msg 'rename workspace to "2: mail"'
 bindsym $mod+r exec i3-input -F 'rename workspace to "%s"' -P 'New name: '</tt></pre>
 </div></div>
+<div class="paragraph"><p>If you want to rename workspaces on demand while keeping the navigation stable,
+you can use a setup like this:</p></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bindsym $mod+1 workspace number "1: www"
+bindsym $mod+2 workspace number "2: mail"
+...</tt></pre>
+</div></div>
+<div class="paragraph"><p>If a workspace does not exist, the command <tt>workspace number "1: mail"</tt> will
+create workspace "1: mail".</p></div>
+<div class="paragraph"><p>If a workspace with number 1 does already exist, the command will switch to this
+workspace and ignore the text part. So even when the workspace has been renamed
+to "1: web", the above command will still switch to it.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_moving_workspaces_to_a_different_screen">6.8. Moving workspaces to a different screen</h3>
+<h3 id="_moving_workspaces_to_a_different_screen">7.3. Moving workspaces to a different screen</h3>
 <div class="paragraph"><p>See <a href="#move_to_outputs">[move_to_outputs]</a> for how to move a container/workspace to a different
 RandR output.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_moving_containers_workspaces_to_randr_outputs">6.9. Moving containers/workspaces to RandR outputs</h3>
+<h3 id="_moving_containers_workspaces_to_randr_outputs">7.4. Moving containers/workspaces to RandR outputs</h3>
 <div class="paragraph"><p>To move a container to another RandR output (addressed by names like <tt>LVDS1</tt> or
 <tt>VGA1</tt>) or to a RandR output identified by a specific direction (like <tt>left</tt>,
 <tt>right</tt>, <tt>up</tt> or <tt>down</tt>), there are two commands:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>move container to output left|right|down|up|current|&lt;output&gt;
-move workspace to output left|right|down|up|current|&lt;output&gt;</tt></pre>
+<pre><tt>move container to output left|right|down|up|current|primary|&lt;output&gt;
+move workspace to output left|right|down|up|current|primary|&lt;output&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
@@ -2388,30 +2480,43 @@ move workspace to output left|right|down|up|current|&lt;output&gt;</tt></pre>
 bindsym $mod+x move workspace to output right
 
 # Put this window on the presentation output.
-bindsym $mod+x move container to output VGA1</tt></pre>
+bindsym $mod+x move container to output VGA1
+
+# Put this window on the primary output.
+bindsym $mod+x move container to output primary</tt></pre>
 </div></div>
-</div>
-<div class="sect2">
-<h3 id="_moving_containers_windows_to_marks">6.10. Moving containers/windows to marks</h3>
-<div class="paragraph"><p>To move a container to another container with a specific mark (see <a href="#vim_like_marks">[vim_like_marks]</a>),
-you can use the following command.</p></div>
-<div class="paragraph"><p>The window will be moved right after the marked container in the tree, i.e., it ends up
-in the same position as if you had opened a new window when the marked container was
-focused. If the mark is on a split container, the window will appear as a new child
-after the currently focused child within that container.</p></div>
-<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>move window|container to mark &lt;mark&gt;</tt></pre>
+<pre><tt>Note that you might not have a primary output configured yet. To do so, run:</tt></pre>
 </div></div>
+<div class="paragraph"><p>xrandr --output &lt;output&gt; --primary</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>=== Moving containers/windows to marks
+
+To move a container to another container with a specific mark (see &lt;&lt;vim_like_marks&gt;&gt;),
+you can use the following command.
+
+The window will be moved right after the marked container in the tree, i.e., it ends up
+in the same position as if you had opened a new window when the marked container was
+focused. If the mark is on a split container, the window will appear as a new child
+after the currently focused child within that container.
+
+*Syntax*:</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_move_window_container_to_mark_lt_mark_gt">8. move window|container to mark &lt;mark&gt;</h2>
+<div class="sectionbody">
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>for_window [instance="tabme"] move window to mark target</tt></pre>
 </div></div>
-</div>
 <div class="sect2">
-<h3 id="resizingconfig">6.11. Resizing containers/windows</h3>
+<h3 id="resizingconfig">8.1. Resizing containers/windows</h3>
 <div class="paragraph"><p>If you want to resize containers/windows using your keyboard, you can use the
 <tt>resize</tt> command:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -2439,7 +2544,7 @@ context.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_jumping_to_specific_windows">6.12. Jumping to specific windows</h3>
+<h3 id="_jumping_to_specific_windows">8.2. Jumping to specific windows</h3>
 <div class="paragraph"><p>Often when in a multi-monitor environment, you want to quickly jump to a
 specific window. For example, while working on workspace 3 you may want to
 jump to your mail client to email your boss that you’ve achieved some
@@ -2460,7 +2565,7 @@ bindsym $mod+a [class="urxvt" title="VIM"] focus</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="vim_like_marks">6.13. VIM-like marks (mark/goto)</h3>
+<h3 id="vim_like_marks">8.3. VIM-like marks (mark/goto)</h3>
 <div class="paragraph"><p>This feature is like the jump feature: It allows you to directly jump to a
 specific window (this means switching to the appropriate workspace and setting
 focus to the windows). However, you can directly mark a specific window with
@@ -2503,7 +2608,7 @@ unmark irssi
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="pango_markup">6.14. Window title format</h3>
+<h3 id="pango_markup">8.4. Window title format</h3>
 <div class="paragraph"><p>By default, i3 will simply print the X11 window title. Using <tt>title_format</tt>,
 this can be customized by setting the format to the desired output. This
 directive supports
@@ -2561,7 +2666,7 @@ for_window [class="(?i)firefox"] title_format "&lt;span foreground='red'&gt;%tit
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_border_style">6.15. Changing border style</h3>
+<h3 id="_changing_border_style">8.5. Changing border style</h3>
 <div class="paragraph"><p>To change the border of the current client, you can use <tt>border normal</tt> to use the normal
 border (including window title), <tt>border pixel 1</tt> to use a 1-pixel border (no window title)
 and <tt>border none</tt> to make the client borderless.</p></div>
@@ -2590,7 +2695,7 @@ bindsym $mod+u border none</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="shmlog">6.16. Enabling shared memory logging</h3>
+<h3 id="shmlog">8.6. Enabling shared memory logging</h3>
 <div class="paragraph"><p>As described in <a href="http://i3wm.org/docs/debugging.html">http://i3wm.org/docs/debugging.html</a>, i3 can log to a shared
 memory buffer, which you can dump using <tt>i3-dump-log</tt>. The <tt>shmlog</tt> command
 allows you to enable or disable the shared memory logging at runtime.</p></div>
@@ -2614,7 +2719,7 @@ i3-msg shmlog $((50*1024*1024))</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_enabling_debug_logging">6.17. Enabling debug logging</h3>
+<h3 id="_enabling_debug_logging">8.7. Enabling debug logging</h3>
 <div class="paragraph"><p>The <tt>debuglog</tt> command allows you to enable or disable debug logging at
 runtime. Debug logging is much more verbose than non-debug logging. This
 command does not activate shared memory logging (shmlog), and as such is most
@@ -2632,7 +2737,7 @@ bindsym $mod+x debuglog toggle</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_reloading_restarting_exiting">6.18. Reloading/Restarting/Exiting</h3>
+<h3 id="_reloading_restarting_exiting">8.8. Reloading/Restarting/Exiting</h3>
 <div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
 restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
 (if that should ever happen) or to perform an upgrade without having to restart
@@ -2647,7 +2752,7 @@ bindsym $mod+Shift+e exit</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_scratchpad">6.19. Scratchpad</h3>
+<h3 id="_scratchpad">8.9. Scratchpad</h3>
 <div class="paragraph"><p>There are two commands to use any existing window as scratchpad window. <tt>move
 scratchpad</tt> will move a window to the scratchpad workspace. This will make it
 invisible until you show it again. There is no way to open that workspace.
@@ -2682,7 +2787,7 @@ bindsym mod4+s [title="^Sup ::"] scratchpad show</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_nop">6.20. Nop</h3>
+<h3 id="_nop">8.10. Nop</h3>
 <div class="paragraph"><p>There is a no operation command <tt>nop</tt> which allows you to override default
 behavior. This can be useful for, e.g., disabling a focus change on clicks with
 the middle mouse button.</p></div>
@@ -2702,7 +2807,7 @@ bindsym button2 nop</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_i3bar_control">6.21. i3bar control</h3>
+<h3 id="_i3bar_control">8.11. i3bar control</h3>
 <div class="paragraph"><p>There are two options in the configuration of each i3bar instance that can be
 changed during runtime by invoking a command through i3. The commands <tt>bar
 hidden_state</tt> and <tt>bar mode</tt> allow setting the current hidden_state
@@ -2736,7 +2841,7 @@ bindsym $mod+Shift+b bar mode invisible bar-1</tt></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="multi_monitor">7. Multiple monitors</h2>
+<h2 id="multi_monitor">9. Multiple monitors</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>As you can see in the goal list on the website, i3 was specifically developed
 with support for multiple monitors in mind. This section will explain how to
@@ -2759,7 +2864,7 @@ create an unlimited number of workspaces in i3 and tie them to specific
 screens, you can have the "traditional" approach of having X workspaces per
 screen by changing your configuration (using modes, for example).</p></div>
 <div class="sect2">
-<h3 id="_configuring_your_monitors">7.1. Configuring your monitors</h3>
+<h3 id="_configuring_your_monitors">9.1. Configuring your monitors</h3>
 <div class="paragraph"><p>To help you get going if you have never used multiple monitors before, here is
 a short overview of the xrandr options which will probably be of interest to
 you. It is always useful to get an overview of the current screen configuration.
@@ -2822,7 +2927,7 @@ only what you can see in xrandr.</p></div>
 <div class="paragraph"><p>See also <a href="#presentations">[presentations]</a> for more examples of multi-monitor setups.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_interesting_configuration_for_multi_monitor_environments">7.2. Interesting configuration for multi-monitor environments</h3>
+<h3 id="_interesting_configuration_for_multi_monitor_environments">9.2. Interesting configuration for multi-monitor environments</h3>
 <div class="paragraph"><p>There are several things to configure in i3 which may be interesting if you
 have more than one monitor:</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -2859,10 +2964,10 @@ For information on how to move existing workspaces between monitors,
 </div>
 </div>
 <div class="sect1">
-<h2 id="_i3_and_the_rest_of_your_software_world">8. i3 and the rest of your software world</h2>
+<h2 id="_i3_and_the_rest_of_your_software_world">10. i3 and the rest of your software world</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_displaying_a_status_line">8.1. Displaying a status line</h3>
+<h3 id="_displaying_a_status_line">10.1. Displaying a status line</h3>
 <div class="paragraph"><p>A very common thing amongst users of exotic window managers is a status line at
 some corner of the screen. It is an often superior replacement to the widget
 approach you have in the task bar of a traditional desktop environment.</p></div>
@@ -2879,14 +2984,14 @@ on which hint the application sets. With i3bar, you can configure its position,
 see <a href="#i3bar_position">[i3bar_position]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="presentations">8.2. Giving presentations (multi-monitor)</h3>
+<h3 id="presentations">10.2. Giving presentations (multi-monitor)</h3>
 <div class="paragraph"><p>When giving a presentation, you typically want the audience to see what you see
 on your screen and then go through a series of slides (if the presentation is
 simple). For more complex presentations, you might want to have some notes
 which only you can see on your screen, while the audience can only see the
 slides.</p></div>
 <div class="sect3">
-<h4 id="_case_1_everybody_gets_the_same_output">8.2.1. Case 1: everybody gets the same output</h4>
+<h4 id="_case_1_everybody_gets_the_same_output">10.2.1. Case 1: everybody gets the same output</h4>
 <div class="paragraph"><p>This is the simple case. You connect your computer to the video projector,
 turn on both (computer and video projector) and configure your X server to
 clone the internal flat panel of your computer to the video output:</p></div>
@@ -2899,7 +3004,7 @@ your screen will be left untouched (it will show the X background). So, in
 our example, this would be 1024x768 (my notebook has 1280x800).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_case_2_you_can_see_more_than_your_audience">8.2.2. Case 2: you can see more than your audience</h4>
+<h4 id="_case_2_you_can_see_more_than_your_audience">10.2.2. Case 2: you can see more than your audience</h4>
 <div class="paragraph"><p>This case is a bit harder. First of all, you should configure the VGA output
 somewhere near your internal flat panel, say right of it:</p></div>
 <div class="listingblock">

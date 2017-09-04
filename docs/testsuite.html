@@ -146,6 +146,8 @@ used to install the testsuite. Many users prefer to use the more modern
 <div class="content">
 <pre><tt>$ cd ~/i3/testcases
 $ sudo apt-get install cpanminus
+$ sudo cpanm .
+$ cd ~/i3/AnyEvent-I3
 $ sudo cpanm .</tt></pre>
 </div></div>
 <div class="paragraph"><p>If you don’t want to use cpanminus for some reason, the same works with cpan:</p></div>
@@ -153,6 +155,8 @@ $ sudo cpanm .</tt></pre>
 <div class="title">Installing testsuite dependencies using cpan</div>
 <div class="content">
 <pre><tt>$ cd ~/i3/testcases
+$ sudo cpan .
+$ cd ~/i3/AnyEvent-I3
 $ sudo cpan .</tt></pre>
 </div></div>
 <div class="paragraph"><p>In case you don’t have root permissions, you can also install into your home
@@ -174,9 +178,20 @@ the tests without an X session with Xvfb, such as with <tt>xvfb-run
 ./complete-run</tt>. This will also speed up the tests significantly especially on
 machines without a powerful video card.</p></div>
 <div class="listingblock">
-<div class="title">Example invocation of complete-run.pl+</div>
+<div class="title">Example invocation of <tt>complete-run.pl</tt></div>
 <div class="content">
-<pre><tt>$ cd ~/i3/testcases
+<pre><tt>$ cd ~/i3
+
+$ autoreconf -fi
+
+$ mkdir -p build &amp;&amp; cd build
+
+$ ../configure
+
+$ make -j8
+# output omitted because it is very long
+
+$ cd testcases
 
 $ ./complete-run.pl
 # output omitted because it is very long
@@ -219,6 +234,42 @@ $ less latest/i3-log-for-04-floating.t</tt></pre>
 </div></div>
 <div class="paragraph"><p>This will show the output of Xephyr, which is the X server implementation we
 use for testing.</p></div>
+<div class="sect4">
+<h5 id="_make_command_tt_make_check_tt">make command: <tt>make check</tt></h5>
+<div class="paragraph"><p>Make check runs the i3 testsuite.
+You can still use ./testcases/complete-run.pl to get the interactive progress output.</p></div>
+<div class="listingblock">
+<div class="title">Example invocation of <tt>make check</tt></div>
+<div class="content">
+<pre><tt>$ cd ~/i3
+
+$ autoreconf -fi
+
+$ mkdir -p build &amp;&amp; cd build
+
+$ ../configure
+
+$ make -j8
+# output omitted because it is very long
+
+$ make check
+# output omitted because it is very long
+PASS: testcases/complete-run.pl
+============================================================================
+Testsuite summary for i3 4.13
+============================================================================
+# TOTAL: 1
+# PASS:  1
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  0
+# XPASS: 0
+# ERROR: 0
+============================================================================
+
+$ less test-suite.log</tt></pre>
+</div></div>
+</div>
 </div>
 <div class="sect3">
 <h4 id="_coverage_testing">3.2.2. Coverage testing</h4>

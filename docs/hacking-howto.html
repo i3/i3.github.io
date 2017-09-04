@@ -240,14 +240,6 @@ src/config_parser.c) with the correct path, switching key bindings mode).
 </p>
 </dd>
 <dt class="hdlist1">
-src/debug.c
-</dt>
-<dd>
-<p>
-Contains debugging functions to print unhandled X events.
-</p>
-</dd>
-<dt class="hdlist1">
 src/ewmh.c
 </dt>
 <dd>
@@ -1528,6 +1520,75 @@ of the latest release, plus any bugfixes that were applied since that release.</
 <div class="paragraph"><p>New features are only found in the “next” branch. Therefore, if you are working
 on a new feature, use the “next” branch. If you are working on a bugfix, use the
 “next” branch, too, but make sure your code also works on “master”.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_how_to_build">20.3. How to build?</h3>
+<div class="paragraph"><p>You can build i3 like you build any other software package which uses autotools.
+Here’s a memory refresher:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>$ autoreconf -fi
+$ mkdir -p build &amp;&amp; cd build
+$ ../configure
+$ make -j8</tt></pre>
+</div></div>
+<div class="paragraph"><p>(The autoreconf -fi step is unnecessary if you are building from a release tarball,
+ but shouldn’t hurt either.)</p></div>
+<div class="sect3">
+<h4 id="_build_system_features">20.3.1. Build system features</h4>
+<div class="ulist"><ul>
+<li>
+<p>
+We use the AX_ENABLE_BUILDDIR macro to enforce builds happening in a separate
+  directory. This is a prerequisite for the AX_EXTEND_SRCDIR macro and building
+  in a separate directory is common practice anyway. In case this causes any
+  trouble when packaging i3 for your distribution, please open an issue.
+</p>
+</li>
+<li>
+<p>
+“make check” runs the i3 testsuite. See docs/testsuite for details.
+</p>
+</li>
+<li>
+<p>
+“make distcheck” (runs testsuite on “make dist” result, tiny bit quicker
+  feedback cycle than waiting for the travis build to catch the issue).
+</p>
+</li>
+<li>
+<p>
+“make uninstall” (occasionally requested by users who compile from source)
+</p>
+</li>
+<li>
+<p>
+“make” will build manpages/docs by default if the tools are installed.
+  Conversely, manpages/docs are not tried to be built for users who don’t want
+  to install all these dependencies to get started hacking on i3.
+</p>
+</li>
+<li>
+<p>
+non-release builds will enable address sanitizer by default. Use the
+  --disable-sanitizers configure option to turn off all sanitizers, and see
+  --help for available sanitizers.
+</p>
+</li>
+<li>
+<p>
+Support for pre-compiled headers (PCH) has been dropped for now in the
+  interest of simplicity. If you need support for PCH, please open an issue.
+</p>
+</li>
+<li>
+<p>
+Coverage reports are now generated using “make check-code-coverage”, which
+  requires specifying --enable-code-coverage when calling configure.
+</p>
+</li>
+</ul></div>
+</div>
 </div>
 </div>
 </div>
