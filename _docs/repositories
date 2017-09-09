@@ -33,6 +33,11 @@ If you want the latest i3 development version::
 This Ubuntu repository is provided by sur5r and contains the latest stable
 release of i3. To use it, run the following commands:
 
+////////////////////////////////////////////////////////////////////////////////
+TODO: Replace dpkg -i with apt install ./ below after 2019-05.
+See https://github.com/i3/i3.github.io/pull/35
+////////////////////////////////////////////////////////////////////////////////
+
 ---------------------------------------------------------------------------------
 $ /usr/lib/apt/apt-helper download-file http://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2017.01.02_all.deb keyring.deb SHA256:4c3c6685b1181d83efe3a479c5ae38a2a44e23add55e16a328b8c8560bf05e5f
 # dpkg -i ./keyring.deb
@@ -53,7 +58,7 @@ minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
 $ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild-ubuntu/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
-# dpkg -i ./keyring.deb
+# apt install ./keyring.deb
 # echo 'deb http://dl.bintray.com/i3/i3-autobuild-ubuntu xenial main' > /etc/apt/sources.list.d/i3-autobuild.list
 # apt update
 # apt install i3
@@ -69,7 +74,7 @@ minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
 $ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
-# dpkg -i ./keyring.deb
+# apt install ./keyring.deb
 # echo 'deb http://dl.bintray.com/i3/i3-autobuild sid main' > /etc/apt/sources.list.d/i3-autobuild.list
 # apt update
 # apt install i3
