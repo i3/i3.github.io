@@ -47,7 +47,111 @@ you find necessary, please do not hesitate to contact me.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_window_managers">1. Window Managers</h2>
+<h2 id="_building_i3">1. Building i3</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>You can build i3 like you build any other software package which uses autotools.
+Here’s a memory refresher:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>$ autoreconf -fi
+$ mkdir -p build &amp;&amp; cd build
+$ ../configure
+$ make -j8</tt></pre>
+</div></div>
+<div class="paragraph"><p>(The autoreconf -fi step is unnecessary if you are building from a release tarball,
+ but shouldn’t hurt either.)</p></div>
+<div class="sect2">
+<h3 id="_build_system_features">1.1. Build system features</h3>
+<div class="ulist"><ul>
+<li>
+<p>
+We use the AX_ENABLE_BUILDDIR macro to enforce builds happening in a separate
+  directory. This is a prerequisite for the AX_EXTEND_SRCDIR macro and building
+  in a separate directory is common practice anyway. In case this causes any
+  trouble when packaging i3 for your distribution, please open an issue.
+</p>
+</li>
+<li>
+<p>
+“make check” runs the i3 testsuite. See docs/testsuite for details.
+</p>
+</li>
+<li>
+<p>
+“make distcheck” (runs testsuite on “make dist” result, tiny bit quicker
+  feedback cycle than waiting for the travis build to catch the issue).
+</p>
+</li>
+<li>
+<p>
+“make uninstall” (occasionally requested by users who compile from source)
+</p>
+</li>
+<li>
+<p>
+“make” will build manpages/docs by default if the tools are installed.
+  Conversely, manpages/docs are not tried to be built for users who don’t want
+  to install all these dependencies to get started hacking on i3.
+</p>
+</li>
+<li>
+<p>
+non-release builds will enable address sanitizer by default. Use the
+  --disable-sanitizers configure option to turn off all sanitizers, and see
+  --help for available sanitizers.
+</p>
+</li>
+<li>
+<p>
+Support for pre-compiled headers (PCH) has been dropped for now in the
+  interest of simplicity. If you need support for PCH, please open an issue.
+</p>
+</li>
+<li>
+<p>
+Coverage reports are now generated using “make check-code-coverage”, which
+  requires specifying --enable-code-coverage when calling configure.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_git_sending_patches">2. Using git / sending patches</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>For a short introduction into using git, see
+<a href="https://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy">https://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy</a>
+or, for more documentation, see <a href="https://git-scm.com/documentation">https://git-scm.com/documentation</a></p></div>
+<div class="paragraph"><p>Please talk to us before working on new features to see whether they will be
+accepted. A good way for this is to open an issue and asking for opinions on it.
+Even for accepted features, this can be a good way to refine an idea upfront. However,
+we don&#8217;t want to see certain features in i3, e.g., switching window focus in an
+Alt+Tab like way.</p></div>
+<div class="paragraph"><p>When working on bugfixes, please make sure you mention that you are working on
+it in the corresponding bug report at <a href="https://github.com/i3/i3/issues">https://github.com/i3/i3/issues</a>. In case
+there is no bug report yet, please create one.</p></div>
+<div class="paragraph"><p>After you are done, please submit your work for review as a pull request at
+<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>.</p></div>
+<div class="paragraph"><p>Do not send emails to the mailing list or any author directly, and don’t submit
+them in the bugtracker, since all reviews should be done in public at
+<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>. In order to make your review go as fast as possible, you
+could have a look at previous reviews and see what the common mistakes are.</p></div>
+<div class="sect2">
+<h3 id="_which_branch_to_use">2.1. Which branch to use?</h3>
+<div class="paragraph"><p>Work on i3 generally happens in two branches: “master” and “next” (the latter
+being the default branch, the one that people get when they check out the git
+repository).</p></div>
+<div class="paragraph"><p>The contents of “master” are always stable. That is, it contains the source code
+of the latest release, plus any bugfixes that were applied since that release.</p></div>
+<div class="paragraph"><p>New features are only found in the “next” branch. Therefore, if you are working
+on a new feature, use the “next” branch. If you are working on a bugfix, use the
+“next” branch, too, but make sure your code also works on “master”.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_window_managers">3. Window Managers</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>A window manager is not necessarily needed to run X, but it is usually used in
 combination with X to facilitate some things. The window manager&#8217;s job is to
@@ -124,7 +228,7 @@ React to the user’s commands: Change focus, Move windows, Switch workspaces,
 <div class="paragraph"><p>In the following chapters, each of these tasks and their implementation details
 will be discussed.</p></div>
 <div class="sect2">
-<h3 id="_tiling_window_managers">1.1. Tiling window managers</h3>
+<h3 id="_tiling_window_managers">3.1. Tiling window managers</h3>
 <div class="paragraph"><p>Traditionally, there are two approaches to managing windows: The most common
 one nowadays is floating, which means the user can freely move/resize the
 windows. The other approach is called tiling, which means that your window
@@ -143,7 +247,7 @@ layout (like dwm, awesome, …) but provide mechanisms for you to easily create
 the layout you need at the moment.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_the_layout_tree">1.2. The layout tree</h3>
+<h3 id="_the_layout_tree">3.2. The layout tree</h3>
 <div class="paragraph"><p>The data structure which i3 uses to keep track of your windows is a tree. Every
 node in the tree is a container (type <tt>Con</tt>). Some containers represent actual
 windows (every container with a <tt>window != NULL</tt>), some represent split
@@ -154,13 +258,13 @@ the same split container, which uses the default layout. In case of an empty
 workspace, the split container we are talking about is the workspace.</p></div>
 <div class="paragraph"><p>To get an impression of how different layouts are represented, just play around
 and look at the data structures&#8201;&#8212;&#8201;they are exposed as a JSON hash. See
-<a href="http://i3wm.org/docs/ipc.html#_tree_reply">http://i3wm.org/docs/ipc.html#_tree_reply</a> for documentation on that and an
+<a href="https://i3wm.org/docs/ipc.html#_tree_reply">https://i3wm.org/docs/ipc.html#_tree_reply</a> for documentation on that and an
 example.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_files">2. Files</h2>
+<h2 id="_files">4. Files</h2>
 <div class="sectionbody">
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -449,7 +553,7 @@ Legacy support for Xinerama. See <tt>src/randr.c</tt> for the preferred API.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_data_structures">3. Data structures</h2>
+<h2 id="_data_structures">5. Data structures</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>See include/data.h for documented data structures. The most important ones are
 explained right here.</p></div>
@@ -488,14 +592,14 @@ explained right here.</p></div>
 </ol></div>
 <div class="paragraph"><p>The data type is <tt>Con</tt>, in all cases.</p></div>
 <div class="sect2">
-<h3 id="_x11_root_window">3.1. X11 root window</h3>
+<h3 id="_x11_root_window">5.1. X11 root window</h3>
 <div class="paragraph"><p>The X11 root window is a single window per X11 display (a display is identified
 by <tt>:0</tt> or <tt>:1</tt> etc.). The root window is what you draw your background image
 on. It spans all the available outputs, e.g. <tt>VGA1</tt> is a specific part of the
 root window and <tt>LVDS1</tt> is a specific part of the root window.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_output_container">3.2. Output container</h3>
+<h3 id="_output_container">5.2. Output container</h3>
 <div class="paragraph"><p>Every active output obtained through RandR is represented by one output
 container. Outputs are considered active when a mode is configured (meaning
 something is actually displayed on the output) and the output is not a clone.</p></div>
@@ -510,13 +614,13 @@ workspace will be assigned. New workspaces are created on the output you are
 currently on.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_content_container">3.3. Content container</h3>
+<h3 id="_content_container">5.3. Content container</h3>
 <div class="paragraph"><p>Each output has multiple children. Two of them are dock containers which hold
 dock clients. The other one is the content container, which holds the actual
 content (workspaces) of this output.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_workspace">3.4. Workspace</h3>
+<h3 id="_workspace">5.4. Workspace</h3>
 <div class="paragraph"><p>A workspace is identified by its name. Basically, you could think of
 workspaces as different desks in your office, if you like the desktop
 metaphor. They just contain different sets of windows and are completely
@@ -524,7 +628,7 @@ separate of each other. Other window managers also call this &#8220;Virtual
 desktops&#8221;.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_split_container">3.5. Split container</h3>
+<h3 id="_split_container">5.5. Split container</h3>
 <div class="paragraph"><p>A split container is a container which holds an arbitrary amount of split
 containers or X11 window containers. It has an orientation (horizontal or
 vertical) and a layout.</p></div>
@@ -532,14 +636,14 @@ vertical) and a layout.</p></div>
 containers) can have different border styles.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_x11_window_container">3.6. X11 window container</h3>
+<h3 id="_x11_window_container">5.6. X11 window container</h3>
 <div class="paragraph"><p>An X11 window container holds exactly one X11 window. These are the leaf nodes
 of the layout tree, they cannot have any children.</p></div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_list_queue_macros">4. List/queue macros</h2>
+<h2 id="_list_queue_macros">6. List/queue macros</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>i3 makes heavy use of the list macros defined in BSD operating systems. To
 ensure that the operating system on which i3 is compiled has all the expected
@@ -554,7 +658,7 @@ selected window to the window above/below.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_naming_conventions">5. Naming conventions</h2>
+<h2 id="_naming_conventions">7. Naming conventions</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>There is a row of standard variables used in many events. The following names
 should be chosen for those:</p></div>
@@ -583,7 +687,7 @@ should be chosen for those:</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_startup_src_mainx_c_main">6. Startup (src/mainx.c, main())</h2>
+<h2 id="_startup_src_mainx_c_main">8. Startup (src/mainx.c, main())</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -620,10 +724,10 @@ Enter the event loop
 </div>
 </div>
 <div class="sect1">
-<h2 id="_keybindings">7. Keybindings</h2>
+<h2 id="_keybindings">9. Keybindings</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_grabbing_the_bindings">7.1. Grabbing the bindings</h3>
+<h3 id="_grabbing_the_bindings">9.1. Grabbing the bindings</h3>
 <div class="paragraph"><p>Grabbing the bindings is quite straight-forward. You pass X your combination of
 modifiers and the keycode you want to grab and whether you want to grab them
 actively or passively. Most bindings (everything except for bindings using
@@ -644,7 +748,7 @@ check on each press of "a" if the Mode_switch bit is set using XKB. If yes, it
 will handle the event, if not, it will replay the event.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_handling_a_keypress">7.2. Handling a keypress</h3>
+<h3 id="_handling_a_keypress">9.2. Handling a keypress</h3>
 <div class="paragraph"><p>As mentioned in "Grabbing the bindings", upon a keypress event, i3 first gets
 the correct state.</p></div>
 <div class="paragraph"><p>Then, it looks through all bindings and gets the one which matches the received
@@ -655,7 +759,7 @@ event.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_manage_windows_src_main_c_manage_window_and_reparent_window">8. Manage windows (src/main.c, manage_window() and reparent_window())</h2>
+<h2 id="_manage_windows_src_main_c_manage_window_and_reparent_window">10. Manage windows (src/main.c, manage_window() and reparent_window())</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><tt>manage_window()</tt> does some checks to decide whether the window should be
 managed at all:</p></div>
@@ -691,7 +795,7 @@ target workspace is not visible, the window will not be mapped.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_what_happens_when_an_application_is_started">9. What happens when an application is started?</h2>
+<h2 id="_what_happens_when_an_application_is_started">11. What happens when an application is started?</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>i3 does not care about applications. All it notices is when new windows are
 mapped (see <tt>src/handlers.c</tt>, <tt>handle_map_request()</tt>). The window is then
@@ -711,7 +815,7 @@ can reconfigure themselves).</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_net_wm_state">10. _NET_WM_STATE</h2>
+<h2 id="_net_wm_state">12. _NET_WM_STATE</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Only the _NET_WM_STATE_FULLSCREEN and _NET_WM_STATE_DEMANDS_ATTENTION atoms
 are handled.</p></div>
@@ -722,7 +826,7 @@ Also, it is set as fullscreen_client for the i3Screen.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_wm_name">11. WM_NAME</h2>
+<h2 id="_wm_name">13. WM_NAME</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>When the WM_NAME property of a window changes, its decoration (containing the
 title) is re-rendered. Note that WM_NAME is in COMPOUND_TEXT encoding which is
@@ -731,7 +835,7 @@ if present.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_net_wm_name">12. _NET_WM_NAME</h2>
+<h2 id="_net_wm_name">14. _NET_WM_NAME</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Like WM_NAME, this atom contains the title of a window. However, _NET_WM_NAME
 is encoded in UTF-8. i3 will recode it to UCS-2 in order to be able to pass it
@@ -740,7 +844,7 @@ characters (every special character contained in your font).</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_size_hints">13. Size hints</h2>
+<h2 id="_size_hints">15. Size hints</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Size hints specify the minimum/maximum size for a given window as well as its
 aspect ratio.  This is important for clients like mplayer, who only set the
@@ -753,7 +857,7 @@ src/layout.c, function resize_client().</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rendering_src_layout_c_render_layout_and_render_container">14. Rendering (src/layout.c, render_layout() and render_container())</h2>
+<h2 id="_rendering_src_layout_c_render_layout_and_render_container">16. Rendering (src/layout.c, render_layout() and render_container())</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Rendering in i3 version 4 is the step which assigns the correct sizes for
 borders, decoration windows, child windows and the stacking order of all
@@ -773,7 +877,7 @@ container and then pushing the changes to X11. The following sections talk
 about the different rendering steps, in the order of "top of the tree" (root
 container) to the bottom.</p></div>
 <div class="sect2">
-<h3 id="_rendering_the_root_container">14.1. Rendering the root container</h3>
+<h3 id="_rendering_the_root_container">16.1. Rendering the root container</h3>
 <div class="paragraph"><p>The i3 root container (<tt>con-&gt;type == CT_ROOT</tt>) represents the X11 root window.
 It contains one child container for every output (like LVDS1, VGA1, …), which
 is available on your computer.</p></div>
@@ -789,7 +893,7 @@ spanning all outputs), a shortcut is taken and <tt>x_raise_con(); render_con()</
 only called for the global fullscreen window.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_rendering_an_output">14.2. Rendering an output</h3>
+<h3 id="_rendering_an_output">16.2. Rendering an output</h3>
 <div class="paragraph"><p>Output containers (<tt>con-&gt;layout == L_OUTPUT</tt>) represent a hardware output like
 LVDS1, VGA1, etc. An output container has three children (at the moment): One
 content container (having workspaces as children) and the top/bottom dock area
@@ -836,20 +940,20 @@ Recursively raise and render the output’s child containers (meaning dock
 </ol></div>
 </div>
 <div class="sect2">
-<h3 id="_rendering_a_workspace_or_split_container">14.3. Rendering a workspace or split container</h3>
+<h3 id="_rendering_a_workspace_or_split_container">16.3. Rendering a workspace or split container</h3>
 <div class="paragraph"><p>From here on, there really is no difference anymore. All containers are of
 <tt>con-&gt;type == CT_CON</tt> (whether workspace or split container) and some of them
 have a <tt>con-&gt;window</tt>, meaning they represent an actual window instead of a
 split container.</p></div>
 <div class="sect3">
-<h4 id="_default_layout">14.3.1. Default layout</h4>
+<h4 id="_default_layout">16.3.1. Default layout</h4>
 <div class="paragraph"><p>In default layout, containers are placed horizontally or vertically next to
 each other (depending on the <tt>con-&gt;orientation</tt>). If a child is a leaf node (as
 opposed to a split container) and has border style "normal", appropriate space
 will be reserved for its window decoration.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_stacked_layout">14.3.2. Stacked layout</h4>
+<h4 id="_stacked_layout">16.3.2. Stacked layout</h4>
 <div class="paragraph"><p>In stacked layout, only the focused window is actually shown (this is achieved
 by calling <tt>x_raise_con()</tt> in reverse focus order at the end of <tt>render_con()</tt>).</p></div>
 <div class="paragraph"><p>The available space for the focused window is the size of the container minus
@@ -860,20 +964,20 @@ reserved (or displayed later on), unless there is more than one window inside
 the stacked container.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_tabbed_layout">14.3.3. Tabbed layout</h4>
+<h4 id="_tabbed_layout">16.3.3. Tabbed layout</h4>
 <div class="paragraph"><p>Tabbed layout works precisely like stacked layout, but the window decoration
 position/size is different: They are placed next to each other on a single line
 (fixed height).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_dock_area_layout">14.3.4. Dock area layout</h4>
+<h4 id="_dock_area_layout">16.3.4. Dock area layout</h4>
 <div class="paragraph"><p>This is a special case. Users cannot choose the dock area layout, but it will be
 set for the dock area containers. In the dockarea layout (at the moment!),
 windows will be placed above each other.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rendering_a_window">14.4. Rendering a window</h3>
+<h3 id="_rendering_a_window">16.4. Rendering a window</h3>
 <div class="paragraph"><p>A window’s size and position will be determined in the following way:</p></div>
 <div class="olist arabic"><ol class="arabic">
 <li>
@@ -902,7 +1006,7 @@ Obey the height- and width-increments of the window (think terminal emulator
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pushing_updates_to_x11_drawing">15. Pushing updates to X11 / Drawing</h2>
+<h2 id="_pushing_updates_to_x11_drawing">17. Pushing updates to X11 / Drawing</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>A big problem with i3 before version 4 was that we just sent requests to X11
 anywhere in the source code. This was bad because nobody could understand the
@@ -932,7 +1036,7 @@ Expose event handling (drawing decorations): <tt>x_deco_recurse()</tt> and
 </li>
 </ol></div>
 <div class="sect2">
-<h3 id="_pushing_state_to_x11">15.1. Pushing state to X11</h3>
+<h3 id="_pushing_state_to_x11">17.1. Pushing state to X11</h3>
 <div class="paragraph"><p>In general, the function <tt>x_push_changes</tt> should be called to push state
 changes. Only when the scope of the state change is clearly defined (for
 example only the title of a window) and its impact is known beforehand, one can
@@ -1042,7 +1146,7 @@ unmapped if it should not be visible anymore. <tt>WM_STATE</tt> will be set to
 <tt>WM_STATE_WITHDRAWN</tt>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_drawing_window_decorations_borders_backgrounds">15.2. Drawing window decorations/borders/backgrounds</h3>
+<h3 id="_drawing_window_decorations_borders_backgrounds">17.2. Drawing window decorations/borders/backgrounds</h3>
 <div class="paragraph"><p><tt>x_draw_decoration</tt> draws window decorations. It is run for every leaf
 container (representing an actual X11 window) and for every non-leaf container
 which is in a stacked/tabbed container (because stacked/tabbed containers
@@ -1061,7 +1165,7 @@ and "1pixel") and the top bar (in case of border style "normal").</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_user_commands_parser_specs_commands_spec">16. User commands (parser-specs/commands.spec)</h2>
+<h2 id="_user_commands_parser_specs_commands_spec">18. User commands (parser-specs/commands.spec)</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>In the configuration file and when using i3 interactively (with <tt>i3-msg</tt>, for
 example), you use commands to make i3 do things, like focus a different window,
@@ -1103,7 +1207,7 @@ which will be compared with the input. An action is either the name of a state
 in which the parser will transition into, or the keyword <em>call</em>, followed by
 the name of a function (and optionally a state).</p></div>
 <div class="sect2">
-<h3 id="_example_the_workspace_state">16.1. Example: The WORKSPACE state</h3>
+<h3 id="_example_the_workspace_state">18.1. Example: The WORKSPACE state</h3>
 <div class="paragraph"><p>Let’s have a look at the WORKSPACE state, which is a good example of all
 features. This is its definition:</p></div>
 <div class="listingblock">
@@ -1201,7 +1305,7 @@ workspace number &lt;number&gt;
 </dl></div>
 </div>
 <div class="sect2">
-<h3 id="_introducing_a_new_command">16.2. Introducing a new command</h3>
+<h3 id="_introducing_a_new_command">18.2. Introducing a new command</h3>
 <div class="paragraph"><p>The following steps have to be taken in order to properly introduce a new
 command (or possibly extend an existing command):</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -1247,12 +1351,12 @@ Document the feature in the <a href="userguide.html">User’s Guide</a>.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_moving_containers">17. Moving containers</h2>
+<h2 id="_moving_containers">19. Moving containers</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The movement code is pretty delicate. You need to consider all cases before
 making any changes or before being able to fully understand how it works.</p></div>
 <div class="sect2">
-<h3 id="_case_1_moving_inside_the_same_container">17.1. Case 1: Moving inside the same container</h3>
+<h3 id="_case_1_moving_inside_the_same_container">19.1. Case 1: Moving inside the same container</h3>
 <div class="paragraph"><p>The reference layout for this case is a single workspace in horizontal
 orientation with two containers on it. Focus is on the left container (1).</p></div>
 <div class="tableblock">
@@ -1277,7 +1381,7 @@ commented with "the easy case": it calls TAILQ_NEXT to get the container right
 of the current one and swaps both containers.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_2_move_a_container_into_a_split_container">17.2. Case 2: Move a container into a split container</h3>
+<h3 id="_case_2_move_a_container_into_a_split_container">19.2. Case 2: Move a container into a split container</h3>
 <div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
 containers. The right container is a v-split with two containers. Focus is on
 the left container (1).</p></div>
@@ -1311,7 +1415,7 @@ empty.</p></div>
 be flattened.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_3_moving_to_non_existent_top_bottom">17.3. Case 3: Moving to non-existent top/bottom</h3>
+<h3 id="_case_3_moving_to_non_existent_top_bottom">19.3. Case 3: Moving to non-existent top/bottom</h3>
 <div class="paragraph"><p>Like in case 1, the reference layout for this case is a single workspace in
 horizontal orientation with two containers on it. Focus is on the left
 container:</p></div>
@@ -1345,7 +1449,7 @@ container and the container above/below the current one (on the level of
 flattened.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_4_moving_to_existent_top_bottom">17.4. Case 4: Moving to existent top/bottom</h3>
+<h3 id="_case_4_moving_to_existent_top_bottom">19.4. Case 4: Moving to existent top/bottom</h3>
 <div class="paragraph"><p>The reference layout for this case is a vertical workspace with two containers.
 The bottom one is a h-split containing two containers (1 and 2). Focus is on
 the bottom left container (1).</p></div>
@@ -1372,7 +1476,7 @@ orientation change does not need to be performed because the workspace already
 is in vertical orientation.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_5_moving_in_one_child_h_split">17.5. Case 5: Moving in one-child h-split</h3>
+<h3 id="_case_5_moving_in_one_child_h_split">19.5. Case 5: Moving in one-child h-split</h3>
 <div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
 containers having a v-split on the left side with a one-child h-split on the
 bottom. Focus is on the bottom left container (2(h)):</p></div>
@@ -1404,7 +1508,7 @@ orientation will be force-changed), this case is equivalent to case 2 or case
 4.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_6_floating_containers">17.6. Case 6: Floating containers</h3>
+<h3 id="_case_6_floating_containers">19.6. Case 6: Floating containers</h3>
 <div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
 containers plus one floating h-split container. Focus is on the floating
 container.</p></div>
@@ -1416,7 +1520,7 @@ by calling the function <tt>attach_to_workspace</tt>.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_click_handling">18. Click handling</h2>
+<h2 id="_click_handling">20. Click handling</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Without much ado, here is the list of cases which need to be considered:</p></div>
 <div class="ulist"><ul>
@@ -1466,7 +1570,7 @@ click on border/decoration to resize a tiling con
 </div>
 </div>
 <div class="sect1">
-<h2 id="_gotchas">19. Gotchas</h2>
+<h2 id="_gotchas">21. Gotchas</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -1488,112 +1592,7 @@ Forgetting to call <tt>floating_fix_coordinates(con, old_rect, new_rect)</tt> af
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_git_sending_patches">20. Using git / sending patches</h2>
-<div class="sectionbody">
-<div class="sect2">
-<h3 id="_introduction">20.1. Introduction</h3>
-<div class="paragraph"><p>For a short introduction into using git, see
-<a href="http://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy">http://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy</a>
-or, for more documentation, see <a href="http://git-scm.com/documentation">http://git-scm.com/documentation</a></p></div>
-<div class="paragraph"><p>Please talk to us before working on new features to see whether they will be
-accepted. A good way for this is to open an issue and asking for opinions on it.
-Even for accepted features, this can be a good way to refine an idea upfront. However,
-we don&#8217;t want to see certain features in i3, e.g., switching window focus in an
-Alt+Tab like way.</p></div>
-<div class="paragraph"><p>When working on bugfixes, please make sure you mention that you are working on
-it in the corresponding bug report at <a href="https://github.com/i3/i3/issues">https://github.com/i3/i3/issues</a>. In case
-there is no bug report yet, please create one.</p></div>
-<div class="paragraph"><p>After you are done, please submit your work for review as a pull request at
-<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>.</p></div>
-<div class="paragraph"><p>Do not send emails to the mailing list or any author directly, and don’t submit
-them in the bugtracker, since all reviews should be done in public at
-<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>. In order to make your review go as fast as possible, you
-could have a look at previous reviews and see what the common mistakes are.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_which_branch_to_use">20.2. Which branch to use?</h3>
-<div class="paragraph"><p>Work on i3 generally happens in two branches: “master” and “next” (the latter
-being the default branch, the one that people get when they check out the git
-repository).</p></div>
-<div class="paragraph"><p>The contents of “master” are always stable. That is, it contains the source code
-of the latest release, plus any bugfixes that were applied since that release.</p></div>
-<div class="paragraph"><p>New features are only found in the “next” branch. Therefore, if you are working
-on a new feature, use the “next” branch. If you are working on a bugfix, use the
-“next” branch, too, but make sure your code also works on “master”.</p></div>
-</div>
-<div class="sect2">
-<h3 id="_how_to_build">20.3. How to build?</h3>
-<div class="paragraph"><p>You can build i3 like you build any other software package which uses autotools.
-Here’s a memory refresher:</p></div>
-<div class="literalblock">
-<div class="content">
-<pre><tt>$ autoreconf -fi
-$ mkdir -p build &amp;&amp; cd build
-$ ../configure
-$ make -j8</tt></pre>
-</div></div>
-<div class="paragraph"><p>(The autoreconf -fi step is unnecessary if you are building from a release tarball,
- but shouldn’t hurt either.)</p></div>
-<div class="sect3">
-<h4 id="_build_system_features">20.3.1. Build system features</h4>
-<div class="ulist"><ul>
-<li>
-<p>
-We use the AX_ENABLE_BUILDDIR macro to enforce builds happening in a separate
-  directory. This is a prerequisite for the AX_EXTEND_SRCDIR macro and building
-  in a separate directory is common practice anyway. In case this causes any
-  trouble when packaging i3 for your distribution, please open an issue.
-</p>
-</li>
-<li>
-<p>
-“make check” runs the i3 testsuite. See docs/testsuite for details.
-</p>
-</li>
-<li>
-<p>
-“make distcheck” (runs testsuite on “make dist” result, tiny bit quicker
-  feedback cycle than waiting for the travis build to catch the issue).
-</p>
-</li>
-<li>
-<p>
-“make uninstall” (occasionally requested by users who compile from source)
-</p>
-</li>
-<li>
-<p>
-“make” will build manpages/docs by default if the tools are installed.
-  Conversely, manpages/docs are not tried to be built for users who don’t want
-  to install all these dependencies to get started hacking on i3.
-</p>
-</li>
-<li>
-<p>
-non-release builds will enable address sanitizer by default. Use the
-  --disable-sanitizers configure option to turn off all sanitizers, and see
-  --help for available sanitizers.
-</p>
-</li>
-<li>
-<p>
-Support for pre-compiled headers (PCH) has been dropped for now in the
-  interest of simplicity. If you need support for PCH, please open an issue.
-</p>
-</li>
-<li>
-<p>
-Coverage reports are now generated using “make check-code-coverage”, which
-  requires specifying --enable-code-coverage when calling configure.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_thought_experiments">21. Thought experiments</h2>
+<h2 id="_thought_experiments">22. Thought experiments</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>In this section, we collect thought experiments, so that we don’t forget our
 thoughts about specific topics. They are not necessary to get into hacking i3,
@@ -1601,7 +1600,7 @@ but if you are interested in one of the topics they cover, you should read them
 before asking us why things are the way they are or why we don’t implement
 things.</p></div>
 <div class="sect2">
-<h3 id="_using_cgroups_per_workspace">21.1. Using cgroups per workspace</h3>
+<h3 id="_using_cgroups_per_workspace">22.1. Using cgroups per workspace</h3>
 <div class="paragraph"><p>cgroups (control groups) are a linux-only feature which provides the ability to
 group multiple processes. For each group, you can individually set resource
 limits, like allowed memory usage. Furthermore, and more importantly for our

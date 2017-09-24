@@ -44,7 +44,7 @@ process and/or need further help, do not hesitate to contact us!</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_verify_you_are_using_i3_4_14">1. Verify you are using i3 ≥ 4.14</h2>
+<h2 id="_verify_you_are_using_i3_4_14_1">1. Verify you are using i3 ≥ 4.14.1</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Only the latest major version of i3 is supported. To verify which version
 you are running, use:</p></div>
@@ -74,8 +74,8 @@ if you can.
 <dd>
 <p>
 Your version is 85 commits newer than 4.7, and the git revision of your
-version is <tt>9c15b95</tt>. Go to <a href="http://code.i3wm.org/i3/commit/?h=next">http://code.i3wm.org/i3/commit/?h=next</a> and see if
-the line "commit" starts with the same revision. If so, you are using the
+version is <tt>9c15b95</tt>. Go to <a href="https://github.com/i3/i3/commits/next">https://github.com/i3/i3/commits/next</a> and see if
+the most recent commit starts with the same revision. If so, you are using the
 latest version.
 </p>
 </dd>
@@ -181,7 +181,7 @@ crashed, the logfile provides all information necessary to debug the problem.</p
 <div class="paragraph"><p>To upload a compressed version of the logfile (for a bugreport), use:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>DISPLAY=:0 i3-dump-log | bzip2 -c | curl --data-binary @- http://logs.i3wm.org</tt></pre>
+<pre><tt>DISPLAY=:0 i3-dump-log | bzip2 -c | curl --data-binary @- https://logs.i3wm.org</tt></pre>
 </div></div>
 <div class="paragraph"><p>This command does not depend on i3 (it also works while i3 displays
 the crash dialog), but it requires a working X11 connection.</p></div>
@@ -222,9 +222,9 @@ starting at 0.</p></div>
 you found the section which clearly highlights the problem, additional
 information might be necessary to completely diagnose the problem.</p></div>
 <div class="paragraph"><p>When debugging with us in IRC, be prepared to use a so called nopaste service
-such as <a href="http://nopaste.info">http://nopaste.info</a> or <a href="http://pastebin.com">http://pastebin.com</a> because pasting large
-amounts of text in IRC sometimes leads to incomplete lines (servers have line
-length limitations) or flood kicks.</p></div>
+such as <a href="https://pastebin.com">https://pastebin.com</a> because pasting large amounts of text in IRC
+sometimes leads to incomplete lines (servers have line length limitations) or
+flood kicks.</p></div>
 </div>
 </div>
 <div class="sect1">

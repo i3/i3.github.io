@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <h1>IPC interface (interprocess communication)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">October 2014</span>
+<span id="revdate">September 2017</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -92,93 +92,88 @@ they are in native byte order).</p></div>
 <div class="paragraph"><p>The magic string currently is "i3-ipc" and will only be changed when a change
 in the IPC API is done which breaks compatibility (we hope that we don’t need
 to do that).</p></div>
-<div class="paragraph"><p>Currently implemented message types are the following:</p></div>
-<div class="dlist"><dl>
-<dt class="hdlist1">
-COMMAND (0)
-</dt>
-<dd>
-<p>
-        The payload of the message is a command for i3 (like the commands you
-        can bind to keys in the configuration file) and will be executed
-        directly after receiving it.
-</p>
-</dd>
-<dt class="hdlist1">
-GET_WORKSPACES (1)
-</dt>
-<dd>
-<p>
-        Gets the current workspaces. The reply will be a JSON-encoded list of
-        workspaces (see the reply section).
-</p>
-</dd>
-<dt class="hdlist1">
-SUBSCRIBE (2)
-</dt>
-<dd>
-<p>
-        Subscribes your connection to certain events. See <a href="#events">[events]</a> for a
-        description of this message and the concept of events.
-</p>
-</dd>
-<dt class="hdlist1">
-GET_OUTPUTS (3)
-</dt>
-<dd>
-<p>
-        Gets the current outputs. The reply will be a JSON-encoded list of outputs
-        (see the reply section).
-</p>
-</dd>
-<dt class="hdlist1">
-GET_TREE (4)
-</dt>
-<dd>
-<p>
-        Gets the layout tree. i3 uses a tree as data structure which includes
-        every container. The reply will be the JSON-encoded tree (see the reply
-        section).
-</p>
-</dd>
-<dt class="hdlist1">
-GET_MARKS (5)
-</dt>
-<dd>
-<p>
-        Gets a list of marks (identifiers for containers to easily jump to them
-        later). The reply will be a JSON-encoded list of window marks (see
-        reply section).
-</p>
-</dd>
-<dt class="hdlist1">
-GET_BAR_CONFIG (6)
-</dt>
-<dd>
-<p>
-        Gets the configuration (as JSON map) of the workspace bar with the
-        given ID. If no ID is provided, an array with all configured bar IDs is
-        returned instead.
-</p>
-</dd>
-<dt class="hdlist1">
-GET_VERSION (7)
-</dt>
-<dd>
-<p>
-        Gets the version of i3. The reply will be a JSON-encoded dictionary
-        with the major, minor, patch and human-readable version.
-</p>
-</dd>
-<dt class="hdlist1">
-GET_BINDING_MODES (8)
-</dt>
-<dd>
-<p>
-        Gets a list of currently configured binding modes.
-</p>
-</dd>
-</dl></div>
+<div class="tableblock">
+<table rules="all"
+width="100%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<caption class="title">Table 1. Currently implemented message types</caption>
+<col width="10%" />
+<col width="20%" />
+<col width="20%" />
+<col width="50%" />
+<thead>
+<tr>
+<th align="center" valign="top"> Type (numeric) </th>
+<th align="center" valign="top"> Type (name) </th>
+<th align="center" valign="top"> Reply type </th>
+<th align="center" valign="top"> Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center" valign="top"><p class="table">0</p></td>
+<td align="center" valign="top"><p class="table"><tt>RUN_COMMAND</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_command_reply">COMMAND</a></p></td>
+<td align="center" valign="top"><p class="table">Run the payload as an i3 command (like the commands you can bind to keys).</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">1</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_WORKSPACES</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_workspaces_reply">WORKSPACES</a></p></td>
+<td align="center" valign="top"><p class="table">Get the list of current workspaces.</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">2</p></td>
+<td align="center" valign="top"><p class="table"><tt>SUBSCRIBE</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_subscribe_reply">SUBSCRIBE</a></p></td>
+<td align="center" valign="top"><p class="table">Subscribe this IPC connection to the event types specified in the message payload. See <a href="#events">[events]</a>.</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">3</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_OUTPUTS</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_outputs_reply">OUTPUTS</a></p></td>
+<td align="center" valign="top"><p class="table">Get the list of current outputs.</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">4</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_TREE</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_tree_reply">TREE</a></p></td>
+<td align="center" valign="top"><p class="table">Get the i3 layout tree.</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">5</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_MARKS</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_marks_reply">MARKS</a></p></td>
+<td align="center" valign="top"><p class="table">Gets the names of all currently set marks.</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">6</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_BAR_CONFIG</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_bar_config_reply">BAR_CONFIG</a></p></td>
+<td align="center" valign="top"><p class="table">Gets the specified bar configuration or the names of all bar configurations if payload is empty.</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">7</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_VERSION</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_version_reply">VERSION</a></p></td>
+<td align="center" valign="top"><p class="table">Gets the i3 version.</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">8</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_BINDING_MODES</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_binding_modes_reply">BINDING_MODES</a></p></td>
+<td align="center" valign="top"><p class="table">Gets the names of all currently configured binding modes.</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">9</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_CONFIG</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_config_reply">CONFIG</a></p></td>
+<td align="center" valign="top"><p class="table">Returns the last loaded i3 config.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 <div class="paragraph"><p>So, a typical message could look like this:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -225,7 +220,7 @@ COMMAND (0)
 </dt>
 <dd>
 <p>
-        Confirmation/Error code for the COMMAND message.
+        Confirmation/Error code for the RUN_COMMAND message.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -290,6 +285,14 @@ BINDING_MODES (8)
 <dd>
 <p>
         Reply to the GET_BINDING_MODES message.
+</p>
+</dd>
+<dt class="hdlist1">
+GET_CONFIG (9)
+</dt>
+<dd>
+<p>
+        Reply to the GET_CONFIG message.
 </p>
 </dd>
 </dl></div>
@@ -643,7 +646,10 @@ urgent (bool)
 </dt>
 <dd>
 <p>
-        Whether this container (window or workspace) has the urgency hint set.
+        Whether this container (window, split container, floating container or
+        workspace) has the urgency hint set, directly or indirectly. All parent
+        containers up until the workspace container will be marked urgent if they
+        have at least one urgent child.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -652,6 +658,34 @@ focused (bool)
 <dd>
 <p>
         Whether this container is currently focused.
+</p>
+</dd>
+<dt class="hdlist1">
+focus (array of integer)
+</dt>
+<dd>
+<p>
+        List of child node IDs (see <tt>nodes</tt>, <tt>floating_nodes</tt> and <tt>id</tt>) in focus
+        order. Traversing the tree by following the first entry in this array
+        will result in eventually reaching the one node with <tt>focused</tt> set to
+        true.
+</p>
+</dd>
+<dt class="hdlist1">
+nodes (array of node)
+</dt>
+<dd>
+<p>
+        The tiling (i.e. non-floating) child containers of this node.
+</p>
+</dd>
+<dt class="hdlist1">
+floating_nodes (array of node)
+</dt>
+<dd>
+<p>
+        The floating child containers of this node. Only non-empty on nodes with
+        type <tt>workspace</tt>.
 </p>
 </dd>
 </dl></div>
@@ -1142,6 +1176,16 @@ loaded_config_file_name (string)
 <pre><tt>["default", "resize"]</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_config_reply">3.11. CONFIG reply</h3>
+<div class="paragraph"><p>The config reply is a map which currently only contains the "config" member,
+which is a string containing the config file as loaded by i3 most recently.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "config": "font pango:monospace 8\nbindsym Mod4+q exit\n" }</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1626,6 +1670,116 @@ OCaml
 </ul></div>
 </dd>
 </dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appendix_a_detecting_byte_order_in_memory_safe_languages">6. Appendix A: Detecting byte order in memory-safe languages</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Some programming languages such as Go don’t offer a way to serialize data in the
+native byte order of the machine they’re running on without resorting to tricks
+involving the <tt>unsafe</tt> package.</p></div>
+<div class="paragraph"><p>The following technique can be used (and will not be broken by changes to i3) to
+detect the byte order i3 is using:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+The byte order dependent fields of an IPC message are message type and
+   payload length.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+The message type <tt>RUN_COMMAND</tt> (0) is the same in big and little endian, so
+     we can use it in either byte order to elicit a reply from i3.
+</p>
+</li>
+<li>
+<p>
+The payload length 65536 + 256 (<tt>0x00 01 01 00</tt>) is the same in big and
+     little endian, and also small enough to not worry about memory allocations
+     of that size. We must use payloads of length 65536 + 256 in every message
+     we send, so that i3 will be able to read the entire message regardless of
+     the byte order it uses.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Send a big endian encoded message of type <tt>SUBSCRIBE</tt> (2) with payload <tt>[]</tt>
+   followed by 65536 + 256 - 2 <tt>SPACE</tt> (ASCII 0x20) bytes.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+If i3 is running in big endian, this message is treated as a noop,
+     resulting in a <tt>SUBSCRIBE</tt> reply with payload <tt>{"success":true}</tt>
+     <span class="footnote"><br />[A small payload is important: that way, we circumvent dealing
+     with UNIX domain socket buffer sizes, whose size depends on the
+     implementation/operating system. Exhausting such a buffer results in an i3
+     deadlock unless you concurrently read and write, which — depending on the
+     programming language — makes the technique much more complicated.]<br /></span>.
+</p>
+</li>
+<li>
+<p>
+If i3 is running in little endian, this message is read in its entirety due
+     to the byte order independent payload length, then
+     <a href="https://github.com/i3/i3/blob/d726d09d496577d1c337a4b97486f2c9fbc914f1/src/ipc.c#L1188">silently
+     discarded</a> due to the unknown message type.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Send a byte order independent message, i.e. type <tt>RUN_COMMAND</tt> (0) with
+   payload <tt>nop byte order detection. padding:</tt>, padded to 65536 + 256 bytes
+   with <tt>a</tt> (ASCII 0x61) bytes. i3 will reply to this message with a reply of
+   type <tt>COMMAND</tt> (0).
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+The human-readable prefix is in there to not confuse readers of the i3 log.
+</p>
+</li>
+<li>
+<p>
+This messages serves as a synchronization primitive so that we know whether
+     i3 discarded the <tt>SUBSCRIBE</tt> message or didn’t answer it yet.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+Receive a message header from i3, decoding the message type as big endian.
+</p>
+<div class="ulist"><ul>
+<li>
+<p>
+If the message’s reply type is <tt>COMMAND</tt> (0), i3 is running in little
+     endian (because the <tt>SUBSCRIBE</tt> message was discarded). Decode the message
+     payload length as little endian, receive the message payload.
+</p>
+</li>
+<li>
+<p>
+If the message’s reply type is anything else, i3 is running in big endian
+     (because our big endian encoded <tt>SUBSCRIBE</tt> message was answered). Decode
+     the message payload length in big endian, receive the message
+     payload. Then, receive the pending <tt>COMMAND</tt> message reply in big endian.
+</p>
+</li>
+</ul></div>
+</li>
+<li>
+<p>
+From here on out, send/receive all messages using the detected byte order.
+</p>
+</li>
+</ol></div>
 </div>
 </div>
 </div>

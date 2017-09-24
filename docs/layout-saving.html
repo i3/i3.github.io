@@ -90,7 +90,7 @@ it will be placed in the corresponding placeholder window. We say it gets
 <strong>swallowed</strong> by the placeholder container, hence the term.</p></div>
 <div class="paragraph"><p>Note: Swallowing windows into unsatisfied placeholder windows takes precedence
 over
-<a href="http://i3wm.org/docs/userguide.html#_automatically_putting_clients_on_specific_workspaces">assignment
+<a href="https://i3wm.org/docs/userguide.html#_automatically_putting_clients_on_specific_workspaces">assignment
 rules</a>. For example, if you assign all Emacs windows to workspace 1 in your i3
 configuration file, but there is a placeholder window on workspace 2 which
 matches Emacs as well, your newly started Emacs window will end up in the
@@ -202,7 +202,7 @@ a Chrome window:</p></div>
 </a>
 </span></p></div>
 <div class="paragraph"><p>The structure of this JSON file looks a lot like the <tt>TREE</tt> reply, see
-<a href="http://build.i3wm.org/docs/ipc.html#_tree_reply">http://build.i3wm.org/docs/ipc.html#_tree_reply</a> for documentation on that. Some
+<a href="https://build.i3wm.org/docs/ipc.html#_tree_reply">https://build.i3wm.org/docs/ipc.html#_tree_reply</a> for documentation on that. Some
 properties are excluded because they are not relevant when restoring a layout.</p></div>
 <div class="paragraph"><p>Most importantly, look at the "swallows" section of each window. This is where
 you need to be more or less specific. As an example, remember the section about
@@ -268,8 +268,8 @@ Layout files contain comments which are not standardized, but understood by
 easier. In case you are writing a more elaborate tool for manipulating these
 layouts, you can either use a JSON parser that supports these deviations (for
 example libyajl), transform the layout file to a JSON-conforming file, or
-<a href="http://cr.i3wm.org/">submit a patch</a> to make <tt>i3-save-tree(1)</tt> optionally
-output standard-conforming JSON.</p></div>
+<a href="https://github.com/i3/i3/blob/next/.github/CONTRIBUTING.md">submit a patch</a>
+to make <tt>i3-save-tree(1)</tt> optionally output standard-conforming JSON.</p></div>
 </div>
 </div>
 </div>
