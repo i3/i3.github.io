@@ -889,6 +889,7 @@ Perl::
 	* https://metacpan.org/module/AnyEvent::I3
 Python::
 	* https://github.com/acrisci/i3ipc-python
+	* https://github.com/Ceryn/i3msg-python
 	* https://github.com/whitelynx/i3ipc (not maintained)
 	* https://github.com/ziberna/i3-py (not maintained)
 Ruby::
