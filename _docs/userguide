@@ -244,7 +244,7 @@ vertically split terminals on the right, focus is on the bottom right one. When
 you open a new terminal, it will open below the current one.
 
 So, how can you open a new terminal window to the *right* of the current one?
-The solution is to use +focus parent+, which will focus the +Parent Container+ of
+The solution is to use +focus parent+ (+$mod+a+ by default), which will focus the +Parent Container+ of
 the current +Container+. In this case, you would focus the +Vertical Split
 Container+ which is *inside* the horizontally oriented workspace. Thus, now new
 windows will be opened to the right of the +Vertical Split Container+:
