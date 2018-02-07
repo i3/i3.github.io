@@ -879,6 +879,8 @@ C::
 	* https://github.com/acrisci/i3ipc-glib
 C++::
 	* https://github.com/drmgc/i3ipcpp
+Crystal::
+    * https://github.com/woodruffw/i3.cr
 Go::
 	* https://github.com/mdirkse/i3ipc-go
 JavaScript::
