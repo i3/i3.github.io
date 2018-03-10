@@ -311,7 +311,7 @@ of splits can be.</p></div>
 vertically split terminals on the right, focus is on the bottom right one. When
 you open a new terminal, it will open below the current one.</p></div>
 <div class="paragraph"><p>So, how can you open a new terminal window to the <strong>right</strong> of the current one?
-The solution is to use <tt>focus parent</tt>, which will focus the <tt>Parent Container</tt> of
+The solution is to use <tt>focus parent</tt> (<tt>$mod+a</tt> by default), which will focus the <tt>Parent Container</tt> of
 the current <tt>Container</tt>. In this case, you would focus the <tt>Vertical Split
 Container</tt> which is <strong>inside</strong> the horizontally oriented workspace. Thus, now new
 windows will be opened to the right of the <tt>Vertical Split Container</tt>:</p></div>
@@ -848,7 +848,7 @@ window, you will see the following output:</p></div>
 <div class="paragraph"><p>The first part of the WM_CLASS is the instance ("irssi" in this example), the
 second part is the class ("URxvt" in this example).</p></div>
 <div class="paragraph"><p>Should you have any problems with assignments, make sure to check the i3
-logfile first (see <a href="http://i3wm.org/docs/debugging.html">http://i3wm.org/docs/debugging.html</a>). It includes more
+logfile first (see <a href="https://i3wm.org/docs/debugging.html">https://i3wm.org/docs/debugging.html</a>). It includes more
 details about the matching process and the window’s actual class, instance and
 title when starting up.</p></div>
 <div class="paragraph"><p>Note that if you want to start an application just once on a specific
@@ -909,6 +909,16 @@ the second screen and so on).</p></div>
 <div class="paragraph"><p>The <em>output</em> is the name of the RandR output you attach your screen to. On a
 laptop, you might have VGA1 and LVDS1 as output names. You can see the
 available outputs by running <tt>xrandr --current</tt>.</p></div>
+<div class="paragraph"><p>If your X server supports RandR 1.5 or newer, i3 will use RandR monitor objects
+instead of output objects. Run <tt>xrandr --listmonitors</tt> to see a list. Usually,
+a monitor object contains exactly one output, and has the same name as the
+output; but should that not be the case, you may specify the name of either the
+monitor or the output in i3&#8217;s configuration. For example, the Dell UP2414Q uses
+two scalers internally, so its output names might be “DP1” and “DP2”, but the
+monitor name is “Dell UP2414Q”.</p></div>
+<div class="paragraph"><p>(Note that even if you specify the name of an output which doesn&#8217;t span the
+entire monitor, i3 will still use the entire area of the containing monitor
+rather than that of just the output&#8217;s.)</p></div>
 <div class="paragraph"><p>If you use named workspaces, they must be quoted:</p></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
@@ -1125,7 +1135,7 @@ will always wrap.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_forcing_xinerama">4.25. Forcing Xinerama</h3>
-<div class="paragraph"><p>As explained in-depth in <a href="http://i3wm.org/docs/multi-monitor.html">http://i3wm.org/docs/multi-monitor.html</a>, some X11
+<div class="paragraph"><p>As explained in-depth in <a href="https://i3wm.org/docs/multi-monitor.html">https://i3wm.org/docs/multi-monitor.html</a>, some X11
 video drivers (especially the nVidia binary driver) only provide support for
 Xinerama instead of RandR. In such a situation, i3 must be told to use the
 inferior Xinerama API explicitly and therefore don’t provide support for
@@ -2230,77 +2240,97 @@ bindsym $mod+x focus output HDMI-2
 # Focus the primary output
 bindsym $mod+x focus output primary</tt></pre>
 </div></div>
+<div class="paragraph"><p>Note that you might not have a primary output configured yet. To do so, run:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>Note that you might not have a primary output configured yet. To do so, run:</tt></pre>
+<pre><tt>xrandr --output &lt;output&gt; --primary</tt></pre>
 </div></div>
-<div class="paragraph"><p>xrandr --output &lt;output&gt; --primary</p></div>
+</div>
+<div class="sect2">
+<h3 id="_moving_containers">6.5. Moving containers</h3>
+<div class="paragraph"><p>Use the <tt>move</tt> command to move a container.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>=== Moving containers
-
-Use the +move+ command to move a container.
-
-*Syntax*:</tt></pre>
-</div></div>
-<div class="paragraph"><p># Moves the container into the given direction.
+<pre><tt># Moves the container into the given direction.
 # The optional pixel argument specifies how far the
 # container should be moved if it is floating and
 # defaults to 10 pixels.
-move &lt;left|right|down|up&gt; [&lt;px&gt; px]</p></div>
-<div class="paragraph"><p># Moves the container either to a specific location
-# or to the center of the screen. If <em>absolute</em> is
+move &lt;left|right|down|up&gt; [&lt;px&gt; px]
+
+# Moves the container either to a specific location
+# or to the center of the screen. If 'absolute' is
 # used, it is moved to the center of all outputs.
 move [absolute] position &lt;pos_x&gt; [px] &lt;pos_y&gt; [px]
-move [absolute] position center</p></div>
-<div class="paragraph"><p># Moves the container to the current position of the
+move [absolute] position center
+
+# Moves the container to the current position of the
 # mouse cursor. Only affects floating containers.
-move position mouse</p></div>
+move position mouse</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>*Examples*:</tt></pre>
-</div></div>
-<div class="paragraph"><p># Move container to the left, bottom, top, right
+<pre><tt># Move container to the left, bottom, top, right
 bindsym $mod+j move left
 bindsym $mod+k move down
 bindsym $mod+l move up
-bindsym $mod+semicolon move right</p></div>
-<div class="paragraph"><p># Move container, but make floating containers
+bindsym $mod+semicolon move right
+
+# Move container, but make floating containers
 # move more than the default
-bindsym $mod+j move left 20 px</p></div>
-<div class="paragraph"><p># Move floating container to the center of all outputs
-bindsym $mod+c move absolute position center</p></div>
-<div class="paragraph"><p># Move container to the current position of the cursor
-bindsym $mod+m move position mouse</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>=== Swapping containers
+bindsym $mod+j move left 20 px
 
-Two containers can be swapped (i.e., move to each other's position) by using
-the +swap+ command. They will assume the position and geometry of the container
-they are swapped with.
+# Move floating container to the center of all outputs
+bindsym $mod+c move absolute position center
 
-The first container to participate in the swapping can be selected through the
-normal command criteria process with the focused window being the usual
-fallback if no criteria are specified. The second container can be selected
-using one of the following methods:
-
-+id+:: The X11 window ID of a client window.
-+con_id+:: The i3 container ID of a container.
-+mark+:: A container with the specified mark, see &lt;&lt;vim_like_marks&gt;&gt;.
-
-Note that swapping does not work with all containers. Most notably, swapping
-floating containers or containers that have a parent-child relationship to one
-another does not work.
-
-*Syntax*:</tt></pre>
+# Move container to the current position of the cursor
+bindsym $mod+m move position mouse</tt></pre>
 </div></div>
 </div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_swap_container_with_id_con_id_mark_lt_arg_gt">7. swap container with id|con_id|mark &lt;arg&gt;</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_swapping_containers">6.6. Swapping containers</h3>
+<div class="paragraph"><p>Two containers can be swapped (i.e., move to each other&#8217;s position) by using
+the <tt>swap</tt> command. They will assume the position and geometry of the container
+they are swapped with.</p></div>
+<div class="paragraph"><p>The first container to participate in the swapping can be selected through the
+normal command criteria process with the focused window being the usual
+fallback if no criteria are specified. The second container can be selected
+using one of the following methods:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<tt>id</tt>
+</dt>
+<dd>
+<p>
+The X11 window ID of a client window.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>con_id</tt>
+</dt>
+<dd>
+<p>
+The i3 container ID of a container.
+</p>
+</dd>
+<dt class="hdlist1">
+<tt>mark</tt>
+</dt>
+<dd>
+<p>
+A container with the specified mark, see <a href="#vim_like_marks">[vim_like_marks]</a>.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Note that swapping does not work with all containers. Most notably, swapping
+floating containers or containers that have a parent-child relationship to one
+another does not work.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>swap container with id|con_id|mark &lt;arg&gt;</tt></pre>
+</div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -2310,8 +2340,9 @@ swap container with mark swapee
 # Swaps container marked »A« and »B«
 [con_mark="^A$"] swap container with mark B</tt></pre>
 </div></div>
+</div>
 <div class="sect2">
-<h3 id="_sticky_floating_windows">7.1. Sticky floating windows</h3>
+<h3 id="_sticky_floating_windows">6.7. Sticky floating windows</h3>
 <div class="paragraph"><p>If you want a window to stick to the glass, i.e., have it stay on screen even
 if you switch to another workspace, you can use the <tt>sticky</tt> command. For
 example, this can be useful for notepads, a media player or a video chat
@@ -2331,7 +2362,7 @@ for_window [instance=notepad] sticky enable</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_named_workspaces_moving_to_workspaces">7.2. Changing (named) workspaces/moving to workspaces</h3>
+<h3 id="_changing_named_workspaces_moving_to_workspaces">6.8. Changing (named) workspaces/moving to workspaces</h3>
 <div class="paragraph"><p>To change to a specific workspace, use the <tt>workspace</tt> command, followed by the
 number or name of the workspace. Pass the optional flag
 <tt>--no-auto-back-and-forth</tt> to disable <a href="#back_and_forth">[back_and_forth]</a> for this specific call
@@ -2391,7 +2422,7 @@ bindsym $mod+x move workspace to output right
 bindsym $mod+F1 [class="Firefox"] move workspace current</tt></pre>
 </div></div>
 <div class="sect3">
-<h4 id="_named_workspaces">7.2.1. Named workspaces</h4>
+<h4 id="_named_workspaces">6.8.1. Named workspaces</h4>
 <div class="paragraph"><p>Workspaces are identified by their name. So, instead of using numbers in the
 workspace command, you can use an arbitrary name:</p></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
@@ -2419,7 +2450,7 @@ dynamically. To combine both commands you can use <tt>workspace number 1: mail</
 specify a default name if there&#8217;s currently no workspace starting with a "1".</p></div>
 </div>
 <div class="sect3">
-<h4 id="_renaming_workspaces">7.2.2. Renaming workspaces</h4>
+<h4 id="_renaming_workspaces">6.8.2. Renaming workspaces</h4>
 <div class="paragraph"><p>You can rename workspaces. This might be useful to start with the default
 numbered workspaces, do your work, and rename the workspaces afterwards to
 reflect what’s actually on them. You can also omit the old name to rename
@@ -2457,12 +2488,12 @@ to "1: web", the above command will still switch to it.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_moving_workspaces_to_a_different_screen">7.3. Moving workspaces to a different screen</h3>
+<h3 id="_moving_workspaces_to_a_different_screen">6.9. Moving workspaces to a different screen</h3>
 <div class="paragraph"><p>See <a href="#move_to_outputs">[move_to_outputs]</a> for how to move a container/workspace to a different
 RandR output.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_moving_containers_workspaces_to_randr_outputs">7.4. Moving containers/workspaces to RandR outputs</h3>
+<h3 id="_moving_containers_workspaces_to_randr_outputs">6.10. Moving containers/workspaces to RandR outputs</h3>
 <div class="paragraph"><p>To move a container to another RandR output (addressed by names like <tt>LVDS1</tt> or
 <tt>VGA1</tt>) or to a RandR output identified by a specific direction (like <tt>left</tt>,
 <tt>right</tt>, <tt>up</tt> or <tt>down</tt>), there are two commands:</p></div>
@@ -2508,7 +2539,7 @@ after the currently focused child within that container.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_move_window_container_to_mark_lt_mark_gt">8. move window|container to mark &lt;mark&gt;</h2>
+<h2 id="_move_window_container_to_mark_lt_mark_gt">7. move window|container to mark &lt;mark&gt;</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
@@ -2516,7 +2547,7 @@ after the currently focused child within that container.
 <pre><tt>for_window [instance="tabme"] move window to mark target</tt></pre>
 </div></div>
 <div class="sect2">
-<h3 id="resizingconfig">8.1. Resizing containers/windows</h3>
+<h3 id="resizingconfig">7.1. Resizing containers/windows</h3>
 <div class="paragraph"><p>If you want to resize containers/windows using your keyboard, you can use the
 <tt>resize</tt> command:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -2544,7 +2575,7 @@ context.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_jumping_to_specific_windows">8.2. Jumping to specific windows</h3>
+<h3 id="_jumping_to_specific_windows">7.2. Jumping to specific windows</h3>
 <div class="paragraph"><p>Often when in a multi-monitor environment, you want to quickly jump to a
 specific window. For example, while working on workspace 3 you may want to
 jump to your mail client to email your boss that you’ve achieved some
@@ -2565,7 +2596,7 @@ bindsym $mod+a [class="urxvt" title="VIM"] focus</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="vim_like_marks">8.3. VIM-like marks (mark/goto)</h3>
+<h3 id="vim_like_marks">7.3. VIM-like marks (mark/goto)</h3>
 <div class="paragraph"><p>This feature is like the jump feature: It allows you to directly jump to a
 specific window (this means switching to the appropriate workspace and setting
 focus to the windows). However, you can directly mark a specific window with
@@ -2608,7 +2639,7 @@ unmark irssi
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="pango_markup">8.4. Window title format</h3>
+<h3 id="pango_markup">7.4. Window title format</h3>
 <div class="paragraph"><p>By default, i3 will simply print the X11 window title. Using <tt>title_format</tt>,
 this can be customized by setting the format to the desired output. This
 directive supports
@@ -2666,7 +2697,7 @@ for_window [class="(?i)firefox"] title_format "&lt;span foreground='red'&gt;%tit
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_border_style">8.5. Changing border style</h3>
+<h3 id="_changing_border_style">7.5. Changing border style</h3>
 <div class="paragraph"><p>To change the border of the current client, you can use <tt>border normal</tt> to use the normal
 border (including window title), <tt>border pixel 1</tt> to use a 1-pixel border (no window title)
 and <tt>border none</tt> to make the client borderless.</p></div>
@@ -2695,8 +2726,8 @@ bindsym $mod+u border none</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="shmlog">8.6. Enabling shared memory logging</h3>
-<div class="paragraph"><p>As described in <a href="http://i3wm.org/docs/debugging.html">http://i3wm.org/docs/debugging.html</a>, i3 can log to a shared
+<h3 id="shmlog">7.6. Enabling shared memory logging</h3>
+<div class="paragraph"><p>As described in <a href="https://i3wm.org/docs/debugging.html">https://i3wm.org/docs/debugging.html</a>, i3 can log to a shared
 memory buffer, which you can dump using <tt>i3-dump-log</tt>. The <tt>shmlog</tt> command
 allows you to enable or disable the shared memory logging at runtime.</p></div>
 <div class="paragraph"><p>Note that when using <tt>shmlog &lt;size_in_bytes&gt;</tt>, the current log will be
@@ -2719,7 +2750,7 @@ i3-msg shmlog $((50*1024*1024))</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_enabling_debug_logging">8.7. Enabling debug logging</h3>
+<h3 id="_enabling_debug_logging">7.7. Enabling debug logging</h3>
 <div class="paragraph"><p>The <tt>debuglog</tt> command allows you to enable or disable debug logging at
 runtime. Debug logging is much more verbose than non-debug logging. This
 command does not activate shared memory logging (shmlog), and as such is most
@@ -2737,7 +2768,7 @@ bindsym $mod+x debuglog toggle</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_reloading_restarting_exiting">8.8. Reloading/Restarting/Exiting</h3>
+<h3 id="_reloading_restarting_exiting">7.8. Reloading/Restarting/Exiting</h3>
 <div class="paragraph"><p>You can make i3 reload its configuration file with <tt>reload</tt>. You can also
 restart i3 inplace with the <tt>restart</tt> command to get it out of some weird state
 (if that should ever happen) or to perform an upgrade without having to restart
@@ -2752,7 +2783,7 @@ bindsym $mod+Shift+e exit</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_scratchpad">8.9. Scratchpad</h3>
+<h3 id="_scratchpad">7.9. Scratchpad</h3>
 <div class="paragraph"><p>There are two commands to use any existing window as scratchpad window. <tt>move
 scratchpad</tt> will move a window to the scratchpad workspace. This will make it
 invisible until you show it again. There is no way to open that workspace.
@@ -2787,7 +2818,7 @@ bindsym mod4+s [title="^Sup ::"] scratchpad show</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_nop">8.10. Nop</h3>
+<h3 id="_nop">7.10. Nop</h3>
 <div class="paragraph"><p>There is a no operation command <tt>nop</tt> which allows you to override default
 behavior. This can be useful for, e.g., disabling a focus change on clicks with
 the middle mouse button.</p></div>
@@ -2807,7 +2838,7 @@ bindsym button2 nop</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_i3bar_control">8.11. i3bar control</h3>
+<h3 id="_i3bar_control">7.11. i3bar control</h3>
 <div class="paragraph"><p>There are two options in the configuration of each i3bar instance that can be
 changed during runtime by invoking a command through i3. The commands <tt>bar
 hidden_state</tt> and <tt>bar mode</tt> allow setting the current hidden_state
@@ -2841,7 +2872,7 @@ bindsym $mod+Shift+b bar mode invisible bar-1</tt></pre>
 </div>
 </div>
 <div class="sect1">
-<h2 id="multi_monitor">9. Multiple monitors</h2>
+<h2 id="multi_monitor">8. Multiple monitors</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>As you can see in the goal list on the website, i3 was specifically developed
 with support for multiple monitors in mind. This section will explain how to
@@ -2864,7 +2895,7 @@ create an unlimited number of workspaces in i3 and tie them to specific
 screens, you can have the "traditional" approach of having X workspaces per
 screen by changing your configuration (using modes, for example).</p></div>
 <div class="sect2">
-<h3 id="_configuring_your_monitors">9.1. Configuring your monitors</h3>
+<h3 id="_configuring_your_monitors">8.1. Configuring your monitors</h3>
 <div class="paragraph"><p>To help you get going if you have never used multiple monitors before, here is
 a short overview of the xrandr options which will probably be of interest to
 you. It is always useful to get an overview of the current screen configuration.
@@ -2927,7 +2958,7 @@ only what you can see in xrandr.</p></div>
 <div class="paragraph"><p>See also <a href="#presentations">[presentations]</a> for more examples of multi-monitor setups.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_interesting_configuration_for_multi_monitor_environments">9.2. Interesting configuration for multi-monitor environments</h3>
+<h3 id="_interesting_configuration_for_multi_monitor_environments">8.2. Interesting configuration for multi-monitor environments</h3>
 <div class="paragraph"><p>There are several things to configure in i3 which may be interesting if you
 have more than one monitor:</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -2964,10 +2995,10 @@ For information on how to move existing workspaces between monitors,
 </div>
 </div>
 <div class="sect1">
-<h2 id="_i3_and_the_rest_of_your_software_world">10. i3 and the rest of your software world</h2>
+<h2 id="_i3_and_the_rest_of_your_software_world">9. i3 and the rest of your software world</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_displaying_a_status_line">10.1. Displaying a status line</h3>
+<h3 id="_displaying_a_status_line">9.1. Displaying a status line</h3>
 <div class="paragraph"><p>A very common thing amongst users of exotic window managers is a status line at
 some corner of the screen. It is an often superior replacement to the widget
 approach you have in the task bar of a traditional desktop environment.</p></div>
@@ -2984,14 +3015,14 @@ on which hint the application sets. With i3bar, you can configure its position,
 see <a href="#i3bar_position">[i3bar_position]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="presentations">10.2. Giving presentations (multi-monitor)</h3>
+<h3 id="presentations">9.2. Giving presentations (multi-monitor)</h3>
 <div class="paragraph"><p>When giving a presentation, you typically want the audience to see what you see
 on your screen and then go through a series of slides (if the presentation is
 simple). For more complex presentations, you might want to have some notes
 which only you can see on your screen, while the audience can only see the
 slides.</p></div>
 <div class="sect3">
-<h4 id="_case_1_everybody_gets_the_same_output">10.2.1. Case 1: everybody gets the same output</h4>
+<h4 id="_case_1_everybody_gets_the_same_output">9.2.1. Case 1: everybody gets the same output</h4>
 <div class="paragraph"><p>This is the simple case. You connect your computer to the video projector,
 turn on both (computer and video projector) and configure your X server to
 clone the internal flat panel of your computer to the video output:</p></div>
@@ -3004,7 +3035,7 @@ your screen will be left untouched (it will show the X background). So, in
 our example, this would be 1024x768 (my notebook has 1280x800).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_case_2_you_can_see_more_than_your_audience">10.2.2. Case 2: you can see more than your audience</h4>
+<h4 id="_case_2_you_can_see_more_than_your_audience">9.2.2. Case 2: you can see more than your audience</h4>
 <div class="paragraph"><p>This case is a bit harder. First of all, you should configure the VGA output
 somewhere near your internal flat panel, say right of it:</p></div>
 <div class="listingblock">

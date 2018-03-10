@@ -85,14 +85,14 @@ The "Modern Perl" book, which can be found at
 <p>
 The latest Perl documentation of the "i3test" (general testcase setup) and
    "i3test::Test" (additional test instructions) modules:
-   <a href="http://build.i3wm.org/docs/lib-i3test.html">http://build.i3wm.org/docs/lib-i3test.html</a> respectively
-   <a href="http://build.i3wm.org/docs/lib-i3test-test.html">http://build.i3wm.org/docs/lib-i3test-test.html</a>
+   <a href="https://build.i3wm.org/docs/lib-i3test.html">https://build.i3wm.org/docs/lib-i3test.html</a> respectively
+   <a href="https://build.i3wm.org/docs/lib-i3test-test.html">https://build.i3wm.org/docs/lib-i3test-test.html</a>
 </p>
 </li>
 <li>
 <p>
 The latest documentation on i3’s IPC interface:
-   <a href="http://build.i3wm.org/docs/ipc.html">http://build.i3wm.org/docs/ipc.html</a>
+   <a href="https://build.i3wm.org/docs/ipc.html">https://build.i3wm.org/docs/ipc.html</a>
 </p>
 </li>
 </ol></div>
@@ -140,7 +140,7 @@ client, simply called <tt>cpan</tt>. It comes with every Perl installation and c
 used to install the testsuite. Many users prefer to use the more modern
 <tt>cpanminus</tt> instead, though (because it asks no questions and just works):</p></div>
 <div class="paragraph"><p>The tests additionally require <tt>Xephyr(1)</tt> to run a nested X server. Install
-<tt>xserver-xephyr</tt> on Debian or <tt>xorg-xserver-xephyr</tt> on Arch Linux.</p></div>
+<tt>xserver-xephyr</tt> on Debian or <tt>xorg-server-xephyr</tt> on Arch Linux.</p></div>
 <div class="listingblock">
 <div class="title">Installing testsuite dependencies using cpanminus (preferred)</div>
 <div class="content">
@@ -148,6 +148,7 @@ used to install the testsuite. Many users prefer to use the more modern
 $ sudo apt-get install cpanminus
 $ sudo cpanm .
 $ cd ~/i3/AnyEvent-I3
+$ sudo cpanm Module::Install
 $ sudo cpanm .</tt></pre>
 </div></div>
 <div class="paragraph"><p>If you don’t want to use cpanminus for some reason, the same works with cpan:</p></div>
@@ -157,10 +158,11 @@ $ sudo cpanm .</tt></pre>
 <pre><tt>$ cd ~/i3/testcases
 $ sudo cpan .
 $ cd ~/i3/AnyEvent-I3
+$ sudo cpan Module::Install
 $ sudo cpan .</tt></pre>
 </div></div>
 <div class="paragraph"><p>In case you don’t have root permissions, you can also install into your home
-directory, see <a href="http://michael.stapelberg.de/cpan/">http://michael.stapelberg.de/cpan/</a></p></div>
+directory, see <a href="https://michael.stapelberg.de/cpan/">https://michael.stapelberg.de/cpan/</a></p></div>
 </div>
 <div class="sect2">
 <h3 id="_mechanisms">3.2. Mechanisms</h3>
@@ -295,7 +297,7 @@ use this tool to judge how effective your tests are.</p></div>
 interface which i3 provides. It is used for the startup process of i3, for
 terminating it cleanly and (most importantly) for modifying and getting the
 current state (layout tree).</p></div>
-<div class="paragraph"><p>See [<a href="http://i3wm.org/docs/ipc.html">http://i3wm.org/docs/ipc.html</a>] for documentation on the IPC interface.</p></div>
+<div class="paragraph"><p>See [<a href="https://i3wm.org/docs/ipc.html">https://i3wm.org/docs/ipc.html</a>] for documentation on the IPC interface.</p></div>
 </div>
 <div class="sect3">
 <h4 id="_x11_xcb">3.2.4. X11::XCB</h4>
