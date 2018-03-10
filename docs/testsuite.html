@@ -175,10 +175,8 @@ with an appropriate configuration file and creates a folder for each run
 containing the appropriate i3 logfile for each testcase. The latest folder can
 always be found under the symlink <tt>latest/</tt>. Unless told differently, it will
 run the tests on a separate X server instance (using Xephyr).</p></div>
-<div class="paragraph"><p>Xephyr will open a window where you can inspect the running test. You can run
-the tests without an X session with Xvfb, such as with <tt>xvfb-run
-./complete-run</tt>. This will also speed up the tests significantly especially on
-machines without a powerful video card.</p></div>
+<div class="paragraph"><p>Xephyr will open a window where you can inspect the running test. By default,
+tests are run under Xvfb.</p></div>
 <div class="listingblock">
 <div class="title">Example invocation of <tt>complete-run.pl</tt></div>
 <div class="content">

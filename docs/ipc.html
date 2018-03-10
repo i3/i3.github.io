@@ -171,6 +171,12 @@ cellspacing="0" cellpadding="4">
 <td align="center" valign="top"><p class="table"><a href="#_config_reply">CONFIG</a></p></td>
 <td align="center" valign="top"><p class="table">Returns the last loaded i3 config.</p></td>
 </tr>
+<tr>
+<td align="center" valign="top"><p class="table">10</p></td>
+<td align="center" valign="top"><p class="table"><tt>SEND_TICK</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_tick_reply">TICK</a></p></td>
+<td align="center" valign="top"><p class="table">Sends a tick event with the specified payload.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -293,6 +299,14 @@ GET_CONFIG (9)
 <dd>
 <p>
         Reply to the GET_CONFIG message.
+</p>
+</dd>
+<dt class="hdlist1">
+TICK (10)
+</dt>
+<dd>
+<p>
+        Reply to the SEND_TICK message.
 </p>
 </dd>
 </dl></div>
@@ -1186,6 +1200,19 @@ which is a string containing the config file as loaded by i3 most recently.</p><
 <pre><tt>{ "config": "font pango:monospace 8\nbindsym Mod4+q exit\n" }</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_tick_reply">3.12. TICK reply</h3>
+<div class="paragraph"><p>The reply is a map containing the "success" member. After the reply was
+received, the tick event has been written to all IPC connections which subscribe
+to tick events. UNIX sockets are usually buffered, but you can be certain that
+once you receive the tick event you just triggered, you must have received all
+events generated prior to the <tt>SEND_TICK</tt> message (happened-before relation).</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "success": true }</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1280,6 +1307,16 @@ shutdown (6)
 <dd>
 <p>
         Sent when the ipc shuts down because of a restart or exit by user command
+</p>
+</dd>
+<dt class="hdlist1">
+tick (7)
+</dt>
+<dd>
+<p>
+        Sent when the ipc client subscribes to the tick event (with <tt>"first":
+        true</tt>) or when any ipc client sends a SEND_TICK message (with <tt>"first":
+        false</tt>).
 </p>
 </dd>
 </dl></div>
@@ -1520,6 +1557,27 @@ because of a user action such as a <tt>restart</tt> or <tt>exit</tt> command. Th
 }</tt></pre>
 </div></div>
 </div>
+<div class="sect2">
+<h3 id="_tick_event">4.10. tick event</h3>
+<div class="paragraph"><p>This event is triggered by a subscription to tick events or by a <tt>SEND_TICK</tt>
+message.</p></div>
+<div class="paragraph"><p><strong>Example (upon subscription):</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "first": true,
+ "payload": ""
+}</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example (upon <tt>SEND_TICK</tt> with a payload of <tt>arbitrary string</tt>):</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+ "first": false,
+ "payload": "arbitrary string"
+}</tt></pre>
+</div></div>
+</div>
 </div>
 </div>
 <div class="sect1">
@@ -1568,6 +1626,11 @@ Go
 <a href="https://github.com/mdirkse/i3ipc-go">https://github.com/mdirkse/i3ipc-go</a>
 </p>
 </li>
+<li>
+<p>
+<a href="https://github.com/i3/go-i3">https://github.com/i3/go-i3</a>
+</p>
+</li>
 </ul></div>
 </dd>
 <dt class="hdlist1">
@@ -1614,11 +1677,6 @@ Python
 <li>
 <p>
 <a href="https://github.com/acrisci/i3ipc-python">https://github.com/acrisci/i3ipc-python</a>
-</p>
-</li>
-<li>
-<p>
-<a href="https://github.com/Ceryn/i3msg-python">https://github.com/Ceryn/i3msg-python</a>
 </p>
 </li>
 <li>
@@ -1785,6 +1843,8 @@ From here on out, send/receive all messages using the detected byte order.
 </p>
 </li>
 </ol></div>
+<div class="paragraph"><p>Find an example implementation of this technique in
+<a href="https://github.com/i3/go-i3/blob/master/byteorder.go">https://github.com/i3/go-i3/blob/master/byteorder.go</a></p></div>
 </div>
 </div>
 </div>

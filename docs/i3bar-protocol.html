@@ -322,7 +322,8 @@ markup
 <p>
         A string that indicates how the text of the block should be parsed. Set to
         <tt>"pango"</tt> to use <a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">Pango markup</a>.
-        Set to <tt>"none"</tt> to not use any markup (default).
+        Set to <tt>"none"</tt> to not use any markup (default). Pango markup only works
+        if you use a pango font.
 </p>
 </dd>
 </dl></div>
@@ -405,6 +406,23 @@ button
         X11 button ID (for example 1 to 3 for left/middle/right mouse button)
 </p>
 </dd>
+<dt class="hdlist1">
+relative_x, relative_y
+</dt>
+<dd>
+<p>
+    Coordinates where the click occurred, with respect to the top left corner
+    of the block
+</p>
+</dd>
+<dt class="hdlist1">
+width, height
+</dt>
+<dd>
+<p>
+    Width and height (in px) of the block
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
@@ -414,7 +432,11 @@ button
  "instance": "eth0",
  "button": 1,
  "x": 1320,
- "y": 1400
+ "y": 1400,
+ "relative_x": 12,
+ "relative_y": 8,
+ "width": 50,
+ "height": 22
 }</tt></pre>
 </div></div>
 </div>
