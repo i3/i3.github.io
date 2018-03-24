@@ -47,11 +47,11 @@ Here's a sample JSON text for achieving our goal:
 [
  [].
 
- [ { "full_text":"Home 84.0G Free", "color":"#ffffff" },
-   { "full_text":"RAM 32%" , "color":"#ffffff" } ],
+ [ { "full_text": "Home 84.0G Free", "color": "#ffffff" },
+   { "full_text": "RAM 32%" , "color": "#ffffff" } ],
 
- [ { "full_text":"Home 84.0G Free", "color":"#ffffff" },
-   { "full_text":"RAM 34%" , "color":"#ffffff" } ],
+ [ { "full_text": "Home 84.0G Free", "color": "#ffffff" },
+   { "full_text": "RAM 34%" , "color": "#ffffff" } ],
 
  [....],
  [....],
@@ -104,54 +104,55 @@ In the i3 config file the <tt>bar</tt> config will be something like that
 Now we have to write a <tt>~/.conkyrc</tt> file in order to obtain the desired status:
 </p>
 
-<pre><tt>[{ "full_text":"Home 84.0G Free" , "color":"#ffffff" },
- { "full_text":"RAM 32%" , "color":"#ffffff" }],</tt></pre>
+<pre><tt>[
+    { "full_text": "Home 84.0G Free" , "color": "#ffffff" },
+    { "full_text": "RAM 32%" , "color": "#ffffff" }
+],</tt></pre>
 
 <p>
 Here's a sample conkyrc that updates every 2 seconds. Just to make things a litte bit more exciting 
 we put a condition in the script in order to write the occupied RAM in red if the amount is more than 90%:
 </p>
 
-<pre><tt>out_to_x no
-own_window no
-out_to_console yes
-background no
-max_text_width 0
+<pre><tt>conky.config = {
+    out_to_x = false,
+    own_window = false,
+    out_to_console = true,
+    background = false,
+    max_text_width = 0,
 
-# Update interval in seconds
-update_interval 2.0
+    -- Update interval in seconds
+    update_interval = 2.0,
 
-# This is the number of times Conky will update before quitting.
-# Set to zero to run forever.
-total_run_times 0
+    -- This is the number of times Conky will update before quitting.
+    -- Set to zero to run forever.
+    total_run_times = 0,
 
-# Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
-short_units yes
+    -- Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
+    short_units = true,
 
-# How strict should if_up be when testing an interface for being up?
-# The value is one of up, link or address, to check for the interface
-# being solely up, being up and having link or being up, having link
-# and an assigned IP address. 
-if_up_strictness address
+    -- How strict should if_up be when testing an interface for being up?
+    -- The value is one of up, link or address, to check for the interface
+    -- being solely up, being up and having link or being up, having link
+    -- and an assigned IP address. 
+    if_up_strictness = 'address',
 
-# Add spaces to keep things from moving about?  This only affects certain objects.
-# use_spacer should have an argument of left, right, or none
-use_spacer left
+    -- Add spaces to keep things from moving about?  This only affects certain objects.
+    -- use_spacer should have an argument of left, right, or none
+    use_spacer = 'left',
 
-# Force UTF8? note that UTF8 support required XFT
-override_utf8_locale no
+    -- Force UTF8? note that UTF8 support required XFT
+    override_utf8_locale = false,
 
-# number of cpu samples to average
-# set to 1 to disable averaging
-cpu_avg_samples 2
+    -- number of cpu samples to average
+    -- set to 1 to disable averaging
+    cpu_avg_samples = 2,
+};
 
-# Stuff after 'TEXT' will be formatted on screen
-TEXT
-
-# JSON for i3bar
-{% raw %}
- [{ "full_text" : "Home ${fs_free /home} Free" , "color" : "\#ffffff" },
-  { "full_text" : "RAM ${memperc}%" , "color" :
-    ${if_match ${memperc}<90}"\#ffffff"${else}"\#ff0000"${endif} }],
-{% endraw %}
-</tt></pre>
+conky.text = [[
+{% raw %}[
+    { "full_text": "Home ${fs_free /home} Free" , "color": "\#ffffff" },
+    { "full_text": "RAM ${memperc}%" , "color": ${if_match ${memperc}<90}"\#ffffff"${else}"\#ff0000"${endif} }
+],{% endraw %}
+]];
+/tt></pre>
