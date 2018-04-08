@@ -426,12 +426,3 @@ html[xmlns] .clearfix {
     height: 1%;
 }
 
-.listingblock {
-    overflow-x: auto;
-}
-
-.listingblock .content {
-    width: available;
-    min-width: fit-content;
-}
-

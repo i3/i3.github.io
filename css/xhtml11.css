@@ -19,6 +19,15 @@ tt {
   color: #3ec2ff;
 }
 
+div.listingblock {
+  overflow-x: auto;
+}
+
+div.listingblock .content {
+  width: available;
+  min-width: fit-content;
+}
+
 div.listingblock tt {
   color: #fff;
 }
