@@ -9,7 +9,7 @@ group: Docs
 <p>
 If you have workspace 1 on one monitor and workspace 2 on another monitor and
 want to quickly swap the workspaces among the monitors, you can use i3's IPC
-mechanisms to do it. Here's how:
+mechanisms to do it.
 </p>
 
 <p>
@@ -20,39 +20,28 @@ that detects the currently active workspace on each monitor and then moves that
 workspace to the other monitor.
 </p>
 
-<p>
-The script uses i3's <a href="http://i3wm.org/docs/ipc.html">IPC</a> via the
-<a href="https://github.com/ziberna/i3-py">i3-py Python bindings</a>.
-</p>
+<pre><tt>#!/usr/bin/env bash
+# requires jq
 
-<pre><tt>#!/usr/bin/python2.7
+DISPLAY_CONFIG=($(i3-msg -t get_outputs | jq -r '.[]|"\(.name):\(.current_workspace)"'))
 
-import i3
-# retrieve only active outputs
-outputs = filter(lambda output: output[&#39;active&#39;], i3.get_outputs())
-
-# set current workspace to output 0
-i3.workspace(outputs[0][&#39;current_workspace&#39;])
-
-# ..and move it to the other output.
-# outputs wrap, so the right of the right is left ;)
-i3.command('move', 'workspace to output right')
-
-# rinse and repeat
-i3.workspace(outputs[1][&#39;current_workspace&#39;])
-i3.command('move', 'workspace to output right')</tt></pre>
+for ROW in "${DISPLAY_CONFIG[@]}"
+do
+    IFS=':'
+    read -ra CONFIG <<< "${ROW}"
+    if [ "${CONFIG[0]}" != "null" ] && [ "${CONFIG[1]}" != "null" ]; then
+        echo "moving ${CONFIG[1]} right..."
+        i3-msg workspace "${CONFIG[1]}"
+        i3-msg move workspace to output right	
+    fi
+done</tt></pre>
 
 <p>
-A very simple way to use this script is as follows: Put the script in a file,
-named for example switch.py, and put switch.py and i3.py (downloaded from the
-<a href="https://github.com/ziberna/i3-py">Python bindings site</a>) in the
-same folder. I typically put it in $HOME/.i3/, the same directory which
-contains i3's config file. Next, put a keybinding like
+To use this script, I recommend binding it to a keyboard shortcut in your i3 config:
 </p>
-<pre><tt>bindsym $mod+Shift+s exec /home/username/.i3/switch.py</tt></pre>
+<pre><tt>bindsym $mod+Shift+s exec /path/to/your/script/i3-display-swap.sh</tt></pre>
 <p>
-in i3's config file and restart i3 in place. The next time you press
-mod+Shift+s, your workspaces will be swapped among your monitors.
+Now restart i3 in place. The next time you press mod+Shift+s, your workspaces will be swapped among your monitors.
 </p>
 
-<p>Author: Sagar Behere</p>
+<p>Source: <a href="https://gist.github.com/fbrinker/df9cfbc84511d807f45041737ff3ea02">Github</a></p>
