@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
 <title>i3: i3status(1)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <h1>i3status(1)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revnumber">version 2.11,</span>
-<span id="revdate">January 2017</span>
+<span id="revnumber">version 2.12,</span>
+<span id="revdate">May 2018</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -92,13 +92,12 @@ configuration files in the following order:
 <div class="sect1">
 <h2 id="_description">4. DESCRIPTION</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>i3status is a small program for generating a status bar for
-i3bar, dzen2, xmobar, lemonbar or similar programs. It is designed to be very
-efficient by issuing a very small number of system calls, as one generally
-wants to update such a status line every second. This ensures that even under
-high load, your status bar is updated correctly. Also, it saves a bit of energy
-by not hogging your CPU as much as spawning the corresponding amount of shell
-commands would.</p></div>
+<div class="paragraph"><p>i3status is a small program for generating a status bar for i3bar, dzen2,
+xmobar, lemonbar or similar programs. It is designed to be very efficient by
+issuing a very small number of system calls, as one generally wants to update
+such a status line every second. This ensures that even under high load, your
+status bar is updated correctly. Also, it saves a bit of energy by not hogging
+your CPU as much as spawning the corresponding amount of shell commands would.</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -208,7 +207,7 @@ color, even when colors are disabled by the <tt>colors</tt> directive. This opti
 no effect when <tt>output_format</tt> is set to <tt>i3bar</tt> or <tt>none</tt>.</p></div>
 <div class="paragraph"><p>The <tt>interval</tt> directive specifies the time in seconds for which i3status will
 sleep before printing the next status line.</p></div>
-<div class="paragraph"><p>Using <tt>output_format</tt> you can chose which format strings i3status should
+<div class="paragraph"><p>Using <tt>output_format</tt> you can choose which format strings i3status should
 use in its output. Currently available are:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -279,13 +278,13 @@ in a module section its value will override the value defined in the general
 section just for this module.</p></div>
 <div class="paragraph"><p>If you don&#8217;t fancy the vertical separators between modules i3status/i3bar
 uses by default, you can employ the <tt>separator</tt> directive to configure how
-modules are separated. You can either disable the default separator altogether
+modules are separated. You can also disable the default separator altogether by
 setting it to the empty string. You might then define separation as part of a
 module&#8217;s format string. This is your only option when using the i3bar output
 format as the separator is drawn by i3bar directly otherwise. For the other
 output formats, the provided non-empty string will be automatically enclosed
 with the necessary coloring bits if color support is enabled.</p></div>
-<div class="paragraph"><p>i3bar supports Pango markup, allowing your format strings to specify font
+<div class="paragraph"><p>i3bar supports Pango markup, allowing your format strings to specify font,
 color, size, etc. by setting the <tt>markup</tt> directive to "pango". Note that the
 ampersand ("&amp;"), less-than ("&lt;"), greater-than ("&gt;"), single-quote ("'"), and
 double-quote (""") characters need to be replaced with "<tt>&amp;amp;</tt>", "<tt>&amp;lt;</tt>",
@@ -399,17 +398,20 @@ connected or not connected.</p></div>
 <div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first wireless
 network interface found on the system (excluding devices starting with "lo").</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>wireless wlan0</tt></p></div>
-<div class="paragraph"><p><strong>Example format</strong>: <tt>W: (%quality at %essid, %bitrate / %frequency) %ip</tt></p></div>
+<div class="paragraph"><p><strong>Example format_up</strong>: <tt>W: (%quality at %essid, %bitrate / %frequency) %ip</tt></p></div>
+<div class="paragraph"><p><strong>Example format_down</strong>: <tt>W: down</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_ethernet">5.7. Ethernet</h3>
 <div class="paragraph"><p>Gets the IP address and (if possible) the link speed of the given ethernet
-interface. Getting the link speed requires the cap_net_admin capability. Set
-it using <tt>setcap cap_net_admin=ep $(which i3status)</tt>.</p></div>
+interface. If no IPv4 address is available and an IPv6 address is, it will be
+displayed. Getting the link speed requires the cap_net_admin capability.
+Set it using <tt>setcap cap_net_admin=ep $(which i3status)</tt>.</p></div>
 <div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first non-wireless
 network interface found on the system (excluding devices starting with "lo").</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>ethernet eth0</tt></p></div>
-<div class="paragraph"><p><strong>Example format</strong>: <tt>E: %ip (%speed)</tt></p></div>
+<div class="paragraph"><p><strong>Example format_up</strong>: <tt>E: %ip (%speed)</tt></p></div>
+<div class="paragraph"><p><strong>Example format_down</strong>: <tt>E: down</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_battery">5.8. Battery</h3>
@@ -477,11 +479,13 @@ format when above max_threshold can be customized with
 format_above_threshold.</p></div>
 <div class="paragraph"><p>It is possible to define a degraded_threshold that will color the load
 value yellow in case the CPU average over the last interval is getting
-higher than the configured threshold.  Defaults to 90. The output format
+higher than the configured threshold. Defaults to 90. The output format
 when above degraded threshold can be customized with
 format_above_degraded_threshold.</p></div>
+<div class="paragraph"><p>For displaying the Nth CPU usage, you can use the %cpu&lt;N&gt; format string,
+starting from %cpu0. This feature is currently not supported in FreeBSD.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_usage</tt></p></div>
-<div class="paragraph"><p><strong>Example format</strong>: <tt>%usage</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>all: %usage CPU_0: %cpu0 CPU_1: %cpu1</tt></p></div>
 <div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>75</tt></p></div>
 <div class="paragraph"><p><strong>Example format_above_threshold</strong>: <tt>Warning above threshold: %usage</tt></p></div>
 <div class="paragraph"><p><strong>Example degraded_threshold</strong>: <tt>25</tt></p></div>
