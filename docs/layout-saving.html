@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
 <title>i3: Layout saving in i3</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -253,18 +253,20 @@ the window which matches any of the criteria. As an example:</p></div>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
-Layout files contain multiple “JSON documents” on the top level, whereas the
-   JSON standard only allows precisely one “document” (array or hash).
+Layout files contain multiple “JSON texts” at the top level. The JSON
+   standard doesn&#8217;t prohibit this, but in practice most JSON parsers only
+   allow precisely one “text” per document/file, and will mark multiple texts
+   as invalid JSON.
 </p>
 </li>
 <li>
 <p>
-Layout files contain comments which are not standardized, but understood by
-   many parsers.
+Layout files contain comments which are not allowed by the JSON standard,
+   but are understood by many parsers.
 </p>
 </li>
 </ol></div>
-<div class="paragraph"><p>Both deviations from the JSON standard are to make manual editing by humans
+<div class="paragraph"><p>Both of these deviations from the norm are to make manual editing by humans
 easier. In case you are writing a more elaborate tool for manipulating these
 layouts, you can either use a JSON parser that supports these deviations (for
 example libyajl), transform the layout file to a JSON-conforming file, or

@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
 <title>i3: Debugging i3: How To</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -44,7 +44,7 @@ process and/or need further help, do not hesitate to contact us!</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_verify_you_are_using_i3_4_15">1. Verify you are using i3 ≥ 4.15</h2>
+<h2 id="_verify_you_are_using_i3_4_16">1. Verify you are using i3 ≥ 4.16</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Only the latest major version of i3 is supported. To verify which version
 you are running, use:</p></div>
@@ -230,7 +230,8 @@ flood kicks.</p></div>
 <div class="sect1">
 <h2 id="_debugging_i3bar">7. Debugging i3bar</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To debug i3bar problems, add <tt>verbose yes</tt> to all <tt>bar {}</tt> blocks in your i3
+<div class="paragraph"><p>To debug i3bar problems, use the <tt>--verbose</tt> commandline parameter,
+or add <tt>verbose yes</tt> to all <tt>bar {}</tt> blocks in your i3
 config, reload your config and then restart all i3bar instances like this:</p></div>
 <div class="listingblock">
 <div class="content">

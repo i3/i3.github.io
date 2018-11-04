@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.9" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
 <title>i3: i3bar input protocol</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -172,7 +172,7 @@ cont_signal
 </dt>
 <dd>
 <p>
-        Specify to i3bar the signal (as an integer)to send to continue your
+        Specify to i3bar the signal (as an integer) to send to continue your
         processing.
         The default value (if none is specified) is SIGCONT.
 </p>
@@ -197,7 +197,8 @@ full_text
 <dd>
 <p>
         The <tt>full_text</tt> will be displayed by i3bar on the status line. This is the
-        only required key.
+        only required key. If <tt>full_text</tt> is an empty string, the block will be
+        skipped.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -423,6 +424,15 @@ width, height
     Width and height (in px) of the block
 </p>
 </dd>
+<dt class="hdlist1">
+modifiers
+</dt>
+<dd>
+<p>
+    An array of the modifiers active when the click occurred. The order in which
+    modifiers are listed is not guaranteed.
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
@@ -431,6 +441,7 @@ width, height
  "name": "ethernet",
  "instance": "eth0",
  "button": 1,
+ "modifiers": ["Shift", "Mod1"],
  "x": 1320,
  "y": 1400,
  "relative_x": 12,
