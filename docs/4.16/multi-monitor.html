@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.10" />
+<title>i3: The multi-monitor situation</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>The multi-monitor situation</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">April 2013</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>Please upgrade your nVidia driver to version 302.17 or newer and i3 will just
+work. This document is kept around for historic reasons only.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_quick_fix">1. The quick fix</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>If you are using the nVidia binary graphics driver (also known as <em>blob</em>)
+before version 302.17, you need to use the <tt>--force-xinerama</tt> flag (in your
+.xsession) when starting i3, like so:</p></div>
+<div class="listingblock">
+<div class="title">Example:</div>
+<div class="content">
+<pre><tt>exec i3 --force-xinerama -V &gt;&gt;~/.i3/i3log 2&gt;&amp;1</tt></pre>
+</div></div>
+<div class="paragraph"><p>…or use <tt>force_xinerama yes</tt> in your configuration file.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_the_explanation">2. The explanation</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Starting with version 3.ε, i3 uses the RandR (Rotate and Resize) API instead
+of Xinerama. The reason for this, is that RandR provides more information
+about your outputs and connected screens than Xinerama does. To be specific,
+the code which handled on-the-fly screen reconfiguration (meaning without
+restarting the X server) was a very messy heuristic and most of the time did
+not work correctly&#8201;&#8212;&#8201;that is just not possible with the little information
+Xinerama offers (just a list of screen resolutions, no identifiers for the
+screens or any additional information). Xinerama simply was not designed
+for dynamic configuration.</p></div>
+<div class="paragraph"><p>So RandR came along, as a more powerful alternative (RandR 1.2 to be specific).
+It offers all of Xinerama’s possibilities and lots more. Using the RandR API
+made our code much more robust and clean. Also, you can now reliably assign
+workspaces to output names instead of some rather unreliable screen identifier
+(position inside the list of screens, which could change, and so on…).</p></div>
+<div class="paragraph"><p>As RandR has been around for about three years as of this writing, it seemed
+like a very good idea to us, and it still is a very good one. What we did not
+expect, however, was the nVidia binary driver. It still does not support RandR
+(as of March 2010), even though nVidia has announced that it will support RandR
+eventually. What does this mean for you, if you are stuck with the binary
+driver for some reason (say the free drivers don’t work with your card)? First
+of all, you are stuck with TwinView and cannot use <tt>xrandr</tt>. While this ruins
+the user experience, the more grave problem is that the nVidia driver not only
+does not support dynamic configuration using RandR, it also does not expose
+correct multi-monitor information via the RandR API. So, in some setups, i3
+will not find any screens; in others, it will find one large screen which
+actually contains both of your physical screens (but it will not know that
+these are two screens).</p></div>
+<div class="paragraph"><p>For this very reason, we decided to implement the following workaround: As
+long as the nVidia driver does not support RandR, an option called
+<tt>--force-xinerama</tt> is available in i3 (alternatively, you can use the
+<tt>force_xinerama</tt> configuration file directive). This option gets the list of
+screens <strong>once</strong> when starting, and never updates it. As the nVidia driver cannot
+do dynamic configuration anyways, this is not a big deal.</p></div>
+<div class="paragraph"><p>Also note that your output names are not descriptive (like <tt>HDMI1</tt>) when using
+Xinerama, instead they are counted up, starting at 0: <tt>xinerama-0</tt>, <tt>xinerama-1</tt>, …</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">3. See also</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>For more information on how to use multi-monitor setups, see the i3 User’s
+Guide.</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>
