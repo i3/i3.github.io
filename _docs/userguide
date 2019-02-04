@@ -611,8 +611,9 @@ default_floating_border normal|none|pixel
 default_floating_border normal|pixel <px>
 ---------------------------------------------
 
-Please note that +new_window+ and +new_float+ have been deprecated in favor of the above options
-and will be removed in a future release. We strongly recommend using the new options instead.
+Please note that in versions before 4.15, these were called +new_window+ and +new_float+.
+The old options have been deprecated, and will be removed in a future release. 
+We strongly recommend using the new options with any relase 4.15 or newer.
 
 *Example*:
 ---------------------
