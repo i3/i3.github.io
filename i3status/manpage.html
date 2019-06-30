@@ -32,8 +32,8 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <h1>i3status(1)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revnumber">version 2.12,</span>
-<span id="revdate">May 2018</span>
+<span id="revnumber">version 2.13,</span>
+<span id="revdate">June 2019</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -125,6 +125,7 @@ order += "wireless wlan0"
 order += "ethernet eth0"
 order += "battery 0"
 order += "cpu_temperature 0"
+order += "memory"
 order += "load"
 order += "tztime local"
 order += "tztime berlin"
@@ -135,7 +136,6 @@ wireless wlan0 {
 }
 
 ethernet eth0 {
-        # if you use %speed, i3status requires the cap_net_admin capability
         format_up = "E: %ip (%speed)"
         format_down = "E: down"
 }
@@ -167,6 +167,7 @@ path_exists VPN {
 
 tztime local {
         format = "%Y-%m-%d %H:%M:%S"
+        hide_if_equals_localtime = true
 }
 
 tztime berlin {
@@ -183,8 +184,18 @@ cpu_temperature 0 {
         path = "/sys/devices/platform/coretemp.0/temp1_input"
 }
 
+memory {
+        format = "%used"
+        threshold_degraded = "10%"
+        format_degraded = "MEMORY: %free"
+}
+
 disk "/" {
         format = "%free"
+}
+
+read_file uptime {
+        path = "/proc/uptime"
 }</tt></pre>
 </div></div>
 <div class="sect2">
@@ -229,7 +240,7 @@ dzen2
 <p>
 Dzen is a general purpose messaging, notification and menuing program for X11.
 It was designed to be scriptable in any language and integrate well with window
-managers like dwm, wmii and xmonad though it will work with any windowmanger
+managers like dwm, wmii and xmonad though it will work with any window manager
 </p>
 </dd>
 <dt class="hdlist1">
@@ -394,19 +405,20 @@ There also is an option "format_down". You can hide the output with
 <h3 id="_wireless">5.6. Wireless</h3>
 <div class="paragraph"><p>Gets the link quality, frequency and ESSID of the given wireless network
 interface. You can specify different format strings for the network being
-connected or not connected.</p></div>
+connected or not connected. The quality is padded with leading zeroes by
+default; to pad with something else use <tt>format_quality</tt>.</p></div>
 <div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first wireless
 network interface found on the system (excluding devices starting with "lo").</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>wireless wlan0</tt></p></div>
 <div class="paragraph"><p><strong>Example format_up</strong>: <tt>W: (%quality at %essid, %bitrate / %frequency) %ip</tt></p></div>
 <div class="paragraph"><p><strong>Example format_down</strong>: <tt>W: down</tt></p></div>
+<div class="paragraph"><p><strong>Example format_quality</strong>: <tt>"%03d%s"</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_ethernet">5.7. Ethernet</h3>
 <div class="paragraph"><p>Gets the IP address and (if possible) the link speed of the given ethernet
 interface. If no IPv4 address is available and an IPv6 address is, it will be
-displayed. Getting the link speed requires the cap_net_admin capability.
-Set it using <tt>setcap cap_net_admin=ep $(which i3status)</tt>.</p></div>
+displayed.</p></div>
 <div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first non-wireless
 network interface found on the system (excluding devices starting with "lo").</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>ethernet eth0</tt></p></div>
@@ -421,8 +433,8 @@ estimated to be empty. If you want to use the last full capacity instead of the
 design capacity (when using the design capacity, it may happen that your
 battery is at 23% when fully charged because it’s old. In general, I want to
 see it this way, because it tells me how worn off my battery is.), just specify
-<tt>last_full_capacity = true</tt>. You can hide seconds in the remaining time and
-empty time estimations by setting <tt>hide_seconds = true</tt>.</p></div>
+<tt>last_full_capacity = true</tt>. You can show seconds in the remaining time and
+empty time estimations by setting <tt>hide_seconds = false</tt>.</p></div>
 <div class="paragraph"><p>If you want the battery percentage to be shown without decimals, add
 <tt>integer_battery_capacity = true</tt>.</p></div>
 <div class="paragraph"><p>If your battery is represented in a non-standard path in /sys, be sure to
@@ -492,7 +504,34 @@ starting from %cpu0. This feature is currently not supported in FreeBSD.</p></di
 <div class="paragraph"><p><strong>Example format_above_degraded_threshold</strong>: <tt>Warning above degraded threshold: %usage</tt></p></div>
 </div>
 <div class="sect2">
-<h3 id="_load">5.11. Load</h3>
+<h3 id="_memory">5.11. Memory</h3>
+<div class="paragraph"><p>Gets the memory usage from system on a Linux system from <tt>/proc/meminfo</tt>. Other
+systems are currently not supported.</p></div>
+<div class="paragraph"><p>As format placeholders, <tt>total</tt>, <tt>used</tt>, <tt>free</tt>, <tt>available</tt> and <tt>shared</tt> are
+available. These will print human readable values. It&#8217;s also possible to prefix
+the placeholders with <tt>percentage_</tt> to get a value in percent.</p></div>
+<div class="paragraph"><p>It&#8217;s possible to define a <tt>threshold_degraded</tt> and a <tt>threshold_critical</tt> to
+color the status bar output in yellow or red, if the available memory falls
+below the given threshold. Possible values of the threshold can be any integer,
+suffixed with an iec symbol (<tt>T</tt>, <tt>G</tt>, <tt>M</tt>, <tt>K</tt>). Alternatively, the integer
+can be suffixed by a percent sign, which then rets evaluated relatively to
+total memory.</p></div>
+<div class="paragraph"><p>If the <tt>format_degraded</tt> parameter is given and either the critical or the
+degraded threshold applies, <tt>format_degraded</tt> will get used as format string.
+It acts equivalently to <tt>format</tt>.</p></div>
+<div class="paragraph"><p>As Linux' meminfo doesn&#8217;t expose the overall memory in use, there are multiple
+methods to distinguish the actually used memory.</p></div>
+<div class="paragraph"><p><strong>Example memory_used_method</strong>: <tt>memavailable</tt> ("total memory" - "MemAvailable", matches <tt>free</tt> command)</p></div>
+<div class="paragraph"><p><strong>Example memory_used_method</strong>: <tt>classical</tt> ("total memory" - "free" - "buffers" - "cache", matches gnome system monitor)</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>memory</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%free %available (%used) / %total</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%percentage_used used, %percentage_free free, %percentage_shared shared</tt></p></div>
+<div class="paragraph"><p><strong>Example threshold_degraded</strong>: <tt>10%</tt></p></div>
+<div class="paragraph"><p><strong>Example threshold_critical</strong>: <tt>5%</tt></p></div>
+<div class="paragraph"><p><strong>Example format_degraded</strong>: <tt>Memory LOW: %free</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_load">5.12. Load</h3>
 <div class="paragraph"><p>Gets the system load (number of processes waiting for CPU time in the last
 1, 5 and 15 minutes). It is possible to define a max_threshold that will
 color the load value red in case the load average of the last minute is
@@ -501,11 +540,11 @@ format when above max_threshold can be customized with
 format_above_threshold.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>load</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%1min %5min %15min</tt></p></div>
-<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>"0,1"</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>"0.1"</tt></p></div>
 <div class="paragraph"><p><strong>Example format_above_threshold</strong>: <tt>Warning: %1min %5min %15min</tt></p></div>
 </div>
 <div class="sect2">
-<h3 id="_time">5.12. Time</h3>
+<h3 id="_time">5.13. Time</h3>
 <div class="paragraph"><p>Outputs the current time in the local timezone.
 To use a different timezone, you can set the TZ environment variable,
 or use the <tt>tztime</tt> module.
@@ -514,7 +553,7 @@ See <tt>strftime(3)</tt> for details on the format string.</p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S</tt></p></div>
 </div>
 <div class="sect2">
-<h3 id="_tztime">5.13. TzTime</h3>
+<h3 id="_tztime">5.14. TzTime</h3>
 <div class="paragraph"><p>Outputs the current time in the given timezone.
 If no timezone is given, local time will be used.
 See <tt>strftime(3)</tt> for details on the format string.
@@ -522,7 +561,9 @@ The system&#8217;s timezone database is usually installed in <tt>/usr/share/zone
 Files below that path make for valid timezone strings, e.g. for
 <tt>/usr/share/zoneinfo/Europe/Berlin</tt> you can set timezone to <tt>Europe/Berlin</tt>
 in the <tt>tztime</tt> module.
-To override the locale settings of your environment, set the <tt>locale</tt> option.</p></div>
+To override the locale settings of your environment, set the <tt>locale</tt> option.
+To display time only when the set timezone has different time from localtime, set
+<tt>hide_if_equals_localtime</tt> to true.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>tztime berlin</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S %Z</tt></p></div>
 <div class="paragraph"><p><strong>Example timezone</strong>: <tt>Europe/Berlin</tt></p></div>
@@ -537,11 +578,12 @@ To override the locale settings of your environment, set the <tt>locale</tt> opt
         format = "&lt;span foreground='#ffffff'&gt;time:&lt;/span&gt; %time"
         format_time = "%H:%M %Z"
         timezone = "Europe/Berlin"
+        hide_if_equals_localtime = true
 }</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_ddate">5.14. DDate</h3>
+<h3 id="_ddate">5.15. DDate</h3>
 <div class="paragraph"><p>Outputs the current discordian date in user-specified format. See <tt>ddate(1)</tt> for
 details on the format string.
 <strong>Note</strong>: Neither <strong>%.</strong> nor <strong>%X</strong> are implemented yet.</p></div>
@@ -549,7 +591,7 @@ details on the format string.
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%{%a, %b %d%}, %Y%N - %H</tt></p></div>
 </div>
 <div class="sect2">
-<h3 id="_volume">5.15. Volume</h3>
+<h3 id="_volume">5.16. Volume</h3>
 <div class="paragraph"><p>Outputs the volume of the specified mixer on the specified device.  PulseAudio
 and ALSA (Linux only) are supported.  If PulseAudio is absent, a simplified
 configuration can be used on FreeBSD and OpenBSD due to the lack of ALSA,  the
@@ -579,8 +621,8 @@ specified the default sink is used. If the device string is missing or is set
 to "default", PulseAudio will be tried if detected and will fallback to ALSA
 (Linux) or OSS (FreeBSD/OpenBSD).</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>volume master</tt></p></div>
-<div class="paragraph"><p><strong>Example format</strong>: <tt>♪: %volume</tt></p></div>
-<div class="paragraph"><p><strong>Example format_muted</strong>: <tt>♪: 0%%</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>♪ (%devicename): %volume</tt></p></div>
+<div class="paragraph"><p><strong>Example format_muted</strong>: <tt>♪ (%devicename): 0%%</tt></p></div>
 <div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -609,6 +651,20 @@ to "default", PulseAudio will be tried if detected and will fallback to ALSA
         device = "pulse:alsa_output.pci-0000_00_14.2.analog-stereo"
 }</tt></pre>
 </div></div>
+</div>
+<div class="sect2">
+<h3 id="_file_contents">5.17. File Contents</h3>
+<div class="paragraph"><p>Outputs the contents of the specified file. You can use this to check contents
+of files on your system, for example /proc/uptime. By default the function only
+reads the first 254 characters of the file, if you want to override this set
+the Max_characters option. It will never read beyond the first 4095 characters.
+If the file is not found "no file" will be printed, if the file can&#8217;t be read
+"error read" will be printed.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: read_file UPTIME</p></div>
+<div class="paragraph"><p><strong>Example format</strong>: "%title: %content"</p></div>
+<div class="paragraph"><p><strong>Example format_bad</strong>: "%title - %errno: %error"</p></div>
+<div class="paragraph"><p><strong>Example path</strong>: "/proc/uptime"</p></div>
+<div class="paragraph"><p><strong>Example Max_characters</strong>: 255</p></div>
 </div>
 </div>
 </div>
@@ -683,7 +739,7 @@ separator_block_width
 <h2 id="_using_i3status_with_dzen2">7. Using i3status with dzen2</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>After installing dzen2, you can directly use it with i3status. Just ensure that
-<tt>output_format</tt> is set to <tt>dzen2</tt>.</p></div>
+<tt>output_format</tt> is set to <tt>dzen2</tt>. <strong>Note</strong>: <tt>min_width</tt> is not supported.</p></div>
 <div class="paragraph"><p><strong>Example for usage of i3status with dzen2</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -697,7 +753,7 @@ separator_block_width
 <div class="sectionbody">
 <div class="paragraph"><p>To get xmobar to start, you might need to copy the default configuration
 file to <tt>~/.xmobarrc</tt>. Also, ensure that the <tt>output_format</tt> option for i3status
-is set to <tt>xmobar</tt>.</p></div>
+is set to <tt>xmobar</tt>. <strong>Note</strong>: <tt>min_width</tt> is not supported.</p></div>
 <div class="paragraph"><p><strong>Example for usage of i3status with xmobar</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -706,23 +762,11 @@ is set to <tt>xmobar</tt>.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_what_about_memory_usage_or_cpu_frequency">9. What about memory usage or CPU frequency?</h2>
+<h2 id="_what_about_cpu_frequency">9. What about CPU frequency?</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>While talking about two specific things, please understand this section as a
+<div class="paragraph"><p>While talking about specific things, please understand this section as a
 general explanation why your favorite information is not included in i3status.</p></div>
-<div class="paragraph"><p>Let’s talk about memory usage specifically. It is hard to measure memory in a
-way which is accurate or meaningful. An in-depth understanding of how paging
-and virtual memory work in your operating system is required. Furthermore, even
-if we had a well-defined way of displaying memory usage and you would
-understand it, I think that it’s not helpful to repeatedly monitor your memory
-usage. One reason for that is that I have not run out of memory in the last few
-years.  Memory has become so cheap that even in my 4 year old notebook, I have
-8 GiB of RAM. Another reason is that your operating system will do the right
-thing anyway: Either you have not enough RAM for your workload, but you need to
-do it anyway, then your operating system will swap. Or you don’t have enough
-RAM and you want to restrict your workload so that it fits, then the operating
-system will kill the process using too much RAM and you can act accordingly.</p></div>
-<div class="paragraph"><p>For CPU frequency, the situation is similar. Many people don’t understand how
+<div class="paragraph"><p>Let’s talk about CPU frequency specifically. Many people don’t understand how
 frequency scaling works precisely. The generally recommended CPU frequency
 governor ("ondemand") changes the CPU frequency far more often than i3status
 could display it. The display number is therefore often incorrect and doesn’t
@@ -732,10 +776,9 @@ occasionally anyways, like the current date/time, whether you are connected to
 a WiFi network or not, and if you have enough disk space to fit that 4.3 GiB
 download.</p></div>
 <div class="paragraph"><p>However, if you need to look at some kind of information more than once in a
-while (like checking repeatedly how full your RAM is), you are probably better
-off with a script doing that, which pops up an alert when your RAM usage reaches
-a certain threshold. After all, the point of computers is not to burden you
-with additional boring tasks like repeatedly checking a number.</p></div>
+while, you are probably better off with a script doing that, which pops up.
+After all, the point of computers is not to burden you with additional boring
+tasks like repeatedly checking a number.</p></div>
 </div>
 </div>
 <div class="sect1">
