@@ -322,6 +322,38 @@ TICK (10)
 <div class="paragraph"><p>The reply consists of a list of serialized maps for each command that was
 parsed. Each has the property <tt>success (bool)</tt> and may also include a
 human-readable error message in the property <tt>error (string)</tt>.</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">When sending the <tt>restart</tt> command, you will get a singular reply once the
+restart completed. All IPC connection states (e.g. subscriptions) will reset and
+all but one socket will be closed. Libraries must be able to cope with this by
+aligning their internal states. It is also recommended that libraries close
+the last remaining socket(one which replied to <tt>restart</tt> command) to achieve
+the full reset.</td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">It is easiest to always send the <tt>restart</tt> command alone: due to i3’s
+state reset, the reply messages of preceding commands are lost, and following
+commands will not be executed.</td>
+</tr></table>
+</div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">When processing the <tt>exit</tt> command, i3 will immediately exit without
+sending a reply. Expect the socket to be shut down.</td>
+</tr></table>
+</div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
 <div class="content">
@@ -1251,9 +1283,11 @@ responded to.</p></div>
 <div class="sectionbody">
 <div class="paragraph" id="events"><p>To get informed when certain things happen in i3, clients can subscribe to
 events. Events consist of a name (like "workspace") and an event reply type
-(like I3_IPC_EVENT_WORKSPACE). The events sent by i3 are in the same format
-as replies to specific commands. However, the highest bit of the message type
-is set to 1 to indicate that this is an event reply instead of a normal reply.</p></div>
+(like I3_IPC_EVENT_WORKSPACE). Events sent by i3 follow a format similar to
+replies but with the highest bit of the message type set to 1 to indicate an
+event reply instead of a normal reply. Note that event types and reply types
+do not follow the same enumeration scheme (e.g. event type 0 corresponds to the
+workspace event however reply type 0 corresponds to the COMMAND reply).</p></div>
 <div class="paragraph"><p>Caveat: As soon as you subscribe to an event, it is not guaranteed any longer
 that the requests to i3 are processed in order. This means, the following
 situation can happen: You send a GET_WORKSPACES request but you receive a
@@ -1383,7 +1417,7 @@ if ($is_event) {
 <tt>change (string)</tt> which indicates the type of the change ("focus", "init",
 "empty", "urgent", "reload", "rename", "restored", "move"). A
 <tt>current (object)</tt> property will be present with the affected workspace
-whenever the type of event affects a workspace (otherwise, it will be +null).</p></div>
+whenever the type of event affects a workspace (otherwise, it will be <tt>null</tt>).</p></div>
 <div class="paragraph"><p>When the change is "focus", an <tt>old (object)</tt> property will be present with the
 previous workspace.  When the first switch occurs (when i3 focuses the
 workspace visible at the beginning) there is no previous workspace, and the
@@ -1647,6 +1681,11 @@ C++
 </dt>
 <dd>
 <div class="ulist"><ul>
+<li>
+<p>
+<a href="https://github.com/Iskustvo/i3-ipcpp">i3-ipc++</a>
+</p>
+</li>
 <li>
 <p>
 <a href="https://github.com/drmgc/i3ipcpp">https://github.com/drmgc/i3ipcpp</a>
