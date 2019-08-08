@@ -625,15 +625,15 @@ the Max_characters option. It will never read beyond the first 4095 characters.
 If the file is not found "no file" will be printed, if the file can't be read
 "error read" will be printed.
 
-*Example order*: read_file UPTIME
+*Example order*: +read_file UPTIME+
 
-*Example format*: "%title: %content"
+*Example format*: +%title: %content+
 
-*Example format_bad*: "%title - %errno: %error"
+*Example format_bad*: +%title - %errno: %error+
 
-*Example path*: "/proc/uptime"
+*Example path*: +/proc/uptime+
 
-*Example Max_characters*: 255
+*Example Max_characters*: +255+
 
 == Universal module options
 
