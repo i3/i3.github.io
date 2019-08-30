@@ -1,0 +1,158 @@
+---
+layout: default
+title: Docs
+group: Docs
+---
+<div id="content" class="usergen">
+<h1>User-contributed article: Using conky with i3bar</h1>
+
+<p>
+As explained in the i3 documentation, it’s possible to <a
+href="http://i3wm.org/docs/userguide.html#_displaying_a_status_line">use an
+external program to build the status information displayed
+by i3bar</a>.
+One of those programs is <a href="http://conky.sourceforge.net/">conky, a free,
+light-weight system monitor</a>.
+</p>
+
+<p>
+Since conky does not support the i3bar protocol by default, we could use the
+plain text output format, but then we cannot have i3bar display colors. This
+article shows how to configure conky to have colors with i3bar.
+</p>
+
+<p>
+As explained in more detail in the <a
+href="http://i3wm.org/docs/i3bar-protocol.html">i3bar protocol description</a>,
+i3bar can receive input serialized as JSON, and this way has color support,
+among other things (urgency flag, shortening description if more space is needed).
+</p>
+
+<h2>Example of colored status with conky</h2>
+
+<p>
+First of all we have to understand how i3bar expects JSON input:
+We have to provide an "infinite array", each element on that array is a "status
+line" that is displayed at a certain moment by i3bar.
+</p>
+
+<p>
+Let's make a short example. 
+We want to build a very simple status that displays the amunt of free space in
+home folder and the percentage of used RAM.
+Here's a sample JSON text for achieving our goal:
+</p>
+
+<pre><tt>{"version":1}
+[
+ [].
+
+ [ { "full_text": "Home 84.0G Free", "color": "#ffffff" },
+   { "full_text": "RAM 32%" , "color": "#ffffff" } ],
+
+ [ { "full_text": "Home 84.0G Free", "color": "#ffffff" },
+   { "full_text": "RAM 34%" , "color": "#ffffff" } ],
+
+ [....],
+ [....],
+ ...</tt></pre>
+
+<p>
+The first line tells i3bar that we are using JSON input.
+The second line is the opening of the "infinite array".
+Each line after second is one "instance status" to be displayed in i3bar, 
+</p>
+
+<h2>Wrapper script</h2>
+
+<p>
+To obtain this output with conky we have to use it in combination with a short script.
+The script will write down the "fixed" part of the output (first and second line), then it will call conky.
+It will be conky’s duty to write each of the "instances".
+</p>
+
+<p>
+The script is quite simple:
+</p>
+
+<pre><tt>#!/bin/sh
+
+# Send the header so that i3bar knows we want to use JSON:
+echo '{"version":1}'
+
+# Begin the endless array.
+echo '['
+
+# We send an empty first array of blocks to make the loop simpler:
+echo '[],'
+
+# Now send blocks with information forever:
+exec conky -c $HOME/.conkyrc</tt></pre>
+
+<p>
+Let's save this script as <tt>conky-i3bar</tt> in <tt>$HOME/bin</tt>.
+In the i3 config file the <tt>bar</tt> config will be something like that
+</p>
+
+<pre><tt>bar {
+    status_command $HOME/bin/conky-i3bar
+}</tt></pre>
+
+<h2>conky configuration</h2>
+
+<p>
+Now we have to write a <tt>~/.conkyrc</tt> file in order to obtain the desired status:
+</p>
+
+<pre><tt>[
+    { "full_text": "Home 84.0G Free" , "color": "#ffffff" },
+    { "full_text": "RAM 32%" , "color": "#ffffff" }
+],</tt></pre>
+
+<p>
+Here's a sample conkyrc that updates every 2 seconds. Just to make things a litte bit more exciting 
+we put a condition in the script in order to write the occupied RAM in red if the amount is more than 90%:
+</p>
+
+<pre><tt>conky.config = {
+    out_to_x = false,
+    own_window = false,
+    out_to_console = true,
+    background = false,
+    max_text_width = 0,
+
+    -- Update interval in seconds
+    update_interval = 2.0,
+
+    -- This is the number of times Conky will update before quitting.
+    -- Set to zero to run forever.
+    total_run_times = 0,
+
+    -- Shortens units to a single character (kiB->k, GiB->G, etc.). Default is off.
+    short_units = true,
+
+    -- How strict should if_up be when testing an interface for being up?
+    -- The value is one of up, link or address, to check for the interface
+    -- being solely up, being up and having link or being up, having link
+    -- and an assigned IP address. 
+    if_up_strictness = 'address',
+
+    -- Add spaces to keep things from moving about?  This only affects certain objects.
+    -- use_spacer should have an argument of left, right, or none
+    use_spacer = 'left',
+
+    -- Force UTF8? note that UTF8 support required XFT
+    override_utf8_locale = false,
+
+    -- number of cpu samples to average
+    -- set to 1 to disable averaging
+    cpu_avg_samples = 2,
+};
+
+conky.text = [[
+{% raw %}[
+    { "full_text": "Home ${fs_free /home} Free" , "color": "\#ffffff" },
+    { "full_text": "RAM ${memperc}%" , "color": ${if_match ${memperc}<90}"\#ffffff"${else}"\#ff0000"${endif} }
+],{% endraw %}
+]];
+</tt></pre>
