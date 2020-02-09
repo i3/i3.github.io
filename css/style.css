@@ -156,7 +156,7 @@ img {
 }
 
 #info p {
-    line-height: 150%;
+  line-height: 1.5;
 }
 
 #content {
@@ -164,7 +164,7 @@ img {
     width: 874px;
     padding-left: 1em;
     padding-right: 1em;
-    line-height: 150%;
+    line-height: 1.5;
     color: #fff;
     font-size: 1.2em;
 }
@@ -415,15 +415,15 @@ table#downloads tbody tr:first-child {
     line-height: 0;
     height: 0;
 }
- 
+
 .clearfix {
     display: inline-block;
 }
- 
+
 html[xmlns] .clearfix {
     display: block;
 }
- 
+
 * html .clearfix {
     height: 1%;
 }
