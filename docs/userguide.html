@@ -738,8 +738,8 @@ for_window [class="urxvt"] border pixel 1
 # directory to ~/work
 for_window [title="x200: ~/work"] floating enable</tt></pre>
 </div></div>
-<div class="paragraph"><p>The valid criteria are the same as those for commands, see <a href="#command_criteria">[command_criteria]</a>. Only config
-directives with a command equivalent can be executed at runtime, see <a href="#list_of_commands">[list_of_commands]</a>.</p></div>
+<div class="paragraph"><p>The valid criteria are the same as those for commands, see <a href="#command_criteria">[command_criteria]</a>. Only
+commands can be executed at runtime, not config directives, see <a href="#list_of_commands">[list_of_commands]</a>.</p></div>
 </div>
 <div class="sect2">
 <h3 id="no_focus">4.14. Don&#8217;t focus window upon opening</h3>
@@ -1070,7 +1070,8 @@ from single windows outside of a split container.</p></div>
 programs to get information from i3, such as the current workspaces
 (to display a workspace bar), and to control i3.</p></div>
 <div class="paragraph"><p>The IPC socket is enabled by default and will be created in
-<tt>/tmp/i3-%u.XXXXXX/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username, <tt>%p</tt> is
+<tt>$XDG_RUNTIME_DIR/i3/ipc-socket.%p</tt> if the directory is available, falling back
+to <tt>/tmp/i3-%u.XXXXXX/ipc-socket.%p</tt>, where <tt>%u</tt> is your UNIX username, <tt>%p</tt> is
 the PID of i3 and XXXXXX is a string of random characters from the portable
 filename character set (see mkdtemp(3)).</p></div>
 <div class="paragraph"><p>You can override the default path through the environment-variable <tt>I3SOCK</tt> or
@@ -1176,10 +1177,14 @@ to all your windows without having to use <tt>focus parent</tt>.</p></div>
 <div class="paragraph"><p>If you want the focus to <strong>always</strong> wrap and you are aware of using <tt>focus
 parent</tt> to switch to different containers, you can instead set <tt>focus_wrapping</tt>
 to the value <tt>force</tt>.</p></div>
+<div class="paragraph"><p>To restrict focus inside the current workspace set <tt>focus_wrapping</tt> to the
+value <tt>workspace</tt>. You will need to use <tt>focus parent</tt> until a workspace is
+selected to switch to a different workspace using the focus commands (the
+<tt>workspace</tt> command will still work as expected).</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>focus_wrapping yes|no|force
+<pre><tt>focus_wrapping yes|no|force|workspace
 
 # Legacy syntax, equivalent to "focus_wrapping force"
 force_focus_wrapping yes</tt></pre>
@@ -1736,7 +1741,32 @@ you want to display a statusline-only bar containing additional information.</p>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_strip_workspace_numbers_name">5.13. Strip workspace numbers/name</h3>
+<h3 id="_minimal_width_for_workspace_buttons">5.13. Minimal width for workspace buttons</h3>
+<div class="paragraph"><p>By default, the width a workspace button is determined by the width of the text
+showing the workspace name. If the name is too short (say, one letter), then the
+workspace button may look too small.</p></div>
+<div class="paragraph"><p>This option specifies the minimum width for workspace buttons. If the name of
+a workspace is too short to cover the button, an additional padding is added on
+both sides of the button so that the text is centered.</p></div>
+<div class="paragraph"><p>The default value of zero means that no additional padding is added.</p></div>
+<div class="paragraph"><p>The setting also applies to the current binding mode indicator.</p></div>
+<div class="paragraph"><p>Note that the specified pixels refer to logical pixels, which may translate
+into more pixels on HiDPI displays.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace_min_width &lt;px&gt; [px]</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bar {
+    workspace_min_width 40
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_strip_workspace_numbers_name">5.14. Strip workspace numbers/name</h3>
 <div class="paragraph"><p>Specifies whether workspace numbers should be displayed within the workspace
 buttons. This is useful if you want to have a named workspace that stays in
 order on the bar according to its number without displaying the number prefix.</p></div>
@@ -1764,7 +1794,7 @@ strip_workspace_name yes|no</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_binding_mode_indicator">5.14. Binding Mode indicator</h3>
+<h3 id="_binding_mode_indicator">5.15. Binding Mode indicator</h3>
 <div class="paragraph"><p>Specifies whether the current binding mode indicator should be shown or not.
 This is useful if you want to hide the workspace buttons but still be able
 to see the current binding mode indicator. See <a href="#binding_modes">[binding_modes]</a> to learn what
@@ -1784,7 +1814,7 @@ modes are and how to use them.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_colors">5.15. Colors</h3>
+<h3 id="_colors">5.16. Colors</h3>
 <div class="paragraph"><p>As with i3, colors are in HTML hex format (#rrggbb). The following colors can
 be configured at the moment:</p></div>
 <div class="dlist"><dl>
@@ -1918,7 +1948,7 @@ binding_mode
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_transparency">5.16. Transparency</h3>
+<h3 id="_transparency">5.17. Transparency</h3>
 <div class="paragraph"><p>i3bar can support transparency by passing the <tt>--transparency</tt> flag in the
 configuration:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -2103,8 +2133,6 @@ tiling
 <div class="paragraph"><p>The criteria <tt>class</tt>, <tt>instance</tt>, <tt>role</tt>, <tt>title</tt>, <tt>workspace</tt> and <tt>mark</tt> are
 actually regular expressions (PCRE). See <tt>pcresyntax(3)</tt> or <tt>perldoc perlre</tt> for
 information on how to use them.</p></div>
-<div class="paragraph"><p>Note that config directives listed under <a href="#configuring">[configuring]</a> cannot be changed at runtime
-unless they happen to have a command equivalent.</p></div>
 <div class="sect2">
 <h3 id="exec">6.1. Executing applications (exec)</h3>
 <div class="paragraph"><p>What good is a window manager if you can’t actually start any applications?
@@ -2183,7 +2211,7 @@ bindsym $mod+t split toggle</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_manipulating_layout">6.3. Manipulating layout</h3>
+<h3 id="manipulating_layout">6.3. Manipulating layout</h3>
 <div class="paragraph"><p>Use <tt>layout toggle split</tt>, <tt>layout stacking</tt>, <tt>layout tabbed</tt>, <tt>layout splitv</tt>
 or <tt>layout splith</tt> to change the current container layout to splith/splitv,
 stacking, tabbed layout, splitv or splith, respectively.</p></div>
@@ -2273,6 +2301,18 @@ child
 </p>
 </dd>
 <dt class="hdlist1">
+next|prev
+</dt>
+<dd>
+<p>
+        Automatically sets focus to the adjacent container. If <tt>sibling</tt> is
+        specified, the command will focus the exact sibling container,
+        including non-leaf containers like split containers. Otherwise, it is
+        an automatic version of <tt>focus left|right|up|down</tt> in the orientation
+        of the parent container.
+</p>
+</dd>
+<dt class="hdlist1">
 floating
 </dt>
 <dd>
@@ -2312,6 +2352,7 @@ output
 <pre><tt>&lt;criteria&gt; focus
 focus left|right|down|up
 focus parent|child|floating|tiling|mode_toggle
+focus next|prev [sibling]
 focus output left|right|up|down|primary|&lt;output&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
@@ -2485,7 +2526,7 @@ exhausting numbered ones and looks for numbered ones after exhausting named ones
 <div class="paragraph"><p>See <a href="#move_to_outputs">[move_to_outputs]</a> for how to move a container/workspace to a different
 RandR output.</p></div>
 <div class="paragraph"><p>Workspace names are parsed as
-<a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">Pango markup</a>
+<a href="https://developer.gnome.org/pango/stable/pango-Markup.html">Pango markup</a>
 by i3bar.</p></div>
 <div class="paragraph" id="back_and_forth"><p>To switch back to the previously focused workspace, use <tt>workspace
 back_and_forth</tt>; likewise, you can move containers to the previously focused
@@ -2758,7 +2799,7 @@ unmark irssi
 <div class="paragraph"><p>By default, i3 will simply print the X11 window title. Using <tt>title_format</tt>,
 this can be customized by setting the format to the desired output. This
 directive supports
-<a href="https://developer.gnome.org/pango/stable/PangoMarkupFormat.html">Pango markup</a>
+<a href="https://developer.gnome.org/pango/stable/pango-Markup.html">Pango markup</a>
 and the following placeholders which will be replaced:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
