@@ -192,12 +192,16 @@ main {
     margin-top: .5em;
 }
 
+/*
+ * Footer
+ */
+
 footer {
-    border-top: 2px solid #333;
-    margin-top: 4em;
-    padding-top: 1em;
-    font-size: 90%;
+    border-top: 2px solid #242424;
+    color: #ccc;
+    font-size: .9rem;
     text-align: center;
+    padding: 2em;
 }
 
 .docs {
