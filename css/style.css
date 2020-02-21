@@ -26,9 +26,12 @@ a {
     text-decoration: underline;
 }
 
-
 a:hover {
     text-decoration: none;
+}
+
+img {
+    max-width: 100%
 }
 
 /*
@@ -42,11 +45,8 @@ header {
     margin-top: .5rem;
 }
 
-#nav {
-    float: right;
-    color: #FFF;
-    margin: 10px 18px 0 0;
-    padding: 0;
+.logo {
+    max-width: 25rem;
 }
 
 #nav li {
