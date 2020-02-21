@@ -1,3 +1,13 @@
+/*
+ * Reset
+ */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     background-color: #2e2e2e;
     color: #CCC;
@@ -157,8 +167,24 @@ img {
   line-height: 1.5;
 }
 
+/*
+ * Main
+ */
+
 main {
     margin: 2rem 0;
+}
+
+main > * + * {
+    margin-top: 1rem;
+}
+
+main ul {
+    margin-left: 2rem;
+}
+
+main li {
+    margin-bottom: 1em;
 }
 
 #content {
