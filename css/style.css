@@ -49,41 +49,32 @@ header {
     max-width: 25rem;
 }
 
-#nav li {
-    font-size: 1.3em;
+/*
+ * Nav
+ */
+
+nav ul {
+    display: flex;
+}
+
+nav ul li {
     list-style: none;
-    float: left;
-    margin-top: 1.8em;
-    margin-left: 5px;
-    border-right: 2px solid #3A8ECD;
 }
 
-#nav li:last-child {
-    border-right: 0;
-}
-
-#nav li a {
-    font-size: 1.2em;
-    margin: 0.4em 0.4em;
-    display: block;
+nav ul li a {
     color: #FFF;
+    padding: .4rem .8rem;
     text-decoration: none;
     border-bottom: 2px solid #2e2e2e;
+    transition: ease 150ms;
 }
 
-#nav li a:hover {
-    border-bottom: 2px solid #fff;
+nav ul li a:hover {
+    border-bottom: 2px solid #187b55;
 }
 
-h1#title {
-    height: 146px;
-    width: 458px;
-    float: left;
-    margin: 0;
-    background-image: url(../img/logo.svg);
-    background-repeat: no-repeat;
-    background-size: 436px 134px;
-    text-indent: -9999px;
+.active {
+    border-bottom: 2px solid #52C0FF;
 }
 
 #screens {
