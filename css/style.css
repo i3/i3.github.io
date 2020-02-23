@@ -1,18 +1,16 @@
 body {
     background-color: #2e2e2e;
-    color: #CCC;
-    font-family: 'Droid Sans', "Lucida Grande", "Lucida Sans", "Liberation Sans", sans-serif;
-    font-size: 0.8em;
+    color: #ddd;
+    font-family: "Droid Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1em;
+    line-height: 1.5;
     overflow-y: scroll;
 }
 
-h2, h3 {
-    font-family: 'Mako', sans-serif;
-    font-weight: bold;
-    letter-spacing: -1px;
-    color: #FFF;
-    line-height: 1.2em;
-    border-bottom: 2px solid #333;
+h1, h2, h3 {
+    color: #fff;
+    font-family: "Mako", Helvetica, Arial, sans-serif;
+    line-height: 1.2;
 }
 
 h2 {
@@ -21,10 +19,7 @@ h2 {
 
 a {
     color: #2b7dbc;
-    text-decoration: underline;
 }
-
-
 a:hover {
     text-decoration: none;
 }
@@ -43,7 +38,6 @@ a:hover {
 }
 
 #nav li {
-    font-size: 1.3em;
     list-style: none;
     float: left;
     margin-top: 1.8em;
@@ -56,7 +50,6 @@ a:hover {
 }
 
 #nav li a {
-    font-size: 1.2em;
     margin: 0.4em 0.4em;
     display: block;
     color: #FFF;
@@ -103,7 +96,7 @@ img {
 
     width: 840px;
     color: #666;
-    font-size: 1.6em;
+    font-size: 1.2rem;
     letter-spacing: -1px;
     background-color: #dddddd;
     background-repeat: no-repeat;
@@ -149,24 +142,15 @@ img {
 #info h2 {
     margin: 17px 0 15px 0;
     border: 0;
-    font-family: 'Georgia', 'Ovo', serif;
     color: #2b7dbc;
-    font-size: 1.75em;
+    font-size: 2.2rem;
     font-weight: normal;
 }
 
-#info p {
-  line-height: 1.5;
-}
-
 #content {
-    text-align: justify;
     width: 874px;
     padding-left: 1em;
     padding-right: 1em;
-    line-height: 1.5;
-    color: #fff;
-    font-size: 1.2em;
 }
 
 #content p {
@@ -194,7 +178,7 @@ img {
     border-top: 2px solid #333;
     margin-top: 4em;
     padding-top: 1em;
-    font-size: 90%;
+    font-size: .9rem;
     text-align: center;
 }
 
