@@ -1,12 +1,12 @@
-/*
- * Reset
- */
+/* Reset */
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+/* Basics */
 
 body {
     background-color: #2e2e2e;
@@ -19,6 +19,20 @@ body {
     margin: 0 auto;
 }
 
+img {
+    max-width: 100%
+}
+
+a {
+    color: #52C0FF;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Typo */
+
 h1, h2, h3 {
     color: #fff;
     font-family: "Mako", Helvetica, Arial, sans-serif;
@@ -29,21 +43,16 @@ h2 {
     font-size: 1.8em;
 }
 
-a {
-    color: #2b7dbc;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-img {
-    max-width: 100%
-}
-
 /*
- * Header
+ * Default template styling
+ *  - header
+ *  - nav
+ *  - main
+ *  - #content (legacy)
+ *  - footer
  */
+
+/* Header */
 
 header {
     display: flex;
@@ -56,9 +65,7 @@ header {
     max-width: 25rem;
 }
 
-/*
- * Nav
- */
+/* Nav */
 
 nav ul {
     display: flex;
@@ -164,46 +171,6 @@ img {
 }
 
 /*
- * Main
- */
-
-main {
-    margin: 2rem 0;
-}
-
-main > * + * {
-    margin-top: 1rem;
-}
-
-main ul {
-    margin-left: 2rem;
-}
-
-main li {
-    margin-bottom: 1em;
-}
-
-/*
- * #content used to be the old content wrapper.
- * It's still here for legacy purposes but the new content is wrapped
- * in <main>, so all appropriate styling is found on that element above this comment
- */
-
-#content {
-    width: 874px;
-    padding-left: 1em;
-    padding-right: 1em;
-}
-
-#content p {
-    padding-right: 2em;
-}
-#content li {
-    margin-bottom: 1em;
-    padding-right: 2em;
-}
-
-/*
  * Distributions page
  */
 
@@ -238,25 +205,57 @@ main li {
 }
 
 /*
- * Footer
+ * Docs page
  */
 
-footer {
-    border-top: 2px solid #242424;
-    color: #ccc;
-    font-size: .9rem;
-    text-align: center;
-    padding: 2em;
+.columns {
+    display: flex;
 }
 
-.docs {
-    float: left;
-    width: 48%;
+.item {
+    padding: .5rem;
 }
 
-.docs p, .ugdocs p {
-    padding-left: 0.5em;
+* + .item {
+    margin-top: 1rem;
 }
+
+.item > a {
+    font-weight: bold
+}
+
+.highlight {
+    background-color: #444;
+    border-radius: 5px;
+    width: 90%;
+}
+
+.author {
+    color: #7c7c7c;
+    font-size: .8rem;
+    margin-left: .5rem;
+}
+
+.docversion {
+    margin: 0.25em;
+    margin-top: 0.9em;
+    padding: 0.1em;
+    padding-left: 0.25em;
+    padding-right: 0.25em;
+    background-color: #333;
+    border: 2px solid #555;
+    border-radius: 4px;
+    float: right;
+}
+
+.docversion a, .docversion a:visited {
+    color: white;
+    text-decoration: none;
+}
+
+/*
+ * Fonts
+ */
 
 @font-face {
     font-family: 'Droid Sans';
@@ -401,39 +400,6 @@ footer {
 
 #imgdesc .description {
     padding-left: 1em;
-}
-
-.docs strong {
-    margin-right: 1em;
-}
-
-.docversion {
-    margin: 0.25em;
-    margin-top: 0.9em;
-    padding: 0.1em;
-    padding-left: 0.25em;
-    padding-right: 0.25em;
-    background-color: #333;
-    border: 2px solid #555;
-    border-radius: 4px;
-    float: right;
-}
-
-.docversion a, .docversion a:visited {
-    color: white;
-    text-decoration: none;
-}
-
-table#downloads tr {
-    opacity: 0.7;
-}
-
-table#downloads thead tr {
-    opacity: 1.0;
-}
-
-table#downloads tbody tr:first-child {
-    opacity: 1.0;
 }
 
 .usergen pre {
