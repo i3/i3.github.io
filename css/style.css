@@ -183,6 +183,12 @@ main li {
     margin-bottom: 1em;
 }
 
+/*
+ * #content used to be the old content wrapper.
+ * It's still here for legacy purposes but the new content is wrapped
+ * in <main>, so all appropriate styling is found on that element above this comment
+ */
+
 #content {
     width: 874px;
     padding-left: 1em;
@@ -197,17 +203,38 @@ main li {
     padding-right: 2em;
 }
 
-#distributions {
-    margin-left: 2em;
-    line-height: 100px;
+/*
+ * Distributions page
+ */
+
+.distributions {
+    display: flex;
+    flex-wrap: wrap;
 }
 
-#distributions img {
+.distributions img {
     vertical-align: middle;
-    margin-left: 1.5em;
-    margin-right: 1.5em;
-    margin-bottom: 1.5em;
-    margin-top: .5em;
+    max-width: 5rem;
+    margin: 1rem;
+}
+
+.old {
+    display: none;
+}
+
+.downloads {
+    width: 100%;
+}
+
+.downloads tbody tr:first-child td {
+    color: #187b55;
+    padding: .5rem 0;
+    font-weight: bold;
+}
+
+.gpg-key {
+    white-space: pre;
+    overflow-x: scroll;
 }
 
 /*
