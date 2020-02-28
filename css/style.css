@@ -226,8 +226,8 @@ main li {
     width: 100%;
 }
 
-.downloads tbody tr:first-child td {
-    color: #187b55;
+.downloads tbody:first-of-type tr:first-child td {
+    color: #fff;
     padding: .5rem 0;
     font-weight: bold;
 }
