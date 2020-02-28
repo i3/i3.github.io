@@ -94,7 +94,7 @@ main {
 }
 
 main > * + * {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 main ul {
@@ -271,9 +271,7 @@ footer {
     text-decoration: none;
 }
 
-/*
- * Fonts
- */
+/* Fonts */
 
 @font-face {
     font-family: 'Droid Sans';
@@ -295,6 +293,69 @@ footer {
     font-weight: normal;
     src: local('Mako'), url('/fonts/Mako.ttf') format('truetype');
 }
+
+/* Mobile */
+
+@media screen and (max-width: 40rem) {
+
+    body {
+        padding: 1rem;
+    }
+
+    header {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .logo {
+        margin-bottom: 1.5rem;
+    }
+
+    main {
+        margin: 1.5rem 0;
+    }
+
+    main > * + * {
+        margin-top: 1rem;
+    }
+
+    .info {
+        flex-direction: column;
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+
+    .info-text p {
+        margin: 1rem 0;
+    }
+
+    .info .screen{
+        margin-top: 1rem;
+    }
+
+    .screens {
+        width: 100%;
+    }
+
+    .video {
+        flex-direction: column;
+    }
+
+    .video-description {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+
+    footer {
+        padding: 1rem;
+    }
+}
+
+/*
+ * Everything under this comment has not been updated to reflect the new
+ * html & css structure on 28/02/2020. Most of it is screenshot/gallery code
+ * and float clearfixes.
+ */
 
 .video img {
     margin-left: 1em;
