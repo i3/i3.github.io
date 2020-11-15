@@ -25,7 +25,7 @@ a:hover {
 }
 
 #main {
-    width: 912px;
+    max-width: 912px;
     margin: 0 auto;
     padding: 0;
 }
@@ -148,7 +148,7 @@ img {
 }
 
 #content {
-    width: 874px;
+    max-width: 874px;
     padding-left: 1em;
     padding-right: 1em;
 }
