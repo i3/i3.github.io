@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.0.2" />
+<meta name="generator" content="AsciiDoc 9.0.3" />
 <title>i3: i3 User’s Guide</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -96,7 +96,7 @@ existing window (rotated displays).</p></div>
 <img src="two_terminals.png" alt="Two terminals" />
 </span></p></div>
 <div class="paragraph"><p>To move the focus between the two terminals, you can use the direction keys
-which you may know from the editor <tt>vi</tt>. However, in i3, your homerow is used
+which you might know from the editor <tt>vi</tt>. However, in i3, your homerow is used
 for these keys (in <tt>vi</tt>, the keys are shifted to the left by one for
 compatibility with most keyboard layouts). Therefore, <tt>$mod+j</tt> is left, <tt>$mod+k</tt>
 is down, <tt>$mod+l</tt> is up and <tt>$mod+;</tt> is right. So, to switch between the
@@ -332,7 +332,7 @@ command.</p></div>
 single workspace on which you open three terminal windows. All these terminal
 windows are directly attached to one node inside i3’s layout tree, the
 workspace node. By default, the workspace node’s orientation is <tt>horizontal</tt>.</p></div>
-<div class="paragraph"><p>Now you move one of these terminals down (<tt>$mod+Shift+k</tt> by default). The
+<div class="paragraph"><p>Now you move one of these terminals down (<tt>$mod+Shift+j</tt> by default). The
 workspace node’s orientation will be changed to <tt>vertical</tt>. The terminal window
 you moved down is directly attached to the workspace and appears on the bottom
 of the screen. A new (horizontal) container was created to accommodate the
@@ -960,7 +960,7 @@ available outputs by running <tt>xrandr --current</tt>.</p></div>
 <div class="paragraph"><p>If your X server supports RandR 1.5 or newer, i3 will use RandR monitor objects
 instead of output objects. Run <tt>xrandr --listmonitors</tt> to see a list. Usually,
 a monitor object contains exactly one output, and has the same name as the
-output; but should that not be the case, you may specify the name of either the
+output; but should that not be the case, you can specify the name of either the
 monitor or the output in i3&#8217;s configuration. For example, the Dell UP2414Q uses
 two scalers internally, so its output names might be “DP1” and “DP2”, but the
 monitor name is “Dell UP2414Q”.</p></div>
@@ -1128,7 +1128,7 @@ behavior described above.</p></div>
 <div class="sect2">
 <h3 id="_popups_during_fullscreen_mode">4.24. Popups during fullscreen mode</h3>
 <div class="paragraph"><p>When you are in fullscreen mode, some applications still open popup windows
-(take Xpdf for example). This is because these applications may not be aware
+(take Xpdf for example). This is because these applications might not be aware
 that they are in fullscreen mode (they do not check the corresponding hint).
 There are three things which are possible to do in this situation:</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -1243,9 +1243,9 @@ came from now, you can just press $mod+2 again to switch back to "1: www".</p></
 <div class="sect2">
 <h3 id="_delaying_urgency_hint_reset_on_workspace_change">4.28. Delaying urgency hint reset on workspace change</h3>
 <div class="paragraph"><p>If an application on another workspace sets an urgency hint, switching to this
-workspace may lead to immediate focus of the application, which also means the
+workspace might lead to immediate focus of the application, which also means the
 window decoration color would be immediately reset to <tt>client.focused</tt>. This
-may make it unnecessarily hard to tell which window originally raised the
+might make it unnecessarily hard to tell which window originally raised the
 event.</p></div>
 <div class="paragraph"><p>In order to prevent this, you can tell i3 to delay resetting the urgency state
 by a certain time using the <tt>force_display_urgency_hint</tt> directive. Setting the
@@ -1265,8 +1265,8 @@ value to 0 disables this feature.</p></div>
 <div class="sect2">
 <h3 id="focus_on_window_activation">4.29. Focus on window activation</h3>
 <div class="paragraph"><p>If a window is activated, e.g., via <tt>google-chrome www.google.com</tt>, it may request
-to take focus. Since this may not preferable, different reactions can be configured.</p></div>
-<div class="paragraph"><p>Note that this may not affect windows that are being opened. To prevent new windows
+to take focus. Since this might not be preferable, different reactions can be configured.</p></div>
+<div class="paragraph"><p>Note that this might not affect windows that are being opened. To prevent new windows
 from being focused, see <a href="#no_focus">[no_focus]</a>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -1442,9 +1442,11 @@ It is also possible to force i3bar to always stay hidden (<tt>invisible</tt>
 mode). The modifier key can be configured using the <tt>modifier</tt> option.</p></div>
 <div class="paragraph"><p>The mode option can be changed during runtime through the <tt>bar mode</tt> command.
 On reload the mode will be reverted to its configured value.</p></div>
-<div class="paragraph"><p>The hide mode maximizes screen space that can be used for actual windows. Also,
-i3bar sends the <tt>SIGSTOP</tt> and <tt>SIGCONT</tt> signals to the statusline process to
-save battery power.</p></div>
+<div class="paragraph"><p>The hide mode maximizes screen space that can be used for actual windows. When
+the bar is hidden, i3bar sends the <tt>SIGSTOP</tt> and <tt>SIGCONT</tt> signals to the
+<tt>status_command</tt> process in order to conserve battery power. This feature can
+be disabled by the <tt>status_command</tt> process by setting the appropriate values
+in its JSON header message.</p></div>
 <div class="paragraph"><p>Invisible mode allows to permanently maximize screen space, as the bar is never
 shown. Thus, you can configure i3bar to not disturb you by popping up because
 of an urgency hint or because the modifier key is pressed.</p></div>
@@ -1525,6 +1527,22 @@ button5
     Scroll wheel down.
 </p>
 </dd>
+<dt class="hdlist1">
+button6
+</dt>
+<dd>
+<p>
+    Scroll wheel right.
+</p>
+</dd>
+<dt class="hdlist1">
+button7
+</dt>
+<dd>
+<p>
+    Scroll wheel left.
+</p>
+</dd>
 </dl></div>
 <div class="paragraph"><p>Please note that the old <tt>wheel_up_cmd</tt> and <tt>wheel_down_cmd</tt> commands are deprecated
 and will be removed in a future release. We strongly recommend using the more general
@@ -1589,10 +1607,29 @@ handle all outputs. Restricting the outputs is useful for using different
 options for different outputs by using multiple <em>bar</em> blocks.</p></div>
 <div class="paragraph"><p>To make a particular i3bar instance handle multiple outputs, specify the output
 directive multiple times.</p></div>
+<div class="paragraph"><p>These output names have a special meaning:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+primary
+</dt>
+<dd>
+<p>
+    Selects the output that is configured as primary in the X server.
+</p>
+</dd>
+<dt class="hdlist1">
+nonprimary
+</dt>
+<dd>
+<p>
+    Selects every output that is not configured as primary in the X server.
+</p>
+</dd>
+</dl></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>output primary|&lt;output&gt;</tt></pre>
+<pre><tt>output primary|nonprimary|&lt;output&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
@@ -1744,13 +1781,13 @@ you want to display a statusline-only bar containing additional information.</p>
 <h3 id="_minimal_width_for_workspace_buttons">5.13. Minimal width for workspace buttons</h3>
 <div class="paragraph"><p>By default, the width a workspace button is determined by the width of the text
 showing the workspace name. If the name is too short (say, one letter), then the
-workspace button may look too small.</p></div>
+workspace button might look too small.</p></div>
 <div class="paragraph"><p>This option specifies the minimum width for workspace buttons. If the name of
 a workspace is too short to cover the button, an additional padding is added on
 both sides of the button so that the text is centered.</p></div>
 <div class="paragraph"><p>The default value of zero means that no additional padding is added.</p></div>
 <div class="paragraph"><p>The setting also applies to the current binding mode indicator.</p></div>
-<div class="paragraph"><p>Note that the specified pixels refer to logical pixels, which may translate
+<div class="paragraph"><p>Note that the specified pixels refer to logical pixels, which might translate
 into more pixels on HiDPI displays.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -1778,7 +1815,7 @@ workspaces to "1:I", "2:II", "3:III", "4:IV", &#8230;</p></div>
 the form "[n][:][NAME]" will display only the number.</p></div>
 <div class="paragraph"><p>The default is to display the full name within the workspace button. Be aware
 that the colon in the workspace name is optional, so <tt>[n][NAME]</tt> will also
-have the the workspace name and number stripped correctly.</p></div>
+have the workspace name and number stripped correctly.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -2122,11 +2159,33 @@ floating
 </p>
 </dd>
 <dt class="hdlist1">
+floating_from
+</dt>
+<dd>
+<p>
+        Like <tt>floating</tt> but this criterion takes two possible values: "auto"
+        and "user". With "auto", only windows that were automatically opened as
+        floating are matched. With "user", only windows that the user made
+        floating are matched.
+</p>
+</dd>
+<dt class="hdlist1">
 tiling
 </dt>
 <dd>
 <p>
         Only matches tiling windows. This criterion requires no value.
+</p>
+</dd>
+<dt class="hdlist1">
+tiling_from
+</dt>
+<dd>
+<p>
+        Like <tt>tiling</tt> but this criterion takes two possible values: "auto" and
+        "user". With "auto", only windows that were automatically opened as
+        tiling are matched. With "user", only windows that the user made tiling
+        are matched.
 </p>
 </dd>
 </dl></div>
@@ -2397,12 +2456,15 @@ bindsym $mod+x focus output primary</tt></pre>
 <pre><tt># Moves the container into the given direction.
 # The optional pixel argument specifies how far the
 # container should be moved if it is floating and
-# defaults to 10 pixels.
-move &lt;left|right|down|up&gt; [&lt;px&gt; px]
+# defaults to 10 pixels. The optional ppt argument
+# means "percentage points", and if specified it indicates
+# how many points the container should be moved if it is
+# floating rather than by a pixel value.
+move &lt;left|right|down|up&gt; [&lt;amount&gt; [px|ppt]]
 
 # Moves the container to the specified pos_x and pos_y
 # coordinates on the screen.
-move position &lt;pos_x&gt; [px] &lt;pos_y&gt; [px]
+move position &lt;pos_x&gt; [px|ppt] &lt;pos_y&gt; [px|ppt]
 
 # Moves the container to the center of the screen.
 # If 'absolute' is used, it is moved to the center of
@@ -2719,7 +2781,7 @@ context.</p></div>
 <div class="sect2">
 <h3 id="_jumping_to_specific_windows">6.13. Jumping to specific windows</h3>
 <div class="paragraph"><p>Often when in a multi-monitor environment, you want to quickly jump to a
-specific window. For example, while working on workspace 3 you may want to
+specific window. For example, while working on workspace 3 you might want to
 jump to your mail client to email your boss that you’ve achieved some
 important goal. Instead of figuring out how to navigate to your mail client,
 it would be more convenient to have a shortcut. You can use the <tt>focus</tt> command
@@ -2751,7 +2813,7 @@ window, you cannot simply bind it to a key.  <tt>i3-input</tt> is a tool created
 for this purpose: It lets you input a command and sends the command to i3. It
 can also prefix this command and display a custom prompt for the input dialog.</p></div>
 <div class="paragraph"><p>The additional <tt>--toggle</tt> option will remove the mark if the window already has
-this mark or add it otherwise. Note that you may need to use this in
+this mark or add it otherwise. Note that you might need to use this in
 combination with <tt>--add</tt> (see below) as any other marks will otherwise be
 removed.</p></div>
 <div class="paragraph"><p>The <tt>--replace</tt> flag causes i3 to remove any existing marks, which is also the
@@ -2861,7 +2923,7 @@ and <tt>border none</tt> to make the client borderless.</p></div>
 optional pixel argument can be used to specify the border width when switching
 to the normal and pixel styles.</p></div>
 <div class="paragraph"><p>Note that "pixel" refers to logical pixel. On HiDPI displays, a logical pixel
-may be represented by multiple physical pixels, so <tt>pixel 1</tt> might not
+is represented by multiple physical pixels, so <tt>pixel 1</tt> might not
 necessarily translate into a single pixel row wide border.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -3117,7 +3179,7 @@ only what you can see in xrandr.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_interesting_configuration_for_multi_monitor_environments">7.2. Interesting configuration for multi-monitor environments</h3>
-<div class="paragraph"><p>There are several things to configure in i3 which may be interesting if you
+<div class="paragraph"><p>There are several things to configure in i3 which might be interesting if you
 have more than one monitor:</p></div>
 <div class="olist arabic"><ol class="arabic">
 <li>
