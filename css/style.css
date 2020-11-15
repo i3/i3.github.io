@@ -112,7 +112,7 @@ main li {
  */
 
 #content {
-    width: 874px;
+    max-width: 874px;
     padding-left: 1em;
     padding-right: 1em;
 }
