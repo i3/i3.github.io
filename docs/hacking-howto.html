@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.0.2" />
+<meta name="generator" content="AsciiDoc 9.0.3" />
 <title>i3: Hacking i3: How To</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -44,73 +44,76 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 touching i3’s source code. It should contain all important information to help
 you understand why things are like they are. If it does not mention something
 you find necessary, please do not hesitate to contact me.</p></div>
+<div style="background-color:red; color:white; padding:20px;">
+<strong style="color:white;">WARNING!</strong>
+<p>
+<div class="paragraph"><p>This document is not 100% up to date. Specifically, everything up to and
+including <a href="#data_structures">[data_structures]</a> has been updated recently. The rest might contain
+outdated information.</p></div>
+</p>
+</div>
 </div>
 </div>
 <div class="sect1">
 <h2 id="_building_i3">1. Building i3</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>You can build i3 like you build any other software package which uses autotools.
-Here’s a memory refresher:</p></div>
+<div class="paragraph"><p>You can build i3 like you build any other software package which uses
+<a href="https://mesonbuild.com/">The Meson Build system</a>; see
+<a href="https://mesonbuild.com/Quick-guide.html#compiling-a-meson-project">Quickstart
+Guide → Compiling a Meson project</a>. In case you’re unfamiliar:</p></div>
 <div class="literalblock">
 <div class="content">
-<pre><tt>$ autoreconf -fi
-$ mkdir -p build &amp;&amp; cd build
-$ ../configure
-$ make -j8</tt></pre>
+<pre><tt>$ mkdir -p build &amp;&amp; cd build
+$ meson ..
+$ ninja</tt></pre>
 </div></div>
-<div class="paragraph"><p>(The autoreconf -fi step is unnecessary if you are building from a release tarball,
- but shouldn’t hurt either.)</p></div>
 <div class="sect2">
 <h3 id="_build_system_features">1.1. Build system features</h3>
 <div class="ulist"><ul>
 <li>
 <p>
-We use the AX_ENABLE_BUILDDIR macro to enforce builds happening in a separate
-  directory. This is a prerequisite for the AX_EXTEND_SRCDIR macro and building
+We use the <tt>AX_ENABLE_BUILDDIR</tt> macro to enforce builds happening in a separate
+  directory. This is a prerequisite for the <tt>AX_EXTEND_SRCDIR</tt> macro and building
   in a separate directory is common practice anyway. In case this causes any
   trouble when packaging i3 for your distribution, please open an issue.
 </p>
 </li>
 <li>
 <p>
-“make check” runs the i3 testsuite. See docs/testsuite for details.
+<tt>make check</tt> runs the i3 testsuite. See docs/testsuite for details.
 </p>
 </li>
 <li>
 <p>
-“make distcheck” (runs testsuite on “make dist” result, tiny bit quicker
+<tt>make distcheck</tt> (runs testsuite on <tt>make dist</tt> result, tiny bit quicker
   feedback cycle than waiting for the travis build to catch the issue).
 </p>
 </li>
 <li>
 <p>
-“make uninstall” (occasionally requested by users who compile from source)
+<tt>make uninstall</tt> (occasionally requested by users who compile from source)
 </p>
 </li>
 <li>
 <p>
-“make” will build manpages/docs by default if the tools are installed.
+<tt>make</tt> will build manpages/docs by default if the tools are installed.
   Conversely, manpages/docs are not tried to be built for users who don’t want
-  to install all these dependencies to get started hacking on i3.
+  to install all these dependencies to get started hacking on i3. Manpages and
+  docs can be disabled with the <tt>--disable-mans<tt> and </tt>--disable-docs</tt>+
+  configure options respectively.
 </p>
 </li>
 <li>
 <p>
 non-release builds will enable address sanitizer by default. Use the
-  --disable-sanitizers configure option to turn off all sanitizers, and see
-  --help for available sanitizers.
+  <tt>--disable-sanitizers</tt> configure option to turn off all sanitizers, and see
+  <tt>--help</tt> for available sanitizers.
 </p>
 </li>
 <li>
 <p>
-Support for pre-compiled headers (PCH) has been dropped for now in the
-  interest of simplicity. If you need support for PCH, please open an issue.
-</p>
-</li>
-<li>
-<p>
-Coverage reports are now generated using “make check-code-coverage”, which
-  requires specifying --enable-code-coverage when calling configure.
+Coverage reports are now generated using <tt>make check-code-coverage</tt>, which
+  requires specifying <tt>--enable-code-coverage</tt> when calling configure.
 </p>
 </li>
 </ul></div>
@@ -118,35 +121,26 @@ Coverage reports are now generated using “make check-code-coverage”, which
 </div>
 </div>
 <div class="sect1">
-<h2 id="_using_git_sending_patches">2. Using git / sending patches</h2>
+<h2 id="_pull_requests">2. Pull requests</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>For a short introduction into using git, see
-<a href="https://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy">https://web.archive.org/web/20121024222556/http://www.spheredev.org/wiki/Git_for_the_lazy</a>
-or, for more documentation, see <a href="https://git-scm.com/documentation">https://git-scm.com/documentation</a></p></div>
 <div class="paragraph"><p>Please talk to us before working on new features to see whether they will be
 accepted. A good way for this is to open an issue and asking for opinions on it.
-Even for accepted features, this can be a good way to refine an idea upfront. However,
-we don&#8217;t want to see certain features in i3, e.g., switching window focus in an
-Alt+Tab like way.</p></div>
-<div class="paragraph"><p>When working on bugfixes, please make sure you mention that you are working on
-it in the corresponding bug report at <a href="https://github.com/i3/i3/issues">https://github.com/i3/i3/issues</a>. In case
-there is no bug report yet, please create one.</p></div>
+Even for accepted features, this can be a good way to refine an idea upfront.
+However, we don&#8217;t want to see certain features in i3, e.g., switching window
+focus in an Alt+Tab like way.</p></div>
+<div class="paragraph"><p>When working on bugfixes, please make sure you mention that you are working on it
+in the corresponding bug report at <a href="https://github.com/i3/i3/issues">https://github.com/i3/i3/issues</a>. In case there
+is no bug report yet, please create one.</p></div>
 <div class="paragraph"><p>After you are done, please submit your work for review as a pull request at
-<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>.</p></div>
-<div class="paragraph"><p>Do not send emails to the mailing list or any author directly, and don’t submit
-them in the bugtracker, since all reviews should be done in public at
-<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>. In order to make your review go as fast as possible, you
-could have a look at previous reviews and see what the common mistakes are.</p></div>
+<a href="https://github.com/i3/i3">https://github.com/i3/i3</a>. In order to make your review go as fast as possible,
+you could have a look at previous reviews and see what the common mistakes are.</p></div>
 <div class="sect2">
 <h3 id="_which_branch_to_use">2.1. Which branch to use?</h3>
-<div class="paragraph"><p>Work on i3 generally happens in two branches: “master” and “next” (the latter
-being the default branch, the one that people get when they check out the git
-repository).</p></div>
-<div class="paragraph"><p>The contents of “master” are always stable. That is, it contains the source code
+<div class="paragraph"><p>Work on i3 generally happens in two branches: “next” (default) and “stable”.</p></div>
+<div class="paragraph"><p>The contents of “stable” are always stable. That is, it contains the source code
 of the latest release, plus any bugfixes that were applied since that release.</p></div>
-<div class="paragraph"><p>New features are only found in the “next” branch. Therefore, if you are working
-on a new feature, use the “next” branch. If you are working on a bugfix, use the
-“next” branch, too, but make sure your code also works on “master”.</p></div>
+<div class="paragraph"><p>New features are only found in the “next” branch. Always use this branch when
+writing new code (both bugfixes and features).</p></div>
 </div>
 </div>
 </div>
@@ -229,11 +223,11 @@ React to the user’s commands: Change focus, Move windows, Switch workspaces,
 will be discussed.</p></div>
 <div class="sect2">
 <h3 id="_tiling_window_managers">3.1. Tiling window managers</h3>
-<div class="paragraph"><p>Traditionally, there are two approaches to managing windows: The most common
-one nowadays is floating, which means the user can freely move/resize the
-windows. The other approach is called tiling, which means that your window
-manager distributes windows to use as much space as possible while not
-overlapping each other.</p></div>
+<div class="paragraph"><p>Traditionally, there are two approaches to managing windows: The most common one
+nowadays is stacking (or floating, using i3&#8217;s terminology), which means the user
+can freely move/resize the windows, potentially overlapping them. The other
+approach is called tiling, which means that the window manager distributes
+windows to use as much space as possible while not overlapping each other.</p></div>
 <div class="paragraph"><p>The idea behind tiling is that you should not need to waste your time
 moving/resizing windows while you usually want to get some work done. After
 all, most users sooner or later tend to lay out their windows in a way which
@@ -266,24 +260,20 @@ example.</p></div>
 <div class="sect1">
 <h2 id="_files">4. Files</h2>
 <div class="sectionbody">
+<div class="paragraph"><p>i3&#8217;s source code is in the <tt>src</tt> folder while header files reside in <tt>include</tt>.
+Other tools such as i3bar and i3-nagbar have their own folders. i3 and its tools
+share an internal library called &#8220;libi3&#8221; which also has its own folder.</p></div>
+<div class="paragraph"><p>The following list gives an overview of the codebase, explaining the
+functionality of the most important, core source code files. Other files in the
+tree that are not mentioned here implement specific functionalities: for example,
+<tt>src/scratchpad.c</tt> is obviously about the scratchpad functionality.</p></div>
 <div class="dlist"><dl>
-<dt class="hdlist1">
-include/atoms.xmacro
-</dt>
-<dd>
-<p>
-A file containing all X11 atoms which i3 uses. This file will be included
-various times (for defining, requesting and receiving the atoms), each time
-with a different definition of xmacro().
-</p>
-</dd>
 <dt class="hdlist1">
 include/data.h
 </dt>
 <dd>
 <p>
-Contains data definitions used by nearly all files. You really need to read
-this first.
+Contains data definitions used by nearly all files.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -297,31 +287,19 @@ picture, either browse all header files or use doxygen if you prefer that).
 </p>
 </dd>
 <dt class="hdlist1">
-src/config_parser.c
+src/config_directives.c
 </dt>
-<dd>
-<p>
-Contains a custom configuration parser. See src/command_parser.c for rationale
- on why we use a custom parser.
-</p>
-</dd>
 <dt class="hdlist1">
-src/click.c
+src/commands.c
 </dt>
 <dd>
 <p>
-Contains all functions which handle mouse button clicks (right mouse button
-clicks initiate resizing and thus are relatively complex).
-</p>
-</dd>
-<dt class="hdlist1">
-src/command_parser.c
-</dt>
-<dd>
-<p>
-Contains a hand-written parser to parse commands (commands are what
-you bind on keys and what you can send to i3 using the IPC interface, like
-<em>move left</em> or <em>workspace 4</em>).
+Contain the definitions for all high-level config and command directives. These
+are excellent places to start with a top-to-bottom approach to understand
+specific i3 behavior. For example, if you want to investigate a bug that happens
+for the <tt>move to mark</tt> command, you can use gdb to pause in
+<tt>cmd_move_con_to_mark</tt> and then work your way from there, stepping into
+lower-level functions.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -329,34 +307,33 @@ src/con.c
 </dt>
 <dd>
 <p>
-Contains all functions which deal with containers directly (creating
-containers, searching containers, getting specific properties from containers,
-…).
+Contains all functions which deal with containers directly (creating containers,
+searching containers, getting specific properties from containers, …). Contains
+abstractions and auxiliary functions necessary to work with the container
+structure which is used in almost all parts of the codebase.
 </p>
 </dd>
 <dt class="hdlist1">
-src/config.c
+src/tree.c
 </dt>
 <dd>
 <p>
-Contains all functions handling the configuration file (calling the parser
-src/config_parser.c) with the correct path, switching key bindings mode).
+Contains functions which deal with the tree abstraction. However, be aware that
+<tt>src/con.c</tt> also contains functions that heavily interact with the tree
+structure. Some functions that are included in <tt>str/tree.c</tt> are those that handle
+opening and closing containers in the tree, finding the container that should be
+focused next and flattening the tree. See also <tt>src/move.c</tt> for other
+move-specific functions that interact with the tree, which were moved into their
+own file because they are so long.
 </p>
 </dd>
 <dt class="hdlist1">
-src/ewmh.c
+src/workspace.c
 </dt>
 <dd>
 <p>
-Functions to get/set certain EWMH properties easily.
-</p>
-</dd>
-<dt class="hdlist1">
-src/floating.c
-</dt>
-<dd>
-<p>
-Contains functions for floating mode (mostly resizing/dragging).
+Contains functions which deal with workspaces. Includes code that creates new
+workspaces, shows existing ones and deals with workspace assignments.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -365,39 +342,34 @@ src/handlers.c
 <dd>
 <p>
 Contains all handlers for all kinds of X events (new window title, new hints,
-unmapping, key presses, button presses, …).
+unmapping, key presses, button presses, …). This is a very important file to
+understand how i3 interacts with changes to its environment.
 </p>
 </dd>
 <dt class="hdlist1">
-src/ipc.c
+src/command_parser.c
+</dt>
+<dt class="hdlist1">
+src/config_parser.c
 </dt>
 <dd>
 <p>
-Contains code for the IPC interface.
+Contain a hand-written parser to parse commands and configuration (commands are what
+you bind on keys and what you can send to i3 using the IPC interface, like
+<tt>move left</tt> or <tt>workspace 4</tt>). <tt>src/config.c</tt> is responsible for calling the
+configuration parser.
 </p>
 </dd>
 <dt class="hdlist1">
-src/load_layout.c
+src/click.c
 </dt>
-<dd>
-<p>
-Contains code for loading layouts from JSON files.
-</p>
-</dd>
 <dt class="hdlist1">
-src/log.c
+src/resize.c
 </dt>
 <dd>
 <p>
-Contains the logging functions.
-</p>
-</dd>
-<dt class="hdlist1">
-src/main.c
-</dt>
-<dd>
-<p>
-Initializes the window manager.
+Contain functions which handle mouse button clicks (right mouse button
+clicks initiate resizing and thus are relatively complex).
 </p>
 </dd>
 <dt class="hdlist1">
@@ -416,25 +388,9 @@ src/match.c
 <p>
 A "match" is a data structure which acts like a mask or expression to match
 certain windows or not. For example, when using commands, you can specify a
-command like this: [title="<strong>Firefox</strong>"] kill. The title member of the match
+command like this: <tt>[title="<strong>Firefox</strong>"] kill</tt>. The title member of the match
 data structure will then be filled and i3 will check each window using
-match_matches_window() to find the windows affected by this command.
-</p>
-</dd>
-<dt class="hdlist1">
-src/move.c
-</dt>
-<dd>
-<p>
-Contains code to move a container in a specific direction.
-</p>
-</dd>
-<dt class="hdlist1">
-src/output.c
-</dt>
-<dd>
-<p>
-Functions to handle CT_OUTPUT cons.
+<tt>match_matches_window()</tt> to find the windows affected by this command.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -443,7 +399,7 @@ src/randr.c
 <dd>
 <p>
 The RandR API is used to get (and re-query) the configured outputs (monitors,
-…).
+…). Legacy Xinerama support resides in <tt>src/xinerama.c</tt>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -456,48 +412,13 @@ values will later be pushed to X11 in <tt>src/x.c</tt>.
 </p>
 </dd>
 <dt class="hdlist1">
-src/resize.c
-</dt>
-<dd>
-<p>
-Contains the functions to resize containers.
-</p>
-</dd>
-<dt class="hdlist1">
-src/restore_layout.c
-</dt>
-<dd>
-<p>
-Everything for restored containers that is not pure state parsing (which can be
-found in load_layout.c).
-</p>
-</dd>
-<dt class="hdlist1">
 src/sighandler.c
 </dt>
 <dd>
 <p>
 Handles <tt>SIGSEGV</tt>, <tt>SIGABRT</tt> and <tt>SIGFPE</tt> by showing a dialog that i3 crashed.
-You can chose to let it dump core, to restart it in-place or to restart it
-in-place but forget about the layout.
-</p>
-</dd>
-<dt class="hdlist1">
-src/tree.c
-</dt>
-<dd>
-<p>
-Contains functions which open or close containers in the tree, change focus or
-cleanup ("flatten") the tree. See also <tt>src/move.c</tt> for another similar
-function, which was moved into its own file because it is so long.
-</p>
-</dd>
-<dt class="hdlist1">
-src/util.c
-</dt>
-<dd>
-<p>
-Contains useful functions which are not really dependent on anything.
+You can choose to let it dump core and restart i3 in-place (either trying to
+preserve layout or forget about it).
 </p>
 </dd>
 <dt class="hdlist1">
@@ -510,93 +431,75 @@ Handlers to update X11 window properties like <tt>WM_CLASS</tt>, <tt>_NET_WM_NAM
 </p>
 </dd>
 <dt class="hdlist1">
-src/workspace.c
+include/<strong>.xmacro.</strong>
 </dt>
 <dd>
 <p>
-Contains all functions related to workspaces (displaying, hiding, renaming…)
-</p>
-</dd>
-<dt class="hdlist1">
-src/x.c
-</dt>
-<dd>
-<p>
-Transfers our in-memory tree (see <tt>src/render.c</tt>) to X11.
-</p>
-</dd>
-<dt class="hdlist1">
-src/xcb.c
-</dt>
-<dd>
-<p>
-Contains wrappers to use xcb more easily.
-</p>
-</dd>
-<dt class="hdlist1">
-src/xcursor.c
-</dt>
-<dd>
-<p>
-XCursor functions (for cursor themes).
-</p>
-</dd>
-<dt class="hdlist1">
-src/xinerama.c
-</dt>
-<dd>
-<p>
-Legacy support for Xinerama. See <tt>src/randr.c</tt> for the preferred API.
+A file containing all X11 atoms which i3 uses. This file will be included
+various times (for defining, requesting and receiving the atoms), each time
+with a different definition of xmacro().
 </p>
 </dd>
 </dl></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_data_structures">5. Data structures</h2>
+<h2 id="data_structures">5. Data structures</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>See include/data.h for documented data structures. The most important ones are
-explained right here.</p></div>
-<div class="paragraph"><p>So, the hierarchy is:</p></div>
+<div class="paragraph"><p>See <tt>include/data.h</tt> for documented data structures. The most important ones are
+explained here.</p></div>
+<div class="paragraph"><p>The following picture is generated by the <tt>contrib/dump-asy.pl</tt> script.</p></div>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="bigpicture.png">
+<img src="bigpicture.png" alt="The Big Picture" width="1000" />
+</a>
+</span></p></div>
+<div class="paragraph"><p>The hierarchy is:</p></div>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
-<strong>X11 root window</strong>, the root container
+<strong>Root container</strong>
 </p>
 </li>
 <li>
 <p>
-<strong>Output container</strong> (LVDS1 in this example)
+<strong>Output containers</strong>: <tt>eDP-1</tt> in this example and the internal <tt>__i3</tt>+ output
 </p>
 </li>
 <li>
 <p>
-<strong>Content container</strong> (there are also containers for dock windows)
+<strong>Content and 2 dockarea containers</strong>
 </p>
 </li>
 <li>
 <p>
-<strong>Workspaces</strong> (Workspace 1 in this example, with horizontal orientation)
+<strong>Workspaces</strong>: Numbered workspace &#8220;1&#8221; and a &#8220;Named workspace&#8221;
 </p>
 </li>
 <li>
 <p>
-<strong>Split container</strong> (vertically split)
+<strong>Split containers</strong>: One horizontal in the first workspace and a tabbed one in
+  the named one.
 </p>
 </li>
 <li>
 <p>
-<strong>X11 window containers</strong>
+<strong>Leaf containers</strong>: Windows like vim and an i3bar dock.
 </p>
 </li>
 </ol></div>
 <div class="paragraph"><p>The data type is <tt>Con</tt>, in all cases.</p></div>
 <div class="sect2">
-<h3 id="_x11_root_window">5.1. X11 root window</h3>
-<div class="paragraph"><p>The X11 root window is a single window per X11 display (a display is identified
-by <tt>:0</tt> or <tt>:1</tt> etc.). The root window is what you draw your background image
-on. It spans all the available outputs, e.g. <tt>VGA1</tt> is a specific part of the
-root window and <tt>LVDS1</tt> is a specific part of the root window.</p></div>
+<h3 id="_root_container">5.1. Root container</h3>
+<div class="paragraph"><p>The root container (global variable <tt>croot</tt>) is the up-most ascendant of every i3
+container. It can be used to iterate over the whole tree structure. E.g., it is
+used to reply to the <tt>GET_WORKSPACES</tt> request, iterating over it&#8217;s children to
+find all workspaces. This is different from the X11 root window.</p></div>
+<div class="paragraph"><p>The X11 root window (global variable <tt>root</tt>) is a single window per X11 display
+(a display is identified by <tt>:0</tt> or <tt>:1</tt> etc.). The root window is what you draw
+your background image on. It spans all the available outputs, e.g. <tt>VGA1</tt> is a
+specific part of the root window and <tt>LVDS1</tt> is a specific part of the root
+window.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_output_container">5.2. Output container</h3>
@@ -616,8 +519,8 @@ currently on.</p></div>
 <div class="sect2">
 <h3 id="_content_container">5.3. Content container</h3>
 <div class="paragraph"><p>Each output has multiple children. Two of them are dock containers which hold
-dock clients. The other one is the content container, which holds the actual
-content (workspaces) of this output.</p></div>
+the top and bottom dock clients. The other one is the content container, which
+holds the actual content (workspaces) of this output.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_workspace">5.4. Workspace</h3>
@@ -636,9 +539,8 @@ vertical) and a layout.</p></div>
 containers) can have different border styles.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_x11_window_container">5.6. X11 window container</h3>
-<div class="paragraph"><p>An X11 window container holds exactly one X11 window. These are the leaf nodes
-of the layout tree, they cannot have any children.</p></div>
+<h3 id="_leaf_containers">5.6. Leaf containers</h3>
+<div class="paragraph"><p>A leaf container holds exactly one X11 window. They can&#8217;t have any children.</p></div>
 </div>
 </div>
 </div>
@@ -647,8 +549,8 @@ of the layout tree, they cannot have any children.</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>i3 makes heavy use of the list macros defined in BSD operating systems. To
 ensure that the operating system on which i3 is compiled has all the expected
-features, i3 comes with <tt>include/queue.h</tt>. On BSD systems, you can use man
-<tt>queue(3)</tt>. On Linux, you have to use google (or read the source).</p></div>
+features, i3 comes with <tt>include/queue.h</tt>. On BSD systems, you can use <tt>man
+queue(3)</tt>. On Linux, you have to use google (or read the source).</p></div>
 <div class="paragraph"><p>The lists used are <tt>SLIST</tt> (single linked lists), <tt>CIRCLEQ</tt> (circular
 queues) and <tt>TAILQ</tt> (tail queues). Usually, only forward traversal is necessary,
 so an <tt>SLIST</tt> works fine. If inserting elements at arbitrary positions or at
@@ -665,22 +567,22 @@ should be chosen for those:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
-&#8220;conn&#8221; is the xcb_connection_t
+<tt>conn</tt> is the xcb_connection_t
 </p>
 </li>
 <li>
 <p>
-&#8220;event&#8221; is the event of the particular type
+<tt>event</tt> is the event of the particular type
 </p>
 </li>
 <li>
 <p>
-&#8220;con&#8221; names a container
+<tt>con</tt> names a container
 </p>
 </li>
 <li>
 <p>
-&#8220;current&#8221; is a loop variable when using <tt>TAILQ_FOREACH</tt> etc.
+<tt>current</tt> is a loop variable when using <tt>TAILQ_FOREACH</tt> etc.
 </p>
 </li>
 </ul></div>
@@ -819,7 +721,7 @@ can reconfigure themselves).</p></div>
 <div class="sectionbody">
 <div class="paragraph"><p>Only the _NET_WM_STATE_FULLSCREEN and _NET_WM_STATE_DEMANDS_ATTENTION atoms
 are handled.</p></div>
-<div class="paragraph"><p>The former calls &#8220;toggle_fullscreen()&#8221; for the specific client which just
+<div class="paragraph"><p>The former calls <tt>toggle_fullscreen()</tt> for the specific client which just
 configures the client to use the whole screen on which it currently is.
 Also, it is set as fullscreen_client for the i3Screen.</p></div>
 <div class="paragraph"><p>The latter is used to set, read and display urgency hints.</p></div>
@@ -878,7 +780,7 @@ about the different rendering steps, in the order of "top of the tree" (root
 container) to the bottom.</p></div>
 <div class="sect2">
 <h3 id="_rendering_the_root_container">16.1. Rendering the root container</h3>
-<div class="paragraph"><p>The i3 root container (<tt>con-&gt;type == CT_ROOT</tt>) represents the X11 root window.
+<div class="paragraph"><p>The i3 root container (<tt>con&#8594;type == CT_ROOT</tt>) represents the X11 root window.
 It contains one child container for every output (like LVDS1, VGA1, …), which
 is available on your computer.</p></div>
 <div class="paragraph"><p>Rendering the root will first render all tiling windows and then all floating
@@ -894,7 +796,7 @@ only called for the global fullscreen window.</p></div>
 </div>
 <div class="sect2">
 <h3 id="_rendering_an_output">16.2. Rendering an output</h3>
-<div class="paragraph"><p>Output containers (<tt>con-&gt;layout == L_OUTPUT</tt>) represent a hardware output like
+<div class="paragraph"><p>Output containers (<tt>con&#8594;layout == L_OUTPUT</tt>) represent a hardware output like
 LVDS1, VGA1, etc. An output container has three children (at the moment): One
 content container (having workspaces as children) and the top/bottom dock area
 containers.</p></div>
@@ -903,7 +805,7 @@ steps:</p></div>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
-Find the content container (<tt>con-&gt;type == CT_CON</tt>)
+Find the content container (<tt>con&#8594;type == CT_CON</tt>)
 </p>
 </li>
 <li>
@@ -927,8 +829,8 @@ Sum up the space used by all the dock windows (they have a variable height
 <li>
 <p>
 Set the workspace rects (x/y/width/height) based on the position of the
-   output (stored in <tt>con-&gt;rect</tt>) and the usable space
-   (<tt>con-&gt;rect.{width,height}</tt> without the space used for dock windows).
+   output (stored in <tt>con&#8594;rect</tt>) and the usable space
+   (<tt>con&#8594;rect.{width,height}</tt> without the space used for dock windows).
 </p>
 </li>
 <li>
@@ -942,13 +844,13 @@ Recursively raise and render the output’s child containers (meaning dock
 <div class="sect2">
 <h3 id="_rendering_a_workspace_or_split_container">16.3. Rendering a workspace or split container</h3>
 <div class="paragraph"><p>From here on, there really is no difference anymore. All containers are of
-<tt>con-&gt;type == CT_CON</tt> (whether workspace or split container) and some of them
-have a <tt>con-&gt;window</tt>, meaning they represent an actual window instead of a
+<tt>con&#8594;type == CT_CON</tt> (whether workspace or split container) and some of them
+have a <tt>con&#8594;window</tt>, meaning they represent an actual window instead of a
 split container.</p></div>
 <div class="sect3">
 <h4 id="_default_layout">16.3.1. Default layout</h4>
 <div class="paragraph"><p>In default layout, containers are placed horizontally or vertically next to
-each other (depending on the <tt>con-&gt;orientation</tt>). If a child is a leaf node (as
+each other (depending on the <tt>con&#8594;orientation</tt>). If a child is a leaf node (as
 opposed to a split container) and has border style "normal", appropriate space
 will be reserved for its window decoration.</p></div>
 </div>
@@ -1254,7 +1156,7 @@ workspace &lt;direction&gt;
 </td>
 <td class="content">Note that you can specify multiple literals in the same line. This has
         exactly the same effect as if you specified <tt>direction =
-        'next_on_output' -&gt; call cmd_workspace($direction)</tt> and so forth.<br /></td>
+        <em>next_on_output</em> &#8594; call cmd_workspace($direction)</tt> and so forth.<br /></td>
 </tr></table>
 </div>
 <div class="admonitionblock">

@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 9.0.2" />
+<meta name="generator" content="AsciiDoc 9.0.3" />
 <title>i3: i3bar input protocol</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -162,9 +162,11 @@ stop_signal
 </dt>
 <dd>
 <p>
-        Specify to i3bar the signal (as an integer) to send to stop your
-        processing.
-        The default value (if none is specified) is SIGSTOP.
+        Specify the signal (as an integer) that i3bar should send to request that you
+        pause your output. This is used to conserve battery power when the bar is
+        hidden by not unnecessarily computing bar updates. The default value is SIGSTOP,
+        which will unconditionally stop your process. If this is an issue, this feature
+        can be disabled by setting the value to 0.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -458,6 +460,14 @@ relative_x, relative_y
 </p>
 </dd>
 <dt class="hdlist1">
+output_x, output_y
+</dt>
+<dd>
+<p>
+    Coordinates relative to the current output where the click occurred
+</p>
+</dd>
+<dt class="hdlist1">
 width, height
 </dt>
 <dd>
@@ -483,10 +493,12 @@ modifiers
  "instance": "eth0",
  "button": 1,
  "modifiers": ["Shift", "Mod1"],
- "x": 1320,
+ "x": 1925,
  "y": 1400,
  "relative_x": 12,
  "relative_y": 8,
+ "output_x": 5,
+ "output_y": 1400,
  "width": 50,
  "height": 22
 }</tt></pre>
