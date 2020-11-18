@@ -14,7 +14,7 @@ body {
     font-family: "Droid Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1em;
     line-height: 1.5;
-    overflow-y: scroll;
+    overflow-y: auto;
     max-width: 55rem;
     margin: 0 auto;
 }
@@ -33,7 +33,7 @@ a:hover {
 
 /* Typo */
 
-h1, h2, h3 {
+h1, h2, h3, h4, h5, h6 {
     color: #fff;
     font-family: "Mako", Helvetica, Arial, sans-serif;
     line-height: 1.2;
@@ -54,11 +54,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-top: .5rem;
+    margin-top: 1rem;
 }
 
 .logo {
-    max-width: 25rem;
+    max-width: 20rem;
 }
 
 /* Nav */
@@ -268,6 +268,123 @@ footer {
     text-decoration: none;
 }
 
+/* Videos */
+
+.video {
+    display: flex;
+}
+
+.video + .video {
+    margin-top: 2rem;
+}
+
+.video img {
+    min-width: 15rem;
+}
+
+.video-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 2rem;
+}
+
+/* Screenshots */
+
+.screenshots {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.shot {
+    max-width: calc(55rem / 3);
+    margin: 1rem;
+}
+
+figcaption {
+    color: #7c7c7c;
+    text-align: center;
+}
+
+/* Gallery */
+
+.gallery {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 58px;
+    height: 60px;
+    background-color: black;
+    background-image: url('/img/loading.gif');
+    opacity: 0.9;
+    display: none;
+    border-radius: 4px;
+}
+
+.gallery .focus {
+    flex: 1;
+    min-height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gallery .view {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    align-items: center;
+}
+
+.left, .right {
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    background-color: black;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.left {
+    background-image: url('/img/prevbtn.png');
+}
+
+.right {
+    background-image: url('/img/nextbtn.png');
+}
+
+.left:hover, .right:hover {
+    opacity: 1;
+}
+
+.gallery .meta {
+    background-color: #333;
+    padding: 1em;
+    border: 1px solid #555;
+    border-bottom: 0;
+}
+
+.meta .filename {
+    font-weight: bold;
+}
+
+.meta .description {
+    padding-left: 1em;
+}
+
 /* Fonts */
 
 @font-face {
@@ -353,130 +470,6 @@ footer {
  * html & css structure on 28/02/2020. Most of it is screenshot/gallery code
  * and float clearfixes.
  */
-
-.video img {
-    margin-left: 1em;
-    margin-right: 1em;
-}
-
-#screencasts li {
-    margin-bottom: 0.25em;
-}
-
-#screencasts p, #screencasts ul {
-    margin-top: 0.35em;
-    margin-bottom: 0.35em;
-}
-
-.imgdesc {
-    margin-bottom: 1em;
-}
-
-.screenshots, .screencasts, .video {
-    width: 100%;
-}
-
-.screenshots .shot {
-    float: left;
-    margin-left: 1em;
-    margin-right: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    text-align: center;
-    color: #c0c0c0;
-    width: 240px;
-    min-height: 125px;
-}
-
-.screenshots br {
-    clear: left;
-}
-
-#mask {
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: #000;
-    opacity: 0.7;
-    display: none;
-}
-
-#loading {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    width: 58px;
-    height: 60px;
-    background-color: black;
-    background-image: url('/img/loading.gif');
-    opacity: 0.9;
-    z-index: 20;
-    display: none;
-    border-radius: 4px;
-}
-
-#bigimg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-}
-
-#maskouter {
-    height: 100%;
-    display: table;
-    margin: 0 auto;
-}
-
-#maskinner {
-    vertical-align: middle;
-    display: table-cell;
-}
-
-#imgleft, #imgright {
-    cursor: pointer;
-    position: fixed;
-    top: 50%;
-    width: 64px;
-    height: 64px;
-    border-radius: 4px;
-    background-color: black;
-    z-index: 22;
-    opacity: 0.7;
-}
-
-#imgleft {
-    left: 0;
-    background-image: url('/img/prevbtn.png');
-}
-
-#imgright {
-    right: 0;
-    background-image: url('/img/nextbtn.png');
-}
-
-#imgdesc {
-    position: fixed;
-    left: 64px;
-    bottom: 0;
-    background-color: #333;
-    width: 100%;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-left: 2em;
-    border: 1px solid #555;
-    border-bottom: 0;
-}
-
-#imgdesc .filename {
-    font-weight: bold;
-}
-
-#imgdesc .description {
-    padding-left: 1em;
-}
 
 .usergen pre {
     background: #333;
