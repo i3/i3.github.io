@@ -4,7 +4,7 @@
 <head>
 <link rel="icon" type="image/x-icon" href="/favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
-<meta name="generator" content="AsciiDoc 8.6.10" />
+<meta name="generator" content="AsciiDoc 9.0.3" />
 <title>i3: IPC interface (interprocess communication)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <h1>IPC interface (interprocess communication)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">September 2017</span>
+<span id="revdate">June 2020</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -183,6 +183,12 @@ cellspacing="0" cellpadding="4">
 <td align="center" valign="top"><p class="table"><a href="#_sync_reply">SYNC</a></p></td>
 <td align="center" valign="top"><p class="table">Sends an i3 sync event with the specified random value to the specified window.</p></td>
 </tr>
+<tr>
+<td align="center" valign="top"><p class="table">12</p></td>
+<td align="center" valign="top"><p class="table"><tt>GET_BINDING_STATE</tt></p></td>
+<td align="center" valign="top"><p class="table"><a href="#_binding_state_reply">BINDING_STATE</a></p></td>
+<td align="center" valign="top"><p class="table">Request the current binding state, i.e. the currently active binding mode name.</p></td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -315,6 +321,14 @@ TICK (10)
         Reply to the SEND_TICK message.
 </p>
 </dd>
+<dt class="hdlist1">
+GET_BINDING_STATE (12)
+</dt>
+<dd>
+<p>
+        Reply to the GET_BINDING_STATE message.
+</p>
+</dd>
 </dl></div>
 </div>
 <div class="sect2">
@@ -359,6 +373,13 @@ sending a reply. Expect the socket to be shut down.</td>
 <div class="content">
 <pre><tt>[{ "success": true }]</tt></pre>
 </div></div>
+<div class="paragraph"><p>When the specified command cannot be parsed, <tt>success</tt> will be false and
+<tt>parse_error</tt> will be true:</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>[{ "success": false, "parse_error": true }]</tt></pre>
+</div></div>
 </div>
 <div class="sect2">
 <h3 id="_workspaces_reply">3.3. WORKSPACES reply</h3>
@@ -389,8 +410,8 @@ name (string)
 </dt>
 <dd>
 <p>
-        The name of this workspace (by default num+1), as changed by the
-        user. Encoded in UTF-8.
+        The name of this workspace if changed by the user, otherwise defaults
+        to the string representation of the <tt>num</tt> field). Encoded in UTF-8.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1316,6 +1337,16 @@ responded to.</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>{ "success": true }</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_binding_state_reply">3.14. GET_BINDING_STATE reply</h3>
+<div class="paragraph"><p>The binding_state reply is a map which currently only contains the "name"
+member, which is the name of the currently active binding mode as a string.</p></div>
+<div class="paragraph"><p><strong>Example:</strong></p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{ "name": "default" }</tt></pre>
 </div></div>
 </div>
 </div>

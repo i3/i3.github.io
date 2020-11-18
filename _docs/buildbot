@@ -3,6 +3,18 @@ The i3 buildbot setup
 Michael Stapelberg <michael@i3wm.org>
 September 2012
 
+++++
+<div style="background-color:red; color:white; padding:20px;">
+<strong style="color:white;">WARNING!</strong>
+<p>
+++++
+This document is outdated and kept for ``historical'' reasons. i3 uses Travis as
+a CI instead.
+++++
+</p>
+</div>
+++++
+
 This document explains the http://www.buildbot.net/[buildbot] setup we use to
 provide up-to-date documentation and debian packages at http://build.i3wm.org/.
 We publish these information so that our setup is well-documented (thus

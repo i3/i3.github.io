@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 9.0.2" />
+<title>i3: Layout saving in i3</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>Layout saving in i3</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">April 2014</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>Layout saving/restoring is a feature that was introduced in i3 v4.8.</p></div>
+<div class="paragraph"><p>Layout saving/restoring allows you to load a JSON layout file so that you can
+have a base layout to start working with after powering on your computer.
+Dynamic use-cases also come to mind: if you frequently (but not always!) need a
+grid layout of terminals with ping/traceroute commands to diagnose network
+issues, you can easily automate opening these windows in just the right layout.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_saving_the_layout">1. Saving the layout</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>You can save the layout of either a single workspace or an entire output (e.g.
+LVDS1). Of course, you can repeat this step multiple times if you want to
+save/restore multiple workspaces/outputs.</p></div>
+<div class="paragraph"><p><tt>i3-save-tree(1)</tt> is a tool to save the layout. It will print a JSON
+representation of i3’s internal layout data structures to stdout. Typically,
+you may want to take a quick look at the output, then save it to a file and
+tweak it a little bit:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3-save-tree --workspace 1 &gt; ~/.i3/workspace-1.json</tt></pre>
+</div></div>
+<div class="paragraph"><p>Please note that the output of <tt>i3-save-tree(1)</tt> is <strong>NOT useful</strong> until you
+manually modify it — you need to tell i3 how to match/distinguish windows (for
+example based on their WM_CLASS, title, etc.). By default, all the different
+window properties are included in the output, but commented out. This is partly
+to avoid relying on heuristics and partly to make you aware how i3 works so
+that you can easily solve layout restoring problems.</p></div>
+<div class="paragraph"><p>How to modify the file manually is described in <a href="#EditingLayoutFiles">[EditingLayoutFiles]</a>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_restoring_the_layout">2. Restoring the layout</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>After restoring the example layout from <a href="#EditingLayoutFiles">[EditingLayoutFiles]</a>, i3 will open
+placeholder windows for all the windows that were specified in the layout file.
+You can recognize the placeholder windows by the watch symbol
+<span class="footnote"><br />[Depending on the font you are using, a placeholder symbol may show up
+instead of the watch symbol.]<br /></span> in the center of the window, and by the swallow
+criteria specification at the top of the window:</p></div>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="layout-saving-1.png">
+<img src="layout-saving-1.png" alt="Restored layout" width="400" />
+</a>
+</span></p></div>
+<div class="paragraph"><p>When an application opens a window that matches the specified swallow criteria,
+it will be placed in the corresponding placeholder window. We say it gets
+<strong>swallowed</strong> by the placeholder container, hence the term.</p></div>
+<div class="paragraph"><p>Note: Swallowing windows into unsatisfied placeholder windows takes precedence
+over
+<a href="https://i3wm.org/docs/userguide.html#_automatically_putting_clients_on_specific_workspaces">assignment
+rules</a>. For example, if you assign all Emacs windows to workspace 1 in your i3
+configuration file, but there is a placeholder window on workspace 2 which
+matches Emacs as well, your newly started Emacs window will end up in the
+placeholder window on workspace 2.</p></div>
+<div class="paragraph"><p>The placeholder windows are just regular windows, so feel free to move them
+around or close them, for example.</p></div>
+<div class="sect2">
+<h3 id="_append_layout_command">2.1. append_layout command</h3>
+<div class="paragraph"><p>The <tt>append_layout</tt> command is used to load a layout file into i3. It accepts a
+path (relative to i3’s current working directory or absolute) to a JSON file.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>append_layout &lt;path&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># From a terminal or script:
+i3-msg "workspace 1; append_layout /home/michael/.i3/workspace-1.json"
+
+# In your i3 configuration file, you can autostart i3-msg like this:
+# (Note that those lines will quickly become long, so typically you would store
+#  them in a script with proper indentation.)
+exec --no-startup-id "i3-msg 'workspace 1; append_layout /home/michael/.i3/workspace-1.json'"</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_editing_layout_files">3. Editing layout files</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="EditingLayoutFiles">3.1. Anatomy of a layout file</h3>
+<div class="paragraph"><p>Here is an example layout file that we’ll discuss:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>{
+    // splitv split container with 2 children
+    "layout": "splitv",
+    "percent": 0.4,
+    "type": "con",
+    "nodes": [
+        {
+            "border": "none",
+            "name": "irssi",
+            "percent": 0.5,
+            "type": "con",
+            "swallows": [
+                {
+                    "class": "^URxvt$",
+                    "instance": "^irssi$"
+                }
+            ]
+        },
+        {
+            // stacked split container with 2 children
+            "layout": "stacked",
+            "percent": 0.5,
+            "type": "con",
+            "nodes": [
+                {
+                    "name": "notmuch",
+                    "percent": 0.5,
+                    "type": "con",
+                    "swallows": [
+                        {
+                            "class": "^Emacs$",
+                            "instance": "^notmuch$"
+                        }
+                    ]
+                },
+                {
+                    "name": "midna: ~",
+                    "percent": 0.5,
+                    "type": "con"
+                }
+            ]
+        }
+    ]
+}
+
+{
+    // stacked split container with 1 children
+    "layout": "stacked",
+    "percent": 0.6,
+    "type": "con",
+    "nodes": [
+        {
+            "name": "chrome",
+            "type": "con",
+            "swallows": [
+                {
+                    "class": "^Google-chrome$"
+                }
+            ]
+        }
+    ]
+}</tt></pre>
+</div></div>
+<div class="paragraph"><p>In this layout, the screen is divided into two columns. In the left column,
+which covers 40% of the screen, there is a terminal emulator running irssi on
+the top, and a stacked split container with an Emacs window and a terminal
+emulator on the bottom. In the right column, there is a stacked container with
+a Chrome window:</p></div>
+<div class="paragraph"><p><span class="image">
+<a class="image" href="layout-saving-1.png">
+<img src="layout-saving-1.png" alt="Restored layout" width="400" />
+</a>
+</span></p></div>
+<div class="paragraph"><p>The structure of this JSON file looks a lot like the <tt>TREE</tt> reply, see
+<a href="https://build.i3wm.org/docs/ipc.html#_tree_reply">https://build.i3wm.org/docs/ipc.html#_tree_reply</a> for documentation on that. Some
+properties are excluded because they are not relevant when restoring a layout.</p></div>
+<div class="paragraph"><p>Most importantly, look at the "swallows" section of each window. This is where
+you need to be more or less specific. As an example, remember the section about
+the Emacs window:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>"swallows": [
+    {
+        "class": "^Emacs$",
+        "instance": "^notmuch$"
+    }
+]</tt></pre>
+</div></div>
+<div class="paragraph"><p>Here you can see that i3 will require both the class and the instance to match.
+Therefore, if you just start Emacs via dmenu, it will not get swallowed by that
+container. Only if you start Emacs with the proper instance name (<tt>emacs24
+--name notmuch</tt>), it will get swallowed.</p></div>
+<div class="paragraph"><p>You can match on "class", "instance", "window_role" and "title". All values are
+case-sensitive regular expressions (PCRE). Use <tt>xprop(1)</tt> and click into a
+window to see its properties:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ xprop
+WM_WINDOW_ROLE(STRING) = "gimp-toolbox-color-dialog"
+WM_CLASS(STRING) = "gimp-2.8", "Gimp-2.8"
+_NET_WM_NAME(UTF8_STRING) = "Change Foreground Color"</tt></pre>
+</div></div>
+<div class="paragraph"><p>The first part of <tt>WM_CLASS</tt> is the "instance" (gimp-2.8 in this case), the
+second part is the "class" (Gimp-2.8 in this case). "title" matches against
+<tt>_NET_WM_NAME</tt> and "window_role" matches against <tt>WM_WINDOW_ROLE</tt>.</p></div>
+<div class="paragraph"><p>In general, you should try to be as specific as possible in your swallow
+criteria. Try to use criteria that match one window and only one window, to
+have a reliable startup procedure.</p></div>
+<div class="paragraph"><p>If you specify multiple swallow criteria, the placeholder will be replaced by
+the window which matches any of the criteria. As an example:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>// Matches either Emacs or Gvim, whichever one is started first.
+"swallows": [
+    {"class": "^Emacs$"},
+    {"class": "^Gvim$"}
+]</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_json_standard_non_compliance">3.2. JSON standard non-compliance</h3>
+<div class="paragraph"><p>A layout file as generated by <tt>i3-save-tree(1)</tt> is not strictly valid JSON:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Layout files contain multiple “JSON texts” at the top level. The JSON
+   standard doesn&#8217;t prohibit this, but in practice most JSON parsers only
+   allow precisely one “text” per document/file, and will mark multiple texts
+   as invalid JSON.
+</p>
+</li>
+<li>
+<p>
+Layout files contain comments which are not allowed by the JSON standard,
+   but are understood by many parsers.
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>Both of these deviations from the norm are to make manual editing by humans
+easier. In case you are writing a more elaborate tool for manipulating these
+layouts, you can either use a JSON parser that supports these deviations (for
+example libyajl), transform the layout file to a JSON-conforming file, or
+<a href="https://github.com/i3/i3/blob/next/.github/CONTRIBUTING.md">submit a patch</a>
+to make <tt>i3-save-tree(1)</tt> optionally output standard-conforming JSON.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_troubleshooting">4. Troubleshooting</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_restoring_a_vertically_split_workspace">4.1. Restoring a vertically split workspace</h3>
+<div class="paragraph"><p>When using <tt>i3-save-tree</tt> with the <tt>--workspace</tt> switch, only the <strong>contents</strong> of
+the workspace will be dumped. This means that properties of the workspace
+itself will be lost.</p></div>
+<div class="paragraph"><p>This is relevant for, e.g., a vertically split container as the base container of
+a workspace. Since the split mode is a property of the workspace, it will not be
+stored. In this case, you will have to manually wrap your layout in such a
+container:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>// vim:ts=4:sw=4:et
+{
+    // this is a manually added container to restore the vertical split
+    "layout": "splitv",
+    "percent": 0.5,
+    "type": "con",
+    "nodes": [
+
+        // the dumped workspace layout goes here
+
+    ]
+}</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</div>
+</body>
+</html>

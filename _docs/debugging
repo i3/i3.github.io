@@ -10,7 +10,7 @@ Thank you for being interested in debugging i3. It really means
 something to us to get your bug fixed. If you have any questions about the
 process and/or need further help, do not hesitate to contact us!
 
-== Verify you are using i3 ≥ 4.18
+== Verify you are using i3 ≥ 4.19
 
 Only the latest major version of i3 is supported. To verify which version
 you are running, use:

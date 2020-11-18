@@ -1,0 +1,671 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
+<title>i3: i3status(1)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="https://faq.i3wm.org/">FAQ</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>i3status(1)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revnumber">version 2.9,</span>
+<span id="revdate">March 2015</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_name">1. NAME</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3status - Generates a status line for i3bar, dzen2 or xmobar</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis">2. SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3status [-c configfile] [-h] [-v]</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options">3. OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+-c
+</dt>
+<dd>
+<p>
+Specifies an alternate configuration file path. By default, i3status looks for
+configuration files in the following order:
+</p>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+~/.i3status.conf
+</p>
+</li>
+<li>
+<p>
+~/.config/i3status/config (or $XDG_CONFIG_HOME/i3status/config if set)
+</p>
+</li>
+<li>
+<p>
+/etc/i3status.conf
+</p>
+</li>
+<li>
+<p>
+/etc/xdg/i3status/config (or $XDG_CONFIG_DIRS/i3status/config if set)
+</p>
+</li>
+</ol></div>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">4. DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3status is a small program for generating a status bar for
+i3bar, dzen2, xmobar or similar programs. It is designed to be very
+efficient by issuing a very small number of system calls, as one generally
+wants to update such a status line every second. This ensures that even under
+high load, your status bar is updated correctly. Also, it saves a bit of energy
+by not hogging your CPU as much as spawning the corresponding amount of shell
+commands would.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration">5. CONFIGURATION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The basic idea of i3status is that you can specify which "modules" should
+be used (the order directive). You can then configure each module with its
+own section. For every module, you can specify the output format. See below
+for a complete reference.</p></div>
+<div class="listingblock">
+<div class="title">Sample configuration</div>
+<div class="content">
+<pre><tt>general {
+        output_format = "dzen2"
+        colors = true
+        interval = 5
+}
+
+order += "ipv6"
+order += "disk /"
+order += "run_watch DHCP"
+order += "run_watch VPNC"
+order += "path_exists VPN"
+order += "wireless wlan0"
+order += "ethernet eth0"
+order += "battery 0"
+order += "cpu_temperature 0"
+order += "load"
+order += "tztime local"
+order += "tztime berlin"
+
+wireless wlan0 {
+        format_up = "W: (%quality at %essid, %bitrate) %ip"
+        format_down = "W: down"
+}
+
+ethernet eth0 {
+        # if you use %speed, i3status requires the cap_net_admin capability
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+battery 0 {
+        format = "%status %percentage %remaining %emptytime"
+        format_down = "No battery"
+        status_chr = "⚇ CHR""
+        status_bat = "⚡ BAT"
+        status_full = "☻ FULL"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+}
+
+run_watch DHCP {
+        pidfile = "/var/run/dhclient*.pid"
+}
+
+run_watch VPNC {
+        # file containing the PID of a vpnc process
+        pidfile = "/var/run/vpnc/pid"
+}
+
+path_exists VPN {
+        # path exists when a VPN tunnel launched by nmcli/nm-applet is active
+        path = "/proc/sys/net/ipv4/conf/tun0"
+}
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+}
+
+tztime berlin {
+        format = "%Y-%m-%d %H:%M:%S %Z"
+        timezone = "Europe/Berlin"
+}
+
+load {
+        format = "%5min"
+}
+
+cpu_temperature 0 {
+        format = "T: %degrees °C"
+        path = "/sys/devices/platform/coretemp.0/temp1_input"
+}
+
+disk "/" {
+        format = "%free"
+}</tt></pre>
+</div></div>
+<div class="sect2">
+<h3 id="_general">5.1. General</h3>
+<div class="paragraph"><p>The <tt>colors</tt> directive will disable all colors if you set it to <tt>false</tt>. You can
+also specify the colors that will be used to display "good", "degraded" or "bad"
+values using the <tt>color_good</tt>, <tt>color_degraded</tt> or <tt>color_bad</tt> directives,
+respectively. Those directives are only used if color support is not disabled by
+the <tt>colors</tt> directive. The input format for color values is the canonical RGB
+hexadecimal triplet (with no separators between the colors), prefixed by a hash
+character ("#").</p></div>
+<div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>color_good = "#00FF00"</tt></pre>
+</div></div>
+<div class="paragraph"><p>Likewise, you can use the <tt>color_separator</tt> directive to specify the color that
+will be used to paint the separator bar. The separator is always output in
+color, even when colors are disabled by the <tt>colors</tt> directive. This option has
+no effect when <tt>output_format</tt> is set to <tt>i3bar</tt> or <tt>none</tt>.</p></div>
+<div class="paragraph"><p>The <tt>interval</tt> directive specifies the time in seconds for which i3status will
+sleep before printing the next status line.</p></div>
+<div class="paragraph"><p>Using <tt>output_format</tt> you can chose which format strings i3status should
+use in its output. Currently available are:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+i3bar
+</dt>
+<dd>
+<p>
+i3bar comes with i3 and provides a workspace bar which does the right thing in
+multi-monitor situations. It also comes with tray support and can display the
+i3status output. This output type uses JSON to pass as much meta-information to
+i3bar as possible (like colors, which blocks can be shortened in which way,
+etc.).
+</p>
+</dd>
+<dt class="hdlist1">
+dzen2
+</dt>
+<dd>
+<p>
+Dzen is a general purpose messaging, notification and menuing program for X11.
+It was designed to be scriptable in any language and integrate well with window
+managers like dwm, wmii and xmonad though it will work with any windowmanger
+</p>
+</dd>
+<dt class="hdlist1">
+xmobar
+</dt>
+<dd>
+<p>
+xmobar is a minimalistic, text based, status bar. It was designed to work
+with the xmonad Window Manager.
+</p>
+</dd>
+<dt class="hdlist1">
+term
+</dt>
+<dd>
+<p>
+Use ANSI Escape sequences to produce a terminal-output as close as possible to
+the graphical outputs. This makes debugging your config file a little bit
+easier because the terminal-output of i3status becomes much more readable, but
+should only used for such quick glances, because it will only support very
+basic output-features (for example you only get 3 bits of color depth).
+</p>
+</dd>
+<dt class="hdlist1">
+none
+</dt>
+<dd>
+<p>
+Does not use any color codes. Separates values by the pipe symbol by default.
+This should be used with i3bar and can be used for custom scripts.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>It&#8217;s also possible to use the color_good, color_degraded, color_bad directives
+to define specific colors per module. If one of these directives is defined
+in a module section its value will override the value defined in the general
+section just for this module.</p></div>
+<div class="paragraph"><p>If you don&#8217;t fancy the vertical separators between modules i3status/i3bar
+uses by default, you can employ the <tt>separator</tt> directive to configure how
+modules are separated. You can either disable the default separator altogether
+setting it to the empty string. You might then define separation as part of a
+module&#8217;s format string. This is your only option when using the i3bar output
+format as the separator is drawn by i3bar directly otherwise. For the other
+output formats, the provided non-empty string will be automatically enclosed
+with the necessary coloring bits if color support is enabled.</p></div>
+<div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>general {
+    output_format = "xmobar"
+    separator = "  "
+}
+
+order += "load"
+order += "disk /"
+
+load {
+    format = "[ load: %1min, %5min, %15min ]"
+}
+disk "/" {
+    format = "%avail"
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_ipv6">5.2. IPv6</h3>
+<div class="paragraph"><p>This module gets the IPv6 address used for outgoing connections (that is, the
+best available public IPv6 address on your computer).</p></div>
+<div class="paragraph"><p><strong>Example format_up</strong>: <tt>%ip</tt></p></div>
+<div class="paragraph"><p><strong>Example format_down</strong>: <tt>no IPv6</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_disk">5.3. Disk</h3>
+<div class="paragraph"><p>Gets used, free, available and total amount of bytes on the given mounted filesystem.</p></div>
+<div class="paragraph"><p>These values can also be expressed in percentages with the percentage_used,
+percentage_free, percentage_avail and percentage_used_of_avail formats.</p></div>
+<div class="paragraph"><p>Byte sizes are presented in a human readable format using a set of prefixes
+whose type can be specified via the "prefix_type" option. Three sets of
+prefixes are available:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+binary
+</dt>
+<dd>
+<p>
+IEC prefixes (Ki, Mi, Gi, Ti) represent multiples of powers of 1024.
+This is the default.
+</p>
+</dd>
+<dt class="hdlist1">
+decimal
+</dt>
+<dd>
+<p>
+SI prefixes (k, M, G, T) represent multiples of powers of 1000.
+</p>
+</dd>
+<dt class="hdlist1">
+custom
+</dt>
+<dd>
+<p>
+The custom prefixes (K, M, G, T) represent multiples of powers of 1024.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>It is possible to define a low_threshold that causes the disk text to be
+displayed using color_bad. The low_threshold type can be of threshold_type
+"bytes_free", "bytes_avail", "percentage_free", or "percentage_avail", where
+the former two can be prepended by a generic prefix (k, m, g, t) having
+prefix_type. So, if you configure low_threshold to 2, threshold_type to
+"gbytes_avail", and prefix_type to "binary", and the remaining available disk
+space is below 2 GiB, it will be colored bad. If not specified, threshold_type
+is assumed to be "percentage_avail" and low_threshold to be set to 0, which
+implies no coloring at all.</p></div>
+<div class="paragraph"><p>You can define a different format with the option "format_not_mounted"
+which is used if the path is not a mount point. So you can just empty
+the output for the given path with adding »format_not_mounted=""«
+to the config section.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>disk /mnt/usbstick</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%free (%avail)/ %total</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%percentage_used used, %percentage_free free, %percentage_avail avail</tt></p></div>
+<div class="paragraph"><p><strong>Example prefix_type</strong>: <tt>custom</tt></p></div>
+<div class="paragraph"><p><strong>Example low_threshold</strong>: <tt>5</tt></p></div>
+<div class="paragraph"><p><strong>Example threshold_type</strong>: <tt>percentage_free</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_run_watch">5.4. Run-watch</h3>
+<div class="paragraph"><p>Expands the given path to a pidfile and checks if the process ID found inside
+is valid (that is, if the process is running). You can use this to check if
+a specific application, such as a VPN client or your DHCP client is running.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>run_watch DHCP</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%title: %status</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_path_exists">5.5. Path-exists</h3>
+<div class="paragraph"><p>Checks if the given path exists in the filesystem. You can use this to check if
+something is active, like for example a VPN tunnel managed by NetworkManager.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>path_exists VPN</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%title: %status</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_wireless">5.6. Wireless</h3>
+<div class="paragraph"><p>Gets the link quality, frequency and ESSID of the given wireless network
+interface. You can specify different format strings for the network being
+connected or not connected.</p></div>
+<div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first wireless
+network interface found on the system (excluding devices starting with "lo").</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>wireless wlan0</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>W: (%quality at %essid, %bitrate / %frequency) %ip</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_ethernet">5.7. Ethernet</h3>
+<div class="paragraph"><p>Gets the IP address and (if possible) the link speed of the given ethernet
+interface. Getting the link speed requires the cap_net_admin capability. Set
+it using <tt>setcap cap_net_admin=ep $(which i3status)</tt>.</p></div>
+<div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first non-wireless
+network interface found on the system (excluding devices starting with "lo").</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>ethernet eth0</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>E: %ip (%speed)</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_battery">5.8. Battery</h3>
+<div class="paragraph"><p>Gets the status (charging, discharging, running), percentage, remaining
+time and power consumption (in Watts) of the given battery and when it&#8217;s
+estimated to be empty. If you want to use the last full capacity instead of the
+design capacity (when using the design capacity, it may happen that your
+battery is at 23% when fully charged because it’s old. In general, I want to
+see it this way, because it tells me how worn off my battery is.), just specify
+<tt>last_full_capacity = true</tt>. You can hide seconds in the remaining time and
+empty time estimations by setting <tt>hide_seconds = true</tt>.</p></div>
+<div class="paragraph"><p>If you want the battery percentage to be shown without decimals, add
+<tt>integer_battery_capacity = true</tt>.</p></div>
+<div class="paragraph"><p>If your battery is represented in a non-standard path in /sys, be sure to
+modify the "path" property accordingly, i.e. pointing to the uevent file on
+your system. The first occurence of %d gets replaced with the battery number,
+but you can just hard-code a path as well.</p></div>
+<div class="paragraph"><p>It is possible to define a low_threshold that causes the battery text to be
+colored red. The low_threshold type can be of threshold_type "time" or
+"percentage". So, if you configure low_threshold to 10 and threshold_type to
+"time", and your battery lasts another 9 minutes, it will be colored red.</p></div>
+<div class="paragraph"><p>Optionally custom strings including any UTF-8 symbols can be used for different
+battery states. This makes it possible to display individual symbols
+for each state (charging, discharging, full)
+Of course it will also work with special iconic fonts, such as FontAwesome.
+If any of this special status strings is omitted, the default (CHR, BAT, FULL)
+is used.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>battery 0</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%status %remaining (%emptytime %consumption)</tt></p></div>
+<div class="paragraph"><p><strong>Example format_down</strong>: <tt>No battery</tt></p></div>
+<div class="paragraph"><p><strong>Example status_chr</strong>: <tt>⚇ CHR</tt></p></div>
+<div class="paragraph"><p><strong>Example status_bat</strong>: <tt>⚡ BAT</tt></p></div>
+<div class="paragraph"><p><strong>Example status_full</strong>: <tt>☻ FULL</tt></p></div>
+<div class="paragraph"><p><strong>Example low_threshold</strong>: <tt>30</tt></p></div>
+<div class="paragraph"><p><strong>Example threshold_type</strong>: <tt>time</tt></p></div>
+<div class="paragraph"><p><strong>Example path</strong>: <tt>/sys/class/power_supply/CMB1/uevent</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_cpu_temperature">5.9. CPU-Temperature</h3>
+<div class="paragraph"><p>Gets the temperature of the given thermal zone. It is possible to
+define a max_threshold that will color the temperature red in case the
+specified thermal zone is getting too hot. Defaults to 75 degrees C.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_temperature 0</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>T: %degrees °C</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>42</tt></p></div>
+<div class="paragraph"><p><strong>Example path</strong>: <tt>/sys/devices/platform/coretemp.0/temp1_input</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_cpu_usage">5.10. CPU Usage</h3>
+<div class="paragraph"><p>Gets the percentual CPU usage from <tt>/proc/stat</tt> (Linux) or <tt>sysctl(3)</tt> (FreeBSD/OpenBSD).</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_usage</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%usage</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_load">5.11. Load</h3>
+<div class="paragraph"><p>Gets the system load (number of processes waiting for CPU time in the last
+1, 5 and 15 minutes). It is possible to define a max_threshold that will
+color the load value red in case the load average of the last minute is
+getting higher than the configured threshold. Defaults to 5.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>load</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%1min %5min %15min</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>"0,1"</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_time">5.12. Time</h3>
+<div class="paragraph"><p>Outputs the current time in the local timezone.
+To use a different timezone, you can set the TZ environment variable,
+or use the <tt>tztime</tt> module.
+See <tt>strftime(3)</tt> for details on the format string.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>time</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_tztime">5.13. TzTime</h3>
+<div class="paragraph"><p>Outputs the current time in the given timezone.
+If no timezone is given, local time will be used.
+See <tt>strftime(3)</tt> for details on the format string.
+The system&#8217;s timezone database is usually installed in <tt>/usr/share/zoneinfo</tt>.
+Files below that path make for valid timezone strings, e.g. for
+<tt>/usr/share/zoneinfo/Europe/Berlin</tt> you can set timezone to <tt>Europe/Berlin</tt>
+in the <tt>tztime</tt> module.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>tztime berlin</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S %Z</tt></p></div>
+<div class="paragraph"><p><strong>Example timezone</strong>: <tt>Europe/Berlin</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_ddate">5.14. DDate</h3>
+<div class="paragraph"><p>Outputs the current discordian date in user-specified format. See <tt>ddate(1)</tt> for
+details on the format string.
+<strong>Note</strong>: Neither <strong>%.</strong> nor <strong>%X</strong> are implemented yet.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>ddate</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%{%a, %b %d%}, %Y%N - %H</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_volume">5.15. Volume</h3>
+<div class="paragraph"><p>Outputs the volume of the specified mixer on the specified device. Works only
+on Linux because it uses ALSA.
+A simplified configuration can be used on FreeBSD and OpenBSD due to
+the lack of ALSA,  the <tt>device</tt> and <tt>mixer</tt> options can be
+ignored on these systems. On these systems the OSS API is used instead to
+query <tt>/dev/mixer</tt> directly if <tt>mixer_dix</tt> is -1, otherwise
+<tt>/dev/mixer</tt>+mixer_idx+.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>volume master</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>♪: %volume</tt>
+<strong>Example format_muted</strong>: <tt>♪: 0%%</tt></p></div>
+<div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>volume master {
+        format = "♪: %volume"
+        format_muted = "♪: muted (%volume)"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_universal_module_options">6. Universal module options</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When using the i3bar output format, there are a few additional options that
+can be used with all modules to customize their appearance:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+align
+</dt>
+<dd>
+<p>
+        The alignment policy to use when the minimum width (see below) is not
+        reached. Either <tt>center</tt> (default), <tt>right</tt> or <tt>left</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+min_width
+</dt>
+<dd>
+<p>
+        The minimum width (in pixels) the module should occupy. If the module takes
+        less space than the specified size, the block will be padded to the left
+        and/or the right side, according to the defined alignment policy. This is
+        useful when you want to prevent the whole status line from shifting when
+        values take more or less space between each iteration.
+        The option can also be a string. In this case, the width of the given text
+        determines the minimum width of the block. This is useful when you want to
+        set a sensible minimum width regardless of which font you are using, and at
+        what particular size. Please note that a number enclosed with quotes will
+        still be treated as a number.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>disk "/" {
+    format = "%avail"
+    align = "left"
+    min_width = 100
+}</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_i3status_with_dzen2">7. Using i3status with dzen2</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>After installing dzen2, you can directly use it with i3status. Just ensure that
+<tt>output_format</tt> is set to <tt>dzen2</tt>.</p></div>
+<div class="paragraph"><p><strong>Example for usage of i3status with dzen2</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3status | dzen2 -fg white -ta r -w 1280 \
+-fn "-misc-fixed-medium-r-normal--13-120-75-75-C-70-iso8859-1"</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_i3status_with_xmobar">8. Using i3status with xmobar</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To get xmobar to start, you might need to copy the default configuration
+file to <tt>~/.xmobarrc</tt>. Also, ensure that the <tt>output_format</tt> option for i3status
+is set to <tt>xmobar</tt>.</p></div>
+<div class="paragraph"><p><strong>Example for usage of i3status with xmobar</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3status | xmobar -o -t "%StdinReader%" -c "[Run StdinReader]"</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_about_memory_usage_or_cpu_frequency">9. What about memory usage or CPU frequency?</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>While talking about two specific things, please understand this section as a
+general explanation why your favorite information is not included in i3status.</p></div>
+<div class="paragraph"><p>Let’s talk about memory usage specifically. It is hard to measure memory in a
+way which is accurate or meaningful. An in-depth understanding of how paging
+and virtual memory work in your operating system is required. Furthermore, even
+if we had a well-defined way of displaying memory usage and you would
+understand it, I think that it’s not helpful to repeatedly monitor your memory
+usage. One reason for that is that I have not run out of memory in the last few
+years.  Memory has become so cheap that even in my 4 year old notebook, I have
+8 GiB of RAM. Another reason is that your operating system will do the right
+thing anyway: Either you have not enough RAM for your workload, but you need to
+do it anyway, then your operating system will swap. Or you don’t have enough
+RAM and you want to restrict your workload so that it fits, then the operating
+system will kill the process using too much RAM and you can act accordingly.</p></div>
+<div class="paragraph"><p>For CPU frequency, the situation is similar. Many people don’t understand how
+frequency scaling works precisely. The generally recommended CPU frequency
+governor ("ondemand") changes the CPU frequency far more often than i3status
+could display it. The display number is therefore often incorrect and doesn’t
+tell you anything useful either.</p></div>
+<div class="paragraph"><p>In general, i3status wants to display things which you would look at
+occasionally anyways, like the current date/time, whether you are connected to
+a WiFi network or not, and if you have enough disk space to fit that 4.3 GiB
+download.</p></div>
+<div class="paragraph"><p>However, if you need to look at some kind of information more than once in a
+while (like checking repeatedly how full your RAM is), you are probably better
+off with a script doing that, which pops up an alert when your RAM usage reaches
+a certain threshold. After all, the point of computers is not to burden you
+with additional boring tasks like repeatedly checking a number.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_external_scripts_programs_with_i3status">10. External scripts/programs with i3status</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In i3status, we don’t want to implement process management again. Therefore,
+there is no module to run arbitrary scripts or commands. Instead, you should
+use your shell, for example like this:</p></div>
+<div class="paragraph"><p><strong>Example for prepending the i3status output</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>#!/bin/sh
+# shell script to prepend i3status with more stuff
+
+i3status | while :
+do
+        read line
+        echo "mystuff | $line" || exit 1
+done</tt></pre>
+</div></div>
+<div class="paragraph"><p>Put that in some script, say <tt>.bin/my_i3status.sh</tt> and execute that instead of i3status.</p></div>
+<div class="paragraph"><p>Note that if you want to use the JSON output format (with colors in i3bar), you
+need to use a slightly more complex wrapper script. There are examples in the
+contrib/ folder, see <a href="http://code.i3wm.org/i3status/tree/contrib">http://code.i3wm.org/i3status/tree/contrib</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_signals">11. SIGNALS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When receiving <tt>SIGUSR1</tt>, i3status’s nanosleep() will be interrupted and thus
+you will force an update. You can use killall -USR1 i3status to force an update
+after changing the system volume, for example.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">12. SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><tt>strftime(3)</tt>, <tt>date(1)</tt>, <tt>glob(3)</tt>, <tt>dzen2(1)</tt>, <tt>xmobar(1)</tt></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_authors">13. AUTHORS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
+<div class="paragraph"><p>Thorsten Toepper</p></div>
+<div class="paragraph"><p>Baptiste Daroussin</p></div>
+<div class="paragraph"><p>Axel Wagner</p></div>
+<div class="paragraph"><p>Fernando Tarlá Cardoso Lemos</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</div>
+</body>
+</html>
