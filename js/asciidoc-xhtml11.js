@@ -59,7 +59,7 @@ toc: function (toclevels) {
   }
 
   var toc = document.getElementById("toc");
-  var entries = tocEntries(document.getElementById("content"), toclevels);
+  var entries = tocEntries(document.querySelector("main"), toclevels);
   for (var i = 0; i < entries.length; ++i) {
     var entry = entries[i];
     if (entry.element.id == "")
@@ -86,9 +86,9 @@ toc: function (toclevels) {
  */
 
 footnotes: function () {
-  var cont = document.getElementById("content");
-  var noteholder = document.getElementById("footnotes");
-  var spans = cont.getElementsByTagName("span");
+  var cont = document.querySelector("main");
+  var noteholder = document.querySelector("#footnotes");
+  var spans = cont.querySelectorAll("span");
   var refs = {};
   var n = 0;
   for (i=0; i<spans.length; i++) {
