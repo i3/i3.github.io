@@ -255,11 +255,8 @@ footer {
 }
 
 .docversion {
-    margin: 0.25em;
-    margin-top: 0.9em;
-    padding: 0.1em;
-    padding-left: 0.25em;
-    padding-right: 0.25em;
+    margin: 0.9em 0.25em 0.25em;
+    padding: 0.1em 0.25em;
     background-color: #333;
     border: 2px solid #555;
     border-radius: 4px;
