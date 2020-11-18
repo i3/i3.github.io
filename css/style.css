@@ -254,20 +254,6 @@ footer {
     margin-left: .5rem;
 }
 
-.docversion {
-    margin: 0.9em 0.25em 0.25em;
-    padding: 0.1em 0.25em;
-    background-color: #333;
-    border: 2px solid #555;
-    border-radius: 4px;
-    float: right;
-}
-
-.docversion a, .docversion a:visited {
-    color: white;
-    text-decoration: none;
-}
-
 /* Videos */
 
 .video {
