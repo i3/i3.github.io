@@ -1,4 +1,4 @@
-// Vanilla JS basic gallery - use at you please
+// Vanilla JS basic gallery - use as you please
 // © 2020 Sander De la Marche
 
 const screens = [];
