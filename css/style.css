@@ -97,7 +97,7 @@ main > * + * {
     margin-top: 1.5rem;
 }
 
-main ul {
+main ul, main ol {
     margin-left: 2rem;
 }
 
