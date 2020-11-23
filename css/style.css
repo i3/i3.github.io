@@ -147,11 +147,12 @@ footer {
     padding: 2rem;
     background-color: #242424;
     display: flex;
+    align-items: center;
     margin-bottom: 2rem;
 }
 
 .info div + a {
-    margin-left: 1rem
+    margin-left: 2rem
 }
 
 .info h2 {
@@ -163,6 +164,10 @@ footer {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.info-text p {
+    margin: 2rem 0 2.5rem 0;
 }
 
 .download {
@@ -180,7 +185,7 @@ footer {
 }
 
 .screen {
-    width: 80%;
+    width: 90%;
     display: inline-block;
 }
 
@@ -423,6 +428,10 @@ figcaption {
         flex-direction: column;
         margin-bottom: 1rem;
         padding: 1rem;
+    }
+
+    .info div + a {
+        margin-left: 0rem
     }
 
     .info-text p {
