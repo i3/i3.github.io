@@ -2,133 +2,92 @@
 layout: default
 title: Screens
 group: Screens
-require_jquery: true
-javascript: gallery.min.2.js
-js_callback: initGallery();
+javascript: gallery.js
 ---
-<div id="mask">
-</div>
-
-<div id="loading">
-</div>
-
-<div id="bigimg">
-    <div id="maskouter">
-        <div id="maskinner">
-            <div id="imgleft">
-            </div>
-            <div id="imgright">
-            </div>
-	    <div id="imgdesc">
-	    <span class="filename">i3-2.png</span>
-	    <span class="description">VIM, MPlayer</span>
-	    </div>
-        </div>
-    </div>
-</div>
-
-<div id="content">
 
 <h2>Latest Videos</h2>
 
-<div id="screencasts">
-    <div class="video clearfix">
+<section id="screencasts">
+
+    <article class="video">
         <a href="http://www.youtube.com/watch?v=Wx0eNaGzAZU" title="Watch i3 screencast v4.1 on YouTube">
-        <img src="/img/screencast-3.d.thumb.png" width="240" height="150" border="0" alt="Screencast thumbnail" style="float: left">
+            <img src="{{ site.baseurl }}/img/screencast-3.d.thumb.png" alt="Screencast thumbnail">
         </a>
-        <div style="float: left">
-            <strong>Screencast of v4.1</strong>
-            <p>
-            This video (5 min) shows the basic features of i3:
-            </p>
+        <div class="video-description">
+            <h4>Screencast of v4.1</h4>
+            <p>This video (5 min) shows the basic features of i3:</p>
             <ul>
                 <li>Layouts, Focus, Moving, Workspaces</li>
                 <li>dmenu, Floating Windows, Resizing</li>
             </ul>
-            <p>
-            <a href="https://www.youtube.com/watch?v=Wx0eNaGzAZU">Watch it on YouTube</a> or <a href="/screenshots/screencast-4.1.mp4">download it (18 MB)</a>.
-            </p>
+            <p><a href="https://www.youtube.com/watch?v=Wx0eNaGzAZU">Watch it on YouTube</a> or <a href="/screenshots/screencast-4.1.mp4">download it (18 MB)</a>.</p>
         </div>
-    </div>
+    </article>
 
-    <br style="clear: both">
-    <br>
-
-    <div class="video clearfix">
+    <article class="video">
         <a href="http://www.youtube.com/watch?v=AWA8Pl57UBY" title="Watch i3 container and tree data structure screencast on YouTube">
-        <img src="/img/screencast-cons.thumb.jpg" width="240" height="135" border="0" alt="containers and tree data structure thumbnail" style="float: left">
+            <img src="{{ site.baseurl }}/img/screencast-cons.thumb.jpg" alt="containers and tree data structure thumbnail">
         </a>
-        <div style="float: left">
-            <strong>Screencast: Containers and tree data structure</strong>
-	    <p style="white-space: pre">Explains how i3 works internally so
-that you can fully understand what's going on. I expect you to have
-watched the screencast on v4.1 already.</p>
-            <p>
+        <div class="video-description">
+            <h4>Screencast: Containers and tree data structure</h4>
+            <p>Explains how i3 works internally so that you can fully understand what's going on. I expect you to have watched the screencast on v4.1 already.</p>
             <a href="https://www.youtube.com/watch?v=AWA8Pl57UBY">Watch it on YouTube</a>
-            </p>
         </div>
-    </div>
+    </article>
 
-    <br style="clear: both">
-    <br>
-
-    <div class="video clearfix">
+    <article class="video">
         <a href="http://www.youtube.com/watch?v=QnYN2CTb1hM" title="Watch i3 google tech talk on YouTube">
-        <img src="/img/techtalk.thumb.jpg" width="240" height="135" border="0" alt="tech talk thumbnail" style="float: left">
+            <img src="{{ site.baseurl }}/img/techtalk.thumb.jpg" alt="tech talk thumbnail">
         </a>
-        <div style="float: left">
-            <strong>Google Tech Talk about i3</strong>
-            <p style="white-space: pre">This video (1 hour) is an introduction to i3, explaining our
-motivation, a bit of history, some cool features and how we
-develop.</p>
-            <p>
+        <div class="video-description">
+            <h4>Google Tech Talk about i3</h4>
+            <p>This video (1 hour) is an introduction to i3, explaining our motivation, a bit of history, some cool features and how we develop.</p>
             <a href="https://www.youtube.com/watch?v=QnYN2CTb1hM">Watch it on YouTube</a>
-            </p>
         </div>
-    </div>
+    </article>
 
-    <br style="clear: both">
-    <br>
-
-    <div class="video clearfix">
+    <article class="video">
         <a href="https://www.youtube.com/watch?v=j1I63wGcvU4&list=PL5ze0DjYv5DbCv9vNEzFmP6sU7ZmkGzcf" title="Watch screen cast series by Alex Booker on YouTube">
-        <img src="/img/i3-alex-booker.thumb.jpg" width="240" height="135" border="0" alt="screen cast series thumbnail" style="float: left">
+            <img src="{{ site.baseurl }}/img/i3-alex-booker.thumb.jpg" alt="screen cast series thumbnail">
         </a>
-        <div style="float: left">
-            <strong>Series of screencasts on installing, using and configuring i3</strong>
-            <p style="white-space: pre">This three-part series of screencasts created by Alex Booker
-illustrates what i3 is, how to use it, how to configure it, and
-how to customize its appearance. (1 hour, 40 minutes)</p>
-            <p>
+        <div class="video-description">
+            <h4>Series of screencasts on installing, using and configuring i3</h4>
+            <p>This three-part series of screencasts created by Alex Booker illustrates what i3 is, how to use it, how to configure it, and how to customize its appearance. (1 hour, 40 minutes)</p>
             <a href="https://www.youtube.com/watch?v=j1I63wGcvU4&list=PL5ze0DjYv5DbCv9vNEzFmP6sU7ZmkGzcf">Watch it on YouTube</a>
-            </p>
         </div>
-    </div>
+    </article>
 
-</div>
+</section>
 
 <h2>Screenshots</h2>
 
-<p>
-To get a quick impression of i3, have a look at these screenshots.
-</p>
+<p>To get a quick impression of i3, have a look at these screenshots.</p>
 
-<div class="screenshots clearfix">
-{% include screenshot.html link="/screenshots/i3-1.png" thumb="/screenshots/i3-1.thumb.png" description="Vimperator, VIM, MPlayer, dzen2" %}
-{% include screenshot.html link="/screenshots/i3-2.png" thumb="/screenshots/i3-2.thumb.png" description="Vimperator, VIM, xpdf, bc" %}
-{% include screenshot.html link="/screenshots/i3-3.png" thumb="/screenshots/i3-3.thumb.png" description="PCManFM, ROXTerm, evince" %}
-<br>
-{% include screenshot.html link="/screenshots/i3-4.png" thumb="/screenshots/i3-4.thumb.png" description="i3 logo out of terminals" %}
-{% include screenshot.html link="/screenshots/i3-6.png" thumb="/screenshots/i3-6.thumb.png" description="VIM, zsh, i3status (FreeBSD)" %}
-{% include screenshot.html link="/screenshots/i3-7.png" thumb="/screenshots/i3-7.thumb.png" description="GIMP, urxvt (both floating)" %}
-<br>
-{% include screenshot.html link="/screenshots/i3-5.png" thumb="/screenshots/i3-5.thumb.png" description="mc, xosview, MPlayer, irssi, gajim" %}
-{% include screenshot.html link="/screenshots/i3-8.jpg" thumb="/screenshots/i3-8.thumb.jpg" description="git, synergy, htop, urxvt" %}
-{% include screenshot.html link="/screenshots/i3-9.png" thumb="/screenshots/i3-9.thumb.png" description="VIM, git, MPlayer, i3bar" %}
-<br>
-{% include screenshot.html link="/screenshots/i3-10.png" thumb="/screenshots/i3-10.thumb.png" description="Right-to-left titles" %}
-{% include screenshot.html link="/screenshots/i3-11.jpg" thumb="/screenshots/i3-11.thumb.jpg" description="dzen2, VIM, bash, top" %}
-{% include screenshot.html link="/screenshots/i3-13.png" thumb="/screenshots/i3-13.thumb.png" description="i3pystatus, mpd, watson time tracker, nerd fonts" %}
-</div>
+<section class="screenshots">
+    {% include screenshot.html link="/screenshots/i3-1.png" thumb="/screenshots/i3-1.thumb.png" description="Vimperator, VIM, MPlayer, dzen2" %}
+    {% include screenshot.html link="/screenshots/i3-2.png" thumb="/screenshots/i3-2.thumb.png" description="Vimperator, VIM, xpdf, bc" %}
+    {% include screenshot.html link="/screenshots/i3-3.png" thumb="/screenshots/i3-3.thumb.png" description="PCManFM, ROXTerm, evince" %}
+    {% include screenshot.html link="/screenshots/i3-4.png" thumb="/screenshots/i3-4.thumb.png" description="i3 logo out of terminals" %}
+    {% include screenshot.html link="/screenshots/i3-6.png" thumb="/screenshots/i3-6.thumb.png" description="VIM, zsh, i3status (FreeBSD)" %}
+    {% include screenshot.html link="/screenshots/i3-7.png" thumb="/screenshots/i3-7.thumb.png" description="GIMP, urxvt (both floating)" %}
+    {% include screenshot.html link="/screenshots/i3-5.png" thumb="/screenshots/i3-5.thumb.png" description="mc, xosview, MPlayer, irssi, gajim" %}
+    {% include screenshot.html link="/screenshots/i3-8.jpg" thumb="/screenshots/i3-8.thumb.jpg" description="git, synergy, htop, urxvt" %}
+    {% include screenshot.html link="/screenshots/i3-9.png" thumb="/screenshots/i3-9.thumb.png" description="VIM, git, MPlayer, i3bar" %}
+    {% include screenshot.html link="/screenshots/i3-10.png" thumb="/screenshots/i3-10.thumb.png" description="Right-to-left titles" %}
+    {% include screenshot.html link="/screenshots/i3-11.jpg" thumb="/screenshots/i3-11.thumb.jpg" description="dzen2, VIM, bash, top" %}
+    {% include screenshot.html link="/screenshots/i3-13.png" thumb="/screenshots/i3-13.thumb.png" description="i3pystatus, mpd, watson time tracker, nerd fonts" %}
+</section>
 
+<span class="loading"></span>
+
+<div class="gallery">
+    <div class="view">
+        <div class="left"></div>
+        <div class="focus"></div>
+        <div class="right"></div>
+    </div>
+    <div class="meta">
+        <span class="filename">i3-2.png</span>
+        <span class="description">VIM, MPlayer</span>
+    </div>
 </div>

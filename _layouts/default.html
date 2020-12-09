@@ -8,72 +8,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="i3 is a dynamic tiling window manager with clean, readable and documented code, featuring extended Xinerama support, usage of libxcb instead of xlib and several improvements over wmii">
         <meta name="author" content="i3 developers">
-{% if page.javascript != null %}
-        <script type="text/javascript">
-function loadjs() {
-{% if page.require_jquery == null %}
-    var element = document.createElement("script");
-    element.src = "/js/{{page.javascript}}";
-    document.body.appendChild(element);
-{% else %}
-    var jquery_done = false,
-        script_done = false;
-    var head = document.getElementsByTagName('head')[0];
-
-    var element = document.createElement("script");
-    element.src = "/js/jquery.1.6.2.min.js";
-    element.onload = element.onreadystatechange = function() {
-        if (!jquery_done && (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete')) {
-            jquery_done = true;
-            if (script_done) {
-                {{page.js_callback}}
-            }
-            element.onload = element.onreadystatechange = null;
-        }
-    };
-    document.body.appendChild(element);
-
-    var script = document.createElement("script");
-    script.src = "/js/{{page.javascript}}";
-    script.onload = script.onreadystatechange = function() {
-        if (!script_done && (!this.readyState || this.readyState === 'loaded' || this.readyState === 'complete')) {
-            script_done = true;
-            if (jquery_done) {
-                {{page.js_callback}}
-            }
-            script.onload = script.onreadystatechange = null;
-        }
-    };
-    document.body.appendChild(script);
-
-{% endif %}
-}
-
-if (window.addEventListener)
-    window.addEventListener("load", loadjs, false);
-else if (window.attachEvent)
-    window.attachEvent("onload", loadjs);
-else window.onload = loadjs;
-        </script>
-{% endif %}
+        {% if page.javascript != null %}
+        <script type="text/javascript" src="/js/{{page.javascript}}" defer></script>
+        {% endif %}
     </head>
     <body>
-        <div id="main">
-            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
-			<ul id="nav">
-{% include menulink.html name="Docs" url="/docs/" %}
-{% include menulink.html name="Screens" url="/screenshots/" %}
-{% include menulink.html name="FAQ" url="https://www.reddit.com/r/i3wm/" %}
-{% include menulink.html name="Contact" url="/contact/" %}
-{% include menulink.html name="Bugs" url="https://github.com/i3/i3/issues" %}
-			</ul>
-	<br style="clear: both">
-	    {{ content }}
-        </div>
-    <div id="footer" lang="de">
-        © 2009-present Michael Stapelberg,
-        <a href="/impress.html">Impressum</a>,
-        <a href="https://github.com/i3/i3.github.io">Source</a>
-    </div>
+        <header>
+            <a class="logo" href="/">
+                <img src="/img/logo.svg" alt="i3 WM logo" />
+            </a>
+            <nav>
+                <ul>
+                    {% include menulink.html name="Docs" url="/docs/" %}
+                    {% include menulink.html name="Screens" url="/screenshots/" %}
+                    {% include menulink.html name="FAQ" url="https://www.reddit.com/r/i3wm/" %}
+                    {% include menulink.html name="Contact" url="/contact/" %}
+                    {% include menulink.html name="Bugs" url="https://github.com/i3/i3/issues" %}
+                </ul>
+            </nav>
+        </header>
+        <main>
+            {{ content }}
+        </main>
+        <footer>
+            © 2009-present Michael Stapelberg,
+            <a href="/impress.html">Impressum</a>,
+            <a href="https://github.com/i3/i3.github.io">Source</a>
+        </footer>
     </body>
 </html>

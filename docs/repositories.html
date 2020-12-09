@@ -1,9 +1,8 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<link rel="icon" type="image/x-icon" href="/favicon.ico">
-<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<link rel="icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="generator" content="AsciiDoc 8.6.10" />
 <title>i3: Debian and Ubuntu repositories</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
@@ -15,20 +14,24 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes();},
 </script>
 <script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
 </head>
-<body class="article">
+<body>
+    <header>
+        <a class="logo" href="/">
+            <img src="/img/logo.svg" alt="i3 WM logo" />
+        </a>
+        <nav>
+            <ul>
+                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                <li><a href="/screenshots">Screens</a></li>
+                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
 
-        <div id="main">
-            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
-                        <ul id="nav">
-                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
-                                <li><a href="/screenshots">Screens</a></li>
-                                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
-                                <li><a href="/contact">Contact</a></li>
-                                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
-                        </ul>
-        <br style="clear: both">
-<div id="content">
-<div id="header">
+
 <h1>Debian and Ubuntu repositories</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
@@ -89,7 +92,7 @@ release of i3. To use it, run the following commands:</p></div>
 <div class="content">
 <pre><tt>$ /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2020.02.03_all.deb keyring.deb SHA256:c5dd35231930e3c8d6a9d9539c846023fe1a08e4b073ef0d2833acd815d80d48
 # dpkg -i ./keyring.deb
-# echo "deb https://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" &gt;&gt; /etc/apt/sources.list.d/sur5r-i3.list
+# echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" &gt;&gt; /etc/apt/sources.list.d/sur5r-i3.list
 # apt update
 # apt install i3</tt></pre>
 </div></div>
@@ -147,12 +150,12 @@ Pin-Priority: 1001</tt></pre>
 <div class="paragraph"><p>Then, run <tt>apt-get update</tt> and install <tt>i3</tt>.</p></div>
 </div>
 </div>
-</div>
+</main>
 <div id="footnotes"><hr /></div>
-<div id="footer" lang="de">
+<footer>
     © 2009-present Michael Stapelberg,
     <a href="/impress.html">Impressum</a>,
     <a href="https://github.com/i3/i3.github.io">Source</a>
-</div>
+</footer>
 </body>
 </html>

@@ -1,14 +1,18 @@
-// vim:ts=4:sw=4:expandtab
-// © 2011 Michael Stapelberg
+const oldTrigger = document.querySelector('#showOldDownloads');
+const oldAmount = document.querySelector('#numberOfOldDownloads');
+const oldVersions = document.querySelector('.old');
 
-function initDownloads() {
-    var old = $('.oldversion');
-    old.hide();
-    $('table#downloads').after('<a id="showOldDownloads" href="#">display ' +
-                     old.length + ' old versions…</a>');
-    $('#showOldDownloads').click(function() {
-        $('.oldversion').show('fast');
-        $(this).hide();
-        return false;
-    });
-}
+// Display the number of old versions
+oldAmount.innerHTML = oldVersions.children.length;
+
+oldTrigger.addEventListener('click', (event) => {
+
+    // Stop the link from redirecting
+    event.preventDefault();
+
+    // Show the second tbody, the one with the old versions
+    oldVersions.style.display = 'table-row-group';
+
+    // Hide the expand link
+    oldTrigger.style.display = 'none';
+});

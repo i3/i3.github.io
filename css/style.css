@@ -1,151 +1,114 @@
+/* Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basics */
+
 body {
     background-color: #2e2e2e;
     color: #ddd;
     font-family: "Droid Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     font-size: 1em;
     line-height: 1.5;
-    overflow-y: scroll;
+    overflow-y: auto;
+    max-width: 55rem;
+    margin: 0 auto;
 }
 
-h1, h2, h3 {
+img {
+    max-width: 100%
+}
+
+a {
+    color: #52C0FF;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Typo */
+
+h1, h2, h3, h4, h5, h6 {
     color: #fff;
     font-family: "Mako", Helvetica, Arial, sans-serif;
     line-height: 1.2;
 }
 
-h2 {
-    font-size: 1.8em;
+/*
+ * Default template styling
+ *  - header
+ *  - nav
+ *  - main
+ *  - #content (legacy)
+ *  - footer
+ */
+
+/* Header */
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
 }
 
-a {
-    color: #2b7dbc;
-}
-a:hover {
-    text-decoration: none;
+.logo {
+    max-width: 20rem;
 }
 
-#main {
-    max-width: 912px;
-    margin: 0 auto;
-    padding: 0;
+/* Nav */
+
+nav ul {
+    display: flex;
 }
 
-#nav {
-    float: right;
-    color: #FFF;
-    margin: 10px 18px 0 0;
-    padding: 0;
-}
-
-#nav li {
+nav ul li {
     list-style: none;
-    float: left;
-    margin-top: 1.8em;
-    margin-left: 5px;
-    border-right: 2px solid #3A8ECD;
 }
 
-#nav li:last-child {
-    border-right: 0;
-}
-
-#nav li a {
-    margin: 0.4em 0.4em;
-    display: block;
+nav ul li a {
     color: #FFF;
+    padding: .4rem .8rem;
     text-decoration: none;
     border-bottom: 2px solid #2e2e2e;
 }
 
-#nav li a:hover {
+nav ul li a:hover {
     border-bottom: 2px solid #fff;
 }
 
-h1#title {
-    height: 146px;
-    width: 458px;
-    float: left;
-    margin: 0;
-    background-image: url(../img/logo.svg);
-    background-repeat: no-repeat;
-    background-size: 436px 134px;
-    text-indent: -9999px;
+.active {
+    border-bottom: 2px solid #52C0FF;
 }
 
-#screens {
-    padding-top: 1em;
-    float: right;
+/* Main */
+
+main {
+    margin: 2rem 0;
 }
 
-img {
-    border: 0;
+main > * + * {
+    margin-top: 1.5rem;
 }
 
-#info img, .screenshots img, .video img {
-    -webkit-box-shadow: 0px 0px 0.20em #000;
-    -moz-box-shadow: 0px 0px 0.20em #000;
-    -o-box-shadow: 0px 0px 0.20em #000;
+main ul, main ol {
+    margin-left: 2rem;
 }
 
-#info {
-    clear: both;
-    padding: 5px 30px 15px 18px;
-    border-radius: 4px;
-    margin-right: 0.9em;
-    margin-top: 1em;
-
-    width: 840px;
-    color: #666;
-    font-size: 1.2rem;
-    letter-spacing: -1px;
-    background-color: #dddddd;
-    background-repeat: no-repeat;
-
-    -webkit-box-shadow: 0px 0px 0.60em #000;
-    -moz-box-shadow: 0px 0px 0.60em #000;
-    -o-box-shadow: 0px 0px 0.60em #000;
-
+main li {
+    margin-bottom: 1em;
 }
 
-#download {
-    background-color: #000;
-    background-image: -webkit-gradient(
-        linear,
-        left bottom,
-        left top,
-        color-stop(0.44, rgb(0,0,0)),
-        color-stop(0.61, rgb(53,53,53))
-    );
-    background-image: -moz-linear-gradient(
-        center bottom,
-        rgb(0,0,0) 44%,
-        rgb(53,53,53) 61%
-    );
-    color: #ffffff;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    -webkit-box-shadow: 0px 0px 0.30em #000;
-    -moz-box-shadow: 0px 0px 0.30em #000;
-    -o-box-shadow: 0px 0px 0.30em #000;
-    float: left;
-}
-
-#download a {
-    color: white;
-    text-decoration: none;
-    padding-left: 1em;
-    padding-top: 0.5em;
-    padding-bottom: 0.5em;
-    padding-right: 1em;
-}
-
-#info h2 {
-    margin: 17px 0 15px 0;
-    border: 0;
-    color: #2b7dbc;
-    font-size: 2.2rem;
-    font-weight: normal;
-}
+/*
+ * #content used to be the old content wrapper.
+ * It's still here for legacy purposes but the new content is wrapped
+ * in <main>, so all appropriate styling is found on that element above this comment
+ */
 
 #content {
     max-width: 874px;
@@ -161,35 +124,258 @@ img {
     padding-right: 2em;
 }
 
-#distributions {
-    margin-left: 2em;
-    line-height: 100px;
-}
+/* Footer */
 
-#distributions img {
-    vertical-align: middle;
-    margin-left: 1.5em;
-    margin-right: 1.5em;
-    margin-bottom: 1.5em;
-    margin-top: .5em;
-}
-
-#footer {
-    border-top: 2px solid #333;
-    margin-top: 4em;
-    padding-top: 1em;
+footer {
+    border-top: 2px solid #242424;
+    color: #ccc;
     font-size: .9rem;
+    text-align: center;
+    padding: 2em;
+}
+
+/*
+ * Styling for each major sub-section of the site
+ *  - home
+ *  - downloads/distrbutions
+ *  - docs
+ *  - screenshots
+ */
+
+.info {
+    padding: 2rem;
+    background-color: #242424;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.info div + a {
+    margin-left: 2rem
+}
+
+.info h2 {
+    font-size: 2rem;
+    font-weight: normal;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info-text p {
+    margin: 2rem 0 2.5rem 0;
+}
+
+.download {
+    background-color: #2b7dbc;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #fff;
+    padding: .75rem 2rem;
+    text-decoration: none;
+    align-self: flex-start;
+}
+
+.version {
+    margin-left: 2rem;
+}
+
+.screen {
+    width: 90%;
+    display: inline-block;
+}
+
+.screen img {
+    vertical-align: middle;
+}
+
+/*
+ * Distributions page
+ */
+
+.distributions {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.distributions img {
+    vertical-align: middle;
+    max-width: 5rem;
+    margin: 1rem;
+}
+
+.old {
+    display: none;
+}
+
+.downloads {
+    width: 100%;
+}
+
+.downloads tbody:first-of-type tr:first-child td {
+    color: #fff;
+    padding: .5rem 0;
+    font-weight: bold;
+}
+
+.gpg-key {
+    white-space: pre;
+    overflow-x: auto;
+}
+
+/*
+ * Docs page
+ */
+
+.columns {
+    display: flex;
+}
+
+.item {
+    padding: .5rem;
+}
+
+* + .item {
+    margin-top: 1rem;
+}
+
+.item > a {
+    font-weight: bold
+}
+
+.highlight {
+    background-color: #444;
+    border-radius: 5px;
+    width: 90%;
+}
+
+.author {
+    color: #7c7c7c;
+    font-size: .8rem;
+    margin-left: .5rem;
+}
+
+/* Videos */
+
+.video {
+    display: flex;
+}
+
+.video + .video {
+    margin-top: 2rem;
+}
+
+.video img {
+    min-width: 15rem;
+}
+
+.video-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 2rem;
+}
+
+/* Screenshots */
+
+.screenshots {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.shot {
+    max-width: calc(55rem / 3);
+    margin: 1rem;
+}
+
+figcaption {
+    color: #7c7c7c;
     text-align: center;
 }
 
-.docs {
-    float: left;
-    width: 48%;
+/* Gallery */
+
+.gallery {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    flex-direction: column;
+    align-items: center;
 }
 
-.docs p, .ugdocs p {
-    padding-left: 0.5em;
+.loading {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 58px;
+    height: 60px;
+    background-color: black;
+    background-image: url('/img/loading.gif');
+    opacity: 0.9;
+    display: none;
+    border-radius: 4px;
 }
+
+.gallery .focus {
+    flex: 1;
+    min-height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gallery .view {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    align-items: center;
+}
+
+.left, .right {
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    background-color: black;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.left {
+    background-image: url('/img/prevbtn.png');
+}
+
+.right {
+    background-image: url('/img/nextbtn.png');
+}
+
+.left:hover, .right:hover {
+    opacity: 1;
+}
+
+.gallery .meta {
+    background-color: #333;
+    padding: 1em;
+    border: 1px solid #555;
+    border-bottom: 0;
+}
+
+.meta .filename {
+    font-weight: bold;
+}
+
+.meta .description {
+    padding-left: 1em;
+}
+
+/* Fonts */
 
 @font-face {
     font-family: 'Droid Sans';
@@ -212,162 +398,72 @@ img {
     src: local('Mako'), url('/fonts/Mako.ttf') format('truetype');
 }
 
-.video img {
-    margin-left: 1em;
-    margin-right: 1em;
+/* Mobile */
+
+@media screen and (max-width: 40rem) {
+
+    body {
+        padding: 1rem;
+    }
+
+    header {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .logo {
+        margin-bottom: 1.5rem;
+    }
+
+    main {
+        margin: 1.5rem 0;
+    }
+
+    main > * + * {
+        margin-top: 1rem;
+    }
+
+    .info {
+        flex-direction: column;
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+
+    .info div + a {
+        margin-left: 0rem
+    }
+
+    .info-text p {
+        margin: 1rem 0;
+    }
+
+    .info .screen{
+        margin-top: 1rem;
+    }
+
+    .screens {
+        width: 100%;
+    }
+
+    .video {
+        flex-direction: column;
+    }
+
+    .video-description {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+
+    footer {
+        padding: 1rem;
+    }
 }
 
-#screencasts li {
-    margin-bottom: 0.25em;
-}
-
-#screencasts p, #screencasts ul {
-    margin-top: 0.35em;
-    margin-bottom: 0.35em;
-}
-
-.imgdesc {
-    margin-bottom: 1em;
-}
-
-.screenshots, .screencasts, .video {
-    width: 100%;
-}
-
-.screenshots .shot {
-    float: left;
-    margin-left: 1em;
-    margin-right: 1em;
-    margin-top: 1em;
-    margin-bottom: 1em;
-    text-align: center;
-    color: #c0c0c0;
-    width: 240px;
-    min-height: 125px;
-}
-
-.screenshots br {
-    clear: left;
-}
-
-#mask {
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: #000;
-    opacity: 0.7;
-    display: none;
-}
-
-#loading {
-    position: fixed;
-    left: 50%;
-    top: 50%;
-    width: 58px;
-    height: 60px;
-    background-color: black;
-    background-image: url('/img/loading.gif');
-    opacity: 0.9;
-    z-index: 20;
-    display: none;
-    border-radius: 4px;
-}
-
-#bigimg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none;
-}
-
-#maskouter {
-    height: 100%;
-    display: table;
-    margin: 0 auto;
-}
-
-#maskinner {
-    vertical-align: middle;
-    display: table-cell;
-}
-
-#imgleft, #imgright {
-    cursor: pointer;
-    position: fixed;
-    top: 50%;
-    width: 64px;
-    height: 64px;
-    border-radius: 4px;
-    background-color: black;
-    z-index: 22;
-    opacity: 0.7;
-}
-
-#imgleft {
-    left: 0;
-    background-image: url('/img/prevbtn.png');
-}
-
-#imgright {
-    right: 0;
-    background-image: url('/img/nextbtn.png');
-}
-
-#imgdesc {
-    position: fixed;
-    left: 64px;
-    bottom: 0;
-    background-color: #333;
-    width: 100%;
-    padding-top: 1em;
-    padding-bottom: 1em;
-    padding-left: 2em;
-    border: 1px solid #555;
-    border-bottom: 0;
-}
-
-#imgdesc .filename {
-    font-weight: bold;
-}
-
-#imgdesc .description {
-    padding-left: 1em;
-}
-
-.docs strong {
-    margin-right: 1em;
-}
-
-.docversion {
-    margin: 0.25em;
-    margin-top: 0.9em;
-    padding: 0.1em;
-    padding-left: 0.25em;
-    padding-right: 0.25em;
-    background-color: #333;
-    border: 2px solid #555;
-    border-radius: 4px;
-    float: right;
-}
-
-.docversion a, .docversion a:visited {
-    color: white;
-    text-decoration: none;
-}
-
-table#downloads tr {
-    opacity: 0.7;
-}
-
-table#downloads thead tr {
-    opacity: 1.0;
-}
-
-table#downloads tbody tr:first-child {
-    opacity: 1.0;
-}
+/*
+ * Everything under this comment has not been updated to reflect the new
+ * html & css structure on 28/02/2020. Most of it is screenshot/gallery code
+ * and float clearfixes.
+ */
 
 .usergen pre {
     background: #333;

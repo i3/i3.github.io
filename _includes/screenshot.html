@@ -1,6 +1,6 @@
-
-    <div class="shot">
-        <a href="{{include.link}}"><img src="{{include.thumb}}" width="240" alt="(Screenshot) {{include.description}}"></a><br>
-        <span>{{include.description}}</span>
-    </div>
-
+<figure class="shot">
+    <a href="{{ include.link }}">
+        <img src="{{ include.thumb }}" alt="{{ include.description }}" />
+    </a>
+    <figcaption>{{ include.description }}</figcaption>
+</figure>
