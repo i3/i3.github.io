@@ -96,8 +96,7 @@
 
 		@media print {
 			body {
-				flex-direction: column;
-				font-size: .75rem;
+				font-size: .65rem;
 			}
 
 			.column > * + * {
@@ -110,13 +109,9 @@
 				background-color: #ccc;
 			}
 
-			.column {
+			.column:not(:first-child) {
 				padding: 0;
-				width: 100%;
-			}
-
-			footer > p:last-child {
-				display: none; /* We hide the license part of the footer so it fits nicely on 1 A4 paper	 */
+				margin-left: 1rem;
 			}
 		}
 	</style>
