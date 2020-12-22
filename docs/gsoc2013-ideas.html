@@ -1,205 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="/favicon.ico">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 8.6.10" />
-<title>i3: Google Summer of Code 2013 ideas</title>
-<link rel="stylesheet" href="/css/style.css" type="text/css" />
-<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
-<script type="text/javascript">
-/*<![CDATA[*/
-document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
-/*]]>*/
-</script>
-<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.12">
+<meta name="author" content="Michael Stapelberg">
+<title>Google Summer of Code 2013 ideas</title>
+<link rel="stylesheet" href="../css/docs.css">
 </head>
-<body>
-    <header>
-        <a class="logo" href="/">
-            <img src="/img/logo.svg" alt="i3 WM logo" />
-        </a>
-        <nav>
-            <ul>
-                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
-                <li><a href="/screenshots">Screens</a></li>
-                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-
-
+<body class="article toc2 toc-left">
+<div id="header">
 <h1>Google Summer of Code 2013 ideas</h1>
-<span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<div class="details">
+<span id="author" class="author">Michael Stapelberg</span><br>
+<span id="email" class="email"><a href="mailto:michael@i3wm.org">michael@i3wm.org</a></span><br>
 <span id="revdate">March 2013</span>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_idea_1_saved_sessions_in_i3">Idea 1: Saved sessions in i3</a>
+<ul class="sectlevel2">
+<li><a href="#_desirable_skills">Desirable skills</a></li>
+<li><a href="#_what_you_will_learn">What you will learn</a></li>
+</ul>
+</li>
+<li><a href="#_idea_2_testsuite_better_input_and_output">Idea 2: Testsuite: better input and output</a>
+<ul class="sectlevel2">
+<li><a href="#_desirable_skills_2">Desirable skills</a></li>
+<li><a href="#_what_you_will_learn_2">What you will learn</a></li>
+</ul>
+</li>
+<li><a href="#_idea_3_improve_compatibility_with_certain_applications">Idea 3: Improve compatibility with certain Applications</a>
+<ul class="sectlevel2">
+<li><a href="#_desirable_skills_3">Desirable skills</a></li>
+<li><a href="#_what_you_will_learn_3">What you will learn</a></li>
+</ul>
+</li>
+</ul>
 </div>
 </div>
+<div id="content">
 <div class="sect1">
-<h2 id="_idea_1_saved_sessions_in_i3">1. Idea 1: Saved sessions in i3</h2>
+<h2 id="_idea_1_saved_sessions_in_i3">Idea 1: Saved sessions in i3</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Many desktop environments nowadays have a way of restarting the applications
-that you have been using when you reboot your computer.</p></div>
-<div class="paragraph"><p>In i3, we want to take that idea a step further: We want to make it possible
+<div class="paragraph">
+<p>Many desktop environments nowadays have a way of restarting the applications
+that you have been using when you reboot your computer.</p>
+</div>
+<div class="paragraph">
+<p>In i3, we want to take that idea a step further: We want to make it possible
 for the user to define a precise layout, which is then filled with the
-application windows as they start up.</p></div>
-<div class="paragraph"><p>Many users are currently achieving a similar effect with custom scripts and
+application windows as they start up.</p>
+</div>
+<div class="paragraph">
+<p>Many users are currently achieving a similar effect with custom scripts and
 lots of sleep calls to wait for applications to launch and then simulate
-interactive commands to move windows around.</p></div>
-<div class="paragraph"><p>Many of the building blocks for this feature are already in place, but there
+interactive commands to move windows around.</p>
+</div>
+<div class="paragraph">
+<p>Many of the building blocks for this feature are already in place, but there
 still are a few places of code that need to be touched, a specification to be
-written, user feedback to be gathered and documentation to be updated.</p></div>
-<div class="sect2">
-<h3 id="_desirable_skills">1.1. Desirable skills</h3>
-<div class="ulist"><ul>
-<li>
-<p>
-Experience with C (best) or similar programming languages such as Perl, C++
-</p>
-</li>
-<li>
-<p>
-Willingness and ability to write documentation
-</p>
-</li>
-</ul></div>
+written, user feedback to be gathered and documentation to be updated.</p>
 </div>
 <div class="sect2">
-<h3 id="_what_you_will_learn">1.2. What you will learn</h3>
-<div class="ulist"><ul>
+<h3 id="_desirable_skills">Desirable skills</h3>
+<div class="ulist">
+<ul>
 <li>
-<p>
-How X11 and i3 work (not completely, but the most important parts)
-</p>
+<p>Experience with C (best) or similar programming languages such as Perl, C++</p>
 </li>
 <li>
-<p>
-How to interact with users
-</p>
+<p>Willingness and ability to write documentation</p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_you_will_learn">What you will learn</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>How X11 and i3 work (not completely, but the most important parts)</p>
 </li>
 <li>
-<p>
-What good specification and documentation entails
-</p>
+<p>How to interact with users</p>
 </li>
-</ul></div>
+<li>
+<p>What good specification and documentation entails</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_idea_2_testsuite_better_input_and_output">2. Idea 2: Testsuite: better input and output</h2>
+<h2 id="_idea_2_testsuite_better_input_and_output">Idea 2: Testsuite: better input and output</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>i3 uses a comprehensive testsuite and cares about test-driven development as
+<div class="paragraph">
+<p>i3 uses a comprehensive testsuite and cares about test-driven development as
 well as regression tests. While our testsuite covers quite a lot of code and
 works well and fest, it currently only uses the IPC interface to communicate
-with i3.</p></div>
-<div class="paragraph"><p>The current state enables us to simulate anything a user might also trigger by
+with i3.</p>
+</div>
+<div class="paragraph">
+<p>The current state enables us to simulate anything a user might also trigger by
 a keypress. This does <strong>not</strong> include dragging windows around, moving the mouse,
 clicking on things, or handling actual keyboard events. Furthermore, the
 testsuite never sees the actual output the user gets to see. Instead, it just
-looks at the data structures.</p></div>
-<div class="paragraph"><p>Therefore, it would be good to extend the testsuite so that it captures the X11
+looks at the data structures.</p>
+</div>
+<div class="paragraph">
+<p>Therefore, it would be good to extend the testsuite so that it captures the X11
 output and compares it with saved images. Also, X11 input such as mouse and
-keyboard input should be simulated somehow (e.g. captured and replayed).</p></div>
-<div class="sect2">
-<h3 id="_desirable_skills_2">2.1. Desirable skills</h3>
-<div class="ulist"><ul>
-<li>
-<p>
-Experience with Perl or willingness to learn it
-</p>
-</li>
-<li>
-<p>
-Experience with automated software testing or at least a basic understanding
-  of the concepts
-</p>
-</li>
-<li>
-<p>
-Willingness to learn X11 mechanisms to capture output and simulate input
-</p>
-</li>
-</ul></div>
+keyboard input should be simulated somehow (e.g. captured and replayed).</p>
 </div>
 <div class="sect2">
-<h3 id="_what_you_will_learn_2">2.2. What you will learn</h3>
-<div class="ulist"><ul>
+<h3 id="_desirable_skills_2">Desirable skills</h3>
+<div class="ulist">
+<ul>
 <li>
-<p>
-How real-world testsuites work
-</p>
+<p>Experience with Perl or willingness to learn it</p>
 </li>
 <li>
-<p>
-How X11 input/output works
-</p>
+<p>Experience with automated software testing or at least a basic understanding
+of the concepts</p>
 </li>
 <li>
-<p>
-How to implement an entirely new feature into an existing codebase
-</p>
+<p>Willingness to learn X11 mechanisms to capture output and simulate input</p>
 </li>
-</ul></div>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_you_will_learn_2">What you will learn</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>How real-world testsuites work</p>
+</li>
+<li>
+<p>How X11 input/output works</p>
+</li>
+<li>
+<p>How to implement an entirely new feature into an existing codebase</p>
+</li>
+</ul>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_idea_3_improve_compatibility_with_certain_applications">3. Idea 3: Improve compatibility with certain Applications</h2>
+<h2 id="_idea_3_improve_compatibility_with_certain_applications">Idea 3: Improve compatibility with certain Applications</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>We often receive bug reports which are specific to certain toolkits and/or
+<div class="paragraph">
+<p>We often receive bug reports which are specific to certain toolkits and/or
 applications. For example, people are reporting problems with the IntelliJ IDE,
-Java applications in general, VMware or Half-Life (via Steam).</p></div>
-<div class="paragraph"><p>Most often, these problems are caused by i3 doing things slighty differently
+Java applications in general, VMware or Half-Life (via Steam).</p>
+</div>
+<div class="paragraph">
+<p>Most often, these problems are caused by i3 doing things slighty differently
 than other window managers and can be solved by observing and comparing what
-others do and what i3 does.</p></div>
-<div class="paragraph"><p>Fixing compatibility problems is a huge gain for the users of said
-applications.</p></div>
-<div class="sect2">
-<h3 id="_desirable_skills_3">3.1. Desirable skills</h3>
-<div class="ulist"><ul>
-<li>
-<p>
-Some experience in debugging
-</p>
-</li>
-<li>
-<p>
-Willingness to look at X11 traces for many minutes :)
-</p>
-</li>
-</ul></div>
+others do and what i3 does.</p>
+</div>
+<div class="paragraph">
+<p>Fixing compatibility problems is a huge gain for the users of said
+applications.</p>
 </div>
 <div class="sect2">
-<h3 id="_what_you_will_learn_3">3.2. What you will learn</h3>
-<div class="ulist"><ul>
+<h3 id="_desirable_skills_3">Desirable skills</h3>
+<div class="ulist">
+<ul>
 <li>
-<p>
-How real-world debugging works, sometimes with open source (Java) and
-  sometimes with closed source applications (Half-Life, VMware)
-</p>
+<p>Some experience in debugging</p>
 </li>
 <li>
-<p>
-How X11 works
-</p>
+<p>Willingness to look at X11 traces for many minutes :)</p>
 </li>
-</ul></div>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_what_you_will_learn_3">What you will learn</h3>
+<div class="ulist">
+<ul>
+<li>
+<p>How real-world debugging works, sometimes with open source (Java) and
+sometimes with closed source applications (Half-Life, VMware)</p>
+</li>
+<li>
+<p>How X11 works</p>
+</li>
+</ul>
 </div>
 </div>
 </div>
-</main>
-<div id="footnotes"><hr /></div>
-<footer>
-    © 2009-present Michael Stapelberg,
-    <a href="/impress.html">Impressum</a>,
-    <a href="https://github.com/i3/i3.github.io">Source</a>
-</footer>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-12-22 16:27:00 +0100
+</div>
+</div>
 </body>
 </html>

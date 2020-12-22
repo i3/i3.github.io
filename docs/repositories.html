@@ -1,161 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="/favicon.ico">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 8.6.10" />
-<title>i3: Debian and Ubuntu repositories</title>
-<link rel="stylesheet" href="/css/style.css" type="text/css" />
-<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
-<script type="text/javascript">
-/*<![CDATA[*/
-document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes();}, false);
-/*]]>*/
-</script>
-<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.12">
+<meta name="author" content="Michael Stapelberg">
+<title>Debian and Ubuntu repositories</title>
+<link rel="stylesheet" href="../css/docs.css">
 </head>
-<body>
-    <header>
-        <a class="logo" href="/">
-            <img src="/img/logo.svg" alt="i3 WM logo" />
-        </a>
-        <nav>
-            <ul>
-                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
-                <li><a href="/screenshots">Screens</a></li>
-                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-
-
+<body class="article toc2 toc-left">
+<div id="header">
 <h1>Debian and Ubuntu repositories</h1>
-<span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<div class="details">
+<span id="author" class="author">Michael Stapelberg</span><br>
+<span id="email" class="email"><a href="mailto:michael@i3wm.org">michael@i3wm.org</a></span><br>
 <span id="revdate">November 2018</span>
 </div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_when_should_you_use_our_repositories">When should you use our repositories?</a></li>
+<li><a href="#_ubuntu_repository">Ubuntu repository</a>
+<ul class="sectlevel2">
+<li><a href="#_stable_releases">Stable releases</a></li>
+<li><a href="#_development_releases">Development releases</a></li>
+</ul>
+</li>
+<li><a href="#_debian_repository">Debian repository</a></li>
+<li><a href="#_preferring_the_autobuilder_version_of_i3">Preferring the autobuilder version of i3</a></li>
+</ul>
+</div>
+</div>
+<div id="content">
 <div class="sect1">
-<h2 id="_when_should_you_use_our_repositories">1. When should you use our repositories?</h2>
+<h2 id="_when_should_you_use_our_repositories">When should you use our repositories?</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>In general, you should use the repositories of your distribution. Adding
-third-party repositories to your <tt>/etc/sources.list</tt> has security implications
-and makes your <tt>apt-get update</tt> take longer.</p></div>
-<div class="dlist"><dl>
-<dt class="hdlist1">
-If you are using Debian stable
-</dt>
+<div class="paragraph">
+<p>In general, you should use the repositories of your distribution. Adding
+third-party repositories to your <code>/etc/sources.list</code> has security implications
+and makes your <code>apt-get update</code> take longer.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">If you are using Debian stable</dt>
 <dd>
-<p>
-    The latest version of i3 will be in Debian testing quite soon. The version
-    in Debian stable can be old, however (we cannot update it after stable has
-    been released). The best way is to add Debian testing and tell <tt>apt</tt> to
-    prefer Debian stable. You should <strong>not</strong> use our repository.
-    Alternatively, you can also use
-    <a href="http://backports.debian.org/">stable-backports (e.g. wheezy-backports for
-    Debian wheezy)</a>.
-</p>
+<p>The latest version of i3 will be in Debian testing quite soon. The version
+in Debian stable can be old, however (we cannot update it after stable has
+been released). The best way is to add Debian testing and tell <code>apt</code> to
+prefer Debian stable. You should <strong>not</strong> use our repository.
+Alternatively, you can also use
+<a href="http://backports.debian.org/">stable-backports (e.g. wheezy-backports for
+Debian wheezy)</a>.</p>
 </dd>
-<dt class="hdlist1">
-If you are using Ubuntu
-</dt>
+<dt class="hdlist1">If you are using Ubuntu</dt>
 <dd>
-<p>
-    Only a handful of packages are maintained by Ubuntu developers. The rest is
-    synchronized periodically from Debian, every 6 months. Therefore, Ubuntu
-    often includes old versions of i3. You should use our Ubuntu repository.
-</p>
+<p>Only a handful of packages are maintained by Ubuntu developers. The rest is
+synchronized periodically from Debian, every 6 months. Therefore, Ubuntu
+often includes old versions of i3. You should use our Ubuntu repository.</p>
 </dd>
-<dt class="hdlist1">
-If you want the latest i3 development version
-</dt>
+<dt class="hdlist1">If you want the latest i3 development version</dt>
 <dd>
-<p>
-    If you are using Debian (Debian-derived systems might work, too) or Ubuntu
-    and want the latest development version of i3, you should use our Debian
-    repository.
-</p>
+<p>If you are using Debian (Debian-derived systems might work, too) or Ubuntu
+and want the latest development version of i3, you should use our Debian
+repository.</p>
 </dd>
-</dl></div>
+</dl>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ubuntu_repository">2. Ubuntu repository</h2>
+<h2 id="_ubuntu_repository">Ubuntu repository</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_stable_releases">2.1. Stable releases</h3>
-<div class="paragraph"><p>This Ubuntu repository is provided by sur5r and contains the latest stable
-release of i3. To use it, run the following commands:</p></div>
+<h3 id="_stable_releases">Stable releases</h3>
+<div class="paragraph">
+<p>This Ubuntu repository is provided by sur5r and contains the latest stable
+release of i3. To use it, run the following commands:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>$ /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2020.02.03_all.deb keyring.deb SHA256:c5dd35231930e3c8d6a9d9539c846023fe1a08e4b073ef0d2833acd815d80d48
+<pre>$ /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2020.02.03_all.deb keyring.deb SHA256:c5dd35231930e3c8d6a9d9539c846023fe1a08e4b073ef0d2833acd815d80d48
 # dpkg -i ./keyring.deb
 # echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" &gt;&gt; /etc/apt/sources.list.d/sur5r-i3.list
 # apt update
-# apt install i3</tt></pre>
-</div></div>
-<div class="paragraph"><p>All Ubuntu versions which are currently supported by Ubuntu itself are also supported by
-this repository. See <a href="https://wiki.ubuntu.com/Releases">Ubuntu releases</a> for details.</p></div>
-<div class="paragraph"><p>Packages for unsupported Ubuntu versions might exist but may disappear any time.</p></div>
+# apt install i3</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All Ubuntu versions which are currently supported by Ubuntu itself are also supported by
+this repository. See <a href="https://wiki.ubuntu.com/Releases">Ubuntu releases</a> for details.</p>
+</div>
+<div class="paragraph">
+<p>Packages for unsupported Ubuntu versions might exist but may disappear any time.</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_development_releases">2.2. Development releases</h3>
-<div class="paragraph"><p>This Ubuntu repository contains packages which are automatically built a few
-minutes after every commit. To use it, run the following commands:</p></div>
+<h3 id="_development_releases">Development releases</h3>
+<div class="paragraph">
+<p>This Ubuntu repository contains packages which are automatically built a few
+minutes after every commit. To use it, run the following commands:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>$ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild-ubuntu/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
+<pre>$ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild-ubuntu/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
 # apt install ./keyring.deb
 # echo 'deb http://dl.bintray.com/i3/i3-autobuild-ubuntu bionic main' &gt; /etc/apt/sources.list.d/i3-autobuild.list
 # apt update
-# apt install i3</tt></pre>
-</div></div>
-<div class="paragraph"><p>Development versions are only available for the latest version of Ubuntu, which
-is bionic at the moment.</p></div>
+# apt install i3</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Development versions are only available for the latest version of Ubuntu, which
+is bionic at the moment.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_debian_repository">3. Debian repository</h2>
+<h2 id="_debian_repository">Debian repository</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Our Debian repository contains packages which are automatically built a few
-minutes after every commit. To use it, run the following commands:</p></div>
+<div class="paragraph">
+<p>Our Debian repository contains packages which are automatically built a few
+minutes after every commit. To use it, run the following commands:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>$ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
+<pre>$ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
 # apt install ./keyring.deb
 # echo 'deb http://dl.bintray.com/i3/i3-autobuild sid main' &gt; /etc/apt/sources.list.d/i3-autobuild.list
 # apt update
-# apt install i3</tt></pre>
-</div></div>
+# apt install i3</pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_preferring_the_autobuilder_version_of_i3">4. Preferring the autobuilder version of i3</h2>
+<h2 id="_preferring_the_autobuilder_version_of_i3">Preferring the autobuilder version of i3</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>On installations where you have multiple sources (stable and testing, or
-testing and unstable for example), <tt>apt-get install i3</tt> might not get you the
-autobuilder version.</p></div>
-<div class="paragraph"><p>To ensure that the autobuilt i3 packages will be preferred to the packages of
+<div class="paragraph">
+<p>On installations where you have multiple sources (stable and testing, or
+testing and unstable for example), <code>apt-get install i3</code> might not get you the
+autobuilder version.</p>
+</div>
+<div class="paragraph">
+<p>To ensure that the autobuilt i3 packages will be preferred to the packages of
 your distribution, create the file
-<tt>/etc/apt/preferences.d/00-i3-autobuild.pref</tt> with the following contents:</p></div>
+<code>/etc/apt/preferences.d/00-i3-autobuild.pref</code> with the following contents:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>Package: i3*
+<pre>Package: i3*
 Pin: origin "dl.bintray.com"
-Pin-Priority: 1001</tt></pre>
-</div></div>
-<div class="paragraph"><p>Then, run <tt>apt-get update</tt> and install <tt>i3</tt>.</p></div>
+Pin-Priority: 1001</pre>
 </div>
 </div>
-</main>
-<div id="footnotes"><hr /></div>
-<footer>
-    © 2009-present Michael Stapelberg,
-    <a href="/impress.html">Impressum</a>,
-    <a href="https://github.com/i3/i3.github.io">Source</a>
-</footer>
+<div class="paragraph">
+<p>Then, run <code>apt-get update</code> and install <code>i3</code>.</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-12-22 16:27:00 +0100
+</div>
+</div>
 </body>
 </html>
