@@ -1498,7 +1498,7 @@ output primary|nonprimary|<output>
 
 *Example*:
 -------------------------------
-# big monitor: everything
+big monitor: everything
 bar {
     # The display is connected either via HDMI or via DisplayPort
     output HDMI2
@@ -1506,7 +1506,7 @@ bar {
     status_command i3status
 }
 
-# laptop monitor: bright colors and i3status with less modules.
+laptop monitor: bright colors and i3status with less modules.
 bar {
     output LVDS1
     status_command i3status --config ~/.i3status-small.conf
@@ -1516,7 +1516,7 @@ bar {
     }
 }
 
-# show bar on the primary monitor and on HDMI2
+show bar on the primary monitor and on HDMI2
 bar {
     output primary
     output HDMI2
@@ -1549,17 +1549,17 @@ tray_output none|primary|<output>
 
 *Example*:
 -------------------------
-# disable system tray
+disable system tray
 bar {
     tray_output none
 }
 
-# show tray icons on the primary monitor
+show tray icons on the primary monitor
 bar {
     tray_output primary
 }
 
-# show tray icons on the big monitor
+show tray icons on the big monitor
 bar {
     tray_output HDMI2
 }
@@ -1588,7 +1588,7 @@ tray_padding <px> [px]
 
 *Example*:
 -------------------------
-# Obey Fitts's law
+Obey Fitts's law
 tray_padding 0
 -------------------------
 
@@ -2821,7 +2821,7 @@ LVDS1 connected 1280x800+0+0 (normal left inverted right x axis y axis) 261mm x 
    720x400        85.0
    640x400        85.1
    640x350        85.1
---------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 Several things are important here: You can see that +LVDS1+ is connected (of
 course, it is the internal flat panel) but +VGA1+ is not. If you have a monitor

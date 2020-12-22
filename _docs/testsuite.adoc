@@ -162,7 +162,7 @@ Files=1, Tests=14,  0 wallclock secs ( 0.01 usr  0.00 sys +  0.19 cusr  0.03 csy
 Result: PASS
 
 $ less latest/i3-log-for-04-floating.t
-----------------------------------------
+---------------------------------------
 
 If your attempt to run the tests with a bare call to ./complete-run.pl fails, try this:
 
@@ -204,7 +204,7 @@ Testsuite summary for i3 4.13
 ============================================================================
 
 $ less test-suite.log
-----------------------------------------
+---------------------------------------
 
 ==== Coverage testing
 
@@ -287,7 +287,7 @@ use i3test;
 use File::Temp;
 
 my $x = X11::XCB::Connection->new;
------------------------
+----------------------
 
 This is what we call boilerplate. It exists at the top of every test file (to
 some extent). The first line is the shebang, which specifies that this file is
@@ -435,7 +435,7 @@ to be working.
 
 .t/11-goto.t: Test corner case
 ----------------------
-# check that we can specify multiple criteria
+check that we can specify multiple criteria
 
 $focus = focus_after('focus left');
 is($focus, $top->id, "Top window focused");
@@ -489,7 +489,7 @@ properly. Sounds simple, right? Let’s assume you use this straight-forward
 implementation:
 
 .Racey focus testcase
------------
+----------
 my $left = open_window($x);
 my $right = open_window($x);
 cmd 'focus left';
