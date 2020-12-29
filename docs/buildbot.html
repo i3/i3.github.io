@@ -1,171 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="/favicon.ico">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 8.6.10" />
-<title>i3: The i3 buildbot setup</title>
-<link rel="stylesheet" href="/css/style.css" type="text/css" />
-<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
-<script type="text/javascript">
-/*<![CDATA[*/
-document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
-/*]]>*/
-</script>
-<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.12">
+<meta name="author" content="Michael Stapelberg">
+<title>The i3 buildbot setup</title>
+<link rel="stylesheet" href="../css/docs.css">
 </head>
-<body>
-    <header>
-        <a class="logo" href="/">
-            <img src="/img/logo.svg" alt="i3 WM logo" />
-        </a>
-        <nav>
-            <ul>
-                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
-                <li><a href="/screenshots">Screens</a></li>
-                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-
-
+<body class="article toc2 toc-left">
+<div id="header">
 <h1>The i3 buildbot setup</h1>
-<span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<div class="details">
+<span id="author" class="author">Michael Stapelberg</span><br>
+<span id="email" class="email"><a href="mailto:michael@i3wm.org">michael@i3wm.org</a></span><br>
 <span id="revdate">September 2012</span>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_introduction">Introduction</a></li>
+<li><a href="#_why_buildbot">Why buildbot?</a></li>
+<li><a href="#_configuration">Configuration</a>
+<ul class="sectlevel2">
+<li><a href="#_change_sources">Change sources</a></li>
+<li><a href="#_schedulers">Schedulers</a></li>
+<li><a href="#_building_the_dist_tarball">Building the dist tarball</a></li>
+<li><a href="#_compiling_the_dist_tarball">Compiling the dist tarball</a></li>
+<li><a href="#_static_code_analysis">Static code analysis</a></li>
+<li><a href="#_generating_documentation">Generating documentation</a></li>
+<li><a href="#_building_debianubuntu_packages">Building Debian/Ubuntu packages</a></li>
+<li><a href="#_status_targets">Status targets</a></li>
+<li><a href="#_creating_the_buildslave">Creating the buildslave</a></li>
+</ul>
+</li>
+<li><a href="#_full_configuration_file">Full configuration file</a></li>
+</ul>
 </div>
 </div>
+<div id="content">
 <div id="preamble">
 <div class="sectionbody">
 <div style="background-color:red; color:white; padding:20px;">
 <strong style="color:white;">WARNING!</strong>
 <p>
-<div class="paragraph"><p>This document is outdated and kept for &#8220;historical&#8221; reasons. i3 uses Travis as
-a CI instead.</p></div>
+<div class="paragraph">
+<p>This document is outdated and kept for &#8220;historical&#8221; reasons. i3 uses Travis as
+a CI instead.</p>
+</div>
 </p>
 </div>
-<div class="paragraph"><p>This document explains the <a href="http://www.buildbot.net/">buildbot</a> setup we use to
-provide up-to-date documentation and debian packages at <a href="http://build.i3wm.org/">http://build.i3wm.org/</a>.
+<div class="paragraph">
+<p>This document explains the <a href="http://www.buildbot.net/">buildbot</a> setup we use to
+provide up-to-date documentation and debian packages at <a href="http://build.i3wm.org/" class="bare">http://build.i3wm.org/</a>.
 We publish these information so that our setup is well-documented (thus
 decreasing future maintenance effort) and because it might be interesting for
-other projects.</p></div>
+other projects.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_introduction">1. Introduction</h2>
+<h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>What we are doing in i3 is called Continuous Integration (see
-<a href="http://en.wikipedia.org/wiki/Continuous_integration">http://en.wikipedia.org/wiki/Continuous_integration</a>): we publish the changes we
+<div class="paragraph">
+<p>What we are doing in i3 is called Continuous Integration (see
+<a href="http://en.wikipedia.org/wiki/Continuous_integration" class="bare">http://en.wikipedia.org/wiki/Continuous_integration</a>): we publish the changes we
 make on our local machines as often as possible. In order to maintain a
 continuously high quality, each time any developer pushes changes to the
 official git repository, a number of quality assurance tools start running
-automatically:</p></div>
-<div class="olist arabic"><ol class="arabic">
+automatically:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>
-Latest documentation is generated and provided at
-   <a href="http://build.i3wm.org/docs/">http://build.i3wm.org/docs/</a>. This makes it easy to link to documentation for
-   features which are only in the current git version, not in the released
-   version.
-</p>
+<p>Latest documentation is generated and provided at
+<a href="http://build.i3wm.org/docs/" class="bare">http://build.i3wm.org/docs/</a>. This makes it easy to link to documentation for
+features which are only in the current git version, not in the released
+version.</p>
 </li>
 <li>
-<p>
-The source code is compiled and it is automatically posted to the IRC
-   channel whether there were any compiler warnings. While developers should
-   notice compiler warnings, this mechanism creates a bit of public pressure
-   ("Oh, Michael introduced warnings with this commit!"). More importantly,
-   since this mechanism builds a dist tarball and then compiles that tarball,
-   any changes to the source which would result in an uncompilable dist tarball
-   are immediately obvious. Therefore, we could cut a release from the current
-   git version at any point in time.
-</p>
+<p>The source code is compiled and it is automatically posted to the IRC
+channel whether there were any compiler warnings. While developers should
+notice compiler warnings, this mechanism creates a bit of public pressure
+("Oh, Michael introduced warnings with this commit!"). More importantly,
+since this mechanism builds a dist tarball and then compiles that tarball,
+any changes to the source which would result in an uncompilable dist tarball
+are immediately obvious. Therefore, we could cut a release from the current
+git version at any point in time.</p>
 </li>
 <li>
-<p>
-The clang static analyzer runs and the resulting report is provided at
-   <a href="http://build.i3wm.org/clang-analyze/">http://build.i3wm.org/clang-analyze/</a>. While every developer needs to compile
-   his code before committing, he doesn’t necessarily use clang (so we catch
-   build failures when using clang) and he also probably doesn’t run a static
-   analyzer as part of his normal workflow. By just being available without any
-   friction, this mechanism encourages developers to look at the report and fix
-   problems.
-</p>
+<p>The clang static analyzer runs and the resulting report is provided at
+<a href="http://build.i3wm.org/clang-analyze/" class="bare">http://build.i3wm.org/clang-analyze/</a>. While every developer needs to compile
+his code before committing, he doesn’t necessarily use clang (so we catch
+build failures when using clang) and he also probably doesn’t run a static
+analyzer as part of his normal workflow. By just being available without any
+friction, this mechanism encourages developers to look at the report and fix
+problems.</p>
 </li>
 <li>
-<p>
-Debian (and Ubuntu) packages are built. This not only ensures that we don’t
-   change anything in the source code which would lead to an FTBFS (Fails To
-   Build From Source) when building a Debian package, it also goes a long way
-   to encourage end users to test i3. To remove the need and resource
-   requirements for them to compile their own version of i3 regularly, we
-   provide packages that integrate conveniently with a normal Debian system
-   (e.g. that are automatically upgraded).
-</p>
+<p>Debian (and Ubuntu) packages are built. This not only ensures that we don’t
+change anything in the source code which would lead to an FTBFS (Fails To
+Build From Source) when building a Debian package, it also goes a long way
+to encourage end users to test i3. To remove the need and resource
+requirements for them to compile their own version of i3 regularly, we
+provide packages that integrate conveniently with a normal Debian system
+(e.g. that are automatically upgraded).</p>
 </li>
-</ol></div>
+</ol>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_why_buildbot">2. Why buildbot?</h2>
+<h2 id="_why_buildbot">Why buildbot?</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Previously, I was unsatisfied with the current state of FOSS CI tools like
+<div class="paragraph">
+<p>Previously, I was unsatisfied with the current state of FOSS CI tools like
 Jenkins, Tinderbox and others. They either seemed bloated, hard to use,
-outdated or unappealing for some other reason.</p></div>
-<div class="paragraph"><p>Then I discovered buildbot and was impressed by its flexibility. It let me
+outdated or unappealing for some other reason.</p>
+</div>
+<div class="paragraph">
+<p>Then I discovered buildbot and was impressed by its flexibility. It let me
 implement everything I wanted from a CI tool and (in my opinion) it is
-light-weight, easy to deploy and well maintained.</p></div>
-<div class="paragraph"><p>The only downside of buildbot is its configuration and documentation: You need
+light-weight, easy to deploy and well maintained.</p>
+</div>
+<div class="paragraph">
+<p>The only downside of buildbot is its configuration and documentation: You need
 to spend quite a bit of time (I needed multiple days) until it works the way
 you want it to and oftentimes, the documentation is far too sparse. This is one
-of the reasons why I’m publishing the i3 setup.</p></div>
+of the reasons why I’m publishing the i3 setup.</p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_configuration">3. Configuration</h2>
+<h2 id="_configuration">Configuration</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>See the next section for a complete, copy &amp; pasteable configuration file. This
-section covers the most important aspects without covering every line.</p></div>
-<div class="paragraph"><p>This document assumes you are running buildbot 0.8.6p1.</p></div>
-<div class="sect2">
-<h3 id="_change_sources">3.1. Change sources</h3>
-<div class="paragraph"><p>Since i3 uses a central git repository, we use the official buildbot
-<a href="https://github.com/buildbot/buildbot/blob/master/master/contrib/git_buildbot.py">git
-post-receive hook</a> that sends the change information to the buildbot master.</p></div>
+<div class="paragraph">
+<p>See the next section for a complete, copy &amp; pasteable configuration file. This
+section covers the most important aspects without covering every line.</p>
+</div>
+<div class="paragraph">
+<p>This document assumes you are running buildbot 0.8.6p1.</p>
 </div>
 <div class="sect2">
-<h3 id="_schedulers">3.2. Schedulers</h3>
-<div class="paragraph"><p>There are two things (called "builders" in buildbot-language) which happen
-whenever a new change in the <tt>next</tt> branch of i3 occurs:</p></div>
-<div class="olist arabic"><ol class="arabic">
+<h3 id="_change_sources">Change sources</h3>
+<div class="paragraph">
+<p>Since i3 uses a central git repository, we use the official buildbot
+<a href="https://github.com/buildbot/buildbot/blob/master/master/contrib/git_buildbot.py">git
+post-receive hook</a> that sends the change information to the buildbot master.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_schedulers">Schedulers</h3>
+<div class="paragraph">
+<p>There are two things (called "builders" in buildbot-language) which happen
+whenever a new change in the <code>next</code> branch of i3 occurs:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>
-The "docs" builder builds and uploads the latest documentation. This happens
-   directly from the git repository with a custom asciidoc configuration which
-   indicates that these docs refer to the git version. Therefore, this builder
-   does not benefit from having a dist tarball available (contrary to the other
-   builders).
-</p>
+<p>The "docs" builder builds and uploads the latest documentation. This happens
+directly from the git repository with a custom asciidoc configuration which
+indicates that these docs refer to the git version. Therefore, this builder
+does not benefit from having a dist tarball available (contrary to the other
+builders).</p>
 </li>
 <li>
-<p>
-The "dist" builder prepares a dist tarball and then triggers the remaining
-   builders. This ensures that building the dist tarball (an operation which
-   takes about one minute due to documentation generation) only happens once.
-</p>
+<p>The "dist" builder prepares a dist tarball and then triggers the remaining
+builders. This ensures that building the dist tarball (an operation which
+takes about one minute due to documentation generation) only happens once.</p>
 </li>
-</ol></div>
-<div class="paragraph"><p>Here is the relevant configuration part:</p></div>
-<div class="paragraph"><p><strong>Schedulers</strong>:</p></div>
+</ol>
+</div>
+<div class="paragraph">
+<p>Here is the relevant configuration part:</p>
+</div>
+<div class="paragraph">
+<p><strong>Schedulers</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>c['schedulers'] = []
+<pre>c['schedulers'] = []
 
 c['schedulers'].append(SingleBranchScheduler(
     name = 'dist',
@@ -177,22 +192,27 @@ c['schedulers'].append(SingleBranchScheduler(
 c['schedulers'].append(Triggerable(
     name = 'dist-tarball-done',
     builderNames = [ 'compile', 'clang-analyze', 'debian-packages', 'ubuntu-packages' ],
-))</tt></pre>
-</div></div>
+))</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_building_the_dist_tarball">3.3. Building the dist tarball</h3>
-<div class="paragraph"><p>This builder clones the i3 git repository and runs "make dist", which creates a
+<h3 id="_building_the_dist_tarball">Building the dist tarball</h3>
+<div class="paragraph">
+<p>This builder clones the i3 git repository and runs "make dist", which creates a
 tarball that could be named "i3-4.2.tar.bz2" for example. This tarball is then
 renamed to dist-%(gitversion).tar.bz2 (so that we can work with a predictable
 name in the next steps) and uploaded to the buildbot master (since we can have
 multiple buildslaves, we cannot just let it rest on the buildslave that built
 it). Afterwards, old dist tarballs are cleaned up and the remaining builders
-are triggered:</p></div>
-<div class="paragraph"><p><strong>Building a dist tarball</strong>:</p></div>
+are triggered:</p>
+</div>
+<div class="paragraph">
+<p><strong>Building a dist tarball</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>factories = {}
+<pre>factories = {}
 
 f = factories['dist'] = BuildFactory()
 
@@ -227,47 +247,53 @@ f.addStep(master.MasterShellCommand(
 f.addStep(Trigger(
     schedulerNames = [ 'dist-tarball-done' ],
     copy_properties = [ 'gitversion' ],
-))</tt></pre>
-</div></div>
-<div class="paragraph"><p>Three things are noteworthy about this part of the configuration:</p></div>
-<div class="olist arabic"><ol class="arabic">
+))</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Three things are noteworthy about this part of the configuration:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
 <li>
-<p>
-For convenience, we call each factory <tt>f</tt> (just like the global buildbot
-   config uses <tt>c</tt> for the top-level configuration) and add it to a dictionary.
-   Factories in that dictionary are later automatically configured for each
-   buildslave.
-</p>
+<p>For convenience, we call each factory <code>f</code> (just like the global buildbot
+config uses <code>c</code> for the top-level configuration) and add it to a dictionary.
+Factories in that dictionary are later automatically configured for each
+buildslave.</p>
 </li>
 <li>
-<p>
-We have a shared step called <tt>s_git</tt> so that we only have one location in
-   the configuration file where we specify the git repository URL and branch.
-</p>
+<p>We have a shared step called <code>s_git</code> so that we only have one location in
+the configuration file where we specify the git repository URL and branch.</p>
 </li>
 <li>
-<p>
-We have a custom function called <tt>cmd</tt> which is a shortcut for defining a
-   <tt>ShellCommand</tt> with <tt>haltOnFailure=True</tt> (since each step is critical) and
-   <tt>logEnviron=False</tt> (for brevity).
-</p>
+<p>We have a custom function called <code>cmd</code> which is a shortcut for defining a
+<code>ShellCommand</code> with <code>haltOnFailure=True</code> (since each step is critical) and
+<code>logEnviron=False</code> (for brevity).</p>
 </li>
-</ol></div>
-<div class="paragraph"><p>Here are their definitions:</p></div>
-<div class="paragraph"><p><strong>cmd</strong>:</p></div>
+</ol>
+</div>
+<div class="paragraph">
+<p>Here are their definitions:</p>
+</div>
+<div class="paragraph">
+<p><strong>cmd</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>def cmd(factory, **kwargs):
+<pre>def cmd(factory, **kwargs):
     factory.addStep(ShellCommand(
         haltOnFailure = True,
         logEnviron = False,
         **kwargs
-    ))</tt></pre>
-</div></div>
-<div class="paragraph"><p><strong>s_git</strong>:</p></div>
+    ))</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><strong>s_git</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>s_git = Git(
+<pre>s_git = Git(
     repourl = 'git://code.i3wm.org/i3',
     branch = 'next',
 
@@ -283,24 +309,31 @@ We have a custom function called <tt>cmd</tt> which is a shortcut for defining a
     # Store checkouts in source/ and copy them over to build/ to save
     # bandwidth.
     method = 'copy',
-)</tt></pre>
-</div></div>
+)</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_compiling_the_dist_tarball">3.4. Compiling the dist tarball</h3>
-<div class="paragraph"><p>For this builder to work, you obviously need to install all the
+<h3 id="_compiling_the_dist_tarball">Compiling the dist tarball</h3>
+<div class="paragraph">
+<p>For this builder to work, you obviously need to install all the
 build-dependencies for your software on each buildslave. In the case of i3,
-this can be done with <tt>apt-get build-dep i3-wm</tt>.</p></div>
-<div class="paragraph"><p>The compilation is pretty straight-forward since it uses the builtin <tt>Compile</tt>
-step. We call <tt>make</tt> with <tt>-j4</tt> (we don’t have enough buildslaves to make
-figuring out the amount of cores at build-time worthwhile) and <tt>DEBUG=0</tt> to
+this can be done with <code>apt-get build-dep i3-wm</code>.</p>
+</div>
+<div class="paragraph">
+<p>The compilation is pretty straight-forward since it uses the builtin <code>Compile</code>
+step. We call <code>make</code> with <code>-j4</code> (we don’t have enough buildslaves to make
+figuring out the amount of cores at build-time worthwhile) and <code>DEBUG=0</code> to
 simulate release build conditions. Also, we pass the preprocessor flag
-<tt>-D_FORTIFY_SOURCE=2</tt> and the compiler flags <tt>-Wformat</tt> and <tt>-Wformat-security</tt>
-to enable additional warnings.</p></div>
-<div class="paragraph"><p><strong>Compiling the dist tarball</strong>:</p></div>
+<code>-D_FORTIFY_SOURCE=2</code> and the compiler flags <code>-Wformat</code> and <code>-Wformat-security</code>
+to enable additional warnings.</p>
+</div>
+<div class="paragraph">
+<p><strong>Compiling the dist tarball</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>f = factories['compile'] = BuildFactory()
+<pre>f = factories['compile'] = BuildFactory()
 unpack_dist_tarball(f)
 f.addStep(Compile(
     command = [ 'make', 'DEBUG=0', '-j4' ],
@@ -313,15 +346,20 @@ f.addStep(Compile(
     },
 ))
 
-f.addStep(WarningsToIRC())</tt></pre>
-</div></div>
-<div class="paragraph"><p>Again, we use custom functions (and a custom buildstep) to make our lives
+f.addStep(WarningsToIRC())</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Again, we use custom functions (and a custom buildstep) to make our lives
 easier. Here is the definition of unpack_dist_tarball which adds three steps to
-the factory that download and unpack the dist tarball to the <tt>DIST/</tt> directory:</p></div>
-<div class="paragraph"><p><strong>unpack_dist_tarball</strong>:</p></div>
+the factory that download and unpack the dist tarball to the <code>DIST/</code> directory:</p>
+</div>
+<div class="paragraph">
+<p><strong>unpack_dist_tarball</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>def unpack_dist_tarball(factory):
+<pre>def unpack_dist_tarball(factory):
     factory.addStep(transfer.FileDownload(
         mastersrc = WithProperties('distballs/dist-%(gitversion)s.tar.bz2'),
         slavedest = 'dist.tar.bz2',
@@ -332,40 +370,54 @@ the factory that download and unpack the dist tarball to the <tt>DIST/</tt> dire
     cmd(factory,
         name = 'unpack dist tarball',
         command = [ 'tar', 'xf', 'dist.tar.bz2', '-C', 'DIST', '--strip-components=1' ],
-    )</tt></pre>
-</div></div>
-<div class="paragraph"><p>The <tt>WarningsToIRC</tt> build step is a custom build step which sets a property
+    )</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>WarningsToIRC</code> build step is a custom build step which sets a property
 called "ircsuffix" that is used by our custom IRC bot. This is covered later in
 more detail. This property gets set to a green or red message, depending on
-whether there were any warnings:</p></div>
-<div class="paragraph"><p><strong>WarningsToIRC</strong>:</p></div>
+whether there were any warnings:</p>
+</div>
+<div class="paragraph">
+<p><strong>WarningsToIRC</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>class WarningsToIRC(buildstep.BuildStep):
+<pre>class WarningsToIRC(buildstep.BuildStep):
     def start(self):
         warnings = self.getProperty("warnings-count")
         if warnings is not None and int(warnings) &gt; 0:
             warnings = int(warnings)  # just to be sure
             self.setProperty("ircsuffix", ("\0037 with %d warning%s!" %
-                (warnings, "s" if warnings != 1 else "")))
+	        (warnings, "s" if warnings != 1 else "")))
         else:
             self.setProperty("ircsuffix", "\0033 without warnings")
-        self.finished(SUCCESS)</tt></pre>
-</div></div>
+        self.finished(SUCCESS)</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_static_code_analysis">3.5. Static code analysis</h3>
-<div class="paragraph"><p>For this builder to work, you additionally need the <tt>clang</tt> compiler on each
-buildslave: <tt>apt-get install clang</tt>.</p></div>
-<div class="paragraph"><p>This builder uses only custom functions which you already know by now. It runs
+<h3 id="_static_code_analysis">Static code analysis</h3>
+<div class="paragraph">
+<p>For this builder to work, you additionally need the <code>clang</code> compiler on each
+buildslave: <code>apt-get install clang</code>.</p>
+</div>
+<div class="paragraph">
+<p>This builder uses only custom functions which you already know by now. It runs
 scan-build, then moves scan-build’s output from a date-based directory directly
-into the <tt>CLANG/</tt> directory and uploads that to the buildmaster.</p></div>
-<div class="paragraph"><p>On the buildmaster, a webserver is configured which has a symlink to
-<tt>/home/build/i3-master/htdocs/clang-analyze</tt> in its document root.</p></div>
-<div class="paragraph"><p><strong>static code analysis</strong>:</p></div>
+into the <code>CLANG/</code> directory and uploads that to the buildmaster.</p>
+</div>
+<div class="paragraph">
+<p>On the buildmaster, a webserver is configured which has a symlink to
+<code>/home/build/i3-master/htdocs/clang-analyze</code> in its document root.</p>
+</div>
+<div class="paragraph">
+<p><strong>static code analysis</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>f = factories['clang-analyze'] = BuildFactory()
+<pre>f = factories['clang-analyze'] = BuildFactory()
 unpack_dist_tarball(f)
 cmd(f,
     name='analyze',
@@ -388,32 +440,44 @@ f.addStep(transfer.DirectoryUpload(
     name = 'upload output',
 ))
 
-f.addStep(ClangToIRC())</tt></pre>
-</div></div>
-<div class="paragraph"><p>The <tt>ClangToIRC</tt> custom step is even simpler than <tt>WarningsToIRC</tt>. It simply
-sets the ircsuffix property to a static message:</p></div>
-<div class="paragraph"><p><strong>ClangToIRC</strong>:</p></div>
+f.addStep(ClangToIRC())</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>ClangToIRC</code> custom step is even simpler than <code>WarningsToIRC</code>. It simply
+sets the ircsuffix property to a static message:</p>
+</div>
+<div class="paragraph">
+<p><strong>ClangToIRC</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>class ClangToIRC(buildstep.BuildStep):
+<pre>class ClangToIRC(buildstep.BuildStep):
     def start(self):
         self.setProperty("ircsuffix", ", see http://build.i3wm.org/clang-analyze/")
-        self.finished(SUCCESS)</tt></pre>
-</div></div>
+        self.finished(SUCCESS)</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_generating_documentation">3.6. Generating documentation</h3>
-<div class="paragraph"><p>This builder is the one which is the least clean of all. It uses the Debian
+<h3 id="_generating_documentation">Generating documentation</h3>
+<div class="paragraph">
+<p>This builder is the one which is the least clean of all. It uses the Debian
 packaging information to decide which docs to publish and which manpages to
 generate. Additionally, it uses a for loop instead of calling a script. I
-recommend including a script to do this in your repository instead.</p></div>
-<div class="paragraph"><p>Apart from these concerns, the builder is straight-forward: It clones the git
+recommend including a script to do this in your repository instead.</p>
+</div>
+<div class="paragraph">
+<p>Apart from these concerns, the builder is straight-forward: It clones the git
 repository, generates the documentation and then uploads the documentation to
-the buildmaster:</p></div>
-<div class="paragraph"><p><strong>Generating documentation</strong>:</p></div>
+the buildmaster:</p>
+</div>
+<div class="paragraph">
+<p><strong>Generating documentation</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>f = factories['docs'] = BuildFactory()
+<pre>f = factories['docs'] = BuildFactory()
 f.addStep(s_git)
 # Fill the 'gitversion' property with the output of git describe --tags.
 f.addStep(shell.SetProperty(command = 'git describe --tags', property = 'gitversion'))
@@ -429,55 +493,77 @@ f.addStep(transfer.DirectoryUpload(
     compress = 'bz2',
     name = 'upload docs'))
 
-f.addStep(DocsToIRC())</tt></pre>
-</div></div>
-<div class="paragraph"><p>Just as <tt>ClangToIRC</tt>, <tt>DocsToIRC</tt> appends a static message:</p></div>
-<div class="paragraph"><p><strong>DocsToIRC</strong>:</p></div>
+f.addStep(DocsToIRC())</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Just as <code>ClangToIRC</code>, <code>DocsToIRC</code> appends a static message:</p>
+</div>
+<div class="paragraph">
+<p><strong>DocsToIRC</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>class DocsToIRC(buildstep.BuildStep):
+<pre>class DocsToIRC(buildstep.BuildStep):
     def start(self):
         self.setProperty("ircsuffix", ", see http://build.i3wm.org/docs/")
-        self.finished(SUCCESS)</tt></pre>
-</div></div>
+        self.finished(SUCCESS)</pre>
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_building_debian_ubuntu_packages">3.7. Building Debian/Ubuntu packages</h3>
-<div class="paragraph"><p>This is the most complex builder of all. It uses <tt>pbuilder-dist</tt>, <tt>debchange</tt>,
-<tt>dpkg-buildpackage</tt> and <tt>reprepro</tt> to generate a Debian repository with a
+<h3 id="_building_debianubuntu_packages">Building Debian/Ubuntu packages</h3>
+<div class="paragraph">
+<p>This is the most complex builder of all. It uses <code>pbuilder-dist</code>, <code>debchange</code>,
+<code>dpkg-buildpackage</code> and <code>reprepro</code> to generate a Debian repository with a
 cleanly compiled package for amd64 and i386. In order for it to work, you need
-to install the following packages: <tt>apt-get install devscripts dpkg-dev
-reprepro ubuntu-dev-tools pbuilder</tt>. Afterwards, you need to allow the user as
+to install the following packages: <code>apt-get install devscripts dpkg-dev
+reprepro ubuntu-dev-tools pbuilder</code>. Afterwards, you need to allow the user as
 which the buildslave runs to execute pbuilder via sudo without needing a
-password, so add a config file like this one:</p></div>
-<div class="paragraph"><p><strong>sudoers.d</strong>:</p></div>
+password, so add a config file like this one:</p>
+</div>
+<div class="paragraph">
+<p><strong>sudoers.d</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>echo 'build    ALL= NOPASSWD: SETENV: /usr/sbin/pbuilder' &gt; /etc/sudoers.d/build</tt></pre>
-</div></div>
-<div class="paragraph"><p>Then, as the user as which your buildslave runs, setup the pbuilder
-environments (you only need to do this once):</p></div>
-<div class="paragraph"><p><strong>pbuilder preparation</strong>:</p></div>
+<pre>echo 'build    ALL= NOPASSWD: SETENV: /usr/sbin/pbuilder' &gt; /etc/sudoers.d/build</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Then, as the user as which your buildslave runs, setup the pbuilder
+environments (you only need to do this once):</p>
+</div>
+<div class="paragraph">
+<p><strong>pbuilder preparation</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>sudo ln -s pbuilder-dist /usr/bin/pbuilder-sid-amd64
+<pre>sudo ln -s pbuilder-dist /usr/bin/pbuilder-sid-amd64
 sudo ln -s pbuilder-dist /usr/bin/pbuilder-sid-i386
 pbuilder-sid-amd64 create
-pbuilder-sid-i386 create</tt></pre>
-</div></div>
-<div class="paragraph"><p>Also, you will need a GPG key to sign these packages.</p></div>
-<div class="paragraph"><p>The debian builder starts by unpacking the dist tarball, copying the Debian
+pbuilder-sid-i386 create</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Also, you will need a GPG key to sign these packages.</p>
+</div>
+<div class="paragraph">
+<p>The debian builder starts by unpacking the dist tarball, copying the Debian
 packaging from git, creating an empty Debian repository with the
-<tt>i3-autobuild-keyring</tt> contents in it. It then adds a new changelog entry to
+<code>i3-autobuild-keyring</code> contents in it. It then adds a new changelog entry to
 reflect the git version and the fact that this package was built automatically,
-builds a source package with <tt>dpkg-buildpackage</tt> and adds it to the repository.
+builds a source package with <code>dpkg-buildpackage</code> and adds it to the repository.
 Afterwards, it updates each pbuilder and builds binary packages for each
 architecture (amd64 and i386). After adding the resulting packages to the
-repository, it uploads the repository to the buildmaster:</p></div>
-<div class="paragraph"><p><strong>Debian builder</strong>:</p></div>
+repository, it uploads the repository to the buildmaster:</p>
+</div>
+<div class="paragraph">
+<p><strong>Debian builder</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>distributions = [ 'sid-amd64', 'sid-i386' ]
+<pre>distributions = [ 'sid-amd64', 'sid-i386' ]
 gpg_key = 'BE1DB1F1'
 
 f = factories['debian-packages'] = BuildFactory()
@@ -569,64 +655,90 @@ f.addStep(master.MasterShellCommand(
 f.addStep(master.MasterShellCommand(
     command = [ 'touch', 'htdocs/debian/sid/dists/sid/main/i18n/Index' ],
     name = 'touch i18n/Index',
-))</tt></pre>
-</div></div>
-<div class="paragraph"><p>The <tt>reprepro_include</tt> command is defined as follows:</p></div>
-<div class="paragraph"><p><strong>reprepro_include</strong>:</p></div>
+))</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>reprepro_include</code> command is defined as follows:</p>
+</div>
+<div class="paragraph">
+<p><strong>reprepro_include</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>def reprepro_include(factory, path, debtype='deb', **kwargs):
+<pre>def reprepro_include(factory, path, debtype='deb', **kwargs):
     cmd(factory,
         name = 'reprepro include',
         command = 'reprepro --ignore=wrongdistribution -T ' + debtype + ' -b REPO-sid include sid ' + path,
         **kwargs
-    )</tt></pre>
-</div></div>
-<div class="paragraph"><p>Running such a builder for Ubuntu works exactly the same way, but you need to
+    )</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running such a builder for Ubuntu works exactly the same way, but you need to
 replace "sid" with "precise" in all places (see the full configuration file for
-an example).</p></div>
+an example).</p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_status_targets">3.8. Status targets</h3>
-<div class="paragraph"><p>We don’t advertise the HTTP status target. Instead, status is posted to IRC via
+<h3 id="_status_targets">Status targets</h3>
+<div class="paragraph">
+<p>We don’t advertise the HTTP status target. Instead, status is posted to IRC via
 a custom bot. This bot provides an HTTP end point and buildbot is configured to
-push status changes to that endpoint:</p></div>
-<div class="paragraph"><p><strong>http status target</strong>:</p></div>
+push status changes to that endpoint:</p>
+</div>
+<div class="paragraph">
+<p><strong>http status target</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>c['status'].append(buildbot.status.status_push.HttpStatusPush(
+<pre>c['status'].append(buildbot.status.status_push.HttpStatusPush(
     serverUrl = 'http://localhost:8080/push_buildbot',
-))</tt></pre>
-</div></div>
-<div class="paragraph"><p>You can find the source code of that bot at
-<a href="http://code.stapelberg.de/git/go-buildbot-announce/">http://code.stapelberg.de/git/go-buildbot-announce/</a>. As the name suggests, it
+))</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can find the source code of that bot at
+<a href="http://code.stapelberg.de/git/go-buildbot-announce/" class="bare">http://code.stapelberg.de/git/go-buildbot-announce/</a>. As the name suggests, it
 is written in Go. Also, it is quite specific to i3, so you might be better off
 implementing such a bot (or plugin) on your own. It might make for a nice
 example, though, especially back when its only feature was announcing the build
-status:</p></div>
-<div class="paragraph"><p><a href="http://code.stapelberg.de/git/go-buildbot-announce/tree/src/i3build.go?id=eeebf1a546454c8a0d82ca623886bb835cd32ba0">http://code.stapelberg.de/git/go-buildbot-announce/tree/src/i3build.go?id=eeebf1a546454c8a0d82ca623886bb835cd32ba0</a></p></div>
+status:</p>
+</div>
+<div class="paragraph">
+<p><a href="http://code.stapelberg.de/git/go-buildbot-announce/tree/src/i3build.go?id=eeebf1a546454c8a0d82ca623886bb835cd32ba0" class="bare">http://code.stapelberg.de/git/go-buildbot-announce/tree/src/i3build.go?id=eeebf1a546454c8a0d82ca623886bb835cd32ba0</a></p>
+</div>
 </div>
 <div class="sect2">
-<h3 id="_creating_the_buildslave">3.9. Creating the buildslave</h3>
-<div class="paragraph"><p>One more thing to note is that when creating the buildslave, you should use the
-<tt>--umask</tt> argument to configure the umask for all generated files:</p></div>
-<div class="paragraph"><p><strong>Creating the buildslave</strong>:</p></div>
+<h3 id="_creating_the_buildslave">Creating the buildslave</h3>
+<div class="paragraph">
+<p>One more thing to note is that when creating the buildslave, you should use the
+<code>--umask</code> argument to configure the umask for all generated files:</p>
+</div>
+<div class="paragraph">
+<p><strong>Creating the buildslave</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>buildslave create-slave --umask=022 i3-buildslave buildbot.i3wm.org build-1 &lt;password&gt;</tt></pre>
-</div></div>
+<pre>buildslave create-slave --umask=022 i3-buildslave buildbot.i3wm.org build-1 &lt;password&gt;</pre>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_full_configuration_file">4. Full configuration file</h2>
+<h2 id="_full_configuration_file">Full configuration file</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>This is the full configuration file, as tested and currently in use (except for
-the passwords, though):</p></div>
-<div class="paragraph"><p><strong>master.cfg</strong>:</p></div>
+<div class="paragraph">
+<p>This is the full configuration file, as tested and currently in use (except for
+the passwords, though):</p>
+</div>
+<div class="paragraph">
+<p><strong>master.cfg</strong>:</p>
+</div>
 <div class="listingblock">
 <div class="content">
-<pre><tt># -*- python -*-
+<pre># -*- python -*-
 # -*- coding: utf-8
 # vim:ts=4:sw=4:expandtab:syntax=python
 #
@@ -1116,16 +1228,16 @@ c['db'] = {
     # This specifies what database buildbot uses to store its state.  You can leave
     # this at its default for all but the largest installations.
     'db_url' : "sqlite:///state.sqlite",
-}</tt></pre>
-</div></div>
+}</pre>
 </div>
 </div>
-</main>
-<div id="footnotes"><hr /></div>
-<footer>
-    © 2009-present Michael Stapelberg,
-    <a href="/impress.html">Impressum</a>,
-    <a href="https://github.com/i3/i3.github.io">Source</a>
-</footer>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Last updated 2020-12-22 16:27:00 +0100
+</div>
+</div>
 </body>
 </html>

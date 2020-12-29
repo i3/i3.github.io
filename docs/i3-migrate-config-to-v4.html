@@ -1,93 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link rel="icon" href="/favicon.ico">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 8.6.10" />
-<title>i3: i3-migrate-config-to-v4(1)</title>
-<link rel="stylesheet" href="/css/style.css" type="text/css" />
-<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
-<script type="text/javascript">
-/*<![CDATA[*/
-document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
-/*]]>*/
-</script>
-<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Asciidoctor 2.0.12">
+<meta name="author" content="Michael Stapelberg">
+<title>i3-migrate-config-to-v4(1)</title>
+<link rel="stylesheet" href="../css/docs.css">
 </head>
-<body>
-    <header>
-        <a class="logo" href="/">
-            <img src="/img/logo.svg" alt="i3 WM logo" />
-        </a>
-        <nav>
-            <ul>
-                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
-                <li><a href="/screenshots">Screens</a></li>
-                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-
-
+<body class="article toc2 toc-left">
+<div id="header">
 <h1>i3-migrate-config-to-v4(1)</h1>
-<span id="author">Michael Stapelberg</span><br />
-<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
+<div class="details">
+<span id="author" class="author">Michael Stapelberg</span><br>
+<span id="email" class="email"><a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a></span><br>
 <span id="revnumber">version 4.0,</span>
 <span id="revdate">July 2011</span>
-<div id="toc">
-  <div id="toctitle">Table of Contents</div>
-  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_name">NAME</a></li>
+<li><a href="#_synopsis">SYNOPSIS</a></li>
+<li><a href="#_description">DESCRIPTION</a></li>
+<li><a href="#_see_also">SEE ALSO</a></li>
+<li><a href="#_author">AUTHOR</a></li>
+</ul>
 </div>
 </div>
+<div id="content">
 <div class="sect1">
-<h2 id="_name">1. NAME</h2>
+<h2 id="_name">NAME</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>i3-migrate-config-to-v4 - migrates your i3 config file</p></div>
+<div class="paragraph">
+<p>i3-migrate-config-to-v4 - migrates your i3 config file</p>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_synopsis">2. SYNOPSIS</h2>
+<h2 id="_synopsis">SYNOPSIS</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
-<pre><tt>mv ~/.i3/config ~/.i3/old.config
-i3-migrate-config-to-v4 ~/.i3/old.config &gt; ~/.i3/config</tt></pre>
-</div></div>
+<pre>mv ~/.i3/config ~/.i3/old.config
+i3-migrate-config-to-v4 ~/.i3/old.config &gt; ~/.i3/config</pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_description">3. DESCRIPTION</h2>
+<h2 id="_description">DESCRIPTION</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>i3-migrate-config-to-v4 is a Perl script which migrates your old (&lt; version 4)
+<div class="paragraph">
+<p>i3-migrate-config-to-v4 is a Perl script which migrates your old (&lt; version 4)
 configuration files to a version 4 config file. The most significant changes
-are the new commands (see the release notes).</p></div>
-<div class="paragraph"><p>This script will automatically be run by i3 when it detects an old config file.
+are the new commands (see the release notes).</p>
+</div>
+<div class="paragraph">
+<p>This script will automatically be run by i3 when it detects an old config file.
 Please migrate your config file as soon as possible. We plan to include this
 script in all i3 release until 2012-08-01. Afterwards, old config files will no
-longer be supported.</p></div>
+longer be supported.</p>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_see_also">4. SEE ALSO</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>i3(1)</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_author">5. AUTHOR</h2>
+<h2 id="_see_also">SEE ALSO</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
+<div class="paragraph">
+<p>i3(1)</p>
 </div>
 </div>
-</main>
-<div id="footnotes"><hr /></div>
-<footer>
-    © 2009-present Michael Stapelberg,
-    <a href="/impress.html">Impressum</a>,
-    <a href="https://github.com/i3/i3.github.io">Source</a>
-</footer>
+</div>
+<div class="sect1">
+<h2 id="_author">AUTHOR</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Michael Stapelberg and contributors</p>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<div id="footer-text">
+Version 4.0<br>
+Last updated 2020-12-22 16:27:00 +0100
+</div>
+</div>
 </body>
 </html>
