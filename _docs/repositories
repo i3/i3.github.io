@@ -1,7 +1,7 @@
 Debian and Ubuntu repositories
 ==============================
 Michael Stapelberg <michael@i3wm.org>
-November 2018
+February 2021
 
 == When should you use our repositories?
 
@@ -57,11 +57,11 @@ This Ubuntu repository contains packages which are automatically built a few
 minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-$ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild-ubuntu/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
-# apt install ./keyring.deb
-# echo 'deb http://dl.bintray.com/i3/i3-autobuild-ubuntu bionic main' > /etc/apt/sources.list.d/i3-autobuild.list
-# apt update
-# apt install i3
+$ curl https://baltocdn.com/i3-window-manager/signing.asc | sudo apt-key add -
+$ sudo apt install apt-transport-https --yes
+$ echo "deb https://baltocdn.com/i3-window-manager/i3/i3-autobuild-ubuntu/ all main" | sudo tee /etc/apt/sources.list.d/i3-autobuild.list
+$ sudo apt update
+$ sudo apt install i3
 ---------------------------------------------------------------------------------
 
 Development versions are only available for the latest version of Ubuntu, which
@@ -73,11 +73,11 @@ Our Debian repository contains packages which are automatically built a few
 minutes after every commit. To use it, run the following commands:
 
 ---------------------------------------------------------------------------------
-$ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
-# apt install ./keyring.deb
-# echo 'deb http://dl.bintray.com/i3/i3-autobuild sid main' > /etc/apt/sources.list.d/i3-autobuild.list
-# apt update
-# apt install i3
+$ curl https://baltocdn.com/i3-window-manager/signing.asc | sudo apt-key add -
+$ sudo apt install apt-transport-https --yes
+$ echo "deb https://baltocdn.com/i3-window-manager/i3/i3-autobuild/ all main" | sudo tee /etc/apt/sources.list.d/i3-autobuild.list
+$ sudo apt update
+$ sudo apt install i3
 ---------------------------------------------------------------------------------
 
 == Preferring the autobuilder version of i3
@@ -92,8 +92,8 @@ your distribution, create the file
 
 ----------------------------
 Package: i3*
-Pin: origin "dl.bintray.com"
+Pin: origin "baltocdn.com"
 Pin-Priority: 1001
 ----------------------------
 
-Then, run +apt-get update+ and install +i3+.
+Then, run +apt update+ and install +i3+.
