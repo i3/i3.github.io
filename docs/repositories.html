@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 8.6.10" />
+<meta name="generator" content="AsciiDoc 9.0.5" />
 <title>i3: Debian and Ubuntu repositories</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes();},
 <h1>Debian and Ubuntu repositories</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revdate">November 2018</span>
+<span id="revdate">February 2021</span>
 </div>
 <div class="sect1">
 <h2 id="_when_should_you_use_our_repositories">1. When should you use our repositories?</h2>
@@ -106,11 +106,11 @@ this repository. See <a href="https://wiki.ubuntu.com/Releases">Ubuntu releases<
 minutes after every commit. To use it, run the following commands:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>$ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild-ubuntu/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
-# apt install ./keyring.deb
-# echo 'deb http://dl.bintray.com/i3/i3-autobuild-ubuntu bionic main' &gt; /etc/apt/sources.list.d/i3-autobuild.list
-# apt update
-# apt install i3</tt></pre>
+<pre><tt>$ curl https://baltocdn.com/i3-window-manager/signing.asc | sudo apt-key add -
+$ sudo apt install apt-transport-https --yes
+$ echo "deb https://baltocdn.com/i3-window-manager/i3/i3-autobuild-ubuntu/ all main" | sudo tee /etc/apt/sources.list.d/i3-autobuild.list
+$ sudo apt update
+$ sudo apt install i3</tt></pre>
 </div></div>
 <div class="paragraph"><p>Development versions are only available for the latest version of Ubuntu, which
 is bionic at the moment.</p></div>
@@ -124,11 +124,11 @@ is bionic at the moment.</p></div>
 minutes after every commit. To use it, run the following commands:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>$ /usr/lib/apt/apt-helper download-file http://dl.bintray.com/i3/i3-autobuild/pool/main/i/i3-autobuild-keyring/i3-autobuild-keyring_2016.10.01_all.deb keyring.deb SHA256:460e8c7f67a6ae7c3996cc8a5915548fe2fee9637b1653353ec62b954978d844
-# apt install ./keyring.deb
-# echo 'deb http://dl.bintray.com/i3/i3-autobuild sid main' &gt; /etc/apt/sources.list.d/i3-autobuild.list
-# apt update
-# apt install i3</tt></pre>
+<pre><tt>$ curl https://baltocdn.com/i3-window-manager/signing.asc | sudo apt-key add -
+$ sudo apt install apt-transport-https --yes
+$ echo "deb https://baltocdn.com/i3-window-manager/i3/i3-autobuild/ all main" | sudo tee /etc/apt/sources.list.d/i3-autobuild.list
+$ sudo apt update
+$ sudo apt install i3</tt></pre>
 </div></div>
 </div>
 </div>
@@ -144,10 +144,10 @@ your distribution, create the file
 <div class="listingblock">
 <div class="content">
 <pre><tt>Package: i3*
-Pin: origin "dl.bintray.com"
+Pin: origin "baltocdn.com"
 Pin-Priority: 1001</tt></pre>
 </div></div>
-<div class="paragraph"><p>Then, run <tt>apt-get update</tt> and install <tt>i3</tt>.</p></div>
+<div class="paragraph"><p>Then, run <tt>apt update</tt> and install <tt>i3</tt>.</p></div>
 </div>
 </div>
 </main>
