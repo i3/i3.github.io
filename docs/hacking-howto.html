@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 9.0.5" />
+<meta name="generator" content="AsciiDoc 9.1.0" />
 <title>i3: Hacking i3: How To</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -658,8 +658,8 @@ will handle the event, if not, it will replay the event.</p></div>
 the correct state.</p></div>
 <div class="paragraph"><p>Then, it looks through all bindings and gets the one which matches the received
 event.</p></div>
-<div class="paragraph"><p>The bound command is parsed by the cmdparse lexer/parser, see <tt>parse_cmd</tt> in
-<tt>src/cmdparse.y</tt>.</p></div>
+<div class="paragraph"><p>The bound command is parsed by the i3 parser, see <tt>parse_command</tt> in
+<tt>src/commands_parser.c</tt>.</p></div>
 </div>
 </div>
 </div>

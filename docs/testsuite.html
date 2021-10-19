@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 9.0.5" />
+<meta name="generator" content="AsciiDoc 9.1.0" />
 <title>i3: i3 testsuite</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -528,7 +528,7 @@ IPC anymore.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="i3_sync">5. Appendix A: The i3 sync protocol</h2>
+<h2 id="i3_sync">5. Appendix A: The I3_SYNC protocol</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Consider the following situation: You open two windows in your testcase, then
 you use <tt>focus left</tt> and want to verify that the X11 focus has been updated
@@ -545,9 +545,9 @@ is($x-&gt;input_focus, $left-&gt;id, 'left window focused');</tt></pre>
 <div class="paragraph"><p>However, the test fails. Sometimes. Apparently, there is a race condition in
 your test. If you think about it, this is because you are using two different
 pieces of software: You tell i3 to update focus, i3 confirms that, and then you
-ask X11 to give you the current focus. There is a certain time i3 needs to
-update the X11 state. If the testcase gets CPU time before X11 processed i3&#8217;s
-requests, the test will fail.</p></div>
+ask X11 to give you the current focus. There is a certain time that the X11
+server needs to process the requests from i3. If the testcase&#8217;s request for the
+input focus is processed before i3&#8217;s requests, the test will fail.</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="i3-sync.png" alt="Diagram of the race condition" />
@@ -589,10 +589,10 @@ to check whether everything still works quite often (which you should).</p></div
 less robust.</p></div>
 <div class="paragraph"><p>The real solution for this problem is a mechanism which I call "the i3 sync
 protocol". The idea is to send a request (which does not modify state) via X11
-to i3 which will then be answered. Due to the request&#8217;s position in the event
-queue (<strong>after</strong> all previous events), you can be sure that by the time you
-receive the reply, all other events have been dealt with by i3 (and, more
-importantly, X11).</p></div>
+to i3 which will then be answered, again via X11. Because this answer is
+generated via an X11 request, it will be sent to the X11 server <strong>after</strong> all
+previous requests. Thus, you can be sure that by the time you receive the reply,
+all other events have been dealt with by i3 (and, more importantly, X11).</p></div>
 <div class="imageblock">
 <div class="content">
 <img src="i3-sync-working.png" alt="Diagram of the i3 sync solution" />
@@ -632,7 +632,46 @@ the same one when getting the reply.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_appendix_b_socket_activation">6. Appendix B: Socket activation</h2>
+<h2 id="_appendix_b_the_sync_ipc_command">6. Appendix B: The sync IPC command</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The above I3_SYNC protocol allows to synchronise with i3. However, it is not
+enough for tests that also involve i3bar: There might still be messages from
+i3bar in-flight even after synchronising with i3. Thus, there also exists a sync
+IPC command, that is however not meant to be used directly. Instead, i3bar uses
+it for implementing the I3_SYNC protocol.</p></div>
+<div class="paragraph"><p>The intended usage works like this:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+You send an I3_SYNC message to i3bar&#8217;s window. See <a href="#i3_sync">[i3_sync]</a>.
+</p>
+</li>
+<li>
+<p>
+i3bar sends a SYNC IPC command to i3 with payload
+   <tt>{"window":your-window-here,"rnd":your-random-value}</tt>.
+</p>
+</li>
+<li>
+<p>
+i3 reacts to this IPC command as if it received an I3_SYNC request via X11.
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>This protocol is used, for example, in t/525-i3bar-mouse-bindings.t: A mouse
+button press on i3bar is triggered. i3bar reacts to this by sending IPC commands
+to i3.</p></div>
+<div class="paragraph"><p>The necessary synchronisation is achieved by sending an I3_SYNC event to i3bar:
+Because i3bar reacts with a sync IPC command to i3, all previous IPC commands from
+i3bar will be handled first. Because i3 reacts via X11, all previous X11
+requests from i3 will be handled by the X11 server first.</p></div>
+<div class="paragraph"><p>The actual test also has to sync with i3 first due to how X11 handling works.
+For more details, refer to the documentation for <tt>XAllowEvents</tt> with mode
+<tt>ReplayPointer</tt>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_appendix_c_socket_activation">7. Appendix C: Socket activation</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Socket activation is a mechanism which was made popular by systemd, an init
 replacement. It basically describes creating a listening socket before starting
@@ -641,7 +680,7 @@ the socket is made, hence the term socket activation.</p></div>
 <div class="paragraph"><p>The interesting part of this (in the i3 context) is that you can very precisely
 detect when the program is ready (finished its initialization).</p></div>
 <div class="sect2">
-<h3 id="_preparing_the_listening_socket">6.1. Preparing the listening socket</h3>
+<h3 id="_preparing_the_listening_socket">7.1. Preparing the listening socket</h3>
 <div class="paragraph"><p><tt>complete-run.pl</tt> will create a listening UNIX socket which it will then pass
 to i3. This socket will be used by i3 as an additional IPC socket, just like
 the one it will create on its own. Passing the socket happens implicitly
@@ -686,7 +725,7 @@ if ($pid == 0) {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_waiting_for_a_reply">6.2. Waiting for a reply</h3>
+<h3 id="_waiting_for_a_reply">7.2. Waiting for a reply</h3>
 <div class="paragraph"><p>In the parent process, we want to know when i3 is ready to answer our IPC
 requests and handle our windows. Therefore, after forking, we immediately close
 the listening socket (i3 will handle this side of the socket) and connect to it
@@ -703,7 +742,7 @@ completed successfully by the time the event loop is entered, we can now assume
 that i3 is ready.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_timing_and_conclusion">6.3. Timing and conclusion</h3>
+<h3 id="_timing_and_conclusion">7.3. Timing and conclusion</h3>
 <div class="paragraph"><p>A beautiful feature of this mechanism is that it does not depend on timing. It
 does not matter when the child process gets CPU time or when the parent process
 gets CPU time. On heavily loaded machines (or machines with multiple CPUs,

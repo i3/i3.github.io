@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 9.0.5" />
+<meta name="generator" content="AsciiDoc 9.1.0" />
 <title>i3: IPC interface (interprocess communication)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -53,7 +53,8 @@ most languages. In the default configuration file, the ipc-socket gets created
 in <tt>/tmp/i3-%u.XXXXXX/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username, <tt>%p</tt> is
 the PID of i3 and XXXXXX is a string of random characters from the portable
 filename character set (see mkdtemp(3)). You can get the socketpath from i3 by
-calling <tt>i3 --get-socketpath</tt>.</p></div>
+executing <tt>i3 --get-socketpath</tt>, which will print the path to the standard
+output (plus a newline).</p></div>
 <div class="paragraph"><p>All i3 utilities, like <tt>i3-msg</tt> and <tt>i3-input</tt> will read the <tt>I3_SOCKET_PATH</tt>
 X11 property, stored on the X11 root window.</p></div>
 <div class="admonitionblock">
@@ -86,12 +87,12 @@ my $sock = IO::Socket::UNIX-&gt;new(Peer =&gt; $path);</tt></pre>
 <div class="sect1">
 <h2 id="_sending_messages_to_i3">2. Sending messages to i3</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>To send a message to i3, you have to format in the binary message format which
-i3 expects. This format specifies a magic string in the beginning to ensure
-the integrity of messages (to prevent follow-up errors). Following the magic
-string comes the length of the payload of the message as 32-bit integer, and
-the type of the message as 32-bit integer (the integers are not converted, so
-they are in native byte order).</p></div>
+<div class="paragraph"><p>To send a message to i3, you have to format it in the binary message format
+which i3 expects. This format specifies a magic string in the beginning to
+ensure the integrity of messages (to prevent follow-up errors). Following the
+magic string comes the length of the payload of the message as a 32-bit
+integer, and the type of the message as a 32-bit integer (the integers are not
+converted, so they are in native byte order).</p></div>
 <div class="paragraph"><p>The magic string currently is "i3-ipc" and will only be changed when a change
 in the IPC API is done which breaks compatibility (we hope that we don’t need
 to do that).</p></div>
@@ -224,16 +225,25 @@ $sock-&gt;write(format_ipc_command("exit"));</tt></pre>
 <div class="sect1">
 <h2 id="_receiving_replies_from_i3">3. Receiving replies from i3</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>Replies from i3 usually consist of a simple string (the length of the string
-is the message_length, so you can consider them length-prefixed) which in turn
-contain the JSON serialization of a data structure. For example, the
-GET_WORKSPACES message returns an array of workspaces (each workspace is a map
-with certain attributes).</p></div>
-<div class="sect2">
-<h3 id="_reply_format">3.1. Reply format</h3>
+<div class="paragraph"><p>Each message sent to i3 will cause exactly one reply to be sent in return. The
+order of the sent replies will always correspond to the order of the sent
+requests. The only exception to this is <a href="#events">[events]</a>, which (once subscribed to)
+may be sent at any time (though never in the middle of another event or reply).</p></div>
+<div class="paragraph"><p>It is generally safe to send several messages to i3 without first waiting for a
+reply for each one (pipelining)&#8201;&#8212;&#8201;though, note that depending on the language /
+network library you use, writing to the socket without also reading from it may
+cause a deadlock due to the socket buffers getting full.</p></div>
 <div class="paragraph"><p>The reply format is identical to the normal message format. There also is
 the magic string, then the message length, then the message type and the
 payload.</p></div>
+<div class="paragraph"><p>The payload of replies from i3 usually consists of a simple string (the length
+of the string is the message_length, so you can consider them length-prefixed),
+which in turn contain the JSON serialization of a data structure. For example,
+the GET_WORKSPACES message returns an array of workspaces (each workspace is a
+map with certain attributes).</p></div>
+<div class="paragraph"><p>Replies currently have a 1:1 correspondence to messages, with the message type
+of the reply corresponding to the message type of the message which caused the
+reply to be sent.</p></div>
 <div class="paragraph"><p>The following reply types are implemented:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -325,6 +335,14 @@ TICK (10)
 </p>
 </dd>
 <dt class="hdlist1">
+SYNC (11)
+</dt>
+<dd>
+<p>
+        Reply to the SYNC message.
+</p>
+</dd>
+<dt class="hdlist1">
 GET_BINDING_STATE (12)
 </dt>
 <dd>
@@ -334,8 +352,18 @@ GET_BINDING_STATE (12)
 </dd>
 </dl></div>
 </div>
+</div>
+<div class="sect1">
+<h2 id="_messages_and_replies">4. Messages and replies</h2>
+<div class="sectionbody">
 <div class="sect2">
-<h3 id="_command_reply">3.2. COMMAND reply</h3>
+<h3 id="_command_reply">4.1. RUN_COMMAND / COMMAND</h3>
+<div class="paragraph"><p>Run the payload as an <a href="https://i3wm.org/docs/userguide.html#list_of_commands">i3
+command</a> (like the commands you can bind to keys).</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>The message payload is the string containing the command to execute. There is
+no JSON encoding or trailing newline.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply consists of a list of serialized maps for each command that was
 parsed. Each has the property <tt>success (bool)</tt> and may also include a
 human-readable error message in the property <tt>error (string)</tt>.</p></div>
@@ -385,7 +413,11 @@ sending a reply. Expect the socket to be shut down.</td>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_workspaces_reply">3.3. WORKSPACES reply</h3>
+<h3 id="_workspaces_reply">4.2. GET_WORKSPACES / WORKSPACES</h3>
+<div class="paragraph"><p>Get the list of current workspaces.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply consists of a serialized list of workspaces. Each workspace has the
 following properties:</p></div>
 <div class="dlist"><dl>
@@ -497,7 +529,12 @@ output (string)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_subscribe_reply">3.4. SUBSCRIBE reply</h3>
+<h3 id="_subscribe_reply">4.3. SUBSCRIBE</h3>
+<div class="paragraph"><p>Subscribe this IPC connection to the event types specified in the message
+payload. See <a href="#events">[events]</a>.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>A JSON-encoded array of event types to subscribe to.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply consists of a single serialized map. The only property is
 <tt>success (bool)</tt>, indicating whether the subscription was successful (the
 default) or whether a JSON parse error occurred.</p></div>
@@ -508,7 +545,11 @@ default) or whether a JSON parse error occurred.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_outputs_reply">3.5. OUTPUTS reply</h3>
+<h3 id="_outputs_reply">4.4. GET_OUTPUTS / OUTPUTS</h3>
+<div class="paragraph"><p>Get the list of current outputs.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply consists of a serialized list of outputs. Each output has the
 following properties:</p></div>
 <div class="dlist"><dl>
@@ -537,7 +578,7 @@ primary (boolean)
 </p>
 </dd>
 <dt class="hdlist1">
-current_workspace (string)
+current_workspace (string or null)
 </dt>
 <dd>
 <p>
@@ -585,7 +626,11 @@ rect (map)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_tree_reply">3.6. TREE reply</h3>
+<h3 id="_tree_reply">4.5. GET_TREE / TREE</h3>
+<div class="paragraph"><p>Get the i3 layout tree.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply consists of a serialized tree. Each node in the tree (representing
 one container) has at least the properties listed below. While the nodes might
 have more properties, please do not use any properties which are not documented
@@ -663,7 +708,7 @@ orientation (string)
 </p>
 </dd>
 <dt class="hdlist1">
-percent (float)
+percent (float or null)
 </dt>
 <dd>
 <p>
@@ -717,12 +762,12 @@ geometry (map)
 </p>
 </dd>
 <dt class="hdlist1">
-window (integer)
+window (integer or null)
 </dt>
 <dd>
 <p>
         The X11 window ID of the <strong>actual client window</strong> inside this container.
-        This field is set to null for split containers or otherwise empty
+        This field is set to <tt>null</tt> for split containers or otherwise empty
         containers. This ID corresponds to what xwininfo(1) and other
         X11-related tools display (usually in hex).
 </p>
@@ -733,7 +778,8 @@ window_properties (map)
 <dd>
 <p>
         This optional field contains all available X11 window properties from the
-        following list: <strong>title</strong>, <strong>instance</strong>, <strong>class</strong>, <strong>window_role</strong> and <strong>transient_for</strong>.
+        following list: <strong>title</strong>, <strong>instance</strong>, <strong>class</strong>, <strong>window_role</strong>, <strong>machine</strong>
+        and <strong>transient_for</strong>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -798,6 +844,15 @@ fullscreen_mode (integer)
 </p>
 </dd>
 <dt class="hdlist1">
+floating (string)
+</dt>
+<dd>
+<p>
+        Floating state of container.
+        Can be either "auto_on", "auto_off", "user_on" or "user_off"
+</p>
+</dd>
+<dt class="hdlist1">
 nodes (array of node)
 </dt>
 <dd>
@@ -812,6 +867,16 @@ floating_nodes (array of node)
 <p>
         The floating child containers of this node. Only non-empty on nodes with
         type <tt>workspace</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+scratchpad_state (string)
+</dt>
+<dd>
+<p>
+        Whether the window is not in the scratchpad ("none"), freshly moved to
+        the scratchpad but not yet resized ("fresh") or moved to the scratchpad
+        and resized ("changed").
 </p>
 </dd>
 </dl></div>
@@ -1000,14 +1065,22 @@ VGA1
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_marks_reply">3.7. MARKS reply</h3>
+<h3 id="_marks_reply">4.6. GET_MARKS / MARKS</h3>
+<div class="paragraph"><p>Gets the names of all currently set marks.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply consists of a single array of strings for each container that has a
 mark. A mark can only be set on one container, so the array is unique.
 The order of that array is undefined.</p></div>
 <div class="paragraph"><p>If no window has a mark the response will be the empty array [].</p></div>
 </div>
 <div class="sect2">
-<h3 id="_bar_config_reply">3.8. BAR_CONFIG reply</h3>
+<h3 id="_bar_config_reply">4.7. GET_BAR_CONFIG / BAR_CONFIG</h3>
+<div class="paragraph"><p>Gets the specified bar configuration or the names of all bar configurations if payload is empty.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload, or the ID of the bar whose configuration to retrieve.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>This can be used by third-party workspace bars (especially i3bar, but others
 are free to implement compatible alternatives) to get the <tt>bar</tt> block
 configuration from i3.</p></div>
@@ -1237,7 +1310,11 @@ binding_mode_text/binding_mode_bg/binding_mode_border
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_version_reply">3.9. VERSION reply</h3>
+<h3 id="_version_reply">4.8. GET_VERSION / VERSION</h3>
+<div class="paragraph"><p>Gets the i3 version.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply consists of a single JSON dictionary with the following keys:</p></div>
 <div class="dlist"><dl>
 <dt class="hdlist1">
@@ -1300,7 +1377,11 @@ loaded_config_file_name (string)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_binding_modes_reply">3.10. BINDING_MODES reply</h3>
+<h3 id="_binding_modes_reply">4.9. GET_BINDING_MODES / BINDING_MODES</h3>
+<div class="paragraph"><p>Gets the names of all currently configured binding modes.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply consists of an array of all currently configured binding modes.</p></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
@@ -1309,17 +1390,88 @@ loaded_config_file_name (string)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_config_reply">3.11. CONFIG reply</h3>
-<div class="paragraph"><p>The config reply is a map which currently only contains the "config" member,
-which is a string containing the config file as loaded by i3 most recently.</p></div>
+<h3 id="_config_reply">4.10. GET_CONFIG / CONFIG</h3>
+<div class="paragraph"><p>Returns the last loaded i3 config.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
+<div class="paragraph"><p>The config reply is a map which contains the following fields:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+config (string)
+</dt>
+<dd>
+<p>
+        The top-level config file contents that i3 has loaded most recently.
+        This field is kept for backwards compatibility. See <tt>included_configs</tt>
+        instead.
+</p>
+</dd>
+<dt class="hdlist1">
+included_configs (array of maps)
+</dt>
+<dd>
+<p>
+        i3 adds one entry to this array for each config file it loads, in
+        order. The first entry’s <tt>raw_contents</tt> are identical to the <tt>config</tt>
+        field.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Each <tt>included_configs</tt> entry contains the following fields</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+path (string)
+</dt>
+<dd>
+<p>
+        Absolute path name to the config file that i3 loaded.
+</p>
+</dd>
+<dt class="hdlist1">
+raw_contents (string)
+</dt>
+<dd>
+<p>
+        The raw contents of the file as i3 read them.
+</p>
+</dd>
+<dt class="hdlist1">
+variable_replaced_contents (string)
+</dt>
+<dd>
+<p>
+        The contents of the file after i3 replaced all variables. This is useful
+        for debugging variable replacement.
+</p>
+</dd>
+</dl></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>{ "config": "font pango:monospace 8\nbindsym Mod4+q exit\n" }</tt></pre>
+<pre><tt>{
+  "config": "include font.cfg\n",
+  "included_configs": [
+    {
+      "path": "/home/michael/configfiles/i3/config",
+      "raw_contents": "include font.cfg\n",
+      "variable_replaced_contents": "include font.cfg\n"
+    },
+    {
+      "path": "/home/michael/configfiles/i3/font.cfg",
+      "raw_contents": "set $font pango:monospace 8\nfont $font",
+      "variable_replaced_contents": "set pango:monospace 8 pango:monospace 8\nfont pango:monospace 8\n"
+    }
+  ],
+}</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_tick_reply">3.12. TICK reply</h3>
+<h3 id="_tick_reply">4.11. SEND_TICK / TICK</h3>
+<div class="paragraph"><p>Sends a tick event with the specified payload.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>The payload of the tick event to send to IPC event listeners.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply is a map containing the "success" member. After the reply was
 received, the tick event has been written to all IPC connections which subscribe
 to tick events. UNIX sockets are usually buffered, but you can be certain that
@@ -1332,7 +1484,11 @@ events generated prior to the <tt>SEND_TICK</tt> message (happened-before relati
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_sync_reply">3.13. SYNC reply</h3>
+<h3 id="_sync_reply">4.12. SYNC</h3>
+<div class="paragraph"><p>Sends an i3 sync event with the specified random value to the specified window.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>A JSON-encoded map with the properties "rnd" and "window" (both integer).</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The reply is a map containing the "success" member. After the reply was
 received, the <a href="https://i3wm.org/docs/testsuite.html#i3_sync">i3 sync message</a> was
 responded to.</p></div>
@@ -1343,7 +1499,11 @@ responded to.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_binding_state_reply">3.14. GET_BINDING_STATE reply</h3>
+<h3 id="_binding_state_reply">4.13. GET_BINDING_STATE</h3>
+<div class="paragraph"><p>Request the current binding state, i.e. the currently active binding mode name.</p></div>
+<div class="paragraph"><p><strong>Message:</strong></p></div>
+<div class="paragraph"><p>No payload.</p></div>
+<div class="paragraph"><p><strong>Reply:</strong></p></div>
 <div class="paragraph"><p>The binding_state reply is a map which currently only contains the "name"
 member, which is the name of the currently active binding mode as a string.</p></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
@@ -1355,7 +1515,7 @@ member, which is the name of the currently active binding mode as a string.</p><
 </div>
 </div>
 <div class="sect1">
-<h2 id="_events">4. Events</h2>
+<h2 id="_events">5. Events</h2>
 <div class="sectionbody">
 <div class="paragraph" id="events"><p>To get informed when certain things happen in i3, clients can subscribe to
 events. Events consist of a name (like "workspace") and an event reply type
@@ -1379,7 +1539,7 @@ not empty and no data where successfully written in the past 10 seconds, the
 connection is killed. Practically, this means that your client should try to
 always read events from the socket to avoid having its connection closed.</p></div>
 <div class="sect2">
-<h3 id="_subscribing_to_events">4.1. Subscribing to events</h3>
+<h3 id="_subscribing_to_events">5.1. Subscribing to events</h3>
 <div class="paragraph"><p>By sending a message of type SUBSCRIBE with a JSON-encoded array as payload
 you can register to an event.</p></div>
 <div class="paragraph"><p><strong>Example:</strong></p></div>
@@ -1390,7 +1550,7 @@ payload: [ "workspace", "output" ]</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_available_events">4.2. Available events</h3>
+<h3 id="_available_events">5.2. Available events</h3>
 <div class="paragraph"><p>The numbers in parenthesis is the event type (keep in mind that you need to
 strip the highest bit first).</p></div>
 <div class="dlist"><dl>
@@ -1488,7 +1648,7 @@ if ($is_event) {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_workspace_event">4.3. workspace event</h3>
+<h3 id="_workspace_event">5.3. workspace event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
 <tt>change (string)</tt> which indicates the type of the change ("focus", "init",
 "empty", "urgent", "reload", "rename", "restored", "move"). A
@@ -1519,7 +1679,7 @@ property.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_output_event">4.4. output event</h3>
+<h3 id="_output_event">5.4. output event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
 <tt>change (string)</tt> which indicates the type of the change (currently only
 "unspecified").</p></div>
@@ -1530,7 +1690,7 @@ property.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_mode_event">4.5. mode event</h3>
+<h3 id="_mode_event">5.5. mode event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
 <tt>change (string)</tt> which holds the name of current mode in use. The name
 is the same as specified in config when creating a mode. The default
@@ -1546,7 +1706,7 @@ defines whether pango markup shall be used for displaying this mode.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_window_event">4.6. window event</h3>
+<h3 id="_window_event">5.6. window event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
 <tt>change (string)</tt> which indicates the type of the change</p></div>
 <div class="ulist"><ul>
@@ -1615,13 +1775,13 @@ this point get the window title as "urxvt").</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_barconfig_update_event">4.7. barconfig_update event</h3>
+<h3 id="_barconfig_update_event">5.7. barconfig_update event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map reporting on options from the
 barconfig of the specified bar_id that were updated in i3. This event is the
 same as a <tt>GET_BAR_CONFIG</tt> reply for the bar with the given id.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_binding_event">4.8. binding event</h3>
+<h3 id="_binding_event">5.8. binding event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map reporting on the details of a
 binding that ran a command because of user input. The <tt>change (string)</tt> field
 indicates what sort of binding event was triggered (right now it will always be
@@ -1692,7 +1852,7 @@ input_type (string)
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_shutdown_event">4.9. shutdown event</h3>
+<h3 id="_shutdown_event">5.9. shutdown event</h3>
 <div class="paragraph"><p>This event is triggered when the connection to the ipc is about to shutdown
 because of a user action such as a <tt>restart</tt> or <tt>exit</tt> command. The <tt>change
 (string)</tt> field indicates why the ipc is shutting down. It can be either
@@ -1706,7 +1866,7 @@ because of a user action such as a <tt>restart</tt> or <tt>exit</tt> command. Th
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_tick_event">4.10. tick event</h3>
+<h3 id="_tick_event">5.10. tick event</h3>
 <div class="paragraph"><p>This event is triggered by a subscription to tick events or by a <tt>SEND_TICK</tt>
 message.</p></div>
 <div class="paragraph"><p><strong>Example (upon subscription):</strong></p></div>
@@ -1729,7 +1889,7 @@ message.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_see_also_existing_libraries">5. See also (existing libraries)</h2>
+<h2 id="_see_also_existing_libraries">6. See also (existing libraries)</h2>
 <div class="sectionbody">
 <div class="paragraph" id="libraries"><p>For some languages, libraries are available (so you don’t have to implement
 all this on your own). This list names some (if you wrote one, please let me
@@ -1889,7 +2049,7 @@ OCaml
 </div>
 </div>
 <div class="sect1">
-<h2 id="_appendix_a_detecting_byte_order_in_memory_safe_languages">6. Appendix A: Detecting byte order in memory-safe languages</h2>
+<h2 id="_appendix_a_detecting_byte_order_in_memory_safe_languages">7. Appendix A: Detecting byte order in memory-safe languages</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Some programming languages such as Go don’t offer a way to serialize data in the
 native byte order of the machine they’re running on without resorting to tricks

@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 9.0.5" />
+<meta name="generator" content="AsciiDoc 9.1.0" />
 <title>i3: Layout saving in i3</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -223,9 +223,9 @@ the Emacs window:</p></div>
 Therefore, if you just start Emacs via dmenu, it will not get swallowed by that
 container. Only if you start Emacs with the proper instance name (<tt>emacs24
 --name notmuch</tt>), it will get swallowed.</p></div>
-<div class="paragraph"><p>You can match on "class", "instance", "window_role" and "title". All values are
-case-sensitive regular expressions (PCRE). Use <tt>xprop(1)</tt> and click into a
-window to see its properties:</p></div>
+<div class="paragraph"><p>You can match on "class", "instance", "window_role", "title" and "machine". All
+values are case-sensitive regular expressions (PCRE). Use <tt>xprop(1)</tt> and click
+into a window to see its properties:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>$ xprop
