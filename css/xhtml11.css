@@ -61,6 +61,7 @@ ul, ol, li > p {
 pre {
   padding: 0;
   margin: 0;
+  overflow-x: auto;
 }
 
 span#author {
