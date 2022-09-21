@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 9.1.0" />
+<meta name="generator" content="AsciiDoc 10.2.0" />
 <title>i3: i3 User’s Guide</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -267,10 +267,67 @@ floating windows using the mouse is to right-click on the titlebar and drag.</p>
 provided by the i3 <a href="https://github.com/i3/i3/blob/next/etc/config.keycodes">default config</a>.</p></div>
 <div class="paragraph"><p>Floating windows are always on top of tiling windows.</p></div>
 </div>
+<div class="sect2">
+<h3 id="_moving_tiling_containers_with_the_mouse">2.12. Moving tiling containers with the mouse</h3>
+<div class="paragraph"><p>Since i3 4.21, it&#8217;s possible to drag tiling containers using the mouse. The
+drag can be initiated either by dragging the window&#8217;s titlebar or by pressing
+the <a href="#floating_modifier">[floating_modifier]</a> and dragging the container while holding the
+left-click button.</p></div>
+<div class="paragraph"><p>Once the drag is initiated and the cursor has left the original container, drop
+indicators are created according to the position of the cursor relatively to
+the target container. These indicators help you understand what the resulting
+<a href="#tree">[tree]</a> layout is going to be after you release the mouse button.</p></div>
+<div class="paragraph"><p>The possible drop positions are:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Drop on container
+</dt>
+<dd>
+<p>
+    This happens when the mouse is relatively near the center of a container.
+    If the mouse is released, the result is exactly as if you had run the
+    <tt>move container to mark</tt> command. See <a href="#move_to_mark">[move_to_mark]</a>.
+</p>
+</dd>
+<dt class="hdlist1">
+Drop as sibling
+</dt>
+<dd>
+<p>
+    This happens when the mouse is relatively near the edge of a container. If
+    the mouse is released, the dragged container will become a sibling of the
+    target container, placed left/right/up/down according to the position of
+    the indicator.
+    This might or might not create a new v-split or h-split according to the
+    previous layout of the target container. For example, if the target
+    container is in an h-split and you drop the dragged container below it, the
+    new layout will have to be a v-split.
+</p>
+</dd>
+<dt class="hdlist1">
+Drop to parent
+</dt>
+<dd>
+<p>
+    This happens when the mouse is relatively near the edge of a container (but
+    even closer to the border in comparison to the sibling case above) <strong>and</strong> if
+    that edge is also the parent container&#8217;s edge. For example, if three
+    containers are in a horizontal layout then edges where this can happen is
+    the left edge of the left container, the right edge of the right container
+    and all bottom and top edges of all three containers.
+    If the mouse is released, the container is first dropped as a sibling to
+    the target container, like in the case above, and then is moved
+    directionally like with the <tt>move left|right|down|up</tt> command. See
+    <a href="#move_direction">[move_direction]</a>.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>The color of the indicator matches the <tt>client.focused</tt> setting. See <a href="#client_colors">[client_colors]</a>.</p></div>
+</div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_tree">3. Tree</h2>
+<h2 id="tree">3. Tree</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>i3 stores all information about the X11 outputs, workspaces and layout of the
 windows on them in a tree. The root node is the X11 root window, followed by
@@ -646,7 +703,7 @@ for the keybinding.</p></div>
 <pre><tt># The middle button over a titlebar kills the window
 bindsym --release button2 kill
 
-# The middle button and a modifer over any part of the window kills the window
+# The middle button and a modifier over any part of the window kills the window
 bindsym --whole-window $mod+button2 kill
 
 # The right button toggles floating
@@ -1109,7 +1166,7 @@ workspace "2: vim" output VGA1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_changing_colors">4.21. Changing colors</h3>
+<h3 id="client_colors">4.21. Changing colors</h3>
 <div class="paragraph"><p>You can change all colors which i3 uses to draw the window decorations.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -1133,6 +1190,16 @@ client.focused_inactive
 <p>
         A client which is the focused one of its container, but it does not have
         the focus at the moment.
+</p>
+</dd>
+<dt class="hdlist1">
+client.focused_tab_title
+</dt>
+<dd>
+<p>
+    Tab or stack container title that is the parent of the focused container
+    but not directly focused. Defaults to focused_inactive if not specified and
+    does not use the indicator and child_border colors.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -1199,7 +1266,7 @@ from single windows outside of a split container.</p></div>
 <div class="paragraph"><p>i3 uses Unix sockets to provide an IPC interface. This allows third-party
 programs to get information from i3, such as the current workspaces
 (to display a workspace bar), and to control i3.</p></div>
-<div class="paragraph"><p>The IPC socket is enabled by default and will be created in
+<div class="paragraph"><p>By default, an IPC socket will be created in
 <tt>$XDG_RUNTIME_DIR/i3/ipc-socket.%p</tt> if the directory is available, falling back
 to <tt>/tmp/i3-%u.XXXXXX/ipc-socket.%p</tt>, where <tt>%u</tt> is your UNIX username, <tt>%p</tt> is
 the PID of i3 and XXXXXX is a string of random characters from the portable
@@ -2563,7 +2630,7 @@ output
 focus left|right|down|up
 focus parent|child|floating|tiling|mode_toggle
 focus next|prev [sibling]
-focus output left|right|up|down|primary|&lt;output&gt;</tt></pre>
+focus output left|right|down|up|current|primary|next|&lt;output1&gt; [output2]…</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
@@ -2583,6 +2650,9 @@ bindsym $mod+u focus parent
 # Focus last floating/tiling container
 bindsym $mod+g focus mode_toggle
 
+# Focus the next output (effectively toggles when you only have two outputs)
+bindsym $mod+x move workspace to output next
+
 # Focus the output right to the current one
 bindsym $mod+x focus output right
 
@@ -2590,7 +2660,10 @@ bindsym $mod+x focus output right
 bindsym $mod+x focus output HDMI-2
 
 # Focus the primary output
-bindsym $mod+x focus output primary</tt></pre>
+bindsym $mod+x focus output primary
+
+# Cycle focus between outputs VGA1 and LVDS1 but not DVI0
+bindsym $mod+x move workspace to output VGA1 LVDS1</tt></pre>
 </div></div>
 <div class="paragraph"><p>Note that you might not have a primary output configured yet. To do so, run:</p></div>
 <div class="listingblock">
@@ -2599,7 +2672,7 @@ bindsym $mod+x focus output primary</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_moving_containers">6.5. Moving containers</h3>
+<h3 id="move_direction">6.5. Moving containers</h3>
 <div class="paragraph"><p>Use the <tt>move</tt> command to move a container.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -2838,9 +2911,11 @@ bindsym $mod+2 workspace number "2: mail"
 </div></div>
 <div class="paragraph"><p>If a workspace does not exist, the command <tt>workspace number "1: mail"</tt> will
 create workspace "1: mail".</p></div>
-<div class="paragraph"><p>If a workspace with number 1 does already exist, the command will switch to this
+<div class="paragraph"><p>If a workspace with number 1 already exists, the command will switch to this
 workspace and ignore the text part. So even when the workspace has been renamed
-to "1: web", the above command will still switch to it.</p></div>
+"1: web", the above command will still switch to it.  The command <tt>workspace 1</tt>
+will however create and move to a new workspace "1" alongside the existing
+"1: mail" workspace.</p></div>
 </div>
 </div>
 <div class="sect2">
@@ -2886,7 +2961,7 @@ the first specified output. Non-existing outputs are skipped.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_moving_containers_windows_to_marks">6.11. Moving containers/windows to marks</h3>
+<h3 id="move_to_mark">6.11. Moving containers/windows to marks</h3>
 <div class="paragraph"><p>To move a container to another container with a specific mark (see <a href="#vim_like_marks">[vim_like_marks]</a>),
 you can use the following command.</p></div>
 <div class="paragraph"><p>The window will be moved right after the marked container in the tree, i.e., it ends up
@@ -3087,8 +3162,8 @@ specific windows or for all windows (using the <a href="#for_window">[for_window
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>title_window_icon &lt;yes|no&gt;
-title_window_icon padding &lt;px&gt;</tt></pre>
+<pre><tt>title_window_icon &lt;yes|no|toggle&gt;
+title_window_icon &lt;padding|toggle&gt; &lt;px&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
