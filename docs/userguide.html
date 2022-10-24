@@ -268,7 +268,7 @@ provided by the i3 <a href="https://github.com/i3/i3/blob/next/etc/config.keycod
 <div class="paragraph"><p>Floating windows are always on top of tiling windows.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_moving_tiling_containers_with_the_mouse">2.12. Moving tiling containers with the mouse</h3>
+<h3 id="tiling_drag">2.12. Moving tiling containers with the mouse</h3>
 <div class="paragraph"><p>Since i3 4.21, it&#8217;s possible to drag tiling containers using the mouse. The
 drag can be initiated either by dragging the window&#8217;s titlebar or by pressing
 the <a href="#floating_modifier">[floating_modifier]</a> and dragging the container while holding the
@@ -1538,6 +1538,28 @@ fullscreen toggle
 
 # this line is not continued \
 bindsym Mod1+F fullscreen toggle</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="config_tiling_drag">4.33. Tiling drag</h3>
+<div class="paragraph"><p>You can configure how to initiate the tiling drag feature (see <a href="#tiling_drag">[tiling_drag]</a>).</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>tiling_drag off
+tiling_drag modifier|titlebar [modifier|titlebar]</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Examples</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Only initiate a tiling drag when the modifier is held:
+tiling_drag modifier
+
+# Initiate a tiling drag on either titlebar click or held modifier:
+tiling_drag modifier titlebar
+
+# Disable tiling drag altogether
+tiling_drag off</tt></pre>
 </div></div>
 </div>
 </div>
