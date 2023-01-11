@@ -33,14 +33,9 @@ If you want the latest i3 development version::
 This Ubuntu repository is provided by sur5r and contains the latest stable
 release of i3. To use it, run the following commands:
 
-////////////////////////////////////////////////////////////////////////////////
-TODO: Replace dpkg -i with apt install ./ below after 2019-05.
-See https://github.com/i3/i3.github.io/pull/35
-////////////////////////////////////////////////////////////////////////////////
-
 ---------------------------------------------------------------------------------
 $ /usr/lib/apt/apt-helper download-file https://debian.sur5r.net/i3/pool/main/s/sur5r-keyring/sur5r-keyring_2022.02.17_all.deb keyring.deb SHA256:52053550c4ecb4e97c48900c61b2df4ec50728249d054190e8a0925addb12fc6
-$ sudo dpkg -i ./keyring.deb
+$ sudo apt install ./keyring.deb
 $ echo "deb http://debian.sur5r.net/i3/ $(grep '^DISTRIB_CODENAME=' /etc/lsb-release | cut -f2 -d=) universe" | sudo tee /etc/apt/sources.list.d/sur5r-i3.list
 $ sudo apt update
 $ sudo apt install i3
