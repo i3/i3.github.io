@@ -51,7 +51,7 @@ you find necessary, please do not hesitate to contact me.</p></div>
 <strong style="color:white;">WARNING!</strong>
 <p>
 <div class="paragraph"><p>This document is not 100% up to date. Specifically, everything up to and
-including <a href="#data_structures">[data_structures]</a> has been updated recently. The rest might contain
+including <a href="#startup">[startup]</a> has been updated recently. The rest might contain
 outdated information.</p></div>
 </p>
 </div>
@@ -75,48 +75,27 @@ $ ninja</tt></pre>
 <div class="ulist"><ul>
 <li>
 <p>
-We use the <tt>AX_ENABLE_BUILDDIR</tt> macro to enforce builds happening in a separate
-  directory. This is a prerequisite for the <tt>AX_EXTEND_SRCDIR</tt> macro and building
-  in a separate directory is common practice anyway. In case this causes any
-  trouble when packaging i3 for your distribution, please open an issue.
+<tt>ninja test</tt> runs the i3 testsuite. See docs/testsuite for details.
 </p>
 </li>
 <li>
 <p>
-<tt>make check</tt> runs the i3 testsuite. See docs/testsuite for details.
+<tt>meson dist</tt> builds a release tarball and runs tests on the result.
 </p>
 </li>
 <li>
 <p>
-<tt>make distcheck</tt> (runs testsuite on <tt>make dist</tt> result, tiny bit quicker
-  feedback cycle than waiting for the travis build to catch the issue).
+<tt>meson -Ddocs=true -Dmans=true</tt> will enable the options to build docs and
+  manpages. These options require additional dependencies that are normally not
+  required for users who just want to build i3.
 </p>
 </li>
 <li>
 <p>
-<tt>make uninstall</tt> (occasionally requested by users who compile from source)
-</p>
-</li>
-<li>
-<p>
-<tt>make</tt> will build manpages/docs by default if the tools are installed.
-  Conversely, manpages/docs are not tried to be built for users who don’t want
-  to install all these dependencies to get started hacking on i3. Manpages and
-  docs can be disabled with the <tt>--disable-mans<tt> and </tt>--disable-docs</tt>+
-  configure options respectively.
-</p>
-</li>
-<li>
-<p>
-non-release builds will enable address sanitizer by default. Use the
-  <tt>--disable-sanitizers</tt> configure option to turn off all sanitizers, and see
-  <tt>--help</tt> for available sanitizers.
-</p>
-</li>
-<li>
-<p>
-Coverage reports are now generated using <tt>make check-code-coverage</tt>, which
-  requires specifying <tt>--enable-code-coverage</tt> when calling configure.
+<tt>meson -Db_sanitize=address</tt> will enable the address sanitizer which is
+  disabled by default. A summary of memory leaks will be printed on program
+  exit. This can include false-positives. For other options of the <tt>b_sanitize</tt>
+  flag see <a href="https://mesonbuild.com/Builtin-options.html">https://mesonbuild.com/Builtin-options.html</a>.
 </p>
 </li>
 </ul></div>
@@ -554,50 +533,26 @@ containers) can have different border styles.</p></div>
 ensure that the operating system on which i3 is compiled has all the expected
 features, i3 comes with <tt>include/queue.h</tt>. On BSD systems, you can use <tt>man
 queue(3)</tt>. On Linux, you have to use google (or read the source).</p></div>
-<div class="paragraph"><p>The lists used are <tt>SLIST</tt> (single linked lists), <tt>CIRCLEQ</tt> (circular
-queues) and <tt>TAILQ</tt> (tail queues). Usually, only forward traversal is necessary,
-so an <tt>SLIST</tt> works fine. If inserting elements at arbitrary positions or at
-the end of a list is necessary, a <tt>TAILQ</tt> is used instead. However, for the
-windows inside a container, a <tt>CIRCLEQ</tt> is necessary to go from the currently
-selected window to the window above/below.</p></div>
+<div class="paragraph"><p>The lists used are <tt>SLIST</tt> (single linked lists), <tt>CIRCLEQ</tt> (circular queues)
+and <tt>TAILQ</tt> (tail queues). Usually, <tt>TAILQ</tt> is used which allows inserting
+elements at arbitrary positions or at the end of the list. If only forward
+traversal is necessary, an <tt>SLIST</tt> can be used. <tt>CIRCLEQ</tt> is used just to
+manage the X11 state of each window.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_naming_conventions">7. Naming conventions</h2>
+<h2 id="startup">7. Startup (src/main.c, main())</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>There is a row of standard variables used in many events. The following names
-should be chosen for those:</p></div>
-<div class="ulist"><ul>
-<li>
-<p>
-<tt>conn</tt> is the xcb_connection_t
-</p>
-</li>
-<li>
-<p>
-<tt>event</tt> is the event of the particular type
-</p>
-</li>
-<li>
-<p>
-<tt>con</tt> names a container
-</p>
-</li>
-<li>
-<p>
-<tt>current</tt> is a loop variable when using <tt>TAILQ_FOREACH</tt> etc.
-</p>
-</li>
-</ul></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_startup_src_mainx_c_main">8. Startup (src/mainx.c, main())</h2>
-<div class="sectionbody">
+<div class="paragraph"><p>Among other things, the main() function does the following:</p></div>
 <div class="ulist"><ul>
 <li>
 <p>
 Establish the xcb connection
+</p>
+</li>
+<li>
+<p>
+Load the i3 config
 </p>
 </li>
 <li>
@@ -607,7 +562,7 @@ Check for XKB extension on the separate X connection, load Xcursor
 </li>
 <li>
 <p>
-Check for RandR screens (with a fall-back to Xinerama)
+Set up EWMH hints
 </p>
 </li>
 <li>
@@ -617,7 +572,22 @@ Grab the keycodes for which bindings exist
 </li>
 <li>
 <p>
+Check for XRandR screens
+</p>
+</li>
+<li>
+<p>
 Manage all existing windows
+</p>
+</li>
+<li>
+<p>
+Exec configured startup processes
+</p>
+</li>
+<li>
+<p>
+Start i3bar if configured
 </p>
 </li>
 <li>
@@ -629,10 +599,10 @@ Enter the event loop
 </div>
 </div>
 <div class="sect1">
-<h2 id="_keybindings">9. Keybindings</h2>
+<h2 id="_keybindings">8. Keybindings</h2>
 <div class="sectionbody">
 <div class="sect2">
-<h3 id="_grabbing_the_bindings">9.1. Grabbing the bindings</h3>
+<h3 id="_grabbing_the_bindings">8.1. Grabbing the bindings</h3>
 <div class="paragraph"><p>Grabbing the bindings is quite straight-forward. You pass X your combination of
 modifiers and the keycode you want to grab and whether you want to grab them
 actively or passively. Most bindings (everything except for bindings using
@@ -653,7 +623,7 @@ check on each press of "a" if the Mode_switch bit is set using XKB. If yes, it
 will handle the event, if not, it will replay the event.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_handling_a_keypress">9.2. Handling a keypress</h3>
+<h3 id="_handling_a_keypress">8.2. Handling a keypress</h3>
 <div class="paragraph"><p>As mentioned in "Grabbing the bindings", upon a keypress event, i3 first gets
 the correct state.</p></div>
 <div class="paragraph"><p>Then, it looks through all bindings and gets the one which matches the received
@@ -664,7 +634,7 @@ event.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_manage_windows_src_main_c_manage_window_and_reparent_window">10. Manage windows (src/main.c, manage_window() and reparent_window())</h2>
+<h2 id="_manage_windows_src_main_c_manage_window_and_reparent_window">9. Manage windows (src/main.c, manage_window() and reparent_window())</h2>
 <div class="sectionbody">
 <div class="paragraph"><p><tt>manage_window()</tt> does some checks to decide whether the window should be
 managed at all:</p></div>
@@ -700,7 +670,7 @@ target workspace is not visible, the window will not be mapped.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_what_happens_when_an_application_is_started">11. What happens when an application is started?</h2>
+<h2 id="_what_happens_when_an_application_is_started">10. What happens when an application is started?</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>i3 does not care about applications. All it notices is when new windows are
 mapped (see <tt>src/handlers.c</tt>, <tt>handle_map_request()</tt>). The window is then
@@ -720,7 +690,7 @@ can reconfigure themselves).</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_net_wm_state">12. _NET_WM_STATE</h2>
+<h2 id="_net_wm_state">11. _NET_WM_STATE</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Only the _NET_WM_STATE_FULLSCREEN and _NET_WM_STATE_DEMANDS_ATTENTION atoms
 are handled.</p></div>
@@ -731,7 +701,7 @@ Also, it is set as fullscreen_client for the i3Screen.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_wm_name">13. WM_NAME</h2>
+<h2 id="_wm_name">12. WM_NAME</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>When the WM_NAME property of a window changes, its decoration (containing the
 title) is re-rendered. Note that WM_NAME is in COMPOUND_TEXT encoding which is
@@ -740,7 +710,7 @@ if present.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_net_wm_name">14. _NET_WM_NAME</h2>
+<h2 id="_net_wm_name">13. _NET_WM_NAME</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Like WM_NAME, this atom contains the title of a window. However, _NET_WM_NAME
 is encoded in UTF-8. i3 will recode it to UCS-2 in order to be able to pass it
@@ -749,7 +719,7 @@ characters (every special character contained in your font).</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_size_hints">15. Size hints</h2>
+<h2 id="_size_hints">14. Size hints</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Size hints specify the minimum/maximum size for a given window as well as its
 aspect ratio.  This is important for clients like mplayer, who only set the
@@ -762,7 +732,7 @@ src/layout.c, function resize_client().</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_rendering_src_layout_c_render_layout_and_render_container">16. Rendering (src/layout.c, render_layout() and render_container())</h2>
+<h2 id="_rendering_src_layout_c_render_layout_and_render_container">15. Rendering (src/layout.c, render_layout() and render_container())</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Rendering in i3 version 4 is the step which assigns the correct sizes for
 borders, decoration windows, child windows and the stacking order of all
@@ -782,7 +752,7 @@ container and then pushing the changes to X11. The following sections talk
 about the different rendering steps, in the order of "top of the tree" (root
 container) to the bottom.</p></div>
 <div class="sect2">
-<h3 id="_rendering_the_root_container">16.1. Rendering the root container</h3>
+<h3 id="_rendering_the_root_container">15.1. Rendering the root container</h3>
 <div class="paragraph"><p>The i3 root container (<tt>con&#8594;type == CT_ROOT</tt>) represents the X11 root window.
 It contains one child container for every output (like LVDS1, VGA1, …), which
 is available on your computer.</p></div>
@@ -798,7 +768,7 @@ spanning all outputs), a shortcut is taken and <tt>x_raise_con(); render_con()</
 only called for the global fullscreen window.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_rendering_an_output">16.2. Rendering an output</h3>
+<h3 id="_rendering_an_output">15.2. Rendering an output</h3>
 <div class="paragraph"><p>Output containers (<tt>con&#8594;layout == L_OUTPUT</tt>) represent a hardware output like
 LVDS1, VGA1, etc. An output container has three children (at the moment): One
 content container (having workspaces as children) and the top/bottom dock area
@@ -845,18 +815,18 @@ Recursively raise and render the output’s child containers (meaning dock
 </ol></div>
 </div>
 <div class="sect2">
-<h3 id="_rendering_a_workspace_or_split_container">16.3. Rendering a workspace or split container</h3>
+<h3 id="_rendering_a_workspace_or_split_container">15.3. Rendering a workspace or split container</h3>
 <div class="paragraph"><p>From here on, there really is no difference anymore. All containers are of
 <tt>con&#8594;type == CT_CON</tt> (whether workspace or split container) and some of them
 have a <tt>con&#8594;window</tt>, meaning they represent an actual window instead of a
 split container.</p></div>
 <div class="sect3">
-<h4 id="_default_layout">16.3.1. Default layout</h4>
+<h4 id="_default_layout">15.3.1. Default layout</h4>
 <div class="paragraph"><p>In default layout, containers are placed horizontally or vertically next to
 each other (depending on the <tt>con&#8594;orientation</tt>).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_stacked_layout">16.3.2. Stacked layout</h4>
+<h4 id="_stacked_layout">15.3.2. Stacked layout</h4>
 <div class="paragraph"><p>In stacked layout, only the focused window is actually shown (this is achieved
 by calling <tt>x_raise_con()</tt> in reverse focus order at the end of <tt>render_con()</tt>).</p></div>
 <div class="paragraph"><p>The available space for the focused window is the size of the container minus
@@ -867,20 +837,20 @@ reserved (or displayed later on), unless there is more than one window inside
 the stacked container.</p></div>
 </div>
 <div class="sect3">
-<h4 id="_tabbed_layout">16.3.3. Tabbed layout</h4>
+<h4 id="_tabbed_layout">15.3.3. Tabbed layout</h4>
 <div class="paragraph"><p>Tabbed layout works precisely like stacked layout, but the window decoration
 position/size is different: They are placed next to each other on a single line
 (fixed height).</p></div>
 </div>
 <div class="sect3">
-<h4 id="_dock_area_layout">16.3.4. Dock area layout</h4>
+<h4 id="_dock_area_layout">15.3.4. Dock area layout</h4>
 <div class="paragraph"><p>This is a special case. Users cannot choose the dock area layout, but it will be
 set for the dock area containers. In the dockarea layout (at the moment!),
 windows will be placed above each other.</p></div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_rendering_a_window">16.4. Rendering a window</h3>
+<h3 id="_rendering_a_window">15.4. Rendering a window</h3>
 <div class="paragraph"><p>A window’s size and position will be determined in the following way:</p></div>
 <div class="olist arabic"><ol class="arabic">
 <li>
@@ -909,7 +879,7 @@ Obey the height- and width-increments of the window (think terminal emulator
 </div>
 </div>
 <div class="sect1">
-<h2 id="_pushing_updates_to_x11_drawing">17. Pushing updates to X11 / Drawing</h2>
+<h2 id="_pushing_updates_to_x11_drawing">16. Pushing updates to X11 / Drawing</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>A big problem with i3 before version 4 was that we just sent requests to X11
 anywhere in the source code. This was bad because nobody could understand the
@@ -939,7 +909,7 @@ Expose event handling (drawing decorations): <tt>x_deco_recurse()</tt> and
 </li>
 </ol></div>
 <div class="sect2">
-<h3 id="_pushing_state_to_x11">17.1. Pushing state to X11</h3>
+<h3 id="_pushing_state_to_x11">16.1. Pushing state to X11</h3>
 <div class="paragraph"><p>In general, the function <tt>x_push_changes</tt> should be called to push state
 changes. Only when the scope of the state change is clearly defined (for
 example only the title of a window) and its impact is known beforehand, one can
@@ -1049,7 +1019,7 @@ unmapped if it should not be visible anymore. <tt>WM_STATE</tt> will be set to
 <tt>WM_STATE_WITHDRAWN</tt>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_drawing_window_decorations_borders_backgrounds">17.2. Drawing window decorations/borders/backgrounds</h3>
+<h3 id="_drawing_window_decorations_borders_backgrounds">16.2. Drawing window decorations/borders/backgrounds</h3>
 <div class="paragraph"><p><tt>x_draw_decoration</tt> draws window decorations. It is run for every leaf
 container (representing an actual X11 window) and for every non-leaf container
 which is in a stacked/tabbed container (because stacked/tabbed containers
@@ -1068,7 +1038,7 @@ and "1pixel") and the top bar (in case of border style "normal").</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_user_commands_parser_specs_commands_spec">18. User commands (parser-specs/commands.spec)</h2>
+<h2 id="_user_commands_parser_specs_commands_spec">17. User commands (parser-specs/commands.spec)</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>In the configuration file and when using i3 interactively (with <tt>i3-msg</tt>, for
 example), you use commands to make i3 do things, like focus a different window,
@@ -1110,7 +1080,7 @@ which will be compared with the input. An action is either the name of a state
 in which the parser will transition into, or the keyword <em>call</em>, followed by
 the name of a function (and optionally a state).</p></div>
 <div class="sect2">
-<h3 id="_example_the_workspace_state">18.1. Example: The WORKSPACE state</h3>
+<h3 id="_example_the_workspace_state">17.1. Example: The WORKSPACE state</h3>
 <div class="paragraph"><p>Let’s have a look at the WORKSPACE state, which is a good example of all
 features. This is its definition:</p></div>
 <div class="listingblock">
@@ -1208,7 +1178,7 @@ workspace number &lt;number&gt;
 </dl></div>
 </div>
 <div class="sect2">
-<h3 id="_introducing_a_new_command">18.2. Introducing a new command</h3>
+<h3 id="_introducing_a_new_command">17.2. Introducing a new command</h3>
 <div class="paragraph"><p>The following steps have to be taken in order to properly introduce a new
 command (or possibly extend an existing command):</p></div>
 <div class="olist arabic"><ol class="arabic">
@@ -1254,12 +1224,12 @@ Document the feature in the <a href="userguide.html">User’s Guide</a>.
 </div>
 </div>
 <div class="sect1">
-<h2 id="_moving_containers">19. Moving containers</h2>
+<h2 id="_moving_containers">18. Moving containers</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>The movement code is pretty delicate. You need to consider all cases before
 making any changes or before being able to fully understand how it works.</p></div>
 <div class="sect2">
-<h3 id="_case_1_moving_inside_the_same_container">19.1. Case 1: Moving inside the same container</h3>
+<h3 id="_case_1_moving_inside_the_same_container">18.1. Case 1: Moving inside the same container</h3>
 <div class="paragraph"><p>The reference layout for this case is a single workspace in horizontal
 orientation with two containers on it. Focus is on the left container (1).</p></div>
 <div class="tableblock">
@@ -1284,7 +1254,7 @@ commented with "the easy case": it calls TAILQ_NEXT to get the container right
 of the current one and swaps both containers.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_2_move_a_container_into_a_split_container">19.2. Case 2: Move a container into a split container</h3>
+<h3 id="_case_2_move_a_container_into_a_split_container">18.2. Case 2: Move a container into a split container</h3>
 <div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
 containers. The right container is a v-split with two containers. Focus is on
 the left container (1).</p></div>
@@ -1318,7 +1288,7 @@ empty.</p></div>
 be flattened.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_3_moving_to_non_existent_top_bottom">19.3. Case 3: Moving to non-existent top/bottom</h3>
+<h3 id="_case_3_moving_to_non_existent_top_bottom">18.3. Case 3: Moving to non-existent top/bottom</h3>
 <div class="paragraph"><p>Like in case 1, the reference layout for this case is a single workspace in
 horizontal orientation with two containers on it. Focus is on the left
 container:</p></div>
@@ -1352,7 +1322,7 @@ container and the container above/below the current one (on the level of
 flattened.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_4_moving_to_existent_top_bottom">19.4. Case 4: Moving to existent top/bottom</h3>
+<h3 id="_case_4_moving_to_existent_top_bottom">18.4. Case 4: Moving to existent top/bottom</h3>
 <div class="paragraph"><p>The reference layout for this case is a vertical workspace with two containers.
 The bottom one is a h-split containing two containers (1 and 2). Focus is on
 the bottom left container (1).</p></div>
@@ -1379,7 +1349,7 @@ orientation change does not need to be performed because the workspace already
 is in vertical orientation.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_5_moving_in_one_child_h_split">19.5. Case 5: Moving in one-child h-split</h3>
+<h3 id="_case_5_moving_in_one_child_h_split">18.5. Case 5: Moving in one-child h-split</h3>
 <div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
 containers having a v-split on the left side with a one-child h-split on the
 bottom. Focus is on the bottom left container (2(h)):</p></div>
@@ -1411,7 +1381,7 @@ orientation will be force-changed), this case is equivalent to case 2 or case
 4.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_case_6_floating_containers">19.6. Case 6: Floating containers</h3>
+<h3 id="_case_6_floating_containers">18.6. Case 6: Floating containers</h3>
 <div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
 containers plus one floating h-split container. Focus is on the floating
 container.</p></div>
@@ -1423,7 +1393,7 @@ by calling the function <tt>attach_to_workspace</tt>.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_click_handling">20. Click handling</h2>
+<h2 id="_click_handling">19. Click handling</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Without much ado, here is the list of cases which need to be considered:</p></div>
 <div class="ulist"><ul>
@@ -1473,7 +1443,7 @@ click on border/decoration to resize a tiling con
 </div>
 </div>
 <div class="sect1">
-<h2 id="_gotchas">21. Gotchas</h2>
+<h2 id="_gotchas">20. Gotchas</h2>
 <div class="sectionbody">
 <div class="ulist"><ul>
 <li>
@@ -1495,7 +1465,7 @@ Forgetting to call <tt>floating_fix_coordinates(con, old_rect, new_rect)</tt> af
 </div>
 </div>
 <div class="sect1">
-<h2 id="_thought_experiments">22. Thought experiments</h2>
+<h2 id="_thought_experiments">21. Thought experiments</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>In this section, we collect thought experiments, so that we don’t forget our
 thoughts about specific topics. They are not necessary to get into hacking i3,
@@ -1503,7 +1473,7 @@ but if you are interested in one of the topics they cover, you should read them
 before asking us why things are the way they are or why we don’t implement
 things.</p></div>
 <div class="sect2">
-<h3 id="_using_cgroups_per_workspace">22.1. Using cgroups per workspace</h3>
+<h3 id="_using_cgroups_per_workspace">21.1. Using cgroups per workspace</h3>
 <div class="paragraph"><p>cgroups (control groups) are a linux-only feature which provides the ability to
 group multiple processes. For each group, you can individually set resource
 limits, like allowed memory usage. Furthermore, and more importantly for our
