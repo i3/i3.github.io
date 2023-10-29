@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="AsciiDoc 8.6.10" />
+<title>i3: i3-msg(1)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body>
+    <header>
+        <a class="logo" href="/">
+            <img src="/img/logo.svg" alt="i3 WM logo" />
+        </a>
+        <nav>
+            <ul>
+                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                <li><a href="/screenshots">Screens</a></li>
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+
+<h1>i3-msg(1)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
+<span id="revnumber">version 3.delta,</span>
+<span id="revdate">November 2009</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_name">1. NAME</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-msg - send messages to i3 window manager</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis">2. SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-msg "message"</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">3. DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-msg is a sample implementation for a client using the unix socket IPC
+interface to i3. At the moment, it can only be used for sending commands
+(like in configuration file for key bindings), but this may change in the
+future (staying backwards-compatible, of course).</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_example">4. EXAMPLE</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3-msg "bp" # Use 1-px border for current client</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_environment">5. ENVIRONMENT</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_i3sock">5.1. I3SOCK</h3>
+<div class="paragraph"><p>If no ipc-socket is specified on the commandline, this variable is used
+to determine the path, at wich the unix domain socket is expected, on which
+to connect to i3.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">6. SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3(1)</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_author">7. AUTHOR</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
+</div>
+</div>
+</main>
+<div id="footnotes"><hr /></div>
+<footer>
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</footer>
+</body>
+</html>
