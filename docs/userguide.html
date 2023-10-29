@@ -272,7 +272,8 @@ provided by the i3 <a href="https://github.com/i3/i3/blob/next/etc/config.keycod
 <div class="paragraph"><p>Since i3 4.21, it&#8217;s possible to drag tiling containers using the mouse. The
 drag can be initiated either by dragging the window&#8217;s titlebar or by pressing
 the <a href="#floating_modifier">[floating_modifier]</a> and dragging the container while holding the
-left-click button.</p></div>
+left-click button. See the <a href="#config_tiling_drag">[config_tiling_drag]</a> option for configuring which
+action triggers the tiling drag.</p></div>
 <div class="paragraph"><p>Once the drag is initiated and the cursor has left the original container, drop
 indicators are created according to the position of the cursor relatively to
 the target container. These indicators help you understand what the resulting
@@ -421,7 +422,7 @@ command.</p></div>
 single workspace on which you open three terminal windows. All these terminal
 windows are directly attached to one node inside i3’s layout tree, the
 workspace node. By default, the workspace node’s orientation is <tt>horizontal</tt>.</p></div>
-<div class="paragraph"><p>Now you move one of these terminals down (<tt>$mod+Shift+j</tt> by default). The
+<div class="paragraph"><p>Now you move one of these terminals down (<tt>$mod+Shift+k</tt> by default). The
 workspace node’s orientation will be changed to <tt>vertical</tt>. The terminal window
 you moved down is directly attached to the workspace and appears on the bottom
 of the screen. A new (horizontal) container was created to accommodate the
@@ -1570,6 +1571,7 @@ bindsym Mod1+F fullscreen toggle</tt></pre>
 <div class="sect2">
 <h3 id="config_tiling_drag">4.34. Tiling drag</h3>
 <div class="paragraph"><p>You can configure how to initiate the tiling drag feature (see <a href="#tiling_drag">[tiling_drag]</a>).</p></div>
+<div class="paragraph"><p>The default is <tt>modifier</tt>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -1760,7 +1762,29 @@ shell.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_display_mode">5.3. Display mode</h3>
+<h3 id="workspace_command">5.3. Workspace buttons command</h3>
+<div class="paragraph"><p>Since i3 4.23, i3bar can run a program and use its <tt>stdout</tt> output to define
+the workspace buttons displayed on the left hand side of the bar. With this
+feature, you can, for example, rename the buttons of workspaces, hide specific
+workspaces, always show a workspace button even if the workspace does not exist
+or change the order of the buttons.</p></div>
+<div class="paragraph"><p>Also see <a href="#status_command">[status_command]</a> for the statusline option and
+<a href="https://i3wm.org/docs/i3bar-workspace-protocol.html">https://i3wm.org/docs/i3bar-workspace-protocol.html</a> for the detailed protocol.</p></div>
+<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>workspace_command &lt;command&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>bar {
+    workspace_command /path/to/script.sh
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_display_mode">5.4. Display mode</h3>
 <div class="paragraph"><p>You can either have i3bar be visible permanently at one edge of the screen
 (<tt>dock</tt> mode) or make it show up when you press your modifier key (<tt>hide</tt> mode).
 It is also possible to force i3bar to always stay hidden (<tt>invisible</tt>
@@ -1805,7 +1829,7 @@ modifier &lt;Modifier&gt;|none</tt></pre>
 also use "none" if you don&#8217;t want any modifier to trigger this behavior.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_mouse_button_commands">5.4. Mouse button commands</h3>
+<h3 id="_mouse_button_commands">5.5. Mouse button commands</h3>
 <div class="paragraph"><p>Specifies a command to run when a button was pressed on i3bar to override the
 default behavior. This is useful, e.g., for disabling the scroll wheel action
 or running scripts that implement custom behavior for these buttons.</p></div>
@@ -1891,7 +1915,7 @@ and will be removed in a future release. We strongly recommend using the more ge
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_bar_id">5.5. Bar ID</h3>
+<h3 id="_bar_id">5.6. Bar ID</h3>
 <div class="paragraph"><p>Specifies the bar ID for the configured bar instance. If this option is missing,
 the ID is set to <em>bar-x</em>, where x corresponds to the position of the embedding
 bar block in the config file (<em>bar-0</em>, <em>bar-1</em>, &#8230;).</p></div>
@@ -1909,7 +1933,7 @@ bar block in the config file (<em>bar-0</em>, <em>bar-1</em>, &#8230;).</p></div
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="i3bar_position">5.6. Position</h3>
+<h3 id="i3bar_position">5.7. Position</h3>
 <div class="paragraph"><p>This option determines in which edge of the screen i3bar should show up.</p></div>
 <div class="paragraph"><p>The default is bottom.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -1926,7 +1950,7 @@ bar block in the config file (<em>bar-0</em>, <em>bar-1</em>, &#8230;).</p></div
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_output_s">5.7. Output(s)</h3>
+<h3 id="_output_s">5.8. Output(s)</h3>
 <div class="paragraph"><p>You can restrict i3bar to one or more outputs (monitors). The default is to
 handle all outputs. Restricting the outputs is useful for using different
 options for different outputs by using multiple <em>bar</em> blocks.</p></div>
@@ -1991,7 +2015,7 @@ bar {
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_tray_output">5.8. Tray output</h3>
+<h3 id="_tray_output">5.9. Tray output</h3>
 <div class="paragraph"><p>i3bar by default provides a system tray area where programs such as
 NetworkManager, VLC, Pidgin, etc. can place little icons.</p></div>
 <div class="paragraph"><p>You can configure on which output (monitor) the icons should be displayed or
@@ -2034,7 +2058,7 @@ in bars which should not display the tray, otherwise the different instances
 might race each other in trying to display tray icons.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_tray_padding">5.9. Tray padding</h3>
+<h3 id="_tray_padding">5.10. Tray padding</h3>
 <div class="paragraph"><p>The tray is shown on the right-hand side of the bar. By default, a padding of 2
 pixels is used for the upper, lower and right-hand side of the tray area and
 between the individual icons.</p></div>
@@ -2051,7 +2075,7 @@ tray_padding 0</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_font">5.10. Font</h3>
+<h3 id="_font">5.11. Font</h3>
 <div class="paragraph"><p>Specifies the font to be used in the bar. See <a href="#fonts">[fonts]</a>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -2068,7 +2092,7 @@ tray_padding 0</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_custom_separator_symbol">5.11. Custom separator symbol</h3>
+<h3 id="_custom_separator_symbol">5.12. Custom separator symbol</h3>
 <div class="paragraph"><p>Specifies a custom symbol to be used for the separator as opposed to the vertical,
 one pixel thick separator.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -2085,7 +2109,7 @@ one pixel thick separator.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_workspace_buttons">5.12. Workspace buttons</h3>
+<h3 id="_workspace_buttons">5.13. Workspace buttons</h3>
 <div class="paragraph"><p>Specifies whether workspace buttons should be shown or not. This is useful if
 you want to display a statusline-only bar containing additional information.</p></div>
 <div class="paragraph"><p>The default is to show workspace buttons.</p></div>
@@ -2103,7 +2127,7 @@ you want to display a statusline-only bar containing additional information.</p>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_minimal_width_for_workspace_buttons">5.13. Minimal width for workspace buttons</h3>
+<h3 id="_minimal_width_for_workspace_buttons">5.14. Minimal width for workspace buttons</h3>
 <div class="paragraph"><p>By default, the width a workspace button is determined by the width of the text
 showing the workspace name. If the name is too short (say, one letter), then the
 workspace button might look too small.</p></div>
@@ -2128,7 +2152,7 @@ into more pixels on HiDPI displays.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_strip_workspace_numbers_name">5.14. Strip workspace numbers/name</h3>
+<h3 id="_strip_workspace_numbers_name">5.15. Strip workspace numbers/name</h3>
 <div class="paragraph"><p>Specifies whether workspace numbers should be displayed within the workspace
 buttons. This is useful if you want to have a named workspace that stays in
 order on the bar according to its number without displaying the number prefix.</p></div>
@@ -2156,7 +2180,7 @@ strip_workspace_name yes|no</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_binding_mode_indicator">5.15. Binding Mode indicator</h3>
+<h3 id="_binding_mode_indicator">5.16. Binding Mode indicator</h3>
 <div class="paragraph"><p>Specifies whether the current binding mode indicator should be shown or not.
 This is useful if you want to hide the workspace buttons but still be able
 to see the current binding mode indicator. See <a href="#binding_modes">[binding_modes]</a> to learn what
@@ -2176,7 +2200,7 @@ modes are and how to use them.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_colors">5.16. Colors</h3>
+<h3 id="_colors">5.17. Colors</h3>
 <div class="paragraph"><p>As with i3, colors are in HTML hex format (#rrggbb, optionally #rrggbbaa). The
 following colors can be configured at the moment:</p></div>
 <div class="dlist"><dl>
@@ -2310,7 +2334,7 @@ binding_mode
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_transparency">5.17. Transparency</h3>
+<h3 id="_transparency">5.18. Transparency</h3>
 <div class="paragraph"><p>i3bar can support transparency by passing the <tt>--transparency</tt> flag in the
 configuration:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -2328,7 +2352,7 @@ while <tt>#000000FF</tt> will be a fully opaque black (the same as <tt>#000000</
 flag will cause all tray icons to have a transparent background.</p></div>
 </div>
 <div class="sect2">
-<h3 id="i3bar_padding">5.18. Padding</h3>
+<h3 id="i3bar_padding">5.19. Padding</h3>
 <div class="paragraph"><p>To make i3bar higher (without increasing the font size), and/or add padding to
 the left and right side of i3bar, you can use the <tt>padding</tt> directive:</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -2409,6 +2433,10 @@ bindsym $mod+x [class="(?i)firefox"] kill
 
 # kill only the About dialog from Firefox
 bindsym $mod+x [class="Firefox" window_role="About"] kill
+
+# kill all windows except for Firefox and Gnome Terminal.
+# case-insensitive and uses negative lookaheads, supported by PCRE
+bindsym $mod+x [class="^(?i)(?!firefox)(?!gnome-terminal).*"] kill
 
 # enable floating mode and move container to workspace 4
 for_window [class="^evil-app$"] floating enable, move container to workspace 4
@@ -2722,6 +2750,15 @@ available:</p></div>
 </p>
 </dd>
 <dt class="hdlist1">
+workspace
+</dt>
+<dd>
+<p>
+    Sets focus to the workspace that contains the container that matches the
+    specified criteria.
+</p>
+</dd>
+<dt class="hdlist1">
 left|right|up|down
 </dt>
 <dd>
@@ -2796,6 +2833,7 @@ output
 <div class="listingblock">
 <div class="content">
 <pre><tt>&lt;criteria&gt; focus
+&lt;criteria&gt; focus workspace
 focus left|right|down|up
 focus parent|child|floating|tiling|mode_toggle
 focus next|prev [sibling]
@@ -2806,6 +2844,10 @@ focus output left|right|down|up|current|primary|nonprimary|next|&lt;output1&gt; 
 <div class="content">
 <pre><tt># Focus firefox
 bindsym $mod+F1 [class="Firefox"] focus
+
+# Focus the workspace where firefox is, without necessarily focusing firefox
+# itself.
+bindsym $mod+x [class="Firefox"] focus workspace
 
 # Focus container on the left, bottom, top, right
 bindsym $mod+j focus left
@@ -2835,7 +2877,7 @@ bindsym $mod+x focus output primary
 bindsym $mod+x focus output nonprimary
 
 # Cycle focus between outputs VGA1 and LVDS1 but not DVI0
-bindsym $mod+x move workspace to output VGA1 LVDS1</tt></pre>
+bindsym $mod+x focus output VGA1 LVDS1</tt></pre>
 </div></div>
 <div class="paragraph"><p>Note that you might not have a primary output configured yet. To do so, run:</p></div>
 <div class="listingblock">

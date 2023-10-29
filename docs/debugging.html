@@ -47,7 +47,7 @@ process and/or need further help, do not hesitate to contact us!</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_verify_you_are_using_i3_4_22">1. Verify you are using i3 ≥ 4.22</h2>
+<h2 id="_verify_you_are_using_i3_4_23">1. Verify you are using i3 ≥ 4.23</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Only the latest major version of i3 is supported. To verify which version
 you are running, use:</p></div>
@@ -216,22 +216,20 @@ backtrace in the crash dialog.</p></div>
 <tt>/tmp/i3-backtrace.%d.%d.txt</tt> where the first <tt>%d</tt> is replaced by i3’s process
 id (PID) and the second one is incremented each time you generate a backtrace,
 starting at 0.</p></div>
+<div class="paragraph"><p>In Linux, if the backtrace just says <tt>No stack.</tt>, that&#8217;s because gdb does not
+have necessary permissions to attach to a running process. You can fix that by
+running from a terminal (you can open a new tty, e.g. with ctrl-alt-F2):</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>echo 0 | sudo tee /proc/sys/kernel/yama/ptrace_scope</tt></pre>
+</div></div>
+<div class="paragraph"><p>Afterwards, try re-generating the stack trace. Note that this setting re-sets
+after reboot, see more info at
+<a href="https://www.kernel.org/doc/Documentation/security/Yama.txt">https://www.kernel.org/doc/Documentation/security/Yama.txt</a>.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_sending_bug_reports_debugging_on_irc">6. Sending bug reports/debugging on IRC</h2>
-<div class="sectionbody">
-<div class="paragraph"><p>When sending bug reports, please attach the <strong>whole</strong> log file. Even if you think
-you found the section which clearly highlights the problem, additional
-information might be necessary to completely diagnose the problem.</p></div>
-<div class="paragraph"><p>When debugging with us in IRC, be prepared to use a so-called nopaste service
-such as <a href="https://pastebin.com">https://pastebin.com</a> because pasting large amounts of text in IRC
-sometimes leads to incomplete lines (servers have line length limitations) or
-flood kicks.</p></div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_debugging_i3bar">7. Debugging i3bar</h2>
+<h2 id="_debugging_i3bar">6. Debugging i3bar</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>To debug i3bar problems, use the <tt>--verbose</tt> commandline parameter,
 or add <tt>verbose yes</tt> to all <tt>bar {}</tt> blocks in your i3
