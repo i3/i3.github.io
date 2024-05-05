@@ -66,9 +66,9 @@ outdated information.</p></div>
 Guide → Compiling a Meson project</a>. In case you’re unfamiliar:</p></div>
 <div class="literalblock">
 <div class="content">
-<pre><tt>$ mkdir -p build &amp;&amp; cd build
-$ meson ..
-$ ninja</tt></pre>
+<pre><tt>mkdir -p build
+meson setup build
+meson compile -C build</tt></pre>
 </div></div>
 <div class="sect2">
 <h3 id="_build_system_features">1.1. Build system features</h3>

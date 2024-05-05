@@ -855,8 +855,10 @@ Default is <tt>left</tt></p></div>
 <div class="paragraph"><p>This option determines which border style <strong>new</strong> windows will have.  The default is
 <tt>normal</tt>. Note that default_floating_border applies only to windows which are starting out as
 floating windows, e.g., dialog windows, but not windows that are floated later on.</p></div>
-<div class="paragraph"><p>Setting border style to <tt>pixel</tt> eliminates title bars. The border style <tt>normal</tt> allows you to
-adjust edge border width while keeping your title bar.</p></div>
+<div class="paragraph"><p>Setting border style to <tt>pixel</tt> eliminates title bars in split layouts. The border style
+<tt>normal</tt> allows you to adjust edge border width while keeping your title bar.</p></div>
+<div class="paragraph"><p>The title bar is always visible in stacking and tabbed layouts, and this cannot be changed
+through configuration.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -894,6 +896,8 @@ but keeps them on workspaces with multiple windows visible.</p></div>
 <div class="paragraph"><p>The "smart_no_gaps" setting hides edge-specific borders of a container if the
 container is the only container on its workspace and the gaps to the screen edge
 are <tt>0</tt>.</p></div>
+<div class="paragraph" id="_smart_borders"><p><tt>hide_edge_borders</tt> has replaced the old <tt>smart_borders</tt> syntax. Use the former
+instead of the latter.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
@@ -906,27 +910,7 @@ are <tt>0</tt>.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_smart_borders">4.14. Smart borders</h3>
-<div class="paragraph"><p>Smart borders will draw borders on windows only if there is more than one window
-in a workspace. This feature can also be enabled only if the gap size between
-window and screen edge is <tt>0</tt>.</p></div>
-<div class="paragraph"><p><strong>Syntax</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt>smart_borders on|off|no_gaps</tt></pre>
-</div></div>
-<div class="paragraph"><p><strong>Example</strong>:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt># Activate smart borders (always)
-smart_borders on
-
-# Activate smart borders (only when there are effectively no gaps)
-smart_borders no_gaps</tt></pre>
-</div></div>
-</div>
-<div class="sect2">
-<h3 id="for_window">4.15. Arbitrary commands for specific windows (for_window)</h3>
+<h3 id="for_window">4.14. Arbitrary commands for specific windows (for_window)</h3>
 <div class="paragraph"><p>With the <tt>for_window</tt> directive, you can let i3 execute any command when it
 encounters a specific window. This can be used to set windows to floating or to
 change their border style, for example.</p></div>
@@ -953,7 +937,7 @@ for_window [title="x200: ~/work"] floating enable</tt></pre>
 commands can be executed at runtime, not config directives, see <a href="#list_of_commands">[list_of_commands]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="no_focus">4.16. Don&#8217;t focus window upon opening</h3>
+<h3 id="no_focus">4.15. Don&#8217;t focus window upon opening</h3>
 <div class="paragraph"><p>When a new window appears, it will be focused. The <tt>no_focus</tt> directive allows preventing
 this from happening and must be used in combination with <a href="#command_criteria">[command_criteria]</a>.</p></div>
 <div class="paragraph"><p>Note that this does not apply to all cases, e.g., when feeding data into a running application
@@ -974,7 +958,7 @@ combination with <tt>workspace_layout</tt>.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="variables">4.17. Variables</h3>
+<h3 id="variables">4.16. Variables</h3>
 <div class="paragraph"><p>As you learned in the section about keyboard bindings, you will have
 to configure lots of bindings containing modifier keys. If you want to save
 yourself some typing and be able to change the modifier you use later,
@@ -1000,7 +984,7 @@ it before starting i3 (for example in your <tt>~/.xsession</tt> file).</p></div>
 loaded from the X resource database.</p></div>
 </div>
 <div class="sect2">
-<h3 id="xresources">4.18. X resources</h3>
+<h3 id="xresources">4.17. X resources</h3>
 <div class="paragraph"><p><a href="#variables">[variables]</a> can also be created using a value configured in the X resource
 database. This is useful, for example, to avoid configuring color values within
 the i3 configuration. Instead, the values can be configured, once, in the X
@@ -1028,7 +1012,7 @@ set_from_resource $black i3wm.color0 #000000</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="assign_workspace">4.19. Automatically putting clients on specific workspaces</h3>
+<h3 id="assign_workspace">4.18. Automatically putting clients on specific workspaces</h3>
 <div class="paragraph"><p>To automatically make a specific window show up on a specific workspace, you
 can use an <strong>assignment</strong>. You can match windows by using any criteria,
 see <a href="#command_criteria">[command_criteria]</a>. The difference between <tt>assign</tt> and
@@ -1130,7 +1114,7 @@ exec --no-startup-id i3-msg 'workspace 3; exec iceweasel; workspace 1'</tt></pre
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_automatically_starting_applications_on_i3_startup">4.20. Automatically starting applications on i3 startup</h3>
+<h3 id="_automatically_starting_applications_on_i3_startup">4.19. Automatically starting applications on i3 startup</h3>
 <div class="paragraph"><p>By using the <tt>exec</tt> keyword outside a keybinding, you can configure
 which commands will be performed by i3 on initial startup. <tt>exec</tt>
 commands will not run when restarting i3, if you need a command to run
@@ -1157,7 +1141,7 @@ exec --no-startup-id urxvt</tt></pre>
 <div class="paragraph"><p>The flag --no-startup-id is explained in <a href="#exec">[exec]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="workspace_screen">4.21. Automatically putting workspaces on specific screens</h3>
+<h3 id="workspace_screen">4.20. Automatically putting workspaces on specific screens</h3>
 <div class="paragraph"><p>If you assign clients to workspaces, it might be handy to put the
 workspaces on specific screens. Also, the assignment of workspaces to screens
 will determine which workspace i3 uses for a new screen when adding screens
@@ -1193,7 +1177,7 @@ workspace "2: vim" output VGA1</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="client_colors">4.22. Changing colors</h3>
+<h3 id="client_colors">4.21. Changing colors</h3>
 <div class="paragraph"><p>You can change all colors which i3 uses to draw the window decorations.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
@@ -1290,7 +1274,7 @@ single windows within a split container, which are otherwise indistinguishable
 from single windows outside of a split container.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_interprocess_communication">4.23. Interprocess communication</h3>
+<h3 id="_interprocess_communication">4.22. Interprocess communication</h3>
 <div class="paragraph"><p>i3 uses Unix sockets to provide an IPC interface. This allows third-party
 programs to get information from i3, such as the current workspaces
 (to display a workspace bar), and to control i3.</p></div>
@@ -1313,7 +1297,7 @@ user can create that directory.</p></div>
 <a href="#list_of_commands">[list_of_commands]</a>.</p></div>
 </div>
 <div class="sect2">
-<h3 id="_focus_follows_mouse">4.24. Focus follows mouse</h3>
+<h3 id="_focus_follows_mouse">4.23. Focus follows mouse</h3>
 <div class="paragraph"><p>By default, window focus follows your mouse movements as the mouse crosses
 window borders. However, if you have a setup where your mouse usually is in your
 way (like a touchpad on your laptop which you do not want to disable
@@ -1332,7 +1316,7 @@ currently active window (for example to click on links in your browser window).<
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_mouse_warping">4.25. Mouse warping</h3>
+<h3 id="_mouse_warping">4.24. Mouse warping</h3>
 <div class="paragraph"><p>By default, when switching focus to a window on a different output (e.g.
 focusing a window on workspace 3 on output VGA-1, coming from workspace 2 on
 LVDS-1), the mouse cursor is warped to the center of that window.</p></div>
@@ -1351,7 +1335,7 @@ behavior described above.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_popups_during_fullscreen_mode">4.26. Popups during fullscreen mode</h3>
+<h3 id="_popups_during_fullscreen_mode">4.25. Popups during fullscreen mode</h3>
 <div class="paragraph"><p>When you are in fullscreen mode, some applications still open popup windows
 (take Xpdf for example). This is because these applications might not be aware
 that they are in fullscreen mode (they do not check the corresponding hint).
@@ -1388,7 +1372,7 @@ Leave fullscreen mode.
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_focus_wrapping">4.27. Focus wrapping</h3>
+<h3 id="_focus_wrapping">4.26. Focus wrapping</h3>
 <div class="paragraph"><p>By default, when in a container with several windows or child containers, the
 opposite window will be focused when trying to move the focus over the edge of
 a container (and there are no other containers in that direction)&#8201;&#8212;&#8201;the focus
@@ -1425,7 +1409,7 @@ focus_wrapping force</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_forcing_xinerama">4.28. Forcing Xinerama</h3>
+<h3 id="_forcing_xinerama">4.27. Forcing Xinerama</h3>
 <div class="paragraph"><p>As explained in-depth in <a href="https://i3wm.org/docs/multi-monitor.html">https://i3wm.org/docs/multi-monitor.html</a>, some X11
 video drivers (especially the nVidia binary driver) only provide support for
 Xinerama instead of RandR. In such a situation, i3 must be told to use the
@@ -1448,7 +1432,7 @@ that’s it).</p></div>
 Xinerama, instead they are counted up, starting at 0: <tt>xinerama-0</tt>, <tt>xinerama-1</tt>, …</p></div>
 </div>
 <div class="sect2">
-<h3 id="workspace_auto_back_and_forth">4.29. Automatic back-and-forth when switching to the current workspace</h3>
+<h3 id="workspace_auto_back_and_forth">4.28. Automatic back-and-forth when switching to the current workspace</h3>
 <div class="paragraph"><p>This configuration directive enables automatic <tt>workspace back_and_forth</tt> (see
 <a href="#back_and_forth">[back_and_forth]</a>) when switching to the workspace that is currently focused.</p></div>
 <div class="paragraph"><p>For instance: Assume you are on workspace "1: www" and switch to "2: IM" using
@@ -1466,7 +1450,7 @@ came from now, you can just press $mod+2 again to switch back to "1: www".</p></
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_delaying_urgency_hint_reset_on_workspace_change">4.30. Delaying urgency hint reset on workspace change</h3>
+<h3 id="_delaying_urgency_hint_reset_on_workspace_change">4.29. Delaying urgency hint reset on workspace change</h3>
 <div class="paragraph"><p>If an application on another workspace sets an urgency hint, switching to this
 workspace might lead to immediate focus of the application, which also means the
 window decoration color would be immediately reset to <tt>client.focused</tt>. This
@@ -1488,7 +1472,7 @@ value to 0 disables this feature.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="focus_on_window_activation">4.31. Focus on window activation</h3>
+<h3 id="focus_on_window_activation">4.30. Focus on window activation</h3>
 <div class="paragraph"><p>If a window is activated, e.g., via <tt>google-chrome www.google.com</tt>, it may request
 to take focus. Since this might not be preferable, different reactions can be configured.</p></div>
 <div class="paragraph"><p>Note that this might not affect windows that are being opened. To prevent new windows
@@ -1536,7 +1520,7 @@ none
 </dl></div>
 </div>
 <div class="sect2">
-<h3 id="show_marks">4.32. Drawing marks on window decoration</h3>
+<h3 id="show_marks">4.31. Drawing marks on window decoration</h3>
 <div class="paragraph"><p>If activated, marks (see <a href="#vim_like_marks">[vim_like_marks]</a>) on windows are drawn in their window
 decoration. However, any mark starting with an underscore in its name (<tt>_</tt>) will
 not be drawn even if this option is activated.</p></div>
@@ -1553,7 +1537,7 @@ not be drawn even if this option is activated.</p></div>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="line_continuation">4.33. Line continuation</h3>
+<h3 id="line_continuation">4.32. Line continuation</h3>
 <div class="paragraph"><p>Config files support line continuation, meaning when you end a line in a
 backslash character (<tt>\</tt>), the line-break will be ignored by the parser. This
 feature can be used to create more readable configuration files.
@@ -1569,7 +1553,7 @@ bindsym Mod1+F fullscreen toggle</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="config_tiling_drag">4.34. Tiling drag</h3>
+<h3 id="config_tiling_drag">4.33. Tiling drag</h3>
 <div class="paragraph"><p>You can configure how to initiate the tiling drag feature (see <a href="#tiling_drag">[tiling_drag]</a>).</p></div>
 <div class="paragraph"><p>The default is <tt>modifier</tt>.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -1592,7 +1576,7 @@ tiling_drag off</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="gaps">4.35. Gaps</h3>
+<h3 id="gaps">4.34. Gaps</h3>
 <div class="paragraph"><p>Since i3 4.22, you can configure window gaps.
 “Gaps” are added spacing between windows (or split containers) and to the screen edges:</p></div>
 <div class="imageblock">
