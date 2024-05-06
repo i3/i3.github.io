@@ -138,7 +138,7 @@ visible (boolean)
 <dd>
 <p>
     Defaults to <tt>false</tt> if not included. <tt>focused</tt> takes precedence over it,
-    however <tt>visible</tt> is important for more than one monitors.
+    however <tt>visible</tt> is important for more than one monitor.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -211,7 +211,7 @@ i3-msg -t subscribe -m '["workspace", "output"]' | {
     # avoids having an empty bar when starting up.
     i3-msg -t get_workspaces;
     # Then, while we receive events, update the workspace information.
-    while read; do i3-msg -t get_workspaces; done;
+    while read EVENT; do i3-msg -t get_workspaces; done;
 }</tt></pre>
 </div></div>
 </div>
@@ -222,7 +222,7 @@ i3-msg -t subscribe -m '["workspace", "output"]' | {
 <pre><tt>#!/bin/sh
 i3-msg -t subscribe -m '["workspace", "output"]' | {
     i3-msg -t get_workspaces;
-    while read; do i3-msg -t get_workspaces; done;
+    while read EVENT; do i3-msg -t get_workspaces; done;
 } | jq --unbuffered -c '[ .[] | select(.name != "foo" or .focused) ]'</tt></pre>
 </div></div>
 <div class="paragraph"><p>Important! Make sure you use the <tt>--unbuffered</tt> flag with <tt>jq</tt>, otherwise you
@@ -236,7 +236,7 @@ might mean that you are getting an empty bar until enough events are written.</p
 <pre><tt>#!/bin/sh
 i3-msg -t subscribe -m '["workspace", "output"]' | {
     i3-msg -t get_workspaces;
-    while read; do i3-msg -t get_workspaces; done;
+    while read EVENT; do i3-msg -t get_workspaces; done;
 } | jq --unbuffered -c '
     def fake_ws(name): {
         name: name,
@@ -253,7 +253,7 @@ i3-msg -t subscribe -m '["workspace", "output"]' | {
 <pre><tt>#!/bin/sh
 i3-msg -t subscribe -m '["workspace", "output"]' | {
     i3-msg -t get_workspaces;
-    while read; do i3-msg -t get_workspaces; done;
+    while read EVENT; do i3-msg -t get_workspaces; done;
 } | jq --unbuffered -c 'sort_by(.name) | reverse'</tt></pre>
 </div></div>
 </div>
@@ -264,7 +264,7 @@ i3-msg -t subscribe -m '["workspace", "output"]' | {
 <pre><tt>#!/bin/sh
 i3-msg -t subscribe -m '["workspace", "output"]' | {
     i3-msg -t get_workspaces;
-    while read; do i3-msg -t get_workspaces; done;
+    while read EVENT; do i3-msg -t get_workspaces; done;
 } | jq --unbuffered -c '[ .[] | .name |= . + " foo" ]'</tt></pre>
 </div></div>
 </div>
