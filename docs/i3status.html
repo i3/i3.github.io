@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 8.6.10" />
+<meta name="generator" content="AsciiDoc 10.2.1" />
 <title>i3: i3status(1)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <h1>i3status(1)</h1>
 <span id="author">Michael Stapelberg</span><br />
 <span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
-<span id="revnumber">version 2.13,</span>
-<span id="revdate">June 2019</span>
+<span id="revnumber">version 2.15,</span>
+<span id="revdate">August 2024</span>
 <div id="toc">
   <div id="toctitle">Table of Contents</div>
   <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <div class="sect1">
 <h2 id="_synopsis">2. SYNOPSIS</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>i3status [-c configfile] [-h] [-v]</p></div>
+<div class="paragraph"><p>i3status [-c configfile] [-h] [-v] [--run-once]</p></div>
 </div>
 </div>
 <div class="sect1">
@@ -59,7 +59,7 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <div class="sectionbody">
 <div class="dlist"><dl>
 <dt class="hdlist1">
--c
+-c --config
 </dt>
 <dd>
 <p>
@@ -88,6 +88,30 @@ configuration files in the following order:
 </p>
 </li>
 </ol></div>
+</dd>
+<dt class="hdlist1">
+-h --help
+</dt>
+<dd>
+<p>
+Print the verison and a minimal syntax.
+</p>
+</dd>
+<dt class="hdlist1">
+-v --version
+</dt>
+<dd>
+<p>
+Print the version and any build configuration.
+</p>
+</dd>
+<dt class="hdlist1">
+--run-once
+</dt>
+<dd>
+<p>
+Only run once instead of looping.
+</p>
 </dd>
 </dl></div>
 </div>
@@ -150,6 +174,7 @@ battery 0 {
         status_bat = "🔋 BAT"
         status_unk = "? UNK"
         status_full = "☻ FULL"
+        status_idle = "☻ IDLE"
         path = "/sys/class/power_supply/BAT%d/uevent"
         low_threshold = 10
 }
@@ -286,10 +311,10 @@ This should be used with i3bar and can be used for custom scripts.
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>It&#8217;s also possible to use the color_good, color_degraded, color_bad directives
-to define specific colors per module. If one of these directives is defined
-in a module section its value will override the value defined in the general
-section just for this module.</p></div>
+<div class="paragraph"><p>It&#8217;s also possible to use the <tt>color_good</tt>, <tt>color_degraded</tt>, <tt>color_bad</tt>
+directives to define specific colors per module. If one of these directives is
+defined in a module section its value will override the value defined in the
+general section just for this module.</p></div>
 <div class="paragraph"><p>If you don&#8217;t fancy the vertical separators between modules i3status/i3bar
 uses by default, you can employ the <tt>separator</tt> directive to configure how
 modules are separated. You can also disable the default separator altogether by
@@ -326,15 +351,16 @@ disk "/" {
 <div class="sect2">
 <h3 id="_ipv6">5.2. IPv6</h3>
 <div class="paragraph"><p>This module gets the IPv6 address used for outgoing connections (that is, the
-best available public IPv6 address on your computer).</p></div>
-<div class="paragraph"><p><strong>Example format_up</strong>: <tt>%ip</tt></p></div>
+best available public IPv6 address on your computer) and the interface it is
+assigned to.</p></div>
+<div class="paragraph"><p><strong>Example format_up</strong>: <tt>%iface: %ip</tt></p></div>
 <div class="paragraph"><p><strong>Example format_down</strong>: <tt>no IPv6</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_disk">5.3. Disk</h3>
 <div class="paragraph"><p>Gets used, free, available and total amount of bytes on the given mounted filesystem.</p></div>
-<div class="paragraph"><p>These values can also be expressed in percentages with the percentage_used,
-percentage_free, percentage_avail and percentage_used_of_avail formats.</p></div>
+<div class="paragraph"><p>These values can also be expressed in percentages with the <tt>percentage_used</tt>,
+<tt>percentage_free</tt>, <tt>percentage_avail</tt> and <tt>percentage_used_of_avail</tt> formats.</p></div>
 <div class="paragraph"><p>Byte sizes are presented in a human readable format using a set of prefixes
 whose type can be specified via the "prefix_type" option. Three sets of
 prefixes are available:</p></div>
@@ -365,16 +391,16 @@ The custom prefixes (K, M, G, T) represent multiples of powers of 1024.
 </p>
 </dd>
 </dl></div>
-<div class="paragraph"><p>It is possible to define a low_threshold that causes the disk text to be
-displayed using color_bad. The low_threshold type can be of threshold_type
+<div class="paragraph"><p>It is possible to define a <tt>low_threshold</tt> that causes the disk text to be
+displayed using <tt>color_bad</tt>. The <tt>low_threshold</tt> type can be of <tt>threshold_type</tt>
 "bytes_free", "bytes_avail", "percentage_free", or "percentage_avail", where
 the former two can be prepended by a generic prefix (k, m, g, t) having
-prefix_type. So, if you configure low_threshold to 2, threshold_type to
+prefix_type. So, if you configure <tt>low_threshold</tt> to 2, <tt>threshold_type</tt> to
 "gbytes_avail", and prefix_type to "binary", and the remaining available disk
-space is below 2 GiB, it will be colored bad. If not specified, threshold_type
-is assumed to be "percentage_avail" and low_threshold to be set to 0, which
+space is below 2 GiB, it will be colored bad. If not specified, <tt>threshold_type</tt>
+is assumed to be "percentage_avail" and <tt>low_threshold</tt> to be set to 0, which
 implies no coloring at all. You can customize the output format when below
-low_threshold with format_below_threshold.</p></div>
+<tt>low_threshold</tt> with <tt>format_below_threshold.</tt></p></div>
 <div class="paragraph"><p>You can define a different format with the option "format_not_mounted"
 which is used if the path does not exist or is not a mount point. Defaults to "".</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>disk /mnt/usbstick</tt></p></div>
@@ -390,7 +416,7 @@ which is used if the path does not exist or is not a mount point. Defaults to ""
 <div class="paragraph"><p>Expands the given path to a pidfile and checks if the process ID found inside
 is valid (that is, if the process is running). You can use this to check if
 a specific application, such as a VPN client or your DHCP client is running.
-There also is an option "format_down". You can hide the output with
+There also is an option <tt>format_down</tt>. You can hide the output with
 <tt>format_down=""</tt>.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>run_watch DHCP</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%title: %status</tt></p></div>
@@ -399,7 +425,7 @@ There also is an option "format_down". You can hide the output with
 <h3 id="_path_exists">5.5. Path-exists</h3>
 <div class="paragraph"><p>Checks if the given path exists in the filesystem. You can use this to check if
 something is active, like for example a VPN tunnel managed by NetworkManager.
-There also is an option "format_down". You can hide the output with
+There also is an option <tt>format_down</tt>. You can hide the output with
 <tt>format_down=""</tt>.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>path_exists VPN</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%title: %status</tt></p></div>
@@ -409,13 +435,17 @@ There also is an option "format_down". You can hide the output with
 <div class="paragraph"><p>Gets the link quality, frequency and ESSID of the given wireless network
 interface. You can specify different format strings for the network being
 connected or not connected. The quality is padded with leading zeroes by
-default; to pad with something else use <tt>format_quality</tt>.</p></div>
+default; to pad with something else use <tt>format_bitrate</tt>, <tt>format_noise</tt>,
+<tt>format_quality</tt> or <tt>format_signal</tt>.</p></div>
 <div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first wireless
 network interface found on the system (excluding devices starting with "lo").</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>wireless wlan0</tt></p></div>
 <div class="paragraph"><p><strong>Example format_up</strong>: <tt>W: (%quality at %essid, %bitrate / %frequency) %ip</tt></p></div>
 <div class="paragraph"><p><strong>Example format_down</strong>: <tt>W: down</tt></p></div>
+<div class="paragraph"><p><strong>Example format_bitrate</strong>: <tt>"%g %cb/s"</tt></p></div>
+<div class="paragraph"><p><strong>Example format_noise</strong>: <tt>"%03d%s"</tt></p></div>
 <div class="paragraph"><p><strong>Example format_quality</strong>: <tt>"%03d%s"</tt></p></div>
+<div class="paragraph"><p><strong>Example format_signal</strong>: <tt>"%03d%s"</tt></p></div>
 </div>
 <div class="sect2">
 <h3 id="_ethernet">5.7. Ethernet</h3>
@@ -438,22 +468,25 @@ battery is at 23% when fully charged because it’s old. In general, I want to
 see it this way, because it tells me how worn off my battery is.), just specify
 <tt>last_full_capacity = true</tt>. You can show seconds in the remaining time and
 empty time estimations by setting <tt>hide_seconds = false</tt>.</p></div>
-<div class="paragraph"><p>If you want the battery percentage to be shown without decimals, add
-<tt>integer_battery_capacity = true</tt>.</p></div>
+<div class="paragraph"><p>If you want the battery percentage to be shown in another format, use
+<tt>format_percentage</tt>.
+<tt>integer_battery_capacity = true</tt> is a legacy option for
+<tt>format_percentage = "%.00f%s"</tt></p></div>
 <div class="paragraph"><p>If your battery is represented in a non-standard path in /sys, be sure to
-modify the "path" property accordingly, i.e. pointing to the uevent file on
+modify the <tt>path</tt> property accordingly, i.e. pointing to the uevent file on
 your system. The first occurrence of %d gets replaced with the battery number,
 but you can just hard-code a path as well.</p></div>
 <div class="paragraph"><p>It is possible to define a low_threshold that causes the battery text to be
-colored red. The low_threshold type can be of threshold_type "time" or
-"percentage". So, if you configure low_threshold to 10 and threshold_type to
-"time", and your battery lasts another 9 minutes, it will be colored red.</p></div>
+colored <tt>color_bad</tt>. The <tt>low_threshold</tt> type can be of <tt>threshold_type</tt> "time"
+or "percentage". So, if you configure <tt>low_threshold</tt> to 10 and <tt>threshold_type</tt>
+to "time", and your battery lasts another 9 minutes, it will be colored
+<tt>color_bad</tt>.</p></div>
 <div class="paragraph"><p>To show an aggregate of all batteries in the system, use "all" as the number. In
 this case (for Linux), the /sys path must contain the "%d" sequence. Otherwise,
 the number indicates the battery index as reported in /sys.</p></div>
 <div class="paragraph"><p>Optionally custom strings including any UTF-8 symbols can be used for different
 battery states. This makes it possible to display individual symbols
-for each state (charging, discharging, unknown, full)
+for each state (charging, discharging, unknown, full).
 Of course it will also work with special iconic fonts, such as FontAwesome.
 If any of these special status strings are omitted, the default (CHR, BAT, UNK,
 FULL) is used.</p></div>
@@ -461,6 +494,7 @@ FULL) is used.</p></div>
 <div class="paragraph"><p><strong>Example order (aggregate of all batteries)</strong>: <tt>battery all</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%status %remaining (%emptytime %consumption)</tt></p></div>
 <div class="paragraph"><p><strong>Example format_down</strong>: <tt>No battery</tt></p></div>
+<div class="paragraph"><p><strong>Example format_percentage</strong>: <tt>"%.02f%s"</tt></p></div>
 <div class="paragraph"><p><strong>Example status_chr</strong>: <tt>⚡ CHR</tt></p></div>
 <div class="paragraph"><p><strong>Example status_bat</strong>: <tt>🔋 BAT</tt></p></div>
 <div class="paragraph"><p><strong>Example status_unk</strong>: <tt>? UNK</tt></p></div>
@@ -473,10 +507,10 @@ FULL) is used.</p></div>
 <div class="sect2">
 <h3 id="_cpu_temperature">5.9. CPU-Temperature</h3>
 <div class="paragraph"><p>Gets the temperature of the given thermal zone. It is possible to
-define a max_threshold that will color the temperature red in case the
+define a <tt>max_threshold</tt> that will color the temperature red in case the
 specified thermal zone is getting too hot. Defaults to 75 degrees C. The
-output format when above max_threshold can be customized with
-format_above_threshold.</p></div>
+output format when above <tt>max_threshold</tt> can be customized with
+<tt>format_above_threshold</tt>.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_temperature 0</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>T: %degrees °C</tt></p></div>
 <div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>42</tt></p></div>
@@ -487,16 +521,16 @@ format_above_threshold.</p></div>
 <h3 id="_cpu_usage">5.10. CPU Usage</h3>
 <div class="paragraph"><p>Gets the percentual CPU usage from <tt>/proc/stat</tt> (Linux) or <tt>sysctl(3)</tt>
 (FreeBSD/OpenBSD).</p></div>
-<div class="paragraph"><p>It is possible to define a max_threshold that will color the load
-value red in case the CPU average over the last interval is getting
+<div class="paragraph"><p>It is possible to define a <tt>max_threshold</tt> that will color the load
+value with <tt>color_bad</tt> in case the CPU average over the last interval is getting
 higher than the configured threshold. Defaults to 95. The output
-format when above max_threshold can be customized with
-format_above_threshold.</p></div>
-<div class="paragraph"><p>It is possible to define a degraded_threshold that will color the load
-value yellow in case the CPU average over the last interval is getting
-higher than the configured threshold. Defaults to 90. The output format
+format when above <tt>max_threshold</tt> can be customized with
+<tt>format_above_threshold</tt>.</p></div>
+<div class="paragraph"><p>It is possible to define a <tt>degraded_threshold</tt> that will color the load
+value with <tt>color_degraded</tt> in case the CPU average over the last interval is
+getting higher than the configured threshold. Defaults to 90. The output format
 when above degraded threshold can be customized with
-format_above_degraded_threshold.</p></div>
+<tt>format_above_degraded_threshold</tt>.</p></div>
 <div class="paragraph"><p>For displaying the Nth CPU usage, you can use the %cpu&lt;N&gt; format string,
 starting from %cpu0. This feature is currently not supported in FreeBSD.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_usage</tt></p></div>
@@ -514,14 +548,21 @@ systems are currently not supported.</p></div>
 available. These will print human readable values. It&#8217;s also possible to prefix
 the placeholders with <tt>percentage_</tt> to get a value in percent.</p></div>
 <div class="paragraph"><p>It&#8217;s possible to define a <tt>threshold_degraded</tt> and a <tt>threshold_critical</tt> to
-color the status bar output in yellow or red, if the available memory falls
-below the given threshold. Possible values of the threshold can be any integer,
-suffixed with an iec symbol (<tt>T</tt>, <tt>G</tt>, <tt>M</tt>, <tt>K</tt>). Alternatively, the integer
-can be suffixed by a percent sign, which then rets evaluated relatively to
-total memory.</p></div>
+color the status bar output in <tt>color_degraded</tt> or <tt>color_bad</tt>, if the available
+memory falls below the given threshold. Possible values of the threshold can be
+any integer, suffixed with an iec symbol (<tt>T</tt>, <tt>G</tt>, <tt>M</tt>, <tt>K</tt>). Alternatively,
+the integer can be suffixed by a percent sign, which then gets evaluated
+relatively to total memory.</p></div>
 <div class="paragraph"><p>If the <tt>format_degraded</tt> parameter is given and either the critical or the
 degraded threshold applies, <tt>format_degraded</tt> will get used as format string.
 It acts equivalently to <tt>format</tt>.</p></div>
+<div class="paragraph"><p>It&#8217;s also possible to define the unit for the various format placeholders. As
+<tt>/proc/meminfo</tt> returns the memory in kB they will be converted to the given
+unit. If no unit is given or the <tt>auto</tt> option is used, the conversion will
+select the maximum possible unit.</p></div>
+<div class="paragraph"><p>As the converted format placeholder will be a decimal number, the number of
+decimals can be configured via the <tt>decimals</tt> option. If no such option is
+given the converted format placeholder will have one decimal.</p></div>
 <div class="paragraph"><p>As Linux' meminfo doesn&#8217;t expose the overall memory in use, there are multiple
 methods to distinguish the actually used memory.</p></div>
 <div class="paragraph"><p><strong>Example memory_used_method</strong>: <tt>memavailable</tt> ("total memory" - "MemAvailable", matches <tt>free</tt> command)</p></div>
@@ -529,6 +570,8 @@ methods to distinguish the actually used memory.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>memory</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%free %available (%used) / %total</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%percentage_used used, %percentage_free free, %percentage_shared shared</tt></p></div>
+<div class="paragraph"><p><strong>Example unit</strong>: auto, Ki, Mi, Gi, Ti</p></div>
+<div class="paragraph"><p><strong>Example decimals</strong>: 0, 1, 2, 3</p></div>
 <div class="paragraph"><p><strong>Example threshold_degraded</strong>: <tt>10%</tt></p></div>
 <div class="paragraph"><p><strong>Example threshold_critical</strong>: <tt>5%</tt></p></div>
 <div class="paragraph"><p><strong>Example format_degraded</strong>: <tt>Memory LOW: %free</tt></p></div>
@@ -537,10 +580,10 @@ methods to distinguish the actually used memory.</p></div>
 <h3 id="_load">5.12. Load</h3>
 <div class="paragraph"><p>Gets the system load (number of processes waiting for CPU time in the last
 1, 5 and 15 minutes). It is possible to define a max_threshold that will
-color the load value red in case the load average of the last minute is
+color the load value <tt>color_bad</tt> in case the load average of the last minute is
 getting higher than the configured threshold. Defaults to 5. The output
-format when above max_threshold can be customized with
-format_above_threshold.</p></div>
+format when above <tt>max_threshold</tt> can be customized with
+<tt>format_above_threshold</tt>.</p></div>
 <div class="paragraph"><p><strong>Example order</strong>: <tt>load</tt></p></div>
 <div class="paragraph"><p><strong>Example format</strong>: <tt>%1min %5min %15min</tt></p></div>
 <div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>"0.1"</tt></p></div>
@@ -660,14 +703,14 @@ to "default", PulseAudio will be tried if detected and will fallback to ALSA
 <div class="paragraph"><p>Outputs the contents of the specified file. You can use this to check contents
 of files on your system, for example /proc/uptime. By default the function only
 reads the first 254 characters of the file, if you want to override this set
-the Max_characters option. It will never read beyond the first 4095 characters.
-If the file is not found "no file" will be printed, if the file can&#8217;t be read
-"error read" will be printed.</p></div>
-<div class="paragraph"><p><strong>Example order</strong>: <tt>read_file UPTIME</tt></p></div>
-<div class="paragraph"><p><strong>Example format</strong>: <tt>%title: %content</tt></p></div>
-<div class="paragraph"><p><strong>Example format_bad</strong>: <tt>%title - %errno: %error</tt></p></div>
-<div class="paragraph"><p><strong>Example path</strong>: <tt>/proc/uptime</tt></p></div>
-<div class="paragraph"><p><strong>Example Max_characters</strong>: <tt>255</tt></p></div>
+the <tt>Max_characters</tt> option. It will never read beyond the first 4095
+characters. If the file is not found "no file" will be printed, if the file
+can&#8217;t be read "error read" will be printed.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: read_file UPTIME</p></div>
+<div class="paragraph"><p><strong>Example format</strong>: "%title: %content"</p></div>
+<div class="paragraph"><p><strong>Example format_bad</strong>: "%title - %errno: %error"</p></div>
+<div class="paragraph"><p><strong>Example path</strong>: "/proc/uptime"</p></div>
+<div class="paragraph"><p><strong>Example Max_characters</strong>: 255</p></div>
 </div>
 </div>
 </div>
@@ -711,7 +754,7 @@ separator
         A boolean value which specifies whether a separator line should be drawn
         after this block. The default is true, meaning the separator line will be
         drawn. Note that if you disable the separator line, there will still be a
-        gap after the block, unless you also use separator_block_width.
+        gap after the block, unless you also use <tt>separator_block_width</tt>.
 </p>
 </dd>
 <dt class="hdlist1">
