@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 10.2.0" />
+<meta name="generator" content="AsciiDoc 10.2.1" />
 <title>i3: i3 User’s Guide</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -288,6 +288,10 @@ Drop on container
     This happens when the mouse is relatively near the center of a container.
     If the mouse is released, the result is exactly as if you had run the
     <tt>move container to mark</tt> command. See <a href="#move_to_mark">[move_to_mark]</a>.
+    If the swap modifier is pressed before initiating the drag (<tt>tiling_drag
+    swap_modifier</tt> set to Shift by default), the containers are swapped
+    instead. In that case, the result is exactly as if you had run the <tt>swap
+    container with mark</tt> command. See <a href="#swapping_containers">[swapping_containers]</a>.
 </p>
 </dd>
 <dt class="hdlist1">
@@ -455,14 +459,6 @@ file. Also, the created config file will use the key symbols of your current
 keyboard layout. To start the wizard, use the command <tt>i3-config-wizard</tt>.
 Please note that you must not have <tt>~/.i3/config</tt>, otherwise the wizard will
 exit.</p></div>
-<div class="paragraph"><p>Since i3 4.0, a new configuration format is used. i3 will try to automatically
-detect the format version of a config file based on a few different keywords,
-but if you want to make sure that your config is read with the new format,
-include the following line in your config file:</p></div>
-<div class="listingblock">
-<div class="content">
-<pre><tt># i3 config file (v4)</tt></pre>
-</div></div>
 <div class="sect2">
 <h3 id="include">4.1. Include directive</h3>
 <div class="paragraph"><p>Since i3 v4.20, it is possible to include other configuration files from your i3
@@ -627,8 +623,8 @@ Keycodes do not need to have a symbol assigned (handy for custom vendor
 your bindings in the same physical location on the keyboard, use keycodes.
 If you don’t switch layouts, and want a clean and simple config file, use
 keysyms.</p></div>
-<div class="paragraph"><p>Some tools (such as <tt>import</tt> or <tt>xdotool</tt>) might be unable to run upon a
-KeyPress event, because the keyboard/pointer is still grabbed. For these
+<div class="paragraph"><p>Some tools (such as <tt>xdotool</tt>) might be unable to run upon a
+KeyPress event, because the keyboard is still grabbed. For these
 situations, the <tt>--release</tt> flag can be used, which will execute the command
 after the keys have been released.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
@@ -1339,31 +1335,37 @@ behavior described above.</p></div>
 <div class="paragraph"><p>When you are in fullscreen mode, some applications still open popup windows
 (take Xpdf for example). This is because these applications might not be aware
 that they are in fullscreen mode (they do not check the corresponding hint).
-There are three things which are possible to do in this situation:</p></div>
+i3 supports four options for this situation:</p></div>
 <div class="olist arabic"><ol class="arabic">
 <li>
 <p>
-Display the popup if it belongs to the fullscreen application only. This is
-   the default and should be reasonable behavior for most users.
+<tt>smart</tt>: Display the popup if it belongs to the fullscreen application only.
+   This is the default and should be reasonable behavior for most users.
 </p>
 </li>
 <li>
 <p>
-Just ignore the popup (don’t map it). This won’t interrupt you while you are
-   in fullscreen. However, some apps might react badly to this (deadlock until
-   you go out of fullscreen).
+<tt>ignore</tt>: Just ignore the popup (don’t map it). This won’t interrupt you
+   while you are in fullscreen. However, some apps might react badly to this
+   (deadlock until you go out of fullscreen).
 </p>
 </li>
 <li>
 <p>
-Leave fullscreen mode.
+<tt>leave_fullscreen</tt>: Leave fullscreen mode.
+</p>
+</li>
+<li>
+<p>
+<tt>all</tt>: Since i3 4.24: Display all floating windows regardless to which
+   application they belong to.
 </p>
 </li>
 </ol></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
-<pre><tt>popup_during_fullscreen smart|ignore|leave_fullscreen</tt></pre>
+<pre><tt>popup_during_fullscreen smart|ignore|leave_fullscreen|all</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Example</strong>:</p></div>
 <div class="listingblock">
@@ -1556,11 +1558,16 @@ bindsym Mod1+F fullscreen toggle</tt></pre>
 <h3 id="config_tiling_drag">4.33. Tiling drag</h3>
 <div class="paragraph"><p>You can configure how to initiate the tiling drag feature (see <a href="#tiling_drag">[tiling_drag]</a>).</p></div>
 <div class="paragraph"><p>The default is <tt>modifier</tt>.</p></div>
+<div class="paragraph"><p>Since i3 4.24, you can configure a modifier key which, when pressed, will swap
+instead of moving containers when dropping directly onto another container.
+Defaults to <tt>Shift</tt>. Note that you have to be pressing both the floating
+modifer and the swap modifier before the drag is initiated.</p></div>
 <div class="paragraph"><p><strong>Syntax</strong>:</p></div>
 <div class="listingblock">
 <div class="content">
 <pre><tt>tiling_drag off
-tiling_drag modifier|titlebar [modifier|titlebar]</tt></pre>
+tiling_drag modifier|titlebar [modifier|titlebar]
+tiling_drag swap_modifier &lt;modifier&gt;</tt></pre>
 </div></div>
 <div class="paragraph"><p><strong>Examples</strong>:</p></div>
 <div class="listingblock">
@@ -1572,7 +1579,15 @@ tiling_drag modifier
 tiling_drag modifier titlebar
 
 # Disable tiling drag altogether
-tiling_drag off</tt></pre>
+tiling_drag off
+
+# Use Control to swap containers
+tiling_drag swap_modifier Control
+
+# Setting the swap_modifier to be the same key as the floating modifier will
+# always swap without the need to hold two keys
+floating_modifier Mod4
+tiling_drag swap_modifier Mod4</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
@@ -2846,7 +2861,7 @@ bindsym $mod+u focus parent
 bindsym $mod+g focus mode_toggle
 
 # Focus the next output (effectively toggles when you only have two outputs)
-bindsym $mod+x move workspace to output next
+bindsym $mod+x focus output next
 
 # Focus the output right to the current one
 bindsym $mod+x focus output right
@@ -2918,7 +2933,7 @@ bindsym $mod+m move position mouse</tt></pre>
 </div></div>
 </div>
 <div class="sect2">
-<h3 id="_swapping_containers">6.6. Swapping containers</h3>
+<h3 id="swapping_containers">6.6. Swapping containers</h3>
 <div class="paragraph"><p>Two containers can be swapped (i.e., move to each other&#8217;s position) by using
 the <tt>swap</tt> command. They will assume the position and geometry of the container
 they are swapped with.</p></div>

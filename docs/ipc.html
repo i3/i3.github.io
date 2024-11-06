@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 10.2.0" />
+<meta name="generator" content="AsciiDoc 10.2.1" />
 <title>i3: IPC interface (interprocess communication)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -49,14 +49,37 @@ to get various information like the current workspaces to implement an external
 workspace bar.</p></div>
 <div class="paragraph"><p>The method of choice for IPC in our case is a unix socket because it has very
 little overhead on both sides and is usually available without headaches in
-most languages. In the default configuration file, the ipc-socket gets created
-in <tt>/tmp/i3-%u.XXXXXX/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username, <tt>%p</tt> is
-the PID of i3 and XXXXXX is a string of random characters from the portable
-filename character set (see mkdtemp(3)). You can get the socketpath from i3 by
-executing <tt>i3 --get-socketpath</tt>, which will print the path to the standard
-output (plus a newline).</p></div>
-<div class="paragraph"><p>All i3 utilities, like <tt>i3-msg</tt> and <tt>i3-input</tt> will read the <tt>I3_SOCKET_PATH</tt>
-X11 property, stored on the X11 root window.</p></div>
+most languages.
+By default i3 will set the path of the IPC socket based on:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+The <tt>ipc-socket</tt> configuration directive if it is used
+</p>
+</li>
+<li>
+<p>
+The <tt>I3SOCK</tt> environmental variable if it is set
+</p>
+</li>
+<li>
+<p>
+<tt>$XDG_RUNTIME_DIR/i3/ipc-socket.%p</tt> if the directory is available where <tt>%p</tt>
+   is the PID of i3 and XXXXXX is a string of random characters
+</p>
+</li>
+<li>
+<p>
+<tt>/tmp/i3-%u.XXXXXX/ipc-socket.%p</tt> where <tt>%u</tt> is your UNIX username
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>You can get the socketpath from i3 by executing <tt>i3 --get-socketpath</tt>, which
+will print the path to the standard output (plus a newline) or by reading the
+<tt>I3SOCK</tt> environmental variable.</p></div>
+<div class="paragraph"><p>All i3 utilities, like <tt>i3-msg</tt> and <tt>i3-input</tt> will determine the path of the
+IPC socket frome the <tt>I3SOCK</tt> environmental variable if it is set or the
+<tt>I3_SOCKET_PATH</tt> X11 property, stored on the X11 root window.</p></div>
 <div class="admonitionblock">
 <table><tr>
 <td class="icon">
@@ -1673,9 +1696,50 @@ if ($is_event) {
 <div class="sect2">
 <h3 id="_workspace_event">5.3. workspace event</h3>
 <div class="paragraph"><p>This event consists of a single serialized map containing a property
-<tt>change (string)</tt> which indicates the type of the change ("focus", "init",
-"empty", "urgent", "reload", "rename", "restored", "move"). A
-<tt>current (object)</tt> property will be present with the affected workspace
+<tt>change (string)</tt> which indicates the type of the change.</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+<tt>empty</tt> – the workspace has become empty
+</p>
+</li>
+<li>
+<p>
+<tt>focus</tt> – the workspace has received input focus
+</p>
+</li>
+<li>
+<p>
+<tt>init</tt> – the workspace has been created
+</p>
+</li>
+<li>
+<p>
+<tt>move</tt> – the workspace has been moved to a different output
+</p>
+</li>
+<li>
+<p>
+<tt>reload</tt> – i3 config has been reloaded
+</p>
+</li>
+<li>
+<p>
+<tt>rename</tt> – the workspace&#8217;s name has changed
+</p>
+</li>
+<li>
+<p>
+<tt>restored</tt> – the workspace&#8217;s layout has changed to a previously saved layout
+</p>
+</li>
+<li>
+<p>
+<tt>urgent</tt> – the workspace has become urgent or lost its urgent status
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>A <tt>current (object)</tt> property will be present with the affected workspace
 whenever the type of event affects a workspace (otherwise, it will be <tt>null</tt>).</p></div>
 <div class="paragraph"><p>When the change is "focus", an <tt>old (object)</tt> property will be present with the
 previous workspace.  When the first switch occurs (when i3 focuses the
