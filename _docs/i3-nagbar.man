@@ -9,7 +9,39 @@ i3-nagbar - displays an error bar on top of your screen
 
 == SYNOPSIS
 
-i3-nagbar -m 'message' -b 'label' 'action'
+i3-nagbar [-m <message>] [-b <button> <action>] [-B <button> <action>] [-t warning|error] [-f <font>] [-v] [-p]
+
+== OPTIONS
+
+*-v, --version*::
+Display version number and exit.
+
+*-h, --help*::
+Display a short help-message and exit.
+
+*-t, --type* 'type'::
+Display either a warning or error message. This only changes the color scheme
+for the i3-nagbar. Default: error.
+
+*-m, --message* 'message'::
+Display 'message' as text on the left of the i3-nagbar.
+
+*-f, --font* 'font'::
+Select font that is being used.
+
+*-b, --button* 'button' 'action'::
+Create a button with text 'button'. The 'action' are the shell commands that
+will be executed by this button. Multiple buttons can be defined.
+Will launch the shell commands inside a terminal emulator, using
+i3-sensible-terminal.
+
+*-B, --button-no-terminal* 'button' 'action'::
+Same as above, but will execute the shell commands directly, without launching a
+terminal emulator.
+
+*-p, --primary*::
+Always opens the i3-nagbar on the primary monitor. By default it opens on the
+focused monitor.
 
 == DESCRIPTION
 
@@ -22,7 +54,7 @@ after modifying the configuration file.
 
 ------------------------------------------------
 i3-nagbar -m 'You have an error in your i3 config file!' \
--b 'edit config' 'xterm $EDITOR ~/.i3/config'
+-b 'edit config' 'i3-sensible-editor ~/.config/i3/config'
 ------------------------------------------------
 
 == SEE ALSO

@@ -3,7 +3,7 @@
 <head>
 <link rel="icon" href="/favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="generator" content="AsciiDoc 8.6.10" />
+<meta name="generator" content="AsciiDoc 10.2.1" />
 <title>i3: i3-nagbar(1)</title>
 <link rel="stylesheet" href="/css/style.css" type="text/css" />
 <link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
@@ -51,11 +51,88 @@ document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); a
 <div class="sect1">
 <h2 id="_synopsis">2. SYNOPSIS</h2>
 <div class="sectionbody">
-<div class="paragraph"><p>i3-nagbar -m <em>message</em> -b <em>label</em> <em>action</em></p></div>
+<div class="paragraph"><p>i3-nagbar [-m &lt;message&gt;] [-b &lt;button&gt; &lt;action&gt;] [-B &lt;button&gt; &lt;action&gt;] [-t warning|error] [-f &lt;font&gt;] [-v] [-p]</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_description">3. DESCRIPTION</h2>
+<h2 id="_options">3. OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<strong>-v, --version</strong>
+</dt>
+<dd>
+<p>
+Display version number and exit.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-h, --help</strong>
+</dt>
+<dd>
+<p>
+Display a short help-message and exit.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-t, --type</strong> <em>type</em>
+</dt>
+<dd>
+<p>
+Display either a warning or error message. This only changes the color scheme
+for the i3-nagbar. Default: error.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-m, --message</strong> <em>message</em>
+</dt>
+<dd>
+<p>
+Display <em>message</em> as text on the left of the i3-nagbar.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-f, --font</strong> <em>font</em>
+</dt>
+<dd>
+<p>
+Select font that is being used.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-b, --button</strong> <em>button</em> <em>action</em>
+</dt>
+<dd>
+<p>
+Create a button with text <em>button</em>. The <em>action</em> are the shell commands that
+will be executed by this button. Multiple buttons can be defined.
+Will launch the shell commands inside a terminal emulator, using
+i3-sensible-terminal.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-B, --button-no-terminal</strong> <em>button</em> <em>action</em>
+</dt>
+<dd>
+<p>
+Same as above, but will execute the shell commands directly, without launching a
+terminal emulator.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-p, --primary</strong>
+</dt>
+<dd>
+<p>
+Always opens the i3-nagbar on the primary monitor. By default it opens on the
+focused monitor.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">4. DESCRIPTION</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>i3-nagbar is used by i3 to tell you about errors in your configuration file
 (for example). While these errors are logged to the logfile (if any), the past
@@ -64,23 +141,23 @@ after modifying the configuration file.</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_example">4. EXAMPLE</h2>
+<h2 id="_example">5. EXAMPLE</h2>
 <div class="sectionbody">
 <div class="listingblock">
 <div class="content">
 <pre><tt>i3-nagbar -m 'You have an error in your i3 config file!' \
--b 'edit config' 'xterm $EDITOR ~/.i3/config'</tt></pre>
+-b 'edit config' 'i3-sensible-editor ~/.config/i3/config'</tt></pre>
 </div></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_see_also">5. SEE ALSO</h2>
+<h2 id="_see_also">6. SEE ALSO</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>i3(1)</p></div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_author">6. AUTHOR</h2>
+<h2 id="_author">7. AUTHOR</h2>
 <div class="sectionbody">
 <div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
 </div>
