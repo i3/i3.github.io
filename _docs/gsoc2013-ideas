@@ -67,7 +67,7 @@ We often receive bug reports which are specific to certain toolkits and/or
 applications. For example, people are reporting problems with the IntelliJ IDE,
 Java applications in general, VMware or Half-Life (via Steam).
 
-Most often, these problems are caused by i3 doing things slighty differently
+Most often, these problems are caused by i3 doing things slightly differently
 than other window managers and can be solved by observing and comparing what
 others do and what i3 does.
 
