@@ -137,7 +137,7 @@ widget = luastatus.require_plugin('cpu-usage-linux').widget{
 field of the global <code>widget</code> table. Its value might be either a function, or a string.
 
 <p>If the <code>event</code> field of the global <code>widget</code> table is a <b>function</b>, then it is invoked
-each time the i3 barlib reports a click event on this widget; its argument is simply a table wit all
+each time the i3 barlib reports a click event on this widget; its argument is simply a table with all
 the click properties reported by i3bar; see <a href="/docs/i3bar-protocol.html#_click_events">i3bar protocol § Click events</a>.
 (Although note that <code>name</code> is excluded as it is set automatically and is meaningless to the widget;
 in order to find out which segment was clicked, set the <code>instance</code> property on segments in

@@ -23,7 +23,7 @@ configuration files in the following order:
 4. /etc/i3status.conf
 
 -h --help::
-Print the verison and a minimal syntax.
+Print the version and a minimal syntax.
 
 -v --version::
 Print the version and any build configuration.
