@@ -6,10 +6,19 @@ This is the source code for the official i3 website: [https://i3wm.org/](https:/
 
 ## Building
 
-You will need [Jekyll](https://jekyllrb.com/) and [AsciiDoc](http://asciidoc.org/).
-First, generate the docs from the `_docs` folder with `make -C _docs -j`.
-Move the HTML files from `_docs` to `docs` (notice the underscore!): `mv _docs/*.html docs/`.
-Then, use `jekyll build` and you can finally serve the website locally with `jekyll serve`.
+You will need [Hugo](https://gohugo.io/) and [AsciiDoc](http://asciidoc.org/).
+
+To rebuild the website after making changes, run `hugo` (without parameters) and
+hugo will generate the website into the `docs` directory.
+
+To preview your changes, run `hugo serve`.
+
+If you want to push changes to the documentation, update the relevant file(s) in
+`content/_docs`, then:
+
+1. Generate the docs from the `content/_docs` folder with `make -C content/_docs -j`.
+
+1. Move the HTML files from `_docs` to `docs` (notice the underscore!): `mv content/_docs/*.html content/docs/`.
 
 ## Contributing
 
