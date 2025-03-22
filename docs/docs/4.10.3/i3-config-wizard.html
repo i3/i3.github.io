@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.8" />
+<title>i3: i3-config-wizard(1)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="https://faq.i3wm.org/">FAQ</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>i3-config-wizard(1)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
+<span id="revnumber">version 4.0,</span>
+<span id="revdate">July 2011</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_name">1. NAME</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-config-wizard - creates a keysym based config based on your layout</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis">2. SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-config-wizard</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_files">3. FILES</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_etc_i3_config_keycodes">3.1. /etc/i3/config.keycodes</h3>
+<div class="paragraph"><p>This file contains the default configuration with keycodes. All the bindcode
+lines will be transformed to bindsym and the user-specified modifier will be
+used.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">4. DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-config-wizard is started by i3 in its default config, unless <sub>/.i3/config
+exists. i3-config-wizard creates a keysym based i3 config file (based on
+/etc/i3/config.keycodes) in </sub>/.i3/config.</p></div>
+<div class="paragraph"><p>The advantage of using keysyms is that the config file is easy to read,
+understand and modify. However, if we shipped with a keysym based default
+config file, the key positions would not be consistent across different
+keyboard layouts (take for example the homerow for movement). Therefore, we
+ship with a keycode based default config and let the wizard transform it
+according to your current keyboard layout.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">5. SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3(1)</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_author">6. AUTHOR</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>

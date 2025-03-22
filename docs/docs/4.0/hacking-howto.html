@@ -1,0 +1,1046 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
+<title>i3: Hacking i3: How To</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes(); asciidoc.toc(2);}
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="http://bugs.i3wm.org/">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>Hacking i3: How To</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael+i3@stapelberg.de">michael+i3@stapelberg.de</a>&gt;</tt></span><br />
+<span id="revdate">July 2011</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document is intended to be the first thing you read before looking and/or
+touching i3’s source code. It should contain all important information to help
+you understand why things are like they are. If it does not mention something
+you find necessary, please do not hesitate to contact me.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_window_managers">1. Window Managers</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>A window manager is not necessarily needed to run X, but it is usually used in
+combination with X to facilitate some things. The window manager&#8217;s job is to
+take care of the placement of windows, to provide the user with some mechanisms
+to change the position/size of windows and to communicate with clients to a
+certain extent (for example handle fullscreen requests of clients such as
+MPlayer).</p></div>
+<div class="paragraph"><p>There are no different contexts in which X11 clients run, so a window manager
+is just another client, like all other X11 applications. However, it handles
+some events which normal clients usually don’t handle.</p></div>
+<div class="paragraph"><p>In the case of i3, the tasks (and order of them) are the following:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Grab the key bindings (events will be sent upon keypress/keyrelease)
+</p>
+</li>
+<li>
+<p>
+Iterate through all existing windows (if the window manager is not started as
+  the first client of X) and manage them (reparent them, create window
+  decorations, etc.)
+</p>
+</li>
+<li>
+<p>
+When new windows are created, manage them
+</p>
+</li>
+<li>
+<p>
+Handle the client’s <tt>_WM_STATE</tt> property, but only the <tt>_WM_STATE_FULLSCREEN</tt>
+</p>
+</li>
+<li>
+<p>
+Handle the client’s <tt>WM_NAME</tt> property
+</p>
+</li>
+<li>
+<p>
+Handle the client’s size hints to display them proportionally
+</p>
+</li>
+<li>
+<p>
+Handle the client’s urgency hint
+</p>
+</li>
+<li>
+<p>
+Handle enter notifications (focus follows mouse)
+</p>
+</li>
+<li>
+<p>
+Handle button (as in mouse buttons) presses for focus/raise on click
+</p>
+</li>
+<li>
+<p>
+Handle expose events to re-draw own windows such as decorations
+</p>
+</li>
+<li>
+<p>
+React to the user’s commands: Change focus, Move windows, Switch workspaces,
+  Change the layout mode of a container (default/stacking/tabbed), start a new
+  application, restart the window manager
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>In the following chapters, each of these tasks and their implementation details
+will be discussed.</p></div>
+<div class="sect2">
+<h3 id="_tiling_window_managers">1.1. Tiling window managers</h3>
+<div class="paragraph"><p>Traditionally, there are two approaches to managing windows: The most common
+one nowadays is floating, which means the user can freely move/resize the
+windows. The other approach is called tiling, which means that your window
+manager distributes windows to use as much space as possible while not
+overlapping each other.</p></div>
+<div class="paragraph"><p>The idea behind tiling is that you should not need to waste your time
+moving/resizing windows while you usually want to get some work done. After
+all, most users sooner or later tend to lay out their windows in a way which
+corresponds to tiling or stacking mode in i3. Therefore, why not let i3 do this
+for you? Certainly, it’s faster than you could ever do it.</p></div>
+<div class="paragraph"><p>The problem with most tiling window managers is that they are too unflexible.
+In my opinion, a window manager is just another tool, and similar to vim which
+can edit all kinds of text files (like source code, HTML, …) and is not limited
+to a specific file type, a window manager should not limit itself to a certain
+layout (like dwm, awesome, …) but provide mechanisms for you to easily create
+the layout you need at the moment.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_the_layout_table">1.2. The layout table</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p>This section has not been updated for v4.0 yet, sorry! We wanted to release on
+time, but we will update this soon. Please talk to us on IRC if you need to
+know stuff <strong>NOW</strong> :).</p></div>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_files">2. Files</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+include/atoms.xmacro
+</dt>
+<dd>
+<p>
+A file containing all X11 atoms which i3 uses. This file will be included
+various times (for defining, requesting and receiving the atoms), each time
+with a different definition of xmacro().
+</p>
+</dd>
+<dt class="hdlist1">
+include/data.h
+</dt>
+<dd>
+<p>
+Contains data definitions used by nearly all files. You really need to read
+this first.
+</p>
+</dd>
+<dt class="hdlist1">
+include/*.h
+</dt>
+<dd>
+<p>
+Contains forward definitions for all public functions, as well as
+doxygen-compatible comments (so if you want to get a bit more of the big
+picture, either browse all header files or use doxygen if you prefer that).
+</p>
+</dd>
+<dt class="hdlist1">
+src/cfgparse.l
+</dt>
+<dd>
+<p>
+Contains the lexer for i3’s configuration file, written for <tt>flex(1)</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+src/cfgparse.y
+</dt>
+<dd>
+<p>
+Contains the parser for i3’s configuration file, written for <tt>bison(1)</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+src/click.c
+</dt>
+<dd>
+<p>
+Contains all functions which handle mouse button clicks (right mouse button
+clicks initiate resizing and thus are relatively complex).
+</p>
+</dd>
+<dt class="hdlist1">
+src/cmdparse.l
+</dt>
+<dd>
+<p>
+Contains the lexer for i3 commands, written for <tt>flex(1)</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+src/cmdparse.y
+</dt>
+<dd>
+<p>
+Contains the parser for i3 commands, written for <tt>bison(1)</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+src/con.c
+</dt>
+<dd>
+<p>
+Contains all functions which deal with containers directly (creating
+containers, searching containers, getting specific properties from containers,
+…).
+</p>
+</dd>
+<dt class="hdlist1">
+src/config.c
+</dt>
+<dd>
+<p>
+Contains all functions handling the configuration file (calling the parser
+(src/cfgparse.y) with the correct path, switching key bindings mode).
+</p>
+</dd>
+<dt class="hdlist1">
+src/debug.c
+</dt>
+<dd>
+<p>
+Contains debugging functions to print unhandled X events.
+</p>
+</dd>
+<dt class="hdlist1">
+src/ewmh.c
+</dt>
+<dd>
+<p>
+iFunctions to get/set certain EWMH properties easily.
+</p>
+</dd>
+<dt class="hdlist1">
+src/floating.c
+</dt>
+<dd>
+<p>
+Contains functions for floating mode (mostly resizing/dragging).
+</p>
+</dd>
+<dt class="hdlist1">
+src/handlers.c
+</dt>
+<dd>
+<p>
+Contains all handlers for all kinds of X events (new window title, new hints,
+unmapping, key presses, button presses, …).
+</p>
+</dd>
+<dt class="hdlist1">
+src/ipc.c
+</dt>
+<dd>
+<p>
+Contains code for the IPC interface.
+</p>
+</dd>
+<dt class="hdlist1">
+src/load_layout.c
+</dt>
+<dd>
+<p>
+Contains code for loading layouts from JSON files.
+</p>
+</dd>
+<dt class="hdlist1">
+src/log.c
+</dt>
+<dd>
+<p>
+Handles the setting of loglevels, contains the logging functions.
+</p>
+</dd>
+<dt class="hdlist1">
+src/main.c
+</dt>
+<dd>
+<p>
+Initializes the window manager.
+</p>
+</dd>
+<dt class="hdlist1">
+src/manage.c
+</dt>
+<dd>
+<p>
+Looks at existing or new windows and decides whether to manage them. If so, it
+reparents the window and inserts it into our data structures.
+</p>
+</dd>
+<dt class="hdlist1">
+src/match.c
+</dt>
+<dd>
+<p>
+A "match" is a data structure which acts like a mask or expression to match
+certain windows or not. For example, when using commands, you can specify a
+command like this: [title="<strong>Firefox</strong>"] kill. The title member of the match
+data structure will then be filled and i3 will check each window using
+match_matches_window() to find the windows affected by this command.
+</p>
+</dd>
+<dt class="hdlist1">
+src/move.c
+</dt>
+<dd>
+<p>
+Contains code to move a container in a specific direction.
+</p>
+</dd>
+<dt class="hdlist1">
+src/output.c
+</dt>
+<dd>
+<p>
+Functions to handle CT_OUTPUT cons.
+</p>
+</dd>
+<dt class="hdlist1">
+src/randr.c
+</dt>
+<dd>
+<p>
+The RandR API is used to get (and re-query) the configured outputs (monitors,
+…).
+</p>
+</dd>
+<dt class="hdlist1">
+src/render.c
+</dt>
+<dd>
+<p>
+Renders the tree data structure by assigning coordinates to every node. These
+values will later be pushed to X11 in <tt>src/x.c</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+src/resize.c
+</dt>
+<dd>
+<p>
+Contains the functions to resize containers.
+</p>
+</dd>
+<dt class="hdlist1">
+src/sighandler.c
+</dt>
+<dd>
+<p>
+Handles <tt>SIGSEGV</tt>, <tt>SIGABRT</tt> and <tt>SIGFPE</tt> by showing a dialog that i3 crashed.
+You can chose to let it dump core, to restart it in-place or to restart it
+in-place but forget about the layout.
+</p>
+</dd>
+<dt class="hdlist1">
+src/tree.c
+</dt>
+<dd>
+<p>
+Contains functions which open or close containers in the tree, change focus or
+cleanup ("flatten") the tree. See also <tt>src/move.c</tt> for another similar
+function, which was moved into its own file because it is so long.
+</p>
+</dd>
+<dt class="hdlist1">
+src/util.c
+</dt>
+<dd>
+<p>
+Contains useful functions which are not really dependant on anything.
+</p>
+</dd>
+<dt class="hdlist1">
+src/window.c
+</dt>
+<dd>
+<p>
+Handlers to update X11 window properties like <tt>WM_CLASS</tt>, <tt>_NET_WM_NAME</tt>,
+<tt>CLIENT_LEADER</tt>, etc.
+</p>
+</dd>
+<dt class="hdlist1">
+src/workspace.c
+</dt>
+<dd>
+<p>
+Contains all functions related to workspaces (displaying, hiding, renaming…)
+</p>
+</dd>
+<dt class="hdlist1">
+src/x.c
+</dt>
+<dd>
+<p>
+Transfers our in-memory tree (see <tt>src/render.c</tt>) to X11.
+</p>
+</dd>
+<dt class="hdlist1">
+src/xcb.c
+</dt>
+<dd>
+<p>
+Contains wrappers to use xcb more easily.
+</p>
+</dd>
+<dt class="hdlist1">
+src/xcursor.c
+</dt>
+<dd>
+<p>
+XCursor functions (for cursor themes).
+</p>
+</dd>
+<dt class="hdlist1">
+src/xinerama.c
+</dt>
+<dd>
+<p>
+Legacy support for Xinerama. See <tt>src/randr.c</tt> for the preferred API.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_data_structures">3. Data structures</h2>
+<div class="sectionbody">
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p>This section has not been updated for v4.0 yet, sorry! We wanted to release on
+time, but we will update this soon. Please talk to us on IRC if you need to
+know stuff <strong>NOW</strong> :).</p></div>
+</div></div>
+<div class="paragraph"><p>So, the hierarchy is:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+<strong>X11 root window</strong>, the root container
+</p>
+</li>
+<li>
+<p>
+<strong>Virtual screens</strong> (Screen 0 in this example)
+</p>
+</li>
+<li>
+<p>
+<strong>Content container</strong> (there are also containers for dock windows)
+</p>
+</li>
+<li>
+<p>
+<strong>Workspaces</strong> (Workspace 1 in this example, with horizontal orientation)
+</p>
+</li>
+<li>
+<p>
+<strong>Split container</strong> (vertically split)
+</p>
+</li>
+<li>
+<p>
+<strong>X11 window containers</strong>
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>The data type is <tt>Con</tt>, in all cases.</p></div>
+<div class="sect2">
+<h3 id="_virtual_screens">3.1. Virtual screens</h3>
+<div class="paragraph"><p>A virtual screen (type <tt>i3Screen</tt>) is generated from the connected outputs
+obtained through RandR. The difference to the raw RandR outputs as seen
+when using <tt>xrandr(1)</tt> is that it falls back to the lowest common resolution of
+the actual enabled outputs.</p></div>
+<div class="paragraph"><p>For example, if your notebook has a screen resolution of 1280x800 px and you
+connect a video projector with a resolution of 1024x768 px, set it up in clone
+mode (<tt>xrandr --output VGA1 --mode 1024x768 --same-as LVDS1</tt>), i3 will have
+one virtual screen.</p></div>
+<div class="paragraph"><p>However, if you configure it using <tt>xrandr --output VGA1 --mode 1024x768
+--right-of LVDS1</tt>, i3 will generate two virtual screens. For each virtual
+screen, a new workspace will be assigned. New workspaces are created on the
+screen you are currently on.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_workspace">3.2. Workspace</h3>
+<div class="paragraph"><p>A workspace is identified by its name. Basically, you could think of
+workspaces as different desks in your office, if you like the desktop
+methaphor. They just contain different sets of windows and are completely
+separate of each other. Other window managers also call this &#8220;Virtual
+desktops&#8221;.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_the_layout_table_2">3.3. The layout table</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p>This section has not been updated for v4.0 yet, sorry! We wanted to release on
+time, but we will update this soon. Please talk to us on IRC if you need to
+know stuff <strong>NOW</strong> :).</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_container">3.4. Container</h3>
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p>This section has not been updated for v4.0 yet, sorry! We wanted to release on
+time, but we will update this soon. Please talk to us on IRC if you need to
+know stuff <strong>NOW</strong> :).</p></div>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_client">3.5. Client</h3>
+<div class="paragraph"><p>A client is x11-speak for a window.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_list_queue_macros">4. List/queue macros</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3 makes heavy use of the list macros defined in BSD operating systems. To
+ensure that the operating system on which i3 is compiled has all the expected
+features, i3 comes with <tt>include/queue.h</tt>. On BSD systems, you can use man
+<tt>queue(3)</tt>. On Linux, you have to use google (or read the source).</p></div>
+<div class="paragraph"><p>The lists used are <tt>SLIST</tt> (single linked lists), <tt>CIRCLEQ</tt> (circular
+queues) and <tt>TAILQ</tt> (tail queues). Usually, only forward traversal is necessary,
+so an <tt>SLIST</tt> works fine. If inserting elements at arbitrary positions or at
+the end of a list is necessary, a <tt>TAILQ</tt> is used instead. However, for the
+windows inside a container, a <tt>CIRCLEQ</tt> is necessary to go from the currently
+selected window to the window above/below.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_naming_conventions">5. Naming conventions</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>There is a row of standard variables used in many events. The following names
+should be chosen for those:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+&#8220;conn&#8221; is the xcb_connection_t
+</p>
+</li>
+<li>
+<p>
+&#8220;event&#8221; is the event of the particular type
+</p>
+</li>
+<li>
+<p>
+&#8220;con&#8221; names a container
+</p>
+</li>
+<li>
+<p>
+&#8220;current&#8221; is a loop variable when using <tt>TAILQ_FOREACH</tt> etc.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_startup_src_mainx_c_main">6. Startup (src/mainx.c, main())</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Establish the xcb connection
+</p>
+</li>
+<li>
+<p>
+Check for XKB extension on the separate X connection, load Xcursor
+</p>
+</li>
+<li>
+<p>
+Check for RandR screens (with a fall-back to Xinerama)
+</p>
+</li>
+<li>
+<p>
+Grab the keycodes for which bindings exist
+</p>
+</li>
+<li>
+<p>
+Manage all existing windows
+</p>
+</li>
+<li>
+<p>
+Enter the event loop
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_keybindings">7. Keybindings</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_grabbing_the_bindings">7.1. Grabbing the bindings</h3>
+<div class="paragraph"><p>Grabbing the bindings is quite straight-forward. You pass X your combination of
+modifiers and the keycode you want to grab and whether you want to grab them
+actively or passively. Most bindings (everything except for bindings using
+Mode_switch) are grabbed passively, that is, just the window manager gets the
+event and cannot replay it.</p></div>
+<div class="paragraph"><p>We need to grab bindings that use Mode_switch actively because of a bug in X.
+When the window manager receives the keypress/keyrelease event for an actively
+grabbed keycode, it has to decide what to do with this event: It can either
+replay it so that other applications get it or it can prevent other
+applications from receiving it.</p></div>
+<div class="paragraph"><p>So, why do we need to grab keycodes actively? Because X does not set the
+state-property of keypress/keyrelease events properly. The Mode_switch bit is
+not set and we need to get it using XkbGetState. This means we cannot pass X
+our combination of modifiers containing Mode_switch when grabbing the key and
+therefore need to grab the keycode itself without any modifiers. This means,
+if you bind Mode_switch + keycode 38 ("a"), i3 will grab keycode 38 ("a") and
+check on each press of "a" if the Mode_switch bit is set using XKB. If yes, it
+will handle the event, if not, it will replay the event.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_handling_a_keypress">7.2. Handling a keypress</h3>
+<div class="paragraph"><p>As mentioned in "Grabbing the bindings", upon a keypress event, i3 first gets
+the correct state.</p></div>
+<div class="paragraph"><p>Then, it looks through all bindings and gets the one which matches the received
+event.</p></div>
+<div class="paragraph"><p>The bound command is parsed by the cmdparse lexer/parser, see <tt>parse_cmd</tt> in
+<tt>src/cmdparse.y</tt>.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_manage_windows_src_main_c_manage_window_and_reparent_window">8. Manage windows (src/main.c, manage_window() and reparent_window())</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><tt>manage_window()</tt> does some checks to decide whether the window should be
+managed at all:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Windows have to be mapped, that is, visible on screen
+</p>
+</li>
+<li>
+<p>
+The override_redirect must not be set. Windows with override_redirect shall
+   not be managed by a window manager
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Afterwards, i3 gets the intial geometry and reparents the window (see
+<tt>reparent_window()</tt>) if it wasn’t already managed.</p></div>
+<div class="paragraph"><p>Reparenting means that for each window which is reparented, a new window,
+slightly larger than the original one, is created. The original window is then
+reparented to the bigger one (called "frame").</p></div>
+<div class="paragraph"><p>After reparenting, the window type (<tt>_NET_WM_WINDOW_TYPE</tt>) is checked to see
+whether this window is a dock (<tt>_NET_WM_WINDOW_TYPE_DOCK</tt>), like dzen2 for
+example. Docks are handled differently, they don’t have decorations and are not
+assigned to a specific container. Instead, they are positioned at the bottom
+of the screen. To get the height which needs to be reserved for the window,
+the <tt>_NET_WM_STRUT_PARTIAL</tt> property is used.</p></div>
+<div class="paragraph"><p>Furthermore, the list of assignments (to other workspaces, which may be on
+other screens) is checked. If the window matches one of the user’s criteria,
+it may either be put in floating mode or moved to a different workspace. If the
+target workspace is not visible, the window will not be mapped.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_happens_when_an_application_is_started">9. What happens when an application is started?</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3 does not care for applications. All it notices is when new windows are
+mapped (see <tt>src/handlers.c</tt>, <tt>handle_map_request()</tt>). The window is then
+reparented (see section "Manage windows").</p></div>
+<div class="paragraph"><p>After reparenting the window, <tt>render_tree()</tt> is called which renders the
+internal layout table. The new window has been placed in the currently focused
+container and therefore the new window and the old windows (if any) need to be
+moved/resized so that the currently active layout (default/stacking/tabbed mode)
+is rendered correctly. To move/resize windows, a window is &#8220;configured&#8221; in
+X11-speak.</p></div>
+<div class="paragraph"><p>Some applications, such as MPlayer obviously assume the window manager is
+stupid and try to configure their windows by themselves. This generates an
+event called configurerequest. i3 handles these events and tells the window the
+size it had before the configurerequest (with the exception of not yet mapped
+windows, which get configured like they want to, and floating windows, which
+can reconfigure themselves).</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_net_wm_state">10. _NET_WM_STATE</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Only the _NET_WM_STATE_FULLSCREEN atom is handled. It calls
+&#8220;toggle_fullscreen()&#8221; for the specific client which just configures the
+client to use the whole screen on which it currently is. Also, it is set as
+fullscreen_client for the i3Screen.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_wm_name">11. WM_NAME</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When the WM_NAME property of a window changes, its decoration (containing the
+title) is re-rendered. Note that WM_NAME is in COMPOUND_TEXT encoding which is
+totally uncommon and cumbersome. Therefore, the _NET_WM_NAME atom will be used
+if present.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_net_wm_name">12. _NET_WM_NAME</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Like WM_NAME, this atom contains the title of a window. However, _NET_WM_NAME
+is encoded in UTF-8. i3 will recode it to UCS-2 in order to be able to pass it
+to X. Using an appropriate font (ISO-10646), you can see most special
+characters (every special character contained in your font).</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_size_hints">13. Size hints</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Size hints specify the minimum/maximum size for a given window as well as its
+aspect ratio.  This is important for clients like mplayer, who only set the
+aspect ratio and resize their window to be as small as possible (but only with
+some video outputs, for example in Xv, while when using x11, mplayer does the
+necessary centering for itself).</p></div>
+<div class="paragraph"><p>So, when an aspect ratio was specified, i3 adjusts the height of the window
+until the size maintains the correct aspect ratio. For the code to do this, see
+src/layout.c, function resize_client().</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_rendering_src_layout_c_render_layout_and_render_container">14. Rendering (src/layout.c, render_layout() and render_container())</h2>
+<div class="sectionbody">
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p>This section has not been updated for v4.0 yet, sorry! We wanted to release on
+time, but we will update this soon. Please talk to us on IRC if you need to
+know stuff <strong>NOW</strong> :).</p></div>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_user_commands_commandmode_src_cmdparse_l_y">15. User commands / commandmode (src/cmdparse.{l,y})</h2>
+<div class="sectionbody">
+<div class="sidebarblock">
+<div class="content">
+<div class="paragraph"><p>This section has not been updated for v4.0 yet, sorry! We wanted to release on
+time, but we will update this soon. Please talk to us on IRC if you need to
+know stuff <strong>NOW</strong> :).</p></div>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_moving_containers">16. Moving containers</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The movement code is pretty delicate. You need to consider all cases before
+making any changes or before being able to fully understand how it works.</p></div>
+<div class="sect2">
+<h3 id="_case_1_moving_inside_the_same_container">16.1. Case 1: Moving inside the same container</h3>
+<div class="paragraph"><p>The reference layout for this case is a single workspace in horizontal
+orientation with two containers on it. Focus is on the left container (1).</p></div>
+<div class="tableblock">
+<table rules="all"
+width="15%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="center" valign="top"><p class="table">1</p></td>
+<td align="center" valign="top"><p class="table">2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>When moving the left window to the right (command <tt>move right</tt>), tree_move will
+look for a container with horizontal orientation and finds the parent of the
+left container, that is, the workspace. Afterwards, it runs the code branch
+commented with "the easy case": it calls TAILQ_NEXT to get the container right
+of the current one and swaps both containers.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_case_2_move_a_container_into_a_split_container">16.2. Case 2: Move a container into a split container</h3>
+<div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
+containers. The right container is a v-split with two containers. Focus is on
+the left container (1).</p></div>
+<div class="tableblock">
+<table rules="all"
+width="15%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td rowspan="2" align="center" valign="middle"><p class="table">1</p></td>
+<td align="center" valign="top"><p class="table">2</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">3</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>When moving to the right (command <tt>move right</tt>), i3 will work like in case 1
+("the easy case"). However, as the right container is not a leaf container, but
+a v-split, the left container (1) will be inserted at the right position (below
+2, assuming that 2 is focused inside the v-split) by calling <tt>insert_con_into</tt>.</p></div>
+<div class="paragraph"><p><tt>insert_con_into</tt> detaches the container from its parent and inserts it
+before/after the given target container. Afterwards, the on_remove_child
+callback is called on the old parent container which will then be closed, if
+empty.</p></div>
+<div class="paragraph"><p>Afterwards, <tt>con_focus</tt> will be called to fix the focus stack and the tree will
+be flattened.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_case_3_moving_to_non_existant_top_bottom">16.3. Case 3: Moving to non-existant top/bottom</h3>
+<div class="paragraph"><p>Like in case 1, the reference layout for this case is a single workspace in
+horizontal orientation with two containers on it. Focus is on the left
+container:</p></div>
+<div class="tableblock">
+<table rules="all"
+width="15%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="center" valign="top"><p class="table">1</p></td>
+<td align="center" valign="top"><p class="table">2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>This time however, the command is <tt>move up</tt> or <tt>move down</tt>. tree_move will look
+for a container with vertical orientation. As it will not find any,
+<tt>same_orientation</tt> is NULL and therefore i3 will perform a forced orientation
+change on the workspace by creating a new h-split container, moving the
+workspace contents into it and then changing the workspace orientation to
+vertical. Now it will again search for parent containers with vertical
+orientation and it will find the workspace.</p></div>
+<div class="paragraph"><p>This time, the easy case code path will not be run as we are not moving inside
+the same container. Instead, <tt>insert_con_into</tt> will be called with the focused
+container and the container above/below the current one (on the level of
+<tt>same_orientation</tt>).</p></div>
+<div class="paragraph"><p>Now, <tt>con_focus</tt> will be called to fix the focus stack and the tree will be
+flattened.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_case_4_moving_to_existant_top_bottom">16.4. Case 4: Moving to existant top/bottom</h3>
+<div class="paragraph"><p>The reference layout for this case is a vertical workspace with two containers.
+The bottom one is a h-split containing two containers (1 and 2). Focus is on
+the bottom left container (1).</p></div>
+<div class="tableblock">
+<table rules="all"
+width="15%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td colspan="2" align="center" valign="top"><p class="table">3</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">1</p></td>
+<td align="center" valign="top"><p class="table">2</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>This case is very much like case 3, only this time the forced workspace
+orientation change does not need to be performed because the workspace already
+is in vertical orientation.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_case_5_moving_in_one_child_h_split">16.5. Case 5: Moving in one-child h-split</h3>
+<div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
+containers having a v-split on the left side with a one-child h-split on the
+bottom. Focus is on the bottom left container (2(h)):</p></div>
+<div class="tableblock">
+<table rules="all"
+width="15%"
+frame="border"
+cellspacing="0" cellpadding="4">
+<col width="50%" />
+<col width="50%" />
+<tbody>
+<tr>
+<td align="center" valign="top"><p class="table">1</p></td>
+<td rowspan="2" align="center" valign="middle"><p class="table">3</p></td>
+</tr>
+<tr>
+<td align="center" valign="top"><p class="table">2(h)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="paragraph"><p>In this case, <tt>same_orientation</tt> will be set to the h-split container around
+the focused container. However, when trying the easy case, the next/previous
+container <tt>swap</tt> will be NULL. Therefore, i3 will search again for a
+<tt>same_orientation</tt> container, this time starting from the parent of the h-split
+container.</p></div>
+<div class="paragraph"><p>After determining a new <tt>same_orientation</tt> container (if it is NULL, the
+orientation will be force-changed), this case is equivalent to case 2 or case
+4.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_case_6_floating_containers">16.6. Case 6: Floating containers</h3>
+<div class="paragraph"><p>The reference layout for this case is a horizontal workspace with two
+containers plus one floating h-split container. Focus is on the floating
+container.</p></div>
+<div class="paragraph"><p>TODO: nice illustration. table not possible?</p></div>
+<div class="paragraph"><p>When moving up/down, the container needs to leave the floating container and it
+needs to be placed on the workspace (at workspace level). This is accomplished
+by calling the function <tt>attach_to_workspace</tt>.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_click_handling">17. Click handling</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Without much ado, here is the list of cases which need to be considered:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+click to focus (tiling + floating) and raise (floating)
+</p>
+</li>
+<li>
+<p>
+click to focus/raise when in stacked/tabbed mode
+</p>
+</li>
+<li>
+<p>
+floating_modifier + left mouse button to drag a floating con
+</p>
+</li>
+<li>
+<p>
+floating_modifier + right mouse button to resize a floating con
+</p>
+</li>
+<li>
+<p>
+click on decoration in a floating con to either initiate a resize (if there
+  is more than one child in the floating con) or to drag the
+  floating con (if it’s the one at the top).
+</p>
+</li>
+<li>
+<p>
+click on border in a floating con to resize the floating con
+</p>
+</li>
+<li>
+<p>
+floating_modifier + right mouse button to resize a tiling con
+</p>
+</li>
+<li>
+<p>
+click on border/decoration to resize a tiling con
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_gotchas">18. Gotchas</h2>
+<div class="sectionbody">
+<div class="ulist"><ul>
+<li>
+<p>
+Forgetting to call <tt>xcb_flush(conn);</tt> after sending a request. This usually
+  leads to code which looks like it works fine but which does not work under
+  certain conditions.
+</p>
+</li>
+</ul></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_git_sending_patches">19. Using git / sending patches</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>For a short introduction into using git, see
+<a href="http://www.spheredev.org/wiki/Git_for_the_lazy">http://www.spheredev.org/wiki/Git_for_the_lazy</a> or, for more documentation, see
+<a href="http://git-scm.com/documentation">http://git-scm.com/documentation</a></p></div>
+<div class="paragraph"><p>When you want to send a patch because you fixed a bug or implemented a cool
+feature (please talk to us before working on features to see whether they are
+maybe already implemented, not possible for some some reason, or don’t fit
+into the concept), please use git to create a patchfile.</p></div>
+<div class="paragraph"><p>First of all, update your working copy to the latest version of the master
+branch:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>git pull</tt></pre>
+</div></div>
+<div class="paragraph"><p>Afterwards, make the necessary changes for your bugfix/feature. Then, review
+the changes using <tt>git diff</tt> (you might want to enable colors in the diff using
+<tt>git config diff.color auto</tt>).  When you are definitely done, use <tt>git commit
+-a</tt> to commit all changes you’ve made.</p></div>
+<div class="paragraph"><p>Then, use the following command to generate a patchfile which we can directly
+apply to the branch, preserving your commit message and name:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>git format-patch origin</tt></pre>
+</div></div>
+<div class="paragraph"><p>Just send us the generated file via email.</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>

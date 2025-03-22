@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/png" href="/favicon.png">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
+<title>i3: Debugging i3: How To</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+window.onload = function(){asciidoc.footnotes();}
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="http://bugs.i3wm.org/">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>Debugging i3: How To</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">February 2012</span>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document describes how to debug i3 suitably for sending us useful bug
+reports, even if you have no clue of C programming.</p></div>
+<div class="paragraph"><p>First of all: Thank you for being interested in debugging i3. It really means
+something to us to get your bug fixed. If you have any questions about the
+debugging and/or need further help, do not hesitate to contact us!</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_verify_you_are_using_the_latest_development_version">1. Verify you are using the latest (development) version</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Please verify that you are using the latest version of i3:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ i3 --version
+i3 version 4.1.2-248-g51728ba (2012-02-12, branch "next")</tt></pre>
+</div></div>
+<div class="paragraph"><p>Your version can look like this:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+4.1.2
+</dt>
+<dd>
+<p>
+You are using a release version. Please
+upgrade to a development version first, or read
+<a href="debugging-release-version.html">Debugging i3: How To (release version)</a>.
+</p>
+</dd>
+<dt class="hdlist1">
+4.1.2-248-g51728ba
+</dt>
+<dd>
+<p>
+Your version is 248 commits newer than 4.1.2, and the git revision of your
+version is <tt>51728ba</tt>. Go to <a href="http://code.i3wm.org/i3/commit/?h=next">http://code.i3wm.org/i3/commit/?h=next</a> and see if
+the line "commit" starts with the same revision. If so, you are using the
+latest version.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Development versions of i3 have several properties which make debugging easier:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Shared memory debug logging is enabled by default. You do not have to enable
+   logging explicitly.
+</p>
+</li>
+<li>
+<p>
+Core dumps are enabled by default.
+</p>
+</li>
+<li>
+<p>
+If you are using a version from the Debian/Ubuntu autobuilder, it is
+   compiled without optimization. Debug symbols are available in the i3-wm-dbg
+   package. When compiling i3 yourself, debug mode is the default.
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_obtaining_the_debug_logfile">2. Obtaining the debug logfile</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>No matter whether i3 misbehaved in some way without crashing or whether it just
+crashed, the logfile provides all information necessary to debug the problem.</p></div>
+<div class="paragraph"><p>To save a compressed version of the logfile (suitable for attaching it to a
+bugreport), use:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3-dump-log | gzip -9c &gt; /tmp/i3.log.gz</tt></pre>
+</div></div>
+<div class="paragraph"><p>This command does not depend on i3 (it also works when i3 currently displays
+the crash dialog), but it requires a working X11 connection. When running it
+from a virtual console (Ctrl-Alt-F1), use:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>DISPLAY=:0 i3-dump-log | gzip -9c &gt; /tmp/i3.log.gz</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_obtaining_a_backtrace">3. Obtaining a backtrace</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When i3 displays its crash dialog, do the following:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Switch to a virtual console (Ctrl-Alt-F1) or login from a different computer
+</p>
+</li>
+<li>
+<p>
+Generate a backtrace (see below)
+</p>
+</li>
+<li>
+<p>
+Switch back to the crash dialog (Ctrl-Alt-F7)
+</p>
+</li>
+<li>
+<p>
+Restart i3 in-place (you will keep your session), continue working
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>This is how you get a backtrace from a running i3 process:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>I3PID=$(pidof i3)
+gdb /proc/$I3PID/exe $I3PID \
+    --batch --quiet \
+    --ex 'backtrace full' &gt; /tmp/i3-backtrace.txt 2&gt;&amp;1</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sending_bug_reports_debugging_on_irc">4. Sending bug reports/debugging on IRC</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When sending bug reports, please attach the <strong>whole</strong> log file. Even if you think
+you found the section which clearly highlights the problem, additional
+information might be necessary to completely diagnose the problem.</p></div>
+<div class="paragraph"><p>When debugging with us in IRC, be prepared to use a so called nopaste service
+such as <a href="http://nopaste.info">http://nopaste.info</a> or <a href="http://pastebin.com">http://pastebin.com</a> because pasting large
+amounts of text in IRC sometimes leads to incomplete lines (servers have line
+length limitations) or flood kicks.</p></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+© 2009-2011 Michael Stapelberg, <a href="/impress.html">Impressum</a>
+</div>
+</body>
+</html>

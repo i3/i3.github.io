@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="AsciiDoc 10.2.1" />
+<title>i3: i3(1)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body>
+    <header>
+        <a class="logo" href="/">
+            <img src="/img/logo.svg" alt="i3 WM logo" />
+        </a>
+        <nav>
+            <ul>
+                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                <li><a href="/screenshots">Screens</a></li>
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+
+<h1>i3(1)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revnumber">version 4.3,</span>
+<span id="revdate">September 2012</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_name">1. NAME</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3 - an improved tiling window manager</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis">2. SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3 [-a] [-c configfile] [-C] [-d all] [-v] [-V]</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options">3. OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+-a
+</dt>
+<dd>
+<p>
+Disables autostart.
+</p>
+</dd>
+<dt class="hdlist1">
+-c
+</dt>
+<dd>
+<p>
+Specifies an alternate configuration file path.
+</p>
+</dd>
+<dt class="hdlist1">
+-C
+</dt>
+<dd>
+<p>
+Check the configuration file for validity and exit.
+</p>
+</dd>
+<dt class="hdlist1">
+-d all
+</dt>
+<dd>
+<p>
+Enables debug logging.
+The <em>all</em> parameter is present for historical reasons.
+</p>
+</dd>
+<dt class="hdlist1">
+-v
+</dt>
+<dd>
+<p>
+Display version number (and date of the last commit).
+</p>
+</dd>
+<dt class="hdlist1">
+-V
+</dt>
+<dd>
+<p>
+Be verbose.
+</p>
+</dd>
+<dt class="hdlist1">
+--force-xinerama
+</dt>
+<dd>
+<p>
+Use Xinerama instead of RandR. This option should only be used if you are stuck
+with the old nVidia closed source driver (older than 302.17) which does not
+support RandR.
+</p>
+</dd>
+<dt class="hdlist1">
+--get-socketpath
+</dt>
+<dd>
+<p>
+Retrieve the i3 IPC socket path from X11, print it, then exit.
+</p>
+</dd>
+<dt class="hdlist1">
+--shmlog-size &lt;limit&gt;
+</dt>
+<dd>
+<p>
+Limits the size of the i3 SHM log to &lt;limit&gt; bytes. Setting this to 0 disables
+SHM logging entirely. The default is 0 bytes.
+</p>
+</dd>
+<dt class="hdlist1">
+--replace
+</dt>
+<dd>
+<p>
+Replace an existing window manager.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">4. DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_introduction">4.1. INTRODUCTION</h3>
+<div class="paragraph"><p>i3 was created because wmii, our favorite window manager at the time, didn’t
+provide some features we wanted (multi-monitor done right, for example), had
+some bugs, didn’t progress since quite some time and wasn’t easy to hack at all
+(source code comments/documentation completely lacking). Still, we think the
+wmii developers and contributors did a great job. Thank you for inspiring us to
+create i3.</p></div>
+<div class="paragraph"><p>Please be aware that i3 is primarily targeted at advanced users and developers.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_important_note_to_nvidia_binary_driver_users">4.2. IMPORTANT NOTE TO nVidia BINARY DRIVER USERS</h3>
+<div class="paragraph"><p>If you are using the nVidia binary graphics driver (also known as <em>blob</em>)
+before version 302.17, you need to use the <tt>--force-xinerama</tt> flag (in your
+~/.xsession) when starting i3, like so:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>exec i3 --force-xinerama -V &gt;&gt;~/.i3/i3log 2&gt;&amp;1</tt></pre>
+</div></div>
+<div class="paragraph"><p>See also docs/multi-monitor for the full explanation.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_terminology">4.3. TERMINOLOGY</h3>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Tree
+</dt>
+<dd>
+<p>
+i3 keeps your layout in a tree data structure.
+</p>
+</dd>
+<dt class="hdlist1">
+Window
+</dt>
+<dd>
+<p>
+An X11 window, like the Firefox browser window or a terminal emulator.
+</p>
+</dd>
+<dt class="hdlist1">
+Floating Window
+</dt>
+<dd>
+<p>
+A window which "floats" on top of other windows. This style is used by i3 to
+display X11 windows with type "dialog", such as the "Print" or "Open File"
+dialog boxes in many GUI applications. Use of floating windows can be
+fine-tuned with the for_window command (see HTML userguide).
+</p>
+</dd>
+<dt class="hdlist1">
+Split container
+</dt>
+<dd>
+<p>
+A split container contains multiple other split containers or windows.
+</p>
+<div class="paragraph"><p>Containers can be used in various layouts. The default mode is called "default"
+and just resizes each client equally so that it fits.</p></div>
+</dd>
+<dt class="hdlist1">
+Workspace
+</dt>
+<dd>
+<p>
+A workspace is a set of containers. Other window managers call this "Virtual
+Desktops".
+</p>
+<div class="paragraph"><p>In i3, each workspace is assigned to a specific virtual screen. By default,
+screen 1 has workspace 1, screen 2 has workspace 2 and so on… However, when you
+create a new workspace (by simply switching to it), it’ll be assigned the
+screen you are currently on.</p></div>
+</dd>
+<dt class="hdlist1">
+Output
+</dt>
+<dd>
+<p>
+Using XRandR, you can have an X11 screen spanning multiple real monitors.
+Furthermore, you can set them up in cloning mode or with positions (monitor 1
+is left of monitor 2).
+</p>
+<div class="paragraph"><p>i3 uses the RandR API to query which outputs are available and which screens
+are connected to these outputs.</p></div>
+</dd>
+</dl></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_keybindings">5. KEYBINDINGS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Here is a short overview of the default keybindings:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+Mod1+Enter
+</dt>
+<dd>
+<p>
+Open a new terminal emulator window.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+d
+</dt>
+<dd>
+<p>
+Open dmenu for starting any application by typing (part of) its name.
+</p>
+</dd>
+<dt class="hdlist1">
+j/k/l/;
+</dt>
+<dd>
+<p>
+Direction keys (left, down, up, right). They are on your homerow (see the mark
+on your "j" key). Alternatively, you can use the cursor keys.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+&lt;direction&gt;
+</dt>
+<dd>
+<p>
+Focus window in &lt;direction&gt;.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+Shift+&lt;direction&gt;
+</dt>
+<dd>
+<p>
+Move window to &lt;direction&gt;.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+&lt;number&gt;
+</dt>
+<dd>
+<p>
+Switch to workspace &lt;number&gt;.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+Shift+&lt;number&gt;
+</dt>
+<dd>
+<p>
+Move window to workspace &lt;number&gt;.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+f
+</dt>
+<dd>
+<p>
+Toggle fullscreen mode.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+s
+</dt>
+<dd>
+<p>
+Enable stacking layout for the current container.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+e
+</dt>
+<dd>
+<p>
+Enable default layout for the current container.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+w
+</dt>
+<dd>
+<p>
+Enable tabbed layout for the current container.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+Shift+Space
+</dt>
+<dd>
+<p>
+Toggle tiling/floating for the current container.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+Space
+</dt>
+<dd>
+<p>
+Select the first tiling container if the current container is floating and
+vice-versa.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+Shift+q
+</dt>
+<dd>
+<p>
+Kills the current window. This is equivalent to "clicking on the close button",
+meaning a polite request to the application to close this window. For example,
+Firefox will save its session upon such a request. If the application does not
+support that, the window will be killed and it depends on the application what
+happens.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+Shift+r
+</dt>
+<dd>
+<p>
+Restarts i3 in place. Your layout will be preserved.
+</p>
+</dd>
+<dt class="hdlist1">
+Mod1+Shift+e
+</dt>
+<dd>
+<p>
+Exits i3.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_files">6. FILES</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_config_i3_config_or_i3_config">6.1. ~/.config/i3/config (or ~/.i3/config)</h3>
+<div class="paragraph"><p>When starting, i3 looks for configuration files in the following order:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+~/.config/i3/config (or $XDG_CONFIG_HOME/i3/config if set)
+</p>
+</li>
+<li>
+<p>
+~/.i3/config
+</p>
+</li>
+<li>
+<p>
+/etc/xdg/i3/config (or $XDG_CONFIG_DIRS/i3/config if set)
+</p>
+</li>
+<li>
+<p>
+/etc/i3/config
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>You can specify a custom path using the -c option.</p></div>
+<div class="listingblock">
+<div class="title">Sample configuration</div>
+<div class="content">
+<pre><tt># i3 config file (v4)
+
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+font pango:DejaVu Sans Mono 8
+# Before i3 v4.8, we used to recommend this one as the default:
+# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
+# The font above is very space-efficient, that is, it looks good, sharp and
+# clear in small sizes. However, its unicode glyph coverage is limited, the old
+# X core fonts rendering does not support right-to-left and this being a bitmap
+# font, it doesn’t scale on retina/hidpi displays.
+
+# use Mouse+Mod1 to drag floating windows to their wanted position
+floating_modifier Mod1
+
+# start a terminal
+bindsym Mod1+Return exec /usr/bin/urxvt
+
+# kill focused window
+bindsym Mod1+Shift+q kill
+
+# start dmenu (a program launcher)
+bindsym Mod1+d exec /usr/bin/dmenu_run
+
+# change focus
+bindsym Mod1+j focus left
+bindsym Mod1+k focus down
+bindsym Mod1+l focus up
+bindsym Mod1+semicolon focus right
+
+# alternatively, you can use the cursor keys:
+bindsym Mod1+Left focus left
+bindsym Mod1+Down focus down
+bindsym Mod1+Up focus up
+bindsym Mod1+Right focus right
+
+# move focused window
+bindsym Mod1+Shift+j move left
+bindsym Mod1+Shift+k move down
+bindsym Mod1+Shift+l move up
+bindsym Mod1+Shift+semicolon move right
+
+# alternatively, you can use the cursor keys:
+bindsym Mod1+Shift+Left move left
+bindsym Mod1+Shift+Down move down
+bindsym Mod1+Shift+Up move up
+bindsym Mod1+Shift+Right move right
+
+# split in horizontal orientation
+bindsym Mod1+h split h
+
+# split in vertical orientation
+bindsym Mod1+v split v
+
+# enter fullscreen mode for the focused container
+bindsym Mod1+f fullscreen toggle
+
+# change container layout (stacked, tabbed, default)
+bindsym Mod1+s layout stacking
+bindsym Mod1+w layout tabbed
+bindsym Mod1+e layout default
+
+# toggle tiling / floating
+bindsym Mod1+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym Mod1+space focus mode_toggle
+
+# focus the parent container
+bindsym Mod1+a focus parent
+
+# focus the child container
+#bindsym Mod1+d focus child
+
+# switch to workspace
+bindsym Mod1+1 workspace 1
+bindsym Mod1+2 workspace 2
+# ..
+
+# move focused container to workspace
+bindsym Mod1+Shift+1 move workspace 1
+bindsym Mod1+Shift+2 move workspace 2
+# ...
+
+# reload the configuration file
+bindsym Mod1+Shift+c reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym Mod1+Shift+r restart
+# exit i3 (logs you out of your X session)
+bindsym Mod1+Shift+e exit
+
+# display workspace buttons plus a statusline generated by i3status
+bar {
+    status_command i3status
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_xsession">6.2. ~/.xsession</h3>
+<div class="paragraph"><p>This file is where you should configure your locales and start i3. It is run by
+your login manager (xdm, slim, gdm, …) as soon as you login.</p></div>
+<div class="listingblock">
+<div class="title">Sample xsession</div>
+<div class="content">
+<pre><tt># Disable DPMS turning off the screen
+xset -dpms
+xset s off
+
+# Disable bell
+xset -b
+
+# Enable zapping (C-A-&lt;Bksp&gt; kills X)
+setxkbmap -option terminate:ctrl_alt_bksp
+
+# Enforce correct locales from the beginning:
+# LC_ALL is unset since it overwrites everything
+# LANG=de_DE.UTF-8 is used, except for:
+# LC_MESSAGES=C never translates program output
+# LC_TIME=en_DK leads to yyyy-mm-dd hh:mm date/time output
+unset LC_ALL
+export LANG=de_DE.UTF-8
+export LC_MESSAGES=C
+export LC_TIME=en_DK.UTF-8
+
+# Use XToolkit in java applications
+export AWT_TOOLKIT=XToolkit
+
+# Set background color
+xsetroot -solid "#333333"
+
+# Enable core dumps in case something goes wrong
+ulimit -c unlimited
+
+# Start i3 and log to ~/.local/share/i3/log
+mkdir -p ~/.local/share/i3
+echo "Starting at $(date)" &gt;&gt; ~/.local/share/i3/log
+exec /usr/bin/i3 -V -d all &gt;&gt; ~/.local/share/i3/log</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_environment">7. ENVIRONMENT</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_i3sock">7.1. I3SOCK</h3>
+<div class="paragraph"><p>This variable overwrites the IPC socket path (see userguide for default
+location). The IPC socket is used by external programs like i3-msg(1), i3bar(1)
+or user-made scripts.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">8. SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>You should have a copy of the userguide (featuring nice screenshots/graphics
+which is why this is not integrated into this manpage), the debugging guide,
+and the "how to hack" guide.</p></div>
+<div class="paragraph"><p>You can also access these documents online at <a href="https://i3wm.org/">https://i3wm.org/</a></p></div>
+<div class="paragraph"><p>i3-input(1), i3-msg(1), i3bar(1), i3-nagbar(1), i3-config-wizard(1),
+i3-migrate-config-to-v4(1)</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_author">9. AUTHOR</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
+</div>
+</div>
+</main>
+<div id="footnotes"><hr /></div>
+<footer>
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</footer>
+</body>
+</html>

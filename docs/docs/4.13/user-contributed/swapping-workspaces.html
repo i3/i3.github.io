@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Docs — i3: improved tiling X11 window manager</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="stylesheet" href="/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="i3 is a tiling window manager with clean, readable and documented code, featuring extended Xinerama support, usage of libxcb instead of xlib and several improvements over wmii">
+        <meta name="author" content="i3 developers">
+	<link href="https://fosstodon.org/@i3wm" rel="me">
+	
+    </head>
+    <body>
+        <header>
+            <a class="logo" href="/">
+                <img src="/img/logo.svg" alt="i3 WM logo" />
+            </a>
+            <nav>
+              <ul>
+                <li><a href="/docs/">Docs</a></li>
+
+                <li><a href="/screenshots/">Screens</a></li>
+
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+
+                <li><a href="/contact">Contact</a></li>
+
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+
+                </ul>
+            </nav>
+        </header>
+        <main>
+
+<div id="content" class="usergen">
+<h1>User-contributed article: Swapping workspaces</h1>
+
+<p>
+If you have workspace 1 on one monitor and workspace 2 on another monitor and
+want to quickly swap the workspaces among the monitors, you can use i3's IPC
+mechanisms to do it. Here's how:
+</p>
+
+<p>
+i3 already includes a way to move an individual workspace from one monitor to
+another. But what we want to achieve is the <strong>simultaneous</strong>
+movement of workspaces between the monitors. To do this, we can write a script
+that detects the currently active workspace on each monitor and then moves that
+workspace to the other monitor.
+</p>
+
+<p>
+The script uses i3's <a href="http://i3wm.org/docs/ipc.html">IPC</a> via the
+<a href="https://github.com/ziberna/i3-py">i3-py Python bindings</a>.
+</p>
+
+<pre><tt>#!/usr/bin/python2.7
+
+import i3
+# retrieve only active outputs
+outputs = filter(lambda output: output[&#39;active&#39;], i3.get_outputs())
+
+# set current workspace to output 0
+i3.workspace(outputs[0][&#39;current_workspace&#39;])
+
+# ..and move it to the other output.
+# outputs wrap, so the right of the right is left ;)
+i3.command('move', 'workspace to output right')
+
+# rinse and repeat
+i3.workspace(outputs[1][&#39;current_workspace&#39;])
+i3.command('move', 'workspace to output right')</tt></pre>
+
+<p>
+A very simple way to use this script is as follows: Put the script in a file,
+named for example switch.py, and put switch.py and i3.py (downloaded from the
+<a href="https://github.com/ziberna/i3-py">Python bindings site</a>) in the
+same folder. I typically put it in $HOME/.i3/, the same directory which
+contains i3's config file. Next, put a keybinding like
+</p>
+<pre><tt>bindsym $mod+Shift+s exec /home/username/.i3/switch.py</tt></pre>
+<p>
+in i3's config file and restart i3 in place. The next time you press
+mod+Shift+s, your workspaces will be swapped among your monitors.
+</p>
+
+<p>Author: Sagar Behere</p>
+
+
+
+        </main>
+        <footer>
+            © 2009-present Michael Stapelberg,
+            <a href="/impress.html">Impressum</a>,
+            <a href="https://github.com/i3/i3.github.io">Source</a>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="AsciiDoc 8.6.10" />
+<title>i3: Debugging i3: How To (release version)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes();}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body>
+    <header>
+        <a class="logo" href="/">
+            <img src="/img/logo.svg" alt="i3 WM logo" />
+        </a>
+        <nav>
+            <ul>
+                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                <li><a href="/screenshots">Screens</a></li>
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+
+<h1>Debugging i3: How To (release version)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">February 2012</span>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document describes how to debug i3 suitably for sending us useful bug
+reports, even if you have no clue of C programming.</p></div>
+<div class="paragraph"><p>First of all: Thank you for being interested in debugging i3. It really means
+something to us to get your bug fixed. If you have any questions about the
+debugging and/or need further help, do not hesitate to contact us!</p></div>
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">This document is for the release version of i3. If you are using a
+development version, please see <a href="debugging.html">Debugging i3: How To</a>
+instead.</td>
+</tr></table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_consider_using_the_development_version">1. Consider using the development version</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This document is for the release version of i3. In many cases, bugs are already
+fixed in the development version of i3. If they aren’t, we will still ask you
+to reproduce your error with the most recent development version of i3.
+Therefore, please upgrade to a development version and continue reading at
+<a href="debugging.html">Debugging i3: How To</a>.</p></div>
+<div class="paragraph"><p>If you absolutely cannot upgrade to a development version of i3, you may
+continue reading this document.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enabling_logging">2. Enabling logging</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3 logs useful information to stdout. To have a clearly defined place where log
+files will be saved, you should redirect stdout and stderr in your
+<tt>~/.xsession</tt>. While you’re at it, putting each run of i3 in a separate log
+file with date/time in its filename is a good idea to not get confused about
+the different log files later on.</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>exec /usr/bin/i3 &gt;~/i3log-$(date +'%F-%k-%M-%S') 2&gt;&amp;1</tt></pre>
+</div></div>
+<div class="paragraph"><p>To enable verbose output and all levels of debug output (required when
+attaching logfiles to bugreports), add the parameters <tt>-V -d all</tt>, like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>exec /usr/bin/i3 -V -d all &gt;~/i3log-$(date +'%F-%k-%M-%S') 2&gt;&amp;1</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enabling_core_dumps">3. Enabling core dumps</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When i3 crashes, often you have the chance of getting a <em>core dump</em> (an image
+of the memory of the i3 process which can be loaded into a debugger). To get a
+core dump, you have to make sure that the user limit for core dump files is set
+high enough. Many systems ship with a default value which even forbids core
+dumps completely. To disable the limit completely and thus enable core dumps,
+use the following command (in your <tt>~/.xsession</tt>, before starting i3):</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>ulimit -c unlimited</tt></pre>
+</div></div>
+<div class="paragraph"><p>Furthermore, to easily recognize core dumps and allow multiple of them, you
+should set a custom core dump filename pattern, using a command like the
+following:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>sudo sysctl -w kernel.core_pattern=core.%e.%p</tt></pre>
+</div></div>
+<div class="paragraph"><p>This will generate files which have the executable’s file name (%e) and the
+process id (%p) in it. You can save this setting across reboots using
+<tt>/etc/sysctl.conf</tt>.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_compiling_with_debug_symbols">4. Compiling with debug symbols</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To actually get useful core dumps, you should make sure that your version of i3
+is compiled with debug symbols, that is, that the symbols are not stripped
+during the build process. You can check whether your executable contains
+symbols by issuing the following command:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>file $(which i3)</tt></pre>
+</div></div>
+<div class="paragraph"><p>You should get an output like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>/usr/bin/i3: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically
+linked (uses shared libs), for GNU/Linux 2.6.18, not stripped</tt></pre>
+</div></div>
+<div class="paragraph"><p>Notice the <tt>not stripped</tt>, which is the important part. If you have a version
+which is stripped, please have a look if your distribution provides debug
+symbols (package <tt>i3-wm-dbg</tt> on Debian for example) or if you can turn off
+stripping. If nothing helps, please build i3 from source.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_generating_a_backtrace">5. Generating a backtrace</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Once you have made sure that your i3 is compiled with debug symbols and that
+core dumps are enabled, you can start making sense out of the core dumps.</p></div>
+<div class="paragraph"><p>Because the core dump depends on the original executable (and its debug
+symbols), please do this as soon as you encounter the problem. If you
+re-compile i3, your core dump might be useless afterwards.</p></div>
+<div class="paragraph"><p>Please install <tt>gdb</tt>, a debugger for C. No worries, you don’t need to learn it
+now.  Start gdb using the following command (replacing the actual name of the
+core dump of course):</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>gdb $(which i3) core.i3.3849</tt></pre>
+</div></div>
+<div class="paragraph"><p>Then, generate a backtrace using:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>backtrace full</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sending_bug_reports_debugging_on_irc">6. Sending bug reports/debugging on IRC</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When sending bug reports, please paste the relevant part of the log (if in
+doubt, please send us rather too much information than too less) and the whole
+backtrace (if there was a core dump).</p></div>
+<div class="paragraph"><p>When debugging with us in IRC, be prepared to use a so called nopaste service
+such as <a href="http://nopaste.info">http://nopaste.info</a> or <a href="http://pastebin.com">http://pastebin.com</a> because pasting large
+amounts of text in IRC sometimes leads to incomplete lines (servers have line
+length limitations) or flood kicks.</p></div>
+</div>
+</div>
+</main>
+<div id="footnotes"><hr /></div>
+<footer>
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</footer>
+</body>
+</html>

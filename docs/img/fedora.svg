@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="224"
+   height="224"
+   id="svg2951"
+   version="1.1"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   sodipodi:docname="fedora-logo-icon.svg">
+  <defs
+     id="defs2953">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 526.18109 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="744.09448 : 526.18109 : 1"
+       inkscape:persp3d-origin="372.04724 : 350.78739 : 1"
+       id="perspective2959" />
+    <inkscape:perspective
+       id="perspective2943"
+       inkscape:persp3d-origin="0.5 : 0.33333333 : 1"
+       inkscape:vp_z="1 : 0.5 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_x="0 : 0.5 : 1"
+       sodipodi:type="inkscape:persp3d" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.4"
+     inkscape:cx="-130.32442"
+     inkscape:cy="167.44049"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="2560"
+     inkscape:window-height="1403"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="1"
+     inkscape:document-rotation="0" />
+  <metadata
+     id="metadata2956">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-373.71429,-334.64487)">
+    <g
+       id="g11328"
+       transform="matrix(1.8680254,0,0,1.8680254,-911.5585,147.87472)"
+       style="opacity:0.71600001" />
+    <path
+       id="path28"
+       style="fill:#51a2da;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.33333"
+       d="m 485.715,334.64487 c -61.82861,0 -111.95344,50.10083 -112.00071,111.92352 v 86.67493 c 0.0345,14.03211 11.41584,25.4016 25.46197,25.4016 0.0345,0 0.0884,-0.004 0.12061,-0.004 v 0.004 h 86.45644 c 61.83556,-0.0287 111.96098,-50.15677 111.96098,-111.99853 0,-61.85567 -50.14414,-112.00003 -112.00066,-112.00003 z m 22.70425,46.08278 v 0.001 c 18.80882,0 36.57088,14.4221 36.57088,34.28534 0,1.8426 -0.023,3.67429 -0.31475,5.77024 -0.52037,5.28284 -5.34562,9.06896 -10.60244,8.32281 -5.26205,-0.75356 -8.83525,-5.73641 -7.85746,-10.95803 0.0827,-0.58866 0.12061,-1.52762 0.12061,-3.13502 0,-11.25997 -9.19876,-15.61269 -17.91799,-15.61269 -8.71406,0 -16.56894,7.30849 -16.59875,15.59149 v 28.67287 l 16.16746,-0.11774 c 12.62149,-0.26478 12.75066,18.76213 0.12923,18.67264 l -16.29657,0.0885 -0.11775,26.74819 c -1.95029,20.99351 -19.82389,37.78387 -41.29613,37.78387 -22.75835,0 -41.533,-18.61757 -41.533,-41.43191 0.68521,-23.46952 19.43924,-41.92437 42.99842,-41.7033 l 13.12319,-0.0884 v 18.64438 l -13.23243,0.11775 c -12.95094,0.38252 -24.02424,9.16487 -24.23635,23.03214 0,12.64251 10.21848,22.75956 22.88729,22.75956 12.65658,0 22.76099,-9.20698 22.76099,-22.73251 v -70.52647 c 0.006,-1.3069 0.0678,-2.3547 0.21768,-3.79847 2.12726,-17.25599 17.55632,-30.40594 35.02459,-30.40594 z" />
+  </g>
+</svg>

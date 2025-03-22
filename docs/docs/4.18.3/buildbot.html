@@ -1,0 +1,1128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="generator" content="AsciiDoc 8.6.9" />
+<title>i3: The i3 buildbot setup</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body class="article">
+
+        <div id="main">
+            <a href="/"><h1 id="title">i3 - improved tiling WM</h1></a>
+                        <ul id="nav">
+                                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                                <li><a href="/screenshots">Screens</a></li>
+                                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
+                                <li><a href="/contact">Contact</a></li>
+                                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+                        </ul>
+        <br style="clear: both">
+<div id="content">
+<div id="header">
+<h1>The i3 buildbot setup</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">September 2012</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div style="background-color:red; color:white; padding:20px;">
+<strong style="color:white;">WARNING!</strong>
+<p>
+<div class="paragraph"><p>This document is outdated and kept for &#8220;historical&#8221; reasons. i3 uses Travis as
+a CI instead.</p></div>
+</p>
+</div>
+<div class="paragraph"><p>This document explains the <a href="http://www.buildbot.net/">buildbot</a> setup we use to
+provide up-to-date documentation and debian packages at <a href="http://build.i3wm.org/">http://build.i3wm.org/</a>.
+We publish these information so that our setup is well-documented (thus
+decreasing future maintenance effort) and because it might be interesting for
+other projects.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_introduction">1. Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>What we are doing in i3 is called Continuous Integration (see
+<a href="http://en.wikipedia.org/wiki/Continuous_integration">http://en.wikipedia.org/wiki/Continuous_integration</a>): we publish the changes we
+make on our local machines as often as possible. In order to maintain a
+continuously high quality, each time any developer pushes changes to the
+official git repository, a number of quality assurance tools start running
+automatically:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+Latest documentation is generated and provided at
+   <a href="http://build.i3wm.org/docs/">http://build.i3wm.org/docs/</a>. This makes it easy to link to documentation for
+   features which are only in the current git version, not in the released
+   version.
+</p>
+</li>
+<li>
+<p>
+The source code is compiled and it is automatically posted to the IRC
+   channel whether there were any compiler warnings. While developers should
+   notice compiler warnings, this mechanism creates a bit of public pressure
+   ("Oh, Michael introduced warnings with this commit!"). More importantly,
+   since this mechanism builds a dist tarball and then compiles that tarball,
+   any changes to the source which would result in an uncompilable dist tarball
+   are immediately obvious. Therefore, we could cut a release from the current
+   git version at any point in time.
+</p>
+</li>
+<li>
+<p>
+The clang static analyzer runs and the resulting report is provided at
+   <a href="http://build.i3wm.org/clang-analyze/">http://build.i3wm.org/clang-analyze/</a>. While every developer needs to compile
+   his code before committing, he doesn’t necessarily use clang (so we catch
+   build failures when using clang) and he also probably doesn’t run a static
+   analyzer as part of his normal workflow. By just being available without any
+   friction, this mechanism encourages developers to look at the report and fix
+   problems.
+</p>
+</li>
+<li>
+<p>
+Debian (and Ubuntu) packages are built. This not only ensures that we don’t
+   change anything in the source code which would lead to an FTBFS (Fails To
+   Build From Source) when building a Debian package, it also goes a long way
+   to encourage end users to test i3. To remove the need and resource
+   requirements for them to compile their own version of i3 regularly, we
+   provide packages that integrate conveniently with a normal Debian system
+   (e.g. that are automatically upgraded).
+</p>
+</li>
+</ol></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_why_buildbot">2. Why buildbot?</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Previously, I was unsatisfied with the current state of FOSS CI tools like
+Jenkins, Tinderbox and others. They either seemed bloated, hard to use,
+outdated or unappealing for some other reason.</p></div>
+<div class="paragraph"><p>Then I discovered buildbot and was impressed by its flexibility. It let me
+implement everything I wanted from a CI tool and (in my opinion) it is
+light-weight, easy to deploy and well maintained.</p></div>
+<div class="paragraph"><p>The only downside of buildbot is its configuration and documentation: You need
+to spend quite a bit of time (I needed multiple days) until it works the way
+you want it to and oftentimes, the documentation is far too sparse. This is one
+of the reasons why I’m publishing the i3 setup.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration">3. Configuration</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>See the next section for a complete, copy &amp; pasteable configuration file. This
+section covers the most important aspects without covering every line.</p></div>
+<div class="paragraph"><p>This document assumes you are running buildbot 0.8.6p1.</p></div>
+<div class="sect2">
+<h3 id="_change_sources">3.1. Change sources</h3>
+<div class="paragraph"><p>Since i3 uses a central git repository, we use the official buildbot
+<a href="https://github.com/buildbot/buildbot/blob/master/master/contrib/git_buildbot.py">git
+post-receive hook</a> that sends the change information to the buildbot master.</p></div>
+</div>
+<div class="sect2">
+<h3 id="_schedulers">3.2. Schedulers</h3>
+<div class="paragraph"><p>There are two things (called "builders" in buildbot-language) which happen
+whenever a new change in the <tt>next</tt> branch of i3 occurs:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+The "docs" builder builds and uploads the latest documentation. This happens
+   directly from the git repository with a custom asciidoc configuration which
+   indicates that these docs refer to the git version. Therefore, this builder
+   does not benefit from having a dist tarball available (contrary to the other
+   builders).
+</p>
+</li>
+<li>
+<p>
+The "dist" builder prepares a dist tarball and then triggers the remaining
+   builders. This ensures that building the dist tarball (an operation which
+   takes about one minute due to documentation generation) only happens once.
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>Here is the relevant configuration part:</p></div>
+<div class="paragraph"><p><strong>Schedulers</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>c['schedulers'] = []
+
+c['schedulers'].append(SingleBranchScheduler(
+    name = 'dist',
+    branch = 'next',
+    treeStableTimer = 10,
+    builderNames = [ 'dist', 'docs' ],
+))
+
+c['schedulers'].append(Triggerable(
+    name = 'dist-tarball-done',
+    builderNames = [ 'compile', 'clang-analyze', 'debian-packages', 'ubuntu-packages' ],
+))</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_building_the_dist_tarball">3.3. Building the dist tarball</h3>
+<div class="paragraph"><p>This builder clones the i3 git repository and runs "make dist", which creates a
+tarball that could be named "i3-4.2.tar.bz2" for example. This tarball is then
+renamed to dist-%(gitversion).tar.bz2 (so that we can work with a predictable
+name in the next steps) and uploaded to the buildbot master (since we can have
+multiple buildslaves, we cannot just let it rest on the buildslave that built
+it). Afterwards, old dist tarballs are cleaned up and the remaining builders
+are triggered:</p></div>
+<div class="paragraph"><p><strong>Building a dist tarball</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>factories = {}
+
+f = factories['dist'] = BuildFactory()
+
+# Check out the git repository.
+f.addStep(s_git)
+
+# Fill the 'gitversion' property with the output of git describe --tags.
+f.addStep(shell.SetProperty(command = 'git describe --tags', property = 'gitversion'))
+
+# Build the dist tarball.
+cmd(f, name = 'make dist', command = [ 'make', 'dist' ])
+
+# Rename the created tarball to a well-known name.
+cmd(f,
+    name = 'rename tarball',
+    command = WithProperties('mv *.tar.bz2 dist-%(gitversion)s.tar.bz2'),
+)
+
+# Upload the dist tarball to the master (other factories download it later).
+f.addStep(transfer.FileUpload(
+    slavesrc = WithProperties('dist-%(gitversion)s.tar.bz2'),
+    masterdest = WithProperties('distballs/dist-%(gitversion)s.tar.bz2'),
+))
+
+# Cleanup old dist tarballs (everything older than tree days).
+f.addStep(master.MasterShellCommand(
+    command = "find distballs -mtime +3 -exec rm '{}' \;",
+    name = 'cleanup old dist tarballs',
+))
+
+# Everything worked fine, now trigger compilation.
+f.addStep(Trigger(
+    schedulerNames = [ 'dist-tarball-done' ],
+    copy_properties = [ 'gitversion' ],
+))</tt></pre>
+</div></div>
+<div class="paragraph"><p>Three things are noteworthy about this part of the configuration:</p></div>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+For convenience, we call each factory <tt>f</tt> (just like the global buildbot
+   config uses <tt>c</tt> for the top-level configuration) and add it to a dictionary.
+   Factories in that dictionary are later automatically configured for each
+   buildslave.
+</p>
+</li>
+<li>
+<p>
+We have a shared step called <tt>s_git</tt> so that we only have one location in
+   the configuration file where we specify the git repository URL and branch.
+</p>
+</li>
+<li>
+<p>
+We have a custom function called <tt>cmd</tt> which is a shortcut for defining a
+   <tt>ShellCommand</tt> with <tt>haltOnFailure=True</tt> (since each step is critical) and
+   <tt>logEnviron=False</tt> (for brevity).
+</p>
+</li>
+</ol></div>
+<div class="paragraph"><p>Here are their definitions:</p></div>
+<div class="paragraph"><p><strong>cmd</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>def cmd(factory, **kwargs):
+    factory.addStep(ShellCommand(
+        haltOnFailure = True,
+        logEnviron = False,
+        **kwargs
+    ))</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>s_git</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>s_git = Git(
+    repourl = 'git://code.i3wm.org/i3',
+    branch = 'next',
+
+    # Check out the latest revision, not the one which caused this build.
+    alwaysUseLatest = True,
+
+    # We cannot use shallow because it breaks git describe --tags.
+    shallow = False,
+
+    # Delete remnants of previous builds.
+    mode = 'full',
+
+    # Store checkouts in source/ and copy them over to build/ to save
+    # bandwidth.
+    method = 'copy',
+)</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_compiling_the_dist_tarball">3.4. Compiling the dist tarball</h3>
+<div class="paragraph"><p>For this builder to work, you obviously need to install all the
+build-dependencies for your software on each buildslave. In the case of i3,
+this can be done with <tt>apt-get build-dep i3-wm</tt>.</p></div>
+<div class="paragraph"><p>The compilation is pretty straight-forward since it uses the builtin <tt>Compile</tt>
+step. We call <tt>make</tt> with <tt>-j4</tt> (we don’t have enough buildslaves to make
+figuring out the amount of cores at build-time worthwhile) and <tt>DEBUG=0</tt> to
+simulate release build conditions. Also, we pass the preprocessor flag
+<tt>-D_FORTIFY_SOURCE=2</tt> and the compiler flags <tt>-Wformat</tt> and <tt>-Wformat-security</tt>
+to enable additional warnings.</p></div>
+<div class="paragraph"><p><strong>Compiling the dist tarball</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>f = factories['compile'] = BuildFactory()
+unpack_dist_tarball(f)
+f.addStep(Compile(
+    command = [ 'make', 'DEBUG=0', '-j4' ],
+    warningPattern = '.*warning: ',
+    warnOnWarnings = True,
+    workdir = 'build/DIST',
+    env = {
+      'CPPFLAGS': '-D_FORTIFY_SOURCE=2',
+      'CFLAGS': '-Wformat -Wformat-security'
+    },
+))
+
+f.addStep(WarningsToIRC())</tt></pre>
+</div></div>
+<div class="paragraph"><p>Again, we use custom functions (and a custom buildstep) to make our lives
+easier. Here is the definition of unpack_dist_tarball which adds three steps to
+the factory that download and unpack the dist tarball to the <tt>DIST/</tt> directory:</p></div>
+<div class="paragraph"><p><strong>unpack_dist_tarball</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>def unpack_dist_tarball(factory):
+    factory.addStep(transfer.FileDownload(
+        mastersrc = WithProperties('distballs/dist-%(gitversion)s.tar.bz2'),
+        slavedest = 'dist.tar.bz2',
+    ))
+
+    factory.addStep(slave.MakeDirectory(dir = 'build/DIST'))
+
+    cmd(factory,
+        name = 'unpack dist tarball',
+        command = [ 'tar', 'xf', 'dist.tar.bz2', '-C', 'DIST', '--strip-components=1' ],
+    )</tt></pre>
+</div></div>
+<div class="paragraph"><p>The <tt>WarningsToIRC</tt> build step is a custom build step which sets a property
+called "ircsuffix" that is used by our custom IRC bot. This is covered later in
+more detail. This property gets set to a green or red message, depending on
+whether there were any warnings:</p></div>
+<div class="paragraph"><p><strong>WarningsToIRC</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>class WarningsToIRC(buildstep.BuildStep):
+    def start(self):
+        warnings = self.getProperty("warnings-count")
+        if warnings is not None and int(warnings) &gt; 0:
+            warnings = int(warnings)  # just to be sure
+            self.setProperty("ircsuffix", ("\0037 with %d warning%s!" %
+                (warnings, "s" if warnings != 1 else "")))
+        else:
+            self.setProperty("ircsuffix", "\0033 without warnings")
+        self.finished(SUCCESS)</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_static_code_analysis">3.5. Static code analysis</h3>
+<div class="paragraph"><p>For this builder to work, you additionally need the <tt>clang</tt> compiler on each
+buildslave: <tt>apt-get install clang</tt>.</p></div>
+<div class="paragraph"><p>This builder uses only custom functions which you already know by now. It runs
+scan-build, then moves scan-build’s output from a date-based directory directly
+into the <tt>CLANG/</tt> directory and uploads that to the buildmaster.</p></div>
+<div class="paragraph"><p>On the buildmaster, a webserver is configured which has a symlink to
+<tt>/home/build/i3-master/htdocs/clang-analyze</tt> in its document root.</p></div>
+<div class="paragraph"><p><strong>static code analysis</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>f = factories['clang-analyze'] = BuildFactory()
+unpack_dist_tarball(f)
+cmd(f,
+    name='analyze',
+    command = [
+        'scan-build',
+        '-o', '../CLANG',
+        '--html-title', WithProperties('Analysis of i3 v%(gitversion)s'),
+        'make', '-j8',
+    ],
+    workdir = 'build/DIST',
+)
+
+# remove the subdirectory -- we always want to overwrite
+cmd(f, command = 'mv CLANG/*/* CLANG/')
+
+f.addStep(transfer.DirectoryUpload(
+    slavesrc = 'CLANG',
+    masterdest = 'htdocs/clang-analyze',
+    compress = 'bz2',
+    name = 'upload output',
+))
+
+f.addStep(ClangToIRC())</tt></pre>
+</div></div>
+<div class="paragraph"><p>The <tt>ClangToIRC</tt> custom step is even simpler than <tt>WarningsToIRC</tt>. It simply
+sets the ircsuffix property to a static message:</p></div>
+<div class="paragraph"><p><strong>ClangToIRC</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>class ClangToIRC(buildstep.BuildStep):
+    def start(self):
+        self.setProperty("ircsuffix", ", see http://build.i3wm.org/clang-analyze/")
+        self.finished(SUCCESS)</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_generating_documentation">3.6. Generating documentation</h3>
+<div class="paragraph"><p>This builder is the one which is the least clean of all. It uses the Debian
+packaging information to decide which docs to publish and which manpages to
+generate. Additionally, it uses a for loop instead of calling a script. I
+recommend including a script to do this in your repository instead.</p></div>
+<div class="paragraph"><p>Apart from these concerns, the builder is straight-forward: It clones the git
+repository, generates the documentation and then uploads the documentation to
+the buildmaster:</p></div>
+<div class="paragraph"><p><strong>Generating documentation</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>f = factories['docs'] = BuildFactory()
+f.addStep(s_git)
+# Fill the 'gitversion' property with the output of git describe --tags.
+f.addStep(shell.SetProperty(command = 'git describe --tags', property = 'gitversion'))
+cmd(f, name = 'build docs', command = [ 'make', '-C', 'docs', "ASCIIDOC=asciidoc -a linkcss -a stylesdir=http://i3wm.org/css -a scriptsdir=http://i3wm.org/js --backend=xhtml11 -f docs/asciidoc-git.conf" ])
+cmd(f, name = 'build manpages', command = "for file in $(sed 's/\.1$/.man/g' debian/i3-wm.manpages); do asciidoc -a linkcss -a stylesdir=http://i3wm.org/css -a scriptsdir=http://i3wm.org/js --backend=xhtml11 -f docs/asciidoc-git.conf \"$file\"; done")
+f.addStep(slave.MakeDirectory(dir='build/COPY-DOCS'))
+cmd(f, name = 'copy docs', command = "cp $(tr '\\n' ' ' &lt; debian/i3-wm.docs) COPY-DOCS")
+cmd(f, name = 'copy manpages', command = "cp $(sed 's/\.1$/.html/g' debian/i3-wm.manpages | tr '\\n' ' ') COPY-DOCS")
+
+f.addStep(transfer.DirectoryUpload(
+    slavesrc = 'COPY-DOCS',
+    masterdest = 'htdocs/docs-git',
+    compress = 'bz2',
+    name = 'upload docs'))
+
+f.addStep(DocsToIRC())</tt></pre>
+</div></div>
+<div class="paragraph"><p>Just as <tt>ClangToIRC</tt>, <tt>DocsToIRC</tt> appends a static message:</p></div>
+<div class="paragraph"><p><strong>DocsToIRC</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>class DocsToIRC(buildstep.BuildStep):
+    def start(self):
+        self.setProperty("ircsuffix", ", see http://build.i3wm.org/docs/")
+        self.finished(SUCCESS)</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_building_debian_ubuntu_packages">3.7. Building Debian/Ubuntu packages</h3>
+<div class="paragraph"><p>This is the most complex builder of all. It uses <tt>pbuilder-dist</tt>, <tt>debchange</tt>,
+<tt>dpkg-buildpackage</tt> and <tt>reprepro</tt> to generate a Debian repository with a
+cleanly compiled package for amd64 and i386. In order for it to work, you need
+to install the following packages: <tt>apt-get install devscripts dpkg-dev
+reprepro ubuntu-dev-tools pbuilder</tt>. Afterwards, you need to allow the user as
+which the buildslave runs to execute pbuilder via sudo without needing a
+password, so add a config file like this one:</p></div>
+<div class="paragraph"><p><strong>sudoers.d</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>echo 'build    ALL= NOPASSWD: SETENV: /usr/sbin/pbuilder' &gt; /etc/sudoers.d/build</tt></pre>
+</div></div>
+<div class="paragraph"><p>Then, as the user as which your buildslave runs, setup the pbuilder
+environments (you only need to do this once):</p></div>
+<div class="paragraph"><p><strong>pbuilder preparation</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>sudo ln -s pbuilder-dist /usr/bin/pbuilder-sid-amd64
+sudo ln -s pbuilder-dist /usr/bin/pbuilder-sid-i386
+pbuilder-sid-amd64 create
+pbuilder-sid-i386 create</tt></pre>
+</div></div>
+<div class="paragraph"><p>Also, you will need a GPG key to sign these packages.</p></div>
+<div class="paragraph"><p>The debian builder starts by unpacking the dist tarball, copying the Debian
+packaging from git, creating an empty Debian repository with the
+<tt>i3-autobuild-keyring</tt> contents in it. It then adds a new changelog entry to
+reflect the git version and the fact that this package was built automatically,
+builds a source package with <tt>dpkg-buildpackage</tt> and adds it to the repository.
+Afterwards, it updates each pbuilder and builds binary packages for each
+architecture (amd64 and i386). After adding the resulting packages to the
+repository, it uploads the repository to the buildmaster:</p></div>
+<div class="paragraph"><p><strong>Debian builder</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>distributions = [ 'sid-amd64', 'sid-i386' ]
+gpg_key = 'BE1DB1F1'
+
+f = factories['debian-packages'] = BuildFactory()
+# We need the git repository for the Debian packaging.
+f.addStep(s_git)
+unpack_dist_tarball(f)
+cmd(f, name = 'copy packaging', command = "cp -r debian DIST/")
+
+# Add a new changelog entry to have the git version in the package version.
+cmd(f,
+    name = 'update changelog',
+    workdir = 'build/DIST',
+    command = [ 'debchange', '-m', '-l', WithProperties('+g%(gitversion)s'), 'Automatically built' ],
+)
+
+cmd(f,
+    name = 'source pkg',
+    command = [ 'dpkg-buildpackage', '-S', '-us', '-uc' ],
+    workdir = 'build/DIST',
+)
+
+for dist in distributions:
+    f.addStep(slave.MakeDirectory(dir = 'build/RESULT-' + dist))
+
+# Create debian sid repository
+f.addStep(slave.MakeDirectory(dir = 'build/REPO-sid/conf'))
+f.addStep(transfer.StringDownload(
+    """Codename: sid
+Suite: unstable
+Architectures: i386 amd64 source
+Components: main
+DebIndices: Packages Release . .gz .bz2
+DscIndices: Sources Release . .gz .bz2
+SignWith: %(gpg_key)s
+""" % { "gpg_key": gpg_key },
+    slavedest = 'REPO-sid/conf/distributions',
+))
+
+# add source package to repository
+reprepro_include(f, 'i3-wm*_source.changes', 'dsc')
+
+# Add keyring to the repository. We need to run git clone on our own because
+# the Git() step assumes there’s precisely one repository we want to deal with.
+# No big deal since the i3-autobuild-keyring repository is not big.
+cmd(f,
+    name = 'clone keyring repo',
+    command = 'git clone git://code.i3wm.org/i3-autobuild-keyring',
+)
+reprepro_include(f, 'i3-autobuild-keyring/prebuilt/*.changes')
+
+for dist in distributions:
+    # update the pbuilder
+    cmd(f, name = 'update builder', command = 'pbuilder-' + dist + ' update')
+
+    # build the package for each dist
+    f.addStep(ShellCommand(
+        logEnviron = False,
+        name = 'pkg ' + dist,
+        command = 'pbuilder-' + dist + ' build --binary-arch \
+--buildresult RESULT-' + dist + ' --debbuildopts -j8 i3-wm*dsc',
+        warnOnFailure = True
+    ))
+
+    reprepro_include(f, 'RESULT-' + dist + '/*.changes')
+
+# upload the sid repo
+# Since the next step is cleaning up old files, we set haltOnFailure=True -- we
+# prefer providing old packages over providing no packages at all :).
+for directory in [ 'pool', 'dists' ]:
+    f.addStep(transfer.DirectoryUpload(
+        slavesrc = 'REPO-sid/' + directory,
+        masterdest = 'htdocs/debian/sid/' + directory,
+        compress = 'bz2',
+        name = 'upload sid ' + directory,
+        haltOnFailure = True,
+    ))
+
+f.addStep(master.MasterShellCommand(
+    command = "find htdocs/debian/sid/pool -mtime +3 -exec rm '{}' \;",
+    name = 'cleanup old packages',
+))
+
+# We ensure there is an empty i18n/Index to speed up apt (so that it does not
+# try to download Translation-*)
+f.addStep(master.MasterShellCommand(
+    command = [ 'mkdir', '-p', 'htdocs/debian/sid/dists/sid/main/i18n' ],
+    name = 'create i18n folder',
+))
+f.addStep(master.MasterShellCommand(
+    command = [ 'touch', 'htdocs/debian/sid/dists/sid/main/i18n/Index' ],
+    name = 'touch i18n/Index',
+))</tt></pre>
+</div></div>
+<div class="paragraph"><p>The <tt>reprepro_include</tt> command is defined as follows:</p></div>
+<div class="paragraph"><p><strong>reprepro_include</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>def reprepro_include(factory, path, debtype='deb', **kwargs):
+    cmd(factory,
+        name = 'reprepro include',
+        command = 'reprepro --ignore=wrongdistribution -T ' + debtype + ' -b REPO-sid include sid ' + path,
+        **kwargs
+    )</tt></pre>
+</div></div>
+<div class="paragraph"><p>Running such a builder for Ubuntu works exactly the same way, but you need to
+replace "sid" with "precise" in all places (see the full configuration file for
+an example).</p></div>
+</div>
+<div class="sect2">
+<h3 id="_status_targets">3.8. Status targets</h3>
+<div class="paragraph"><p>We don’t advertise the HTTP status target. Instead, status is posted to IRC via
+a custom bot. This bot provides an HTTP end point and buildbot is configured to
+push status changes to that endpoint:</p></div>
+<div class="paragraph"><p><strong>http status target</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>c['status'].append(buildbot.status.status_push.HttpStatusPush(
+    serverUrl = 'http://localhost:8080/push_buildbot',
+))</tt></pre>
+</div></div>
+<div class="paragraph"><p>You can find the source code of that bot at
+<a href="http://code.stapelberg.de/git/go-buildbot-announce/">http://code.stapelberg.de/git/go-buildbot-announce/</a>. As the name suggests, it
+is written in Go. Also, it is quite specific to i3, so you might be better off
+implementing such a bot (or plugin) on your own. It might make for a nice
+example, though, especially back when its only feature was announcing the build
+status:</p></div>
+<div class="paragraph"><p><a href="http://code.stapelberg.de/git/go-buildbot-announce/tree/src/i3build.go?id=eeebf1a546454c8a0d82ca623886bb835cd32ba0">http://code.stapelberg.de/git/go-buildbot-announce/tree/src/i3build.go?id=eeebf1a546454c8a0d82ca623886bb835cd32ba0</a></p></div>
+</div>
+<div class="sect2">
+<h3 id="_creating_the_buildslave">3.9. Creating the buildslave</h3>
+<div class="paragraph"><p>One more thing to note is that when creating the buildslave, you should use the
+<tt>--umask</tt> argument to configure the umask for all generated files:</p></div>
+<div class="paragraph"><p><strong>Creating the buildslave</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>buildslave create-slave --umask=022 i3-buildslave buildbot.i3wm.org build-1 &lt;password&gt;</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_full_configuration_file">4. Full configuration file</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>This is the full configuration file, as tested and currently in use (except for
+the passwords, though):</p></div>
+<div class="paragraph"><p><strong>master.cfg</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># -*- python -*-
+# -*- coding: utf-8
+# vim:ts=4:sw=4:expandtab:syntax=python
+#
+# i3 buildbot configuration
+# © 2012 Michael Stapelberg, Public Domain
+# see http://i3wm.org/docs/buildbot.html for more information.
+
+from buildbot.buildslave import BuildSlave
+from buildbot.changes import pb
+from buildbot.schedulers.basic import SingleBranchScheduler
+from buildbot.schedulers.triggerable import Triggerable
+from buildbot.process.properties import WithProperties
+from buildbot.process.factory import BuildFactory
+from buildbot.steps.source.git import Git
+from buildbot.steps.shell import ShellCommand
+from buildbot.steps.shell import Compile
+from buildbot.steps.trigger import Trigger
+from buildbot.steps import shell, transfer, master, slave
+from buildbot.config import BuilderConfig
+from buildbot.process import buildstep
+from buildbot.status import html
+from buildbot.status import words
+import buildbot.status.status_push
+from buildbot.status.web import auth, authz
+from buildbot.status.builder import SUCCESS, FAILURE
+
+c = BuildmasterConfig = {}
+
+c['slaves'] = [BuildSlave('docsteel-vm', 'secret')]
+c['slavePortnum'] = 9989
+# Changes are pushed to buildbot using a git hook.
+c['change_source'] = [pb.PBChangeSource(
+    user = 'i3-source',
+    passwd = 'secret',
+)]
+
+################################################################################
+# schedulers
+################################################################################
+
+c['schedulers'] = []
+
+# The first scheduler kicks off multiple builders:
+# • 'dist' builds a dist tarball and starts the triggerable schedulers
+#   'compile'
+# • 'docs' builds the documentation with a special asciidoc configuration
+#   (therefore, it does not profit from a dist tarball and can be run in
+#    parallel).
+c['schedulers'].append(SingleBranchScheduler(
+    name = 'dist',
+    branch = 'next',
+    treeStableTimer = 10,
+    builderNames = [ 'dist', 'docs' ],
+))
+
+c['schedulers'].append(Triggerable(
+    name = 'dist-tarball-done',
+    builderNames = [ 'compile', 'clang-analyze', 'debian-packages', 'ubuntu-packages' ],
+))
+
+################################################################################
+# Shortcuts for builders
+################################################################################
+
+# shortcut for a ShellCommand with haltOnFailure=True, logEnviron=False
+def cmd(factory, **kwargs):
+    factory.addStep(ShellCommand(
+        haltOnFailure=True,
+        logEnviron=False,
+        **kwargs
+    ))
+
+# Shortcut to add steps necessary to download and unpack the dist tarball.
+def unpack_dist_tarball(factory):
+    factory.addStep(transfer.FileDownload(
+        mastersrc=WithProperties('distballs/dist-%(gitversion)s.tar.bz2'),
+        slavedest='dist.tar.bz2',
+    ))
+    factory.addStep(slave.MakeDirectory(dir='build/DIST'))
+    cmd(factory,
+        name = 'unpack dist tarball',
+        command = [ 'tar', 'xf', 'dist.tar.bz2', '-C', 'DIST', '--strip-components=1' ],
+    )
+
+# Includes the given path in REPO-sid using reprepro.
+def reprepro_include(factory, path, debtype='deb', **kwargs):
+    cmd(factory,
+        name = 'reprepro include',
+        command = 'reprepro --ignore=wrongdistribution -T ' + debtype + ' -b REPO-sid include sid ' + path,
+        **kwargs
+    )
+
+def reprepro_include_ubuntu(factory, path, debtype='deb', **kwargs):
+    cmd(factory,
+        name = 'reprepro include',
+        command = 'reprepro --ignore=wrongdistribution -T ' + debtype + ' -b REPO-sid include precise ' + path,
+        **kwargs
+    )
+
+################################################################################
+# Custom steps
+################################################################################
+
+# Adds the ircsuffix property to reflect whether there were warnings.
+class WarningsToIRC(buildstep.BuildStep):
+  def start(self):
+    warnings = self.getProperty("warnings-count")
+    if warnings is not None and int(warnings) &gt; 0:
+      warnings = int(warnings)  # just to be sure
+      self.setProperty("ircsuffix", "\0037 with %d warning%s!" % (warnings, "s" if warnings != 1 else ""))
+    else:
+      self.setProperty("ircsuffix", "\0033 without warnings")
+    self.finished(SUCCESS)
+
+# Adds a link to the automatically generated documentation.
+class DocsToIRC(buildstep.BuildStep):
+  def start(self):
+    self.setProperty("ircsuffix", ", see http://build.i3wm.org/docs/")
+    self.finished(SUCCESS)
+
+# Adds a link to the clang report.
+class ClangToIRC(buildstep.BuildStep):
+  def start(self):
+    self.setProperty("ircsuffix", ", see http://build.i3wm.org/clang-analyze/")
+    self.finished(SUCCESS)
+
+################################################################################
+# Shared steps, used in different factories.
+################################################################################
+
+s_git = Git(
+    repourl='git://code.i3wm.org/i3',
+    branch='next',
+
+    # Check out the latest revision, not the one which caused this build.
+    alwaysUseLatest=True,
+
+    # We cannot use shallow because it breaks git describe --tags.
+    shallow=False,
+
+    # Delete remnants of previous builds.
+    mode='full',
+
+    # Store checkouts in source/ and copy them over to build/ to save
+    # bandwidth.
+    method='copy',
+
+    # XXX: In newer versions of buildbot (&gt; 0.8.6), we want to use
+    # getDescription={ 'tags': True } here and get rid of the extra git
+    # describe --tags step.
+)
+
+################################################################################
+# factory: "dist" — builds the dist tarball once (used by all other factories)
+################################################################################
+
+factories = {}
+
+f = factories['dist'] = BuildFactory()
+# Check out the git repository.
+f.addStep(s_git)
+# Fill the 'gitversion' property with the output of git describe --tags.
+f.addStep(shell.SetProperty(command = 'git describe --tags', property = 'gitversion'))
+# Build the dist tarball.
+cmd(f, name = 'make dist', command = [ 'make', 'dist' ])
+# Rename the created tarball to a well-known name.
+cmd(f, name = 'rename tarball', command = WithProperties('mv *.tar.bz2 dist-%(gitversion)s.tar.bz2'))
+# Upload the dist tarball to the master (other factories download it later).
+f.addStep(transfer.FileUpload(
+    slavesrc = WithProperties('dist-%(gitversion)s.tar.bz2'),
+    masterdest = WithProperties('distballs/dist-%(gitversion)s.tar.bz2'),
+))
+# Cleanup old dist tarballs (everything older than tree days).
+f.addStep(master.MasterShellCommand(
+    command = "find distballs -mtime +3 -exec rm '{}' \;",
+    name = 'cleanup old dist tarballs',
+))
+# Everything worked fine, now trigger compilation.
+f.addStep(Trigger(
+    schedulerNames = [ 'dist-tarball-done' ],
+    copy_properties = [ 'gitversion' ],
+))
+
+################################################################################
+# factory: "compile" — compiles the dist tarball and reports warnings
+################################################################################
+
+f = factories['compile'] = BuildFactory()
+unpack_dist_tarball(f)
+f.addStep(Compile(
+    command = [ 'make', 'DEBUG=0', '-j4' ],
+    warningPattern = '.*warning: ',
+    warnOnWarnings = True,
+    workdir = 'build/DIST',
+    env = {
+      'CPPFLAGS': '-D_FORTIFY_SOURCE=2',
+      'CFLAGS': '-Wformat -Wformat-security'
+    },
+))
+
+f.addStep(WarningsToIRC())
+
+################################################################################
+# factory: "clang-analyze" — runs a static code analysis
+################################################################################
+# $ sudo apt-get install clang
+
+f = factories['clang-analyze'] = BuildFactory()
+unpack_dist_tarball(f)
+cmd(f,
+    name='analyze',
+    command = [
+        'scan-build',
+        '-o', '../CLANG',
+        '--html-title', WithProperties('Analysis of i3 v%(gitversion)s'),
+        'make', '-j8',
+    ],
+    workdir = 'build/DIST',
+)
+
+# remove the subdirectory -- we always want to overwrite
+cmd(f, command = 'mv CLANG/*/* CLANG/')
+
+f.addStep(transfer.DirectoryUpload(
+    slavesrc = 'CLANG',
+    masterdest = 'htdocs/clang-analyze',
+    compress = 'bz2',
+    name = 'upload output',
+))
+
+f.addStep(ClangToIRC())
+
+################################################################################
+# factory: "docs" — builds documentation with a special asciidoc conf
+################################################################################
+
+f = factories['docs'] = BuildFactory()
+f.addStep(s_git)
+# Fill the 'gitversion' property with the output of git describe --tags.
+f.addStep(shell.SetProperty(command = 'git describe --tags', property = 'gitversion'))
+cmd(f, name = 'build docs', command = [ 'make', '-C', 'docs', "ASCIIDOC=asciidoc -a linkcss -a stylesdir=http://i3wm.org/css -a scriptsdir=http://i3wm.org/js --backend=xhtml11 -f docs/asciidoc-git.conf" ])
+cmd(f, name = 'build manpages', command = "for file in $(sed 's/\.1$/.man/g' debian/i3-wm.manpages); do asciidoc -a linkcss -a stylesdir=http://i3wm.org/css -a scriptsdir=http://i3wm.org/js --backend=xhtml11 -f docs/asciidoc-git.conf \"$file\"; done")
+f.addStep(slave.MakeDirectory(dir='build/COPY-DOCS'))
+cmd(f, name = 'copy docs', command = "cp $(tr '\\n' ' ' &lt; debian/i3-wm.docs) COPY-DOCS")
+cmd(f, name = 'copy manpages', command = "cp $(sed 's/\.1$/.html/g' debian/i3-wm.manpages | tr '\\n' ' ') COPY-DOCS")
+
+f.addStep(transfer.DirectoryUpload(
+    slavesrc = 'COPY-DOCS',
+    masterdest = 'htdocs/docs-git',
+    compress = 'bz2',
+    name = 'upload docs'))
+
+f.addStep(DocsToIRC())
+
+################################################################################
+# factory: "debian-packages" — builds Debian (sid) packages for amd64 and i386
+################################################################################
+
+distributions = [ 'sid-amd64', 'sid-i386' ]
+gpg_key = 'BE1DB1F1'
+
+f = factories['debian-packages'] = BuildFactory()
+# We need the git repository for the Debian packaging.
+f.addStep(s_git)
+unpack_dist_tarball(f)
+cmd(f, name='copy packaging', command = "cp -r debian DIST/")
+
+# Add a new changelog entry to have the git version in the package version.
+cmd(f,
+    name = 'update changelog',
+    workdir = 'build/DIST',
+    command = [ 'debchange', '-m', '-l', WithProperties('+g%(gitversion)s'), 'Automatically built' ],
+)
+
+cmd(f,
+    name = 'source pkg',
+    command = [ 'dpkg-buildpackage', '-S', '-us', '-uc' ],
+    workdir = 'build/DIST',
+)
+
+for dist in distributions:
+    f.addStep(slave.MakeDirectory(dir='build/RESULT-' + dist))
+
+# Create debian sid repository
+f.addStep(slave.MakeDirectory(dir='build/REPO-sid/conf'))
+f.addStep(transfer.StringDownload(
+    """Codename: sid
+Suite: unstable
+Architectures: i386 amd64 source
+Components: main
+DebIndices: Packages Release . .gz .bz2
+DscIndices: Sources Release . .gz .bz2
+SignWith: %(gpg_key)s
+""" % { "gpg_key": gpg_key },
+    slavedest = 'REPO-sid/conf/distributions',
+))
+
+# add source package to repository
+reprepro_include(f, 'i3-wm*_source.changes', 'dsc')
+
+# Add keyring to the repository. We need to run git clone on our own because
+# the Git() step assumes there’s precisely one repository we want to deal with.
+# No big deal since the i3-autobuild-keyring repository is not big.
+cmd(f, name='clone keyring repo', command = 'git clone git://code.i3wm.org/i3-autobuild-keyring')
+reprepro_include(f, 'i3-autobuild-keyring/prebuilt/*.changes')
+
+for dist in distributions:
+    # update the pbuilder
+    cmd(f, name = 'update builder', command = 'pbuilder-' + dist + ' update')
+
+    # build the package for each dist
+    f.addStep(ShellCommand(
+        logEnviron = False,
+        name = 'pkg ' + dist,
+        command = 'pbuilder-' + dist + ' build --binary-arch \
+--buildresult RESULT-' + dist + ' --debbuildopts -j8 i3-wm*dsc',
+        warnOnFailure = True
+    ))
+
+    reprepro_include(f, 'RESULT-' + dist + '/*.changes')
+
+# upload the sid repo
+# Since the next step is cleaning up old files, we set haltOnFailure=True -- we
+# prefer providing old packages over providing no packages at all :).
+for directory in [ 'pool', 'dists' ]:
+    f.addStep(transfer.DirectoryUpload(
+        slavesrc = 'REPO-sid/' + directory,
+        masterdest = 'htdocs/debian/sid/' + directory,
+        compress = 'bz2',
+        name = 'upload sid ' + directory,
+        haltOnFailure = True,
+    ))
+
+f.addStep(master.MasterShellCommand(
+    command = "find htdocs/debian/sid/pool -mtime +3 -exec rm '{}' \;",
+    name = 'cleanup old packages',
+))
+
+# We ensure there is an empty i18n/Index to speed up apt (so that it does not
+# try to download Translation-*)
+f.addStep(master.MasterShellCommand(
+    command = [ 'mkdir', '-p', 'htdocs/debian/sid/dists/sid/main/i18n' ],
+    name = 'create i18n folder',
+))
+f.addStep(master.MasterShellCommand(
+    command = [ 'touch', 'htdocs/debian/sid/dists/sid/main/i18n/Index' ],
+    name = 'touch i18n/Index',
+))
+
+################################################################################
+# factory: "ubuntu-packages" — builds Ubuntu (precise) packages for amd64 and i386
+################################################################################
+
+distributions = [ 'precise-amd64', 'precise-i386' ]
+gpg_key = 'BE1DB1F1'
+
+f = factories['ubuntu-packages'] = BuildFactory()
+# We need the git repository for the Debian packaging.
+f.addStep(s_git)
+unpack_dist_tarball(f)
+cmd(f, name='copy packaging', command = "cp -r debian DIST/")
+
+# Add a new changelog entry to have the git version in the package version.
+cmd(f,
+    name = 'update changelog',
+    workdir = 'build/DIST',
+    command = [ 'debchange', '-m', '-l', WithProperties('+g%(gitversion)s'), 'Automatically built' ],
+)
+
+cmd(f,
+    name = 'source pkg',
+    command = [ 'dpkg-buildpackage', '-S', '-us', '-uc' ],
+    workdir = 'build/DIST',
+)
+
+for dist in distributions:
+    f.addStep(slave.MakeDirectory(dir='build/RESULT-' + dist))
+
+# Create debian sid repository
+f.addStep(slave.MakeDirectory(dir='build/REPO-sid/conf'))
+f.addStep(transfer.StringDownload(
+    """Codename: precise
+Suite: unstable
+Architectures: i386 amd64 source
+Components: main
+DebIndices: Packages Release . .gz .bz2
+DscIndices: Sources Release . .gz .bz2
+SignWith: %(gpg_key)s
+""" % { "gpg_key": gpg_key },
+    slavedest = 'REPO-sid/conf/distributions',
+))
+
+# add source package to repository
+reprepro_include_ubuntu(f, 'i3-wm*_source.changes', 'dsc')
+
+# Add keyring to the repository. We need to run git clone on our own because
+# the Git() step assumes there’s precisely one repository we want to deal with.
+# No big deal since the i3-autobuild-keyring repository is not big.
+cmd(f, name='clone keyring repo', command = 'git clone git://code.i3wm.org/i3-autobuild-keyring')
+reprepro_include_ubuntu(f, 'i3-autobuild-keyring/prebuilt/*.changes')
+
+for dist in distributions:
+    # update the pbuilder
+    cmd(f, name = 'update builder', command = 'pbuilder-' + dist + ' update')
+
+    # build the package for each dist
+    f.addStep(ShellCommand(
+        logEnviron = False,
+        name = 'pkg ' + dist,
+        command = 'pbuilder-' + dist + ' build --binary-arch \
+--buildresult RESULT-' + dist + ' --debbuildopts -j8 i3-wm*dsc',
+        warnOnFailure = True
+    ))
+
+    reprepro_include_ubuntu(f, 'RESULT-' + dist + '/*.changes')
+
+# upload the sid repo
+# Since the next step is cleaning up old files, we set haltOnFailure=True -- we
+# prefer providing old packages over providing no packages at all :).
+for directory in [ 'pool', 'dists' ]:
+    f.addStep(transfer.DirectoryUpload(
+        slavesrc = 'REPO-sid/' + directory,
+        masterdest = 'htdocs/ubuntu/precise/' + directory,
+        compress = 'bz2',
+        name = 'upload precise ' + directory,
+        haltOnFailure = True,
+    ))
+
+f.addStep(master.MasterShellCommand(
+    command = "find htdocs/ubuntu/precise/pool -mtime +3 -exec rm '{}' \;",
+    name = 'cleanup old packages',
+))
+
+# We ensure there is an empty i18n/Index to speed up apt (so that it does not
+# try to download Translation-*)
+f.addStep(master.MasterShellCommand(
+    command = [ 'mkdir', '-p', 'htdocs/ubuntu/precise/dists/sid/main/i18n' ],
+    name = 'create i18n folder',
+))
+f.addStep(master.MasterShellCommand(
+    command = [ 'touch', 'htdocs/ubuntu/precise/dists/sid/main/i18n/Index' ],
+    name = 'touch i18n/Index',
+))
+
+
+c['builders'] = []
+
+# Add all builders to all buildslaves.
+for factoryname in factories.keys():
+    c['builders'].append(BuilderConfig(
+        name = factoryname,
+        slavenames=['docsteel-vm'],
+        factory=factories[factoryname],
+    ))
+
+
+####### STATUS TARGETS
+
+c['status'] = []
+
+authz_cfg=authz.Authz(
+    gracefulShutdown = False,
+    forceBuild = False,
+    forceAllBuilds = False,
+    pingBuilder = False,
+    stopBuild = False,
+    stopAllBuilds = False,
+    cancelPendingBuild = False,
+)
+
+c['status'].append(html.WebStatus(http_port=8010, authz=authz_cfg))
+
+c['status'].append(buildbot.status.status_push.HttpStatusPush(
+    serverUrl = 'http://localhost:8080/push_buildbot',
+))
+
+####### PROJECT IDENTITY
+
+c['title'] = 'i3'
+c['titleURL'] = 'http://i3wm.org/'
+# Removed so that search engines don’t crawl it
+c['buildbotURL'] = 'http://localhost/'
+
+####### DB URL
+
+c['db'] = {
+    # This specifies what database buildbot uses to store its state.  You can leave
+    # this at its default for all but the largest installations.
+    'db_url' : "sqlite:///state.sqlite",
+}</tt></pre>
+</div></div>
+</div>
+</div>
+</div>
+<div id="footnotes"><hr /></div>
+<div id="footer" lang="de">
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</div>
+</body>
+</html>

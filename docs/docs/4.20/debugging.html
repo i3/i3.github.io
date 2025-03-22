@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="AsciiDoc 9.1.0" />
+<title>i3: Debugging i3: How To</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes();}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body>
+    <header>
+        <a class="logo" href="/">
+            <img src="/img/logo.svg" alt="i3 WM logo" />
+        </a>
+        <nav>
+            <ul>
+                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                <li><a href="/screenshots">Screens</a></li>
+                <li><a href="https://www.reddit.com/r/i3wm/">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+
+<h1>Debugging i3: How To</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revdate">January 2014</span>
+</div>
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph"><p>This document describes how to debug i3 to send us useful bug
+reports, even if you have no knowledge of C programming.</p></div>
+<div class="paragraph"><p>Thank you for being interested in debugging i3. It really means
+something to us to get your bug fixed. If you have any questions about the
+process and/or need further help, do not hesitate to contact us!</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_verify_you_are_using_i3_4_20">1. Verify you are using i3 ≥ 4.20</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Only the latest major version of i3 is supported. To verify which version
+you are running, use:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ i3 --moreversion 2&gt;&amp;- || i3 --version
+Binary i3 version:  4.7 (2013-12-22, branch "tags/4.7")
+Running i3 version: 4.7-84-gac74a63 (2014-01-01, branch "next") (pid 1995)</tt></pre>
+</div></div>
+<div class="paragraph"><p>Your version can look like this:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+4.7 (release version)
+</dt>
+<dd>
+<p>
+You are using a release version. In many cases, bugs are already
+fixed in the development version of i3. Even if the bug is not a known fixed
+one, we will still ask you to reproduce your error with the most recent
+development version of i3. Therefore, please upgrade to a development version
+if you can.
+</p>
+</dd>
+<dt class="hdlist1">
+4.7-85-g9c15b95 (development version)
+</dt>
+<dd>
+<p>
+Your version is 85 commits newer than 4.7, and the git revision of your
+version is <tt>9c15b95</tt>. Go to <a href="https://github.com/i3/i3/commits/next">https://github.com/i3/i3/commits/next</a> and see if
+the most recent commit starts with the same revision. If so, you are using the
+latest version.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>Development versions of i3 have logging enabled by default and are compiled
+with debug symbols.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_enabling_logging">2. Enabling logging</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>If you are using a development version (see previous section), you don’t need
+to do anything&#8201;&#8212;&#8201;skip to section 3.</p></div>
+<div class="paragraph"><p>If you are using a release version with a custom <tt>~/.xsession</tt> (or xinitrc)
+file, execute i3 with a line like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt># Use 25 MiB of RAM for debug logs
+exec i3 --shmlog-size=26214400</tt></pre>
+</div></div>
+<div class="paragraph"><p>If you are <strong>NOT</strong> using an <tt>~/.xsession</tt> file but you just chose "i3" from the
+list of sessions in your desktop manager (gdm, lxdm, …), edit
+<tt>/usr/share/xsessions/i3.desktop</tt> and replace the <tt>Exec=i3</tt> line with:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>Exec=i3 --shmlog-size=26214400</tt></pre>
+</div></div>
+<div class="paragraph"><p>If you cannot restart i3 for some reason, you can enable debug logging on the
+fly:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3-msg 'debuglog on; shmlog on; reload'</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_reproducing_the_problem">3. Reproducing the problem</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Before submitting an issue, please make sure to close down on the problem as
+much as you can yourself. Here are some steps you should consider:</p></div>
+<div class="ulist"><ul>
+<li>
+<p>
+Find a deterministic, reliable way to reproduce the problem and provide it
+  with your bug report.
+</p>
+</li>
+<li>
+<p>
+Try using the default i3 config to reproduce the problem. If the issue does
+  not appear with the default config, gradually adapt it to track down what
+  change(s) to the config introduce the problem.
+</p>
+</li>
+<li>
+<p>
+Reproduce the problem with a minimal setup, i.e., only use as few applications,
+  windows and steps as necessary.
+</p>
+</li>
+<li>
+<p>
+In addition, try to stick to applications that are common and, even more
+  importantly, free / open source.
+</p>
+</li>
+<li>
+<p>
+Before obtaining the log file, restart i3 in-place, execute the steps to
+  reproduce the problem and then save the logs. This keeps the log file as
+  small as possible and necessary.
+</p>
+</li>
+</ul></div>
+<div class="paragraph"><p>Please be aware that we cannot support compatibility issues with closed-source
+software, as digging into compatibility problems without having access to the
+source code is too time-consuming. Additionally, experience has shown that
+often, the software in question is responsible for the issue. Please raise an
+issue with the software in question, not i3.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_obtaining_the_debug_logfile">4. Obtaining the debug logfile</h2>
+<div class="sectionbody">
+<div class="admonitionblock">
+<table><tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="paragraph"><p>Logs may contain sensitive information, so please inspect the log before
+submitting it. Logs may be viewed by anyone, once posted. If you choose to
+redact the log, make an effort not to discard information which may be relevant
+to the issue you are reporting.</p></div>
+<div class="paragraph"><p>The best way to avoid submitting such information is to only run the necessary
+steps to reproduce the behavior when saving the log file. This will also make
+analyzing the log file easier.</p></div>
+</td>
+</tr></table>
+</div>
+<div class="paragraph"><p>No matter whether i3 misbehaved in some way without crashing or whether it just
+crashed, the logfile provides all information necessary to debug the problem.</p></div>
+<div class="paragraph"><p>To upload a compressed version of the logfile (for a bugreport), use:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>DISPLAY=:0 i3-dump-log | bzip2 -c | curl --data-binary @- https://logs.i3wm.org</tt></pre>
+</div></div>
+<div class="paragraph"><p>This command does not depend on i3 (it also works while i3 displays
+the crash dialog), but it requires a working X11 connection.</p></div>
+<div class="paragraph"><p>After running it, you will get a URL to the logfile. Please include that URL in
+your bug report.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_on_crashes_obtaining_a_backtrace">5. On crashes: Obtaining a backtrace</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When i3 crashes, it will display a dialog stating “i3 just crashed”, offering
+you to save a backtrace to a text file.</p></div>
+<div class="paragraph"><p>To actually get useful backtraces, you should make sure that your version of i3
+is compiled with debug symbols:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ file `which i3`
+/usr/bin/i3: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically
+linked (uses shared libs), for GNU/Linux 2.6.18, not stripped</tt></pre>
+</div></div>
+<div class="paragraph"><p>Notice the <tt>not stripped</tt>, which is the important part. If you have a version
+which is stripped, please check whether your distribution provides debug
+symbols (package <tt>i3-wm-dbg</tt> on Debian for example) or if you can turn off
+stripping. If nothing helps, please build i3 from source.</p></div>
+<div class="paragraph"><p>Once you have made sure that your i3 is compiled with debug symbols and the C
+debugger <tt>gdb</tt> is installed on your machine, you can let i3 generate a
+backtrace in the crash dialog.</p></div>
+<div class="paragraph"><p>After pressing "b" in the crash dialog, you will get a file called
+<tt>/tmp/i3-backtrace.%d.%d.txt</tt> where the first <tt>%d</tt> is replaced by i3’s process
+id (PID) and the second one is incremented each time you generate a backtrace,
+starting at 0.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_sending_bug_reports_debugging_on_irc">6. Sending bug reports/debugging on IRC</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When sending bug reports, please attach the <strong>whole</strong> log file. Even if you think
+you found the section which clearly highlights the problem, additional
+information might be necessary to completely diagnose the problem.</p></div>
+<div class="paragraph"><p>When debugging with us in IRC, be prepared to use a so-called nopaste service
+such as <a href="https://pastebin.com">https://pastebin.com</a> because pasting large amounts of text in IRC
+sometimes leads to incomplete lines (servers have line length limitations) or
+flood kicks.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_debugging_i3bar">7. Debugging i3bar</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To debug i3bar problems, use the <tt>--verbose</tt> commandline parameter,
+or add <tt>verbose yes</tt> to all <tt>bar {}</tt> blocks in your i3
+config, reload your config and then restart all i3bar instances like this:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>$ i3 reload
+$ killall i3bar
+$ for c in $(i3-msg -t get_bar_config | python -c \
+      'import json,sys;print("\n".join(json.load(sys.stdin)))'); do \
+    (i3bar --bar_id=$c &gt;i3bar.$c.log 2&gt;&amp;1) &amp; \
+  done;</tt></pre>
+</div></div>
+<div class="paragraph"><p>There will now be <tt>i3bar.*.log</tt> files in your current directory that you can provide
+in your bug report.</p></div>
+</div>
+</div>
+</main>
+<div id="footnotes"><hr /></div>
+<footer>
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</footer>
+</body>
+</html>

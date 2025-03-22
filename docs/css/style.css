@@ -1,0 +1,509 @@
+/* Reset */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Basics */
+
+body {
+    background-color: #2e2e2e;
+    color: #ddd;
+    font-family: "Droid Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    font-size: 1em;
+    line-height: 1.5;
+    overflow-y: auto;
+    max-width: 55rem;
+    margin: 0 auto;
+}
+
+img {
+    max-width: 100%
+}
+
+a {
+    color: #52C0FF;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+/* Typo */
+
+h1, h2, h3, h4, h5, h6 {
+    color: #fff;
+    font-family: "Mako", Helvetica, Arial, sans-serif;
+    line-height: 1.2;
+}
+
+/*
+ * Default template styling
+ *  - header
+ *  - nav
+ *  - main
+ *  - #content (legacy)
+ *  - footer
+ */
+
+/* Header */
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.logo {
+    max-width: 20rem;
+}
+
+/* Nav */
+
+nav ul {
+    display: flex;
+}
+
+nav ul li {
+    list-style: none;
+}
+
+nav ul li a {
+    color: #FFF;
+    padding: .4rem .8rem;
+    text-decoration: none;
+    border-bottom: 2px solid #2e2e2e;
+}
+
+nav ul li a:hover {
+    border-bottom: 2px solid #fff;
+}
+
+.active {
+    border-bottom: 2px solid #52C0FF;
+}
+
+/* Main */
+
+main {
+    margin: 2rem 0;
+}
+
+main > * + * {
+    margin-top: 1.5rem;
+}
+
+main ul, main ol {
+    margin-left: 2rem;
+}
+
+main li {
+    margin-bottom: 1em;
+}
+
+/*
+ * #content used to be the old content wrapper.
+ * It's still here for legacy purposes but the new content is wrapped
+ * in <main>, so all appropriate styling is found on that element above this comment
+ */
+
+#content {
+    max-width: 874px;
+    padding-left: 1em;
+    padding-right: 1em;
+}
+
+#content p {
+    padding-right: 2em;
+}
+#content li {
+    margin-bottom: 1em;
+    padding-right: 2em;
+}
+
+/* Footer */
+
+footer {
+    border-top: 2px solid #242424;
+    color: #ccc;
+    font-size: .9rem;
+    text-align: center;
+    padding: 2em;
+}
+
+/*
+ * Styling for each major sub-section of the site
+ *  - home
+ *  - downloads/distributions
+ *  - docs
+ *  - screenshots
+ */
+
+.info {
+    padding: 2rem;
+    background-color: #242424;
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.info div + a {
+    margin-left: 2rem
+}
+
+.info h2 {
+    font-size: 2rem;
+    font-weight: normal;
+}
+
+.info-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.info-text p {
+    margin: 2rem 0 2.5rem 0;
+}
+
+.download {
+    background-color: #2b7dbc;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #fff;
+    padding: .75rem 2rem;
+    text-decoration: none;
+    align-self: flex-start;
+}
+
+.version {
+    margin-left: 2rem;
+}
+
+.screen {
+    width: 90%;
+    display: inline-block;
+}
+
+.screen img {
+    vertical-align: middle;
+}
+
+/*
+ * Distributions page
+ */
+
+.distributions {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.distributions img {
+    vertical-align: middle;
+    max-width: 5rem;
+    margin: 1rem;
+}
+
+.old {
+    display: none;
+}
+
+.downloads {
+    width: 100%;
+}
+
+.downloads tbody:first-of-type tr:first-child td {
+    color: #fff;
+    padding: .5rem 0;
+    font-weight: bold;
+}
+
+.gpg-key {
+    white-space: pre;
+    overflow-x: auto;
+}
+
+/*
+ * Docs page
+ */
+
+.columns {
+    display: flex;
+}
+
+.item {
+    padding: .5rem;
+}
+
+* + .item {
+    margin-top: 1rem;
+}
+
+.item > a {
+    font-weight: bold
+}
+
+.highlight {
+    background-color: #444;
+    border-radius: 5px;
+    width: 90%;
+}
+
+.author {
+    color: #7c7c7c;
+    font-size: .8rem;
+    margin-left: .5rem;
+}
+
+/* Videos */
+
+.video {
+    display: flex;
+}
+
+.video + .video {
+    margin-top: 2rem;
+}
+
+.video img {
+    min-width: 15rem;
+}
+
+.video-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 2rem;
+}
+
+/* Screenshots */
+
+.screenshots {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.shot {
+    max-width: calc(55rem / 3);
+    margin: 1rem;
+}
+
+figcaption {
+    color: #7c7c7c;
+    text-align: center;
+}
+
+/* Gallery */
+
+.gallery {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    margin: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loading {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    width: 58px;
+    height: 60px;
+    background-color: black;
+    background-image: url('/img/loading.gif');
+    opacity: 0.9;
+    display: none;
+    border-radius: 4px;
+}
+
+.gallery .focus {
+    flex: 1;
+    min-height: 100%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.gallery .view {
+    display: flex;
+    flex: 1;
+    width: 100%;
+    align-items: center;
+}
+
+.left, .right {
+    width: 64px;
+    height: 64px;
+    border-radius: 4px;
+    background-color: black;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.left {
+    background-image: url('/img/prevbtn.png');
+}
+
+.right {
+    background-image: url('/img/nextbtn.png');
+}
+
+.left:hover, .right:hover {
+    opacity: 1;
+}
+
+.gallery .meta {
+    background-color: #333;
+    padding: 1em;
+    border: 1px solid #555;
+    border-bottom: 0;
+}
+
+.meta .filename {
+    font-weight: bold;
+}
+
+.meta .description {
+    padding-left: 1em;
+}
+
+/* Fonts */
+
+@font-face {
+    font-family: 'Droid Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Droid Sans'), local('DroidSans'), url('/fonts/DroidSans.woff') format('woff'), url('/fonts/DroidSans.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Ovo';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Ovo'), url('/fonts/Ovo.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Mako';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Mako'), url('/fonts/Mako.ttf') format('truetype');
+}
+
+/* Mobile */
+
+@media screen and (max-width: 40rem) {
+
+    body {
+        padding: 1rem;
+    }
+
+    header {
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .logo {
+        margin-bottom: 1.5rem;
+    }
+
+    main {
+        margin: 1.5rem 0;
+    }
+
+    main > * + * {
+        margin-top: 1rem;
+    }
+
+    .info {
+        flex-direction: column;
+        margin-bottom: 1rem;
+        padding: 1rem;
+    }
+
+    .info div + a {
+        margin-left: 0rem
+    }
+
+    .info-text p {
+        margin: 1rem 0;
+    }
+
+    .info .screen{
+        margin-top: 1rem;
+    }
+
+    .screens {
+        width: 100%;
+    }
+
+    .video {
+        flex-direction: column;
+    }
+
+    .video-description {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+
+    footer {
+        padding: 1rem;
+    }
+}
+
+/*
+ * Everything under this comment has not been updated to reflect the new
+ * html & css structure on 28/02/2020. Most of it is screenshot/gallery code
+ * and float clearfixes.
+ */
+
+.usergen pre {
+    background: #333;
+    border: 1px solid #555;
+    border-left: 5px solid #555;
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 0.5em;
+    white-space: pre;
+    color: white;
+    overflow: auto;
+}
+
+.usergen tt {
+    font-family: 'Droid Sans Mono', sans-serif;
+    font-size: inherit;
+}
+
+.ugdocs .author {
+    opacity: 0.3;
+}
+
+/* clearfix */
+.clearfix:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.clearfix {
+    display: inline-block;
+}
+
+html[xmlns] .clearfix {
+    display: block;
+}
+
+* html .clearfix {
+    height: 1%;
+}

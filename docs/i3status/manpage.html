@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="AsciiDoc 9.1.0" />
+<title>i3: i3status(1)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body>
+    <header>
+        <a class="logo" href="/">
+            <img src="/img/logo.svg" alt="i3 WM logo" />
+        </a>
+        <nav>
+            <ul>
+                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                <li><a href="/screenshots">Screens</a></li>
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+
+<h1>i3status(1)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revnumber">version 2.14,</span>
+<span id="revdate">November 2021</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_name">1. NAME</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3status - Generates a status line for i3bar, dzen2, xmobar or lemonbar</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis">2. SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3status [-c configfile] [-h] [-v]</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options">3. OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+-c
+</dt>
+<dd>
+<p>
+Specifies an alternate configuration file path. By default, i3status looks for
+configuration files in the following order:
+</p>
+<div class="olist arabic"><ol class="arabic">
+<li>
+<p>
+~/.config/i3status/config (or $XDG_CONFIG_HOME/i3status/config if set)
+</p>
+</li>
+<li>
+<p>
+/etc/xdg/i3status/config (or $XDG_CONFIG_DIRS/i3status/config if set)
+</p>
+</li>
+<li>
+<p>
+~/.i3status.conf
+</p>
+</li>
+<li>
+<p>
+/etc/i3status.conf
+</p>
+</li>
+</ol></div>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">4. DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3status is a small program for generating a status bar for i3bar, dzen2,
+xmobar, lemonbar or similar programs. It is designed to be very efficient by
+issuing a very small number of system calls, as one generally wants to update
+such a status line every second. This ensures that even under high load, your
+status bar is updated correctly. Also, it saves a bit of energy by not hogging
+your CPU as much as spawning the corresponding amount of shell commands would.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_configuration">5. CONFIGURATION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>The basic idea of i3status is that you can specify which "modules" should
+be used (the order directive). You can then configure each module with its
+own section. For every module, you can specify the output format. See below
+for a complete reference.</p></div>
+<div class="listingblock">
+<div class="title">Sample configuration</div>
+<div class="content">
+<pre><tt>general {
+        output_format = "dzen2"
+        colors = true
+        interval = 5
+}
+
+order += "ipv6"
+order += "disk /"
+order += "run_watch DHCP"
+order += "run_watch VPNC"
+order += "path_exists VPN"
+order += "wireless wlan0"
+order += "ethernet eth0"
+order += "battery 0"
+order += "cpu_temperature 0"
+order += "memory"
+order += "load"
+order += "tztime local"
+order += "tztime berlin"
+
+wireless wlan0 {
+        format_up = "W: (%quality at %essid, %bitrate) %ip"
+        format_down = "W: down"
+}
+
+ethernet eth0 {
+        format_up = "E: %ip (%speed)"
+        format_down = "E: down"
+}
+
+battery 0 {
+        format = "%status %percentage %remaining %emptytime"
+        format_down = "No battery"
+        status_chr = "⚡ CHR"
+        status_bat = "🔋 BAT"
+        status_unk = "? UNK"
+        status_full = "☻ FULL"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 10
+}
+
+run_watch DHCP {
+        pidfile = "/var/run/dhclient*.pid"
+}
+
+run_watch VPNC {
+        # file containing the PID of a vpnc process
+        pidfile = "/var/run/vpnc/pid"
+}
+
+path_exists VPN {
+        # path exists when a VPN tunnel launched by nmcli/nm-applet is active
+        path = "/proc/sys/net/ipv4/conf/tun0"
+}
+
+tztime local {
+        format = "%Y-%m-%d %H:%M:%S"
+        hide_if_equals_localtime = true
+}
+
+tztime berlin {
+        format = "%Y-%m-%d %H:%M:%S %Z"
+        timezone = "Europe/Berlin"
+}
+
+load {
+        format = "%5min"
+}
+
+cpu_temperature 0 {
+        format = "T: %degrees °C"
+        path = "/sys/devices/platform/coretemp.0/temp1_input"
+}
+
+memory {
+        format = "%used"
+        threshold_degraded = "10%"
+        format_degraded = "MEMORY: %free"
+}
+
+disk "/" {
+        format = "%free"
+}
+
+read_file uptime {
+        path = "/proc/uptime"
+}</tt></pre>
+</div></div>
+<div class="sect2">
+<h3 id="_general">5.1. General</h3>
+<div class="paragraph"><p>The <tt>colors</tt> directive will disable all colors if you set it to <tt>false</tt>. You can
+also specify the colors that will be used to display "good", "degraded" or "bad"
+values using the <tt>color_good</tt>, <tt>color_degraded</tt> or <tt>color_bad</tt> directives,
+respectively. Those directives are only used if color support is not disabled by
+the <tt>colors</tt> directive. The input format for color values is the canonical RGB
+hexadecimal triplet (with no separators between the colors), prefixed by a hash
+character ("#").</p></div>
+<div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>color_good = "#00FF00"</tt></pre>
+</div></div>
+<div class="paragraph"><p>Likewise, you can use the <tt>color_separator</tt> directive to specify the color that
+will be used to paint the separator bar. The separator is always output in
+color, even when colors are disabled by the <tt>colors</tt> directive. This option has
+no effect when <tt>output_format</tt> is set to <tt>i3bar</tt> or <tt>none</tt>.</p></div>
+<div class="paragraph"><p>The <tt>interval</tt> directive specifies the time in seconds for which i3status will
+sleep before printing the next status line.</p></div>
+<div class="paragraph"><p>Using <tt>output_format</tt> you can choose which format strings i3status should
+use in its output. Currently available are:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+i3bar
+</dt>
+<dd>
+<p>
+i3bar comes with i3 and provides a workspace bar which does the right thing in
+multi-monitor situations. It also comes with tray support and can display the
+i3status output. This output type uses JSON to pass as much meta-information to
+i3bar as possible (like colors, which blocks can be shortened in which way,
+etc.).
+</p>
+</dd>
+<dt class="hdlist1">
+dzen2
+</dt>
+<dd>
+<p>
+Dzen is a general purpose messaging, notification and menuing program for X11.
+It was designed to be scriptable in any language and integrate well with window
+managers like dwm, wmii and xmonad though it will work with any window manager
+</p>
+</dd>
+<dt class="hdlist1">
+xmobar
+</dt>
+<dd>
+<p>
+xmobar is a minimalistic, text based, status bar. It was designed to work
+with the xmonad Window Manager.
+</p>
+</dd>
+<dt class="hdlist1">
+lemonbar
+</dt>
+<dd>
+<p>
+lemonbar is a lightweight bar based entirely on XCB. It has full UTF-8 support
+and is EWMH compliant.
+</p>
+</dd>
+<dt class="hdlist1">
+term
+</dt>
+<dd>
+<p>
+Use ANSI Escape sequences to produce a terminal-output as close as possible to
+the graphical outputs. This makes debugging your config file a little bit
+easier because the terminal-output of i3status becomes much more readable, but
+should only used for such quick glances, because it will only support very
+basic output-features (for example you only get 3 bits of color depth).
+</p>
+</dd>
+<dt class="hdlist1">
+none
+</dt>
+<dd>
+<p>
+Does not use any color codes. Separates values by the pipe symbol by default.
+This should be used with i3bar and can be used for custom scripts.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>It&#8217;s also possible to use the <tt>color_good</tt>, <tt>color_degraded</tt>, <tt>color_bad</tt>
+directives to define specific colors per module. If one of these directives is
+defined in a module section its value will override the value defined in the
+general section just for this module.</p></div>
+<div class="paragraph"><p>If you don&#8217;t fancy the vertical separators between modules i3status/i3bar
+uses by default, you can employ the <tt>separator</tt> directive to configure how
+modules are separated. You can also disable the default separator altogether by
+setting it to the empty string. You might then define separation as part of a
+module&#8217;s format string. This is your only option when using the i3bar output
+format as the separator is drawn by i3bar directly otherwise. For the other
+output formats, the provided non-empty string will be automatically enclosed
+with the necessary coloring bits if color support is enabled.</p></div>
+<div class="paragraph"><p>i3bar supports Pango markup, allowing your format strings to specify font,
+color, size, etc. by setting the <tt>markup</tt> directive to "pango". Note that the
+ampersand ("&amp;"), less-than ("&lt;"), greater-than ("&gt;"), single-quote ("'"), and
+double-quote (""") characters need to be replaced with "<tt>&amp;amp;</tt>", "<tt>&amp;lt;</tt>",
+"<tt>&amp;gt;</tt>", "<tt>&amp;apos;</tt>", and "<tt>&amp;quot;</tt>" respectively. This is done automatically
+for generated content (e.g. wireless ESSID, time).</p></div>
+<div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>general {
+    output_format = "xmobar"
+    separator = "  "
+}
+
+order += "load"
+order += "disk /"
+
+load {
+    format = "[ load: %1min, %5min, %15min ]"
+}
+disk "/" {
+    format = "%avail"
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_ipv6">5.2. IPv6</h3>
+<div class="paragraph"><p>This module gets the IPv6 address used for outgoing connections (that is, the
+best available public IPv6 address on your computer).</p></div>
+<div class="paragraph"><p><strong>Example format_up</strong>: <tt>%ip</tt></p></div>
+<div class="paragraph"><p><strong>Example format_down</strong>: <tt>no IPv6</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_disk">5.3. Disk</h3>
+<div class="paragraph"><p>Gets used, free, available and total amount of bytes on the given mounted filesystem.</p></div>
+<div class="paragraph"><p>These values can also be expressed in percentages with the <tt>percentage_used</tt>,
+<tt>percentage_free</tt>, <tt>percentage_avail</tt> and <tt>percentage_used_of_avail</tt> formats.</p></div>
+<div class="paragraph"><p>Byte sizes are presented in a human readable format using a set of prefixes
+whose type can be specified via the "prefix_type" option. Three sets of
+prefixes are available:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+binary
+</dt>
+<dd>
+<p>
+IEC prefixes (Ki, Mi, Gi, Ti) represent multiples of powers of 1024.
+This is the default.
+</p>
+</dd>
+<dt class="hdlist1">
+decimal
+</dt>
+<dd>
+<p>
+SI prefixes (k, M, G, T) represent multiples of powers of 1000.
+</p>
+</dd>
+<dt class="hdlist1">
+custom
+</dt>
+<dd>
+<p>
+The custom prefixes (K, M, G, T) represent multiples of powers of 1024.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p>It is possible to define a <tt>low_threshold</tt> that causes the disk text to be
+displayed using <tt>color_bad</tt>. The <tt>low_threshold</tt> type can be of <tt>threshold_type</tt>
+"bytes_free", "bytes_avail", "percentage_free", or "percentage_avail", where
+the former two can be prepended by a generic prefix (k, m, g, t) having
+prefix_type. So, if you configure <tt>low_threshold</tt> to 2, <tt>threshold_type</tt> to
+"gbytes_avail", and prefix_type to "binary", and the remaining available disk
+space is below 2 GiB, it will be colored bad. If not specified, <tt>threshold_type</tt>
+is assumed to be "percentage_avail" and <tt>low_threshold</tt> to be set to 0, which
+implies no coloring at all. You can customize the output format when below
+<tt>low_threshold</tt> with <tt>format_below_threshold.</tt></p></div>
+<div class="paragraph"><p>You can define a different format with the option "format_not_mounted"
+which is used if the path does not exist or is not a mount point. Defaults to "".</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>disk /mnt/usbstick</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%free (%avail)/ %total</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%percentage_used used, %percentage_free free, %percentage_avail avail</tt></p></div>
+<div class="paragraph"><p><strong>Example prefix_type</strong>: <tt>custom</tt></p></div>
+<div class="paragraph"><p><strong>Example low_threshold</strong>: <tt>5</tt></p></div>
+<div class="paragraph"><p><strong>Example format_below_threshold</strong>: <tt>Warning: %percentage_avail</tt></p></div>
+<div class="paragraph"><p><strong>Example threshold_type</strong>: <tt>percentage_free</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_run_watch">5.4. Run-watch</h3>
+<div class="paragraph"><p>Expands the given path to a pidfile and checks if the process ID found inside
+is valid (that is, if the process is running). You can use this to check if
+a specific application, such as a VPN client or your DHCP client is running.
+There also is an option <tt>format_down</tt>. You can hide the output with
+<tt>format_down=""</tt>.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>run_watch DHCP</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%title: %status</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_path_exists">5.5. Path-exists</h3>
+<div class="paragraph"><p>Checks if the given path exists in the filesystem. You can use this to check if
+something is active, like for example a VPN tunnel managed by NetworkManager.
+There also is an option <tt>format_down</tt>. You can hide the output with
+<tt>format_down=""</tt>.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>path_exists VPN</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%title: %status</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_wireless">5.6. Wireless</h3>
+<div class="paragraph"><p>Gets the link quality, frequency and ESSID of the given wireless network
+interface. You can specify different format strings for the network being
+connected or not connected. The quality is padded with leading zeroes by
+default; to pad with something else use <tt>format_bitrate</tt>, <tt>format_noise</tt>,
+<tt>format_quality</tt> or <tt>format_signal</tt>.</p></div>
+<div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first wireless
+network interface found on the system (excluding devices starting with "lo").</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>wireless wlan0</tt></p></div>
+<div class="paragraph"><p><strong>Example format_up</strong>: <tt>W: (%quality at %essid, %bitrate / %frequency) %ip</tt></p></div>
+<div class="paragraph"><p><strong>Example format_down</strong>: <tt>W: down</tt></p></div>
+<div class="paragraph"><p><strong>Example format_bitrate</strong>: <tt>"%g %cb/s"</tt></p></div>
+<div class="paragraph"><p><strong>Example format_noise</strong>: <tt>"%03d%s"</tt></p></div>
+<div class="paragraph"><p><strong>Example format_quality</strong>: <tt>"%03d%s"</tt></p></div>
+<div class="paragraph"><p><strong>Example format_signal</strong>: <tt>"%03d%s"</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_ethernet">5.7. Ethernet</h3>
+<div class="paragraph"><p>Gets the IP address and (if possible) the link speed of the given ethernet
+interface. If no IPv4 address is available and an IPv6 address is, it will be
+displayed.</p></div>
+<div class="paragraph"><p>The special interface name <tt>_first_</tt> will be replaced by the first non-wireless
+network interface found on the system (excluding devices starting with "lo").</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>ethernet eth0</tt></p></div>
+<div class="paragraph"><p><strong>Example format_up</strong>: <tt>E: %ip (%speed)</tt></p></div>
+<div class="paragraph"><p><strong>Example format_down</strong>: <tt>E: down</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_battery">5.8. Battery</h3>
+<div class="paragraph"><p>Gets the status (charging, discharging, unknown, full), percentage, remaining
+time and power consumption (in Watts) of the given battery and when it&#8217;s
+estimated to be empty. If you want to use the last full capacity instead of the
+design capacity (when using the design capacity, it may happen that your
+battery is at 23% when fully charged because it’s old. In general, I want to
+see it this way, because it tells me how worn off my battery is.), just specify
+<tt>last_full_capacity = true</tt>. You can show seconds in the remaining time and
+empty time estimations by setting <tt>hide_seconds = false</tt>.</p></div>
+<div class="paragraph"><p>If you want the battery percentage to be shown in another format, use
+<tt>format_percentage</tt>.
+<tt>integer_battery_capacity = true</tt> is a legacy option for
+<tt>format_percentage = "%.00f%s"</tt></p></div>
+<div class="paragraph"><p>If your battery is represented in a non-standard path in /sys, be sure to
+modify the <tt>path</tt> property accordingly, i.e. pointing to the uevent file on
+your system. The first occurrence of %d gets replaced with the battery number,
+but you can just hard-code a path as well.</p></div>
+<div class="paragraph"><p>It is possible to define a low_threshold that causes the battery text to be
+colored <tt>color_bad</tt>. The <tt>low_threshold</tt> type can be of <tt>threshold_type</tt> "time"
+or "percentage". So, if you configure <tt>low_threshold</tt> to 10 and <tt>threshold_type</tt>
+to "time", and your battery lasts another 9 minutes, it will be colored
+<tt>color_bad</tt>.</p></div>
+<div class="paragraph"><p>To show an aggregate of all batteries in the system, use "all" as the number. In
+this case (for Linux), the /sys path must contain the "%d" sequence. Otherwise,
+the number indicates the battery index as reported in /sys.</p></div>
+<div class="paragraph"><p>Optionally custom strings including any UTF-8 symbols can be used for different
+battery states. This makes it possible to display individual symbols
+for each state (charging, discharging, unknown, full)
+Of course it will also work with special iconic fonts, such as FontAwesome.
+If any of these special status strings are omitted, the default (CHR, BAT, UNK,
+FULL) is used.</p></div>
+<div class="paragraph"><p><strong>Example order (for the first battery)</strong>: <tt>battery 0</tt></p></div>
+<div class="paragraph"><p><strong>Example order (aggregate of all batteries)</strong>: <tt>battery all</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%status %remaining (%emptytime %consumption)</tt></p></div>
+<div class="paragraph"><p><strong>Example format_down</strong>: <tt>No battery</tt></p></div>
+<div class="paragraph"><p><strong>Example format_percentage</strong>: <tt>"%.02f%s"</tt></p></div>
+<div class="paragraph"><p><strong>Example status_chr</strong>: <tt>⚡ CHR</tt></p></div>
+<div class="paragraph"><p><strong>Example status_bat</strong>: <tt>🔋 BAT</tt></p></div>
+<div class="paragraph"><p><strong>Example status_unk</strong>: <tt>? UNK</tt></p></div>
+<div class="paragraph"><p><strong>Example status_full</strong>: <tt>☻ FULL</tt></p></div>
+<div class="paragraph"><p><strong>Example low_threshold</strong>: <tt>30</tt></p></div>
+<div class="paragraph"><p><strong>Example threshold_type</strong>: <tt>time</tt></p></div>
+<div class="paragraph"><p><strong>Example path (%d replaced by title number)</strong>: <tt>/sys/class/power_supply/CMB%d/uevent</tt></p></div>
+<div class="paragraph"><p><strong>Example path (ignoring the number)</strong>: <tt>/sys/class/power_supply/CMB1/uevent</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_cpu_temperature">5.9. CPU-Temperature</h3>
+<div class="paragraph"><p>Gets the temperature of the given thermal zone. It is possible to
+define a <tt>max_threshold</tt> that will color the temperature red in case the
+specified thermal zone is getting too hot. Defaults to 75 degrees C. The
+output format when above <tt>max_threshold</tt> can be customized with
+<tt>format_above_threshold</tt>.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_temperature 0</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>T: %degrees °C</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>42</tt></p></div>
+<div class="paragraph"><p><strong>Example format_above_threshold</strong>: <tt>Warning T above threshold: %degrees °C</tt></p></div>
+<div class="paragraph"><p><strong>Example path</strong>: <tt>/sys/devices/platform/coretemp.0/temp1_input</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_cpu_usage">5.10. CPU Usage</h3>
+<div class="paragraph"><p>Gets the percentual CPU usage from <tt>/proc/stat</tt> (Linux) or <tt>sysctl(3)</tt>
+(FreeBSD/OpenBSD).</p></div>
+<div class="paragraph"><p>It is possible to define a <tt>max_threshold</tt> that will color the load
+value with <tt>color_bad</tt> in case the CPU average over the last interval is getting
+higher than the configured threshold. Defaults to 95. The output
+format when above <tt>max_threshold</tt> can be customized with
+<tt>format_above_threshold</tt>.</p></div>
+<div class="paragraph"><p>It is possible to define a <tt>degraded_threshold</tt> that will color the load
+value with <tt>color_degraded</tt> in case the CPU average over the last interval is
+getting higher than the configured threshold. Defaults to 90. The output format
+when above degraded threshold can be customized with
+<tt>format_above_degraded_threshold</tt>.</p></div>
+<div class="paragraph"><p>For displaying the Nth CPU usage, you can use the %cpu&lt;N&gt; format string,
+starting from %cpu0. This feature is currently not supported in FreeBSD.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>cpu_usage</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>all: %usage CPU_0: %cpu0 CPU_1: %cpu1</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>75</tt></p></div>
+<div class="paragraph"><p><strong>Example format_above_threshold</strong>: <tt>Warning above threshold: %usage</tt></p></div>
+<div class="paragraph"><p><strong>Example degraded_threshold</strong>: <tt>25</tt></p></div>
+<div class="paragraph"><p><strong>Example format_above_degraded_threshold</strong>: <tt>Warning above degraded threshold: %usage</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_memory">5.11. Memory</h3>
+<div class="paragraph"><p>Gets the memory usage from system on a Linux system from <tt>/proc/meminfo</tt>. Other
+systems are currently not supported.</p></div>
+<div class="paragraph"><p>As format placeholders, <tt>total</tt>, <tt>used</tt>, <tt>free</tt>, <tt>available</tt> and <tt>shared</tt> are
+available. These will print human readable values. It&#8217;s also possible to prefix
+the placeholders with <tt>percentage_</tt> to get a value in percent.</p></div>
+<div class="paragraph"><p>It&#8217;s possible to define a <tt>threshold_degraded</tt> and a <tt>threshold_critical</tt> to
+color the status bar output in <tt>color_degraded</tt> or <tt>color_bad</tt>, if the available
+memory falls below the given threshold. Possible values of the threshold can be
+any integer, suffixed with an iec symbol (<tt>T</tt>, <tt>G</tt>, <tt>M</tt>, <tt>K</tt>). Alternatively,
+the integer can be suffixed by a percent sign, which then gets evaluated
+relatively to total memory.</p></div>
+<div class="paragraph"><p>If the <tt>format_degraded</tt> parameter is given and either the critical or the
+degraded threshold applies, <tt>format_degraded</tt> will get used as format string.
+It acts equivalently to <tt>format</tt>.</p></div>
+<div class="paragraph"><p>It&#8217;s also possible to define the unit for the various format placeholders. As
+<tt>/proc/meminfo</tt> returns the memory in kB they will be converted to the given
+unit. If no unit is given or the <tt>auto</tt> option is used, the conversion will
+select the maximum possible unit.</p></div>
+<div class="paragraph"><p>As the converted format placeholder will be a decimal number, the number of
+decimals can be configured via the <tt>decimals</tt> option. If no such option is
+given the converted format placeholder will have one decimal.</p></div>
+<div class="paragraph"><p>As Linux' meminfo doesn&#8217;t expose the overall memory in use, there are multiple
+methods to distinguish the actually used memory.</p></div>
+<div class="paragraph"><p><strong>Example memory_used_method</strong>: <tt>memavailable</tt> ("total memory" - "MemAvailable", matches <tt>free</tt> command)</p></div>
+<div class="paragraph"><p><strong>Example memory_used_method</strong>: <tt>classical</tt> ("total memory" - "free" - "buffers" - "cache", matches gnome system monitor)</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>memory</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%free %available (%used) / %total</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%percentage_used used, %percentage_free free, %percentage_shared shared</tt></p></div>
+<div class="paragraph"><p><strong>Example unit</strong>: auto, Ki, Mi, Gi, Ti</p></div>
+<div class="paragraph"><p><strong>Example decimals</strong>: 0, 1, 2, 3</p></div>
+<div class="paragraph"><p><strong>Example threshold_degraded</strong>: <tt>10%</tt></p></div>
+<div class="paragraph"><p><strong>Example threshold_critical</strong>: <tt>5%</tt></p></div>
+<div class="paragraph"><p><strong>Example format_degraded</strong>: <tt>Memory LOW: %free</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_load">5.12. Load</h3>
+<div class="paragraph"><p>Gets the system load (number of processes waiting for CPU time in the last
+1, 5 and 15 minutes). It is possible to define a max_threshold that will
+color the load value <tt>color_bad</tt> in case the load average of the last minute is
+getting higher than the configured threshold. Defaults to 5. The output
+format when above <tt>max_threshold</tt> can be customized with
+<tt>format_above_threshold</tt>.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>load</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%1min %5min %15min</tt></p></div>
+<div class="paragraph"><p><strong>Example max_threshold</strong>: <tt>"0.1"</tt></p></div>
+<div class="paragraph"><p><strong>Example format_above_threshold</strong>: <tt>Warning: %1min %5min %15min</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_time">5.13. Time</h3>
+<div class="paragraph"><p>Outputs the current time in the local timezone.
+To use a different timezone, you can set the TZ environment variable,
+or use the <tt>tztime</tt> module.
+See <tt>strftime(3)</tt> for details on the format string.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>time</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_tztime">5.14. TzTime</h3>
+<div class="paragraph"><p>Outputs the current time in the given timezone.
+If no timezone is given, local time will be used.
+See <tt>strftime(3)</tt> for details on the format string.
+The system&#8217;s timezone database is usually installed in <tt>/usr/share/zoneinfo</tt>.
+Files below that path make for valid timezone strings, e.g. for
+<tt>/usr/share/zoneinfo/Europe/Berlin</tt> you can set timezone to <tt>Europe/Berlin</tt>
+in the <tt>tztime</tt> module.
+To override the locale settings of your environment, set the <tt>locale</tt> option.
+To display time only when the set timezone has different time from localtime, set
+<tt>hide_if_equals_localtime</tt> to true.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>tztime berlin</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%Y-%m-%d %H:%M:%S %Z</tt></p></div>
+<div class="paragraph"><p><strong>Example timezone</strong>: <tt>Europe/Berlin</tt></p></div>
+<div class="paragraph"><p><strong>Example locale</strong>: <tt>de_DE.UTF-8</tt></p></div>
+<div class="paragraph"><p>If you would like to use markup in this section, there is a separate
+<tt>format_time</tt> option that is automatically escaped. Its output then replaces
+%time in the format string.</p></div>
+<div class="paragraph"><p><strong>Example configuration (markup)</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>tztime berlin {
+        format = "&lt;span foreground='#ffffff'&gt;time:&lt;/span&gt; %time"
+        format_time = "%H:%M %Z"
+        timezone = "Europe/Berlin"
+        hide_if_equals_localtime = true
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_ddate">5.15. DDate</h3>
+<div class="paragraph"><p>Outputs the current discordian date in user-specified format. See <tt>ddate(1)</tt> for
+details on the format string.
+<strong>Note</strong>: Neither <strong>%.</strong> nor <strong>%X</strong> are implemented yet.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>ddate</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>%{%a, %b %d%}, %Y%N - %H</tt></p></div>
+</div>
+<div class="sect2">
+<h3 id="_volume">5.16. Volume</h3>
+<div class="paragraph"><p>Outputs the volume of the specified mixer on the specified device.  PulseAudio
+and ALSA (Linux only) are supported.  If PulseAudio is absent, a simplified
+configuration can be used on FreeBSD and OpenBSD due to the lack of ALSA,  the
+<tt>device</tt> and <tt>mixer</tt> options can be ignored on these systems. On these systems
+the OSS API is used instead to query <tt>/dev/mixer</tt> directly if <tt>mixer_idx</tt> is
+-1, otherwise <tt>/dev/mixer</tt>+mixer_idx+.</p></div>
+<div class="paragraph"><p>To get PulseAudio volume information, one must use the following format in the
+device line:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>device = "pulse"</tt></pre>
+</div></div>
+<div class="paragraph"><p>or</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>device = "pulse:N"</tt></pre>
+</div></div>
+<div class="paragraph"><p>where N is the index or name of the PulseAudio sink. You can obtain the name of
+the sink with the following command:</p></div>
+<div class="literalblock">
+<div class="content">
+<pre><tt>$ pacmd list-sinks | grep name:
+           name: &lt;alsa_output.pci-0000_00_14.2.analog-stereo&gt;</tt></pre>
+</div></div>
+<div class="paragraph"><p>The name is what&#8217;s inside the angle brackets, not including them. If no sink is
+specified the default sink is used. If the device string is missing or is set
+to "default", PulseAudio will be tried if detected and will fallback to ALSA
+(Linux) or OSS (FreeBSD/OpenBSD).</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: <tt>volume master</tt></p></div>
+<div class="paragraph"><p><strong>Example format</strong>: <tt>♪ (%devicename): %volume</tt></p></div>
+<div class="paragraph"><p><strong>Example format_muted</strong>: <tt>♪ (%devicename): 0%%</tt></p></div>
+<div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>volume master {
+        format = "♪: %volume"
+        format_muted = "♪: muted (%volume)"
+        device = "default"
+        mixer = "Master"
+        mixer_idx = 0
+}</tt></pre>
+</div></div>
+<div class="paragraph"><p><strong>Example configuration (PulseAudio)</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>volume master {
+        format = "♪: %volume"
+        format_muted = "♪: muted (%volume)"
+        device = "pulse:1"
+}</tt></pre>
+</div></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>volume master {
+        format = "♪: %volume"
+        format_muted = "♪: muted (%volume)"
+        device = "pulse:alsa_output.pci-0000_00_14.2.analog-stereo"
+}</tt></pre>
+</div></div>
+</div>
+<div class="sect2">
+<h3 id="_file_contents">5.17. File Contents</h3>
+<div class="paragraph"><p>Outputs the contents of the specified file. You can use this to check contents
+of files on your system, for example /proc/uptime. By default the function only
+reads the first 254 characters of the file, if you want to override this set
+the <tt>Max_characters</tt> option. It will never read beyond the first 4095
+characters. If the file is not found "no file" will be printed, if the file
+can&#8217;t be read "error read" will be printed.</p></div>
+<div class="paragraph"><p><strong>Example order</strong>: read_file UPTIME</p></div>
+<div class="paragraph"><p><strong>Example format</strong>: "%title: %content"</p></div>
+<div class="paragraph"><p><strong>Example format_bad</strong>: "%title - %errno: %error"</p></div>
+<div class="paragraph"><p><strong>Example path</strong>: "/proc/uptime"</p></div>
+<div class="paragraph"><p><strong>Example Max_characters</strong>: 255</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_universal_module_options">6. Universal module options</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When using the i3bar output format, there are a few additional options that
+can be used with all modules to customize their appearance:</p></div>
+<div class="dlist"><dl>
+<dt class="hdlist1">
+align
+</dt>
+<dd>
+<p>
+        The alignment policy to use when the minimum width (see below) is not
+        reached. Either <tt>center</tt> (default), <tt>right</tt> or <tt>left</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+min_width
+</dt>
+<dd>
+<p>
+        The minimum width (in pixels) the module should occupy. If the module takes
+        less space than the specified size, the block will be padded to the left
+        and/or the right side, according to the defined alignment policy. This is
+        useful when you want to prevent the whole status line from shifting when
+        values take more or less space between each iteration.
+        The option can also be a string. In this case, the width of the given text
+        determines the minimum width of the block. This is useful when you want to
+        set a sensible minimum width regardless of which font you are using, and at
+        what particular size. Please note that a number enclosed with quotes will
+        still be treated as a number.
+</p>
+</dd>
+<dt class="hdlist1">
+separator
+</dt>
+<dd>
+<p>
+        A boolean value which specifies whether a separator line should be drawn
+        after this block. The default is true, meaning the separator line will be
+        drawn. Note that if you disable the separator line, there will still be a
+        gap after the block, unless you also use <tt>separator_block_width</tt>.
+</p>
+</dd>
+<dt class="hdlist1">
+separator_block_width
+</dt>
+<dd>
+<p>
+        The amount of pixels to leave blank after the block. In the middle of this
+        gap, a separator symbol will be drawn unless separator is disabled. This is
+        why the specified width should leave enough space for the separator symbol.
+</p>
+</dd>
+</dl></div>
+<div class="paragraph"><p><strong>Example configuration</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>disk "/" {
+    format = "%avail"
+    align = "left"
+    min_width = 100
+    separator = false
+    separator_block_width = 1
+}</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_i3status_with_dzen2">7. Using i3status with dzen2</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>After installing dzen2, you can directly use it with i3status. Just ensure that
+<tt>output_format</tt> is set to <tt>dzen2</tt>. <strong>Note</strong>: <tt>min_width</tt> is not supported.</p></div>
+<div class="paragraph"><p><strong>Example for usage of i3status with dzen2</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3status | dzen2 -fg white -ta r -w 1280 \
+-fn "-misc-fixed-medium-r-normal--13-120-75-75-C-70-iso8859-1"</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_using_i3status_with_xmobar">8. Using i3status with xmobar</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>To get xmobar to start, you might need to copy the default configuration
+file to <tt>~/.xmobarrc</tt>. Also, ensure that the <tt>output_format</tt> option for i3status
+is set to <tt>xmobar</tt>. <strong>Note</strong>: <tt>min_width</tt> is not supported.</p></div>
+<div class="paragraph"><p><strong>Example for usage of i3status with xmobar</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>i3status | xmobar -o -t "%StdinReader%" -c "[Run StdinReader]"</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_what_about_cpu_frequency">9. What about CPU frequency?</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>While talking about specific things, please understand this section as a
+general explanation why your favorite information is not included in i3status.</p></div>
+<div class="paragraph"><p>Let’s talk about CPU frequency specifically. Many people don’t understand how
+frequency scaling works precisely. The generally recommended CPU frequency
+governor ("ondemand") changes the CPU frequency far more often than i3status
+could display it. The display number is therefore often incorrect and doesn’t
+tell you anything useful either.</p></div>
+<div class="paragraph"><p>In general, i3status wants to display things which you would look at
+occasionally anyways, like the current date/time, whether you are connected to
+a WiFi network or not, and if you have enough disk space to fit that 4.3 GiB
+download.</p></div>
+<div class="paragraph"><p>However, if you need to look at some kind of information more than once in a
+while, you are probably better off with a script doing that, which pops up.
+After all, the point of computers is not to burden you with additional boring
+tasks like repeatedly checking a number.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_external_scripts_programs_with_i3status">10. External scripts/programs with i3status</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>In i3status, we don’t want to implement process management again. Therefore,
+there is no module to run arbitrary scripts or commands. Instead, you should
+use your shell, for example like this:</p></div>
+<div class="paragraph"><p><strong>Example for prepending the i3status output</strong>:</p></div>
+<div class="listingblock">
+<div class="content">
+<pre><tt>#!/bin/sh
+# shell script to prepend i3status with more stuff
+
+i3status | while :
+do
+        read line
+        echo "mystuff | $line" || exit 1
+done</tt></pre>
+</div></div>
+<div class="paragraph"><p>Put that in some script, say <tt>.bin/my_i3status.sh</tt> and execute that instead of i3status.</p></div>
+<div class="paragraph"><p>Note that if you want to use the JSON output format (with colors in i3bar), you
+need to use a slightly more complex wrapper script. There are examples in the
+contrib/ folder, see <a href="https://github.com/i3/i3status/tree/master/contrib">https://github.com/i3/i3status/tree/master/contrib</a></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_signals">11. SIGNALS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>When receiving <tt>SIGUSR1</tt>, i3status’s nanosleep() will be interrupted and thus
+you will force an update. You can use killall -USR1 i3status to force an update
+after changing the system volume, for example.</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">12. SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph"><p><tt>strftime(3)</tt>, <tt>date(1)</tt>, <tt>glob(3)</tt>, <tt>dzen2(1)</tt>, <tt>xmobar(1)</tt></p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_authors">13. AUTHORS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
+<div class="paragraph"><p>Thorsten Toepper</p></div>
+<div class="paragraph"><p>Baptiste Daroussin</p></div>
+<div class="paragraph"><p>Axel Wagner</p></div>
+<div class="paragraph"><p>Fernando Tarlá Cardoso Lemos</p></div>
+</div>
+</div>
+</main>
+<div id="footnotes"><hr /></div>
+<footer>
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</footer>
+</body>
+</html>

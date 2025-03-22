@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:i="http://ns.adobe.com/AdobeIllustrator/10.0/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="240.00000pt"
+   height="240.00000pt"
+   id="svg1402"
+   sodipodi:version="0.32"
+   inkscape:version="0.41"
+   sodipodi:docbase="/home/marian/Desktop/Bilder"
+   sodipodi:docname="Ubuntu-Logo ohne Schriftzug.svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="0.0000000"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.0000000"
+     inkscape:cx="153.66371"
+     inkscape:cy="180.15753"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="640"
+     inkscape:window-height="542"
+     inkscape:window-x="5"
+     inkscape:window-y="81" />
+  <metadata
+     id="metadata4">
+    <rdf:RDF
+       id="RDF5">
+      <cc:Work
+         rdf:about=""
+         id="Work6">
+        <dc:format
+           id="format7">image/svg+xml</dc:format>
+        <dc:type
+           id="type9"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title
+           id="title1419">Ubuntu Linux</dc:title>
+        <dc:rights
+           id="rights1421">
+          <cc:Agent
+             id="Agent1423">
+            <dc:title
+               id="title1425" />
+          </cc:Agent>
+        </dc:rights>
+        <dc:description
+           id="description1427">The Ubuntu Linux logo
+http://www.ubuntulinux.org/</dc:description>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <g
+       id="g67"
+       transform="matrix(3.031339,0.000000,0.000000,2.932114,12.50000,12.49410)">
+      <circle
+         i:knockout="Off"
+         cx="9.1239996"
+         cy="46.903999"
+         r="9.1239996"
+         id="circle69"
+         sodipodi:cx="9.1239996"
+         sodipodi:cy="46.903999"
+         sodipodi:rx="9.1239996"
+         sodipodi:ry="9.1239996"
+         style="fill:#ff6309" />
+      <circle
+         i:knockout="Off"
+         cx="74.547997"
+         cy="84.667000"
+         r="9.1239996"
+         id="circle71"
+         sodipodi:cx="74.547997"
+         sodipodi:cy="84.667000"
+         sodipodi:rx="9.1239996"
+         sodipodi:ry="9.1239996"
+         style="fill:#ffb515" />
+      <path
+         i:knockout="Off"
+         d="M 52.739000,24.327000 C 64.100000,24.327000 73.526000,32.763000 75.087000,43.700000 L 90.719000,43.700000 C 90.009000,35.106000 86.446000,27.096000 80.489000,20.779000 C 76.674000,22.722000 71.983000,22.759000 67.998000,20.459000 C 64.010000,18.156000 61.696000,14.072000 61.474000,9.7920000 C 58.643000,9.1320000 55.718000,8.7900000 52.739000,8.7900000 C 47.035000,8.7900000 41.523000,10.035000 36.510000,12.396000 L 44.336000,25.951000 C 46.935000,24.905000 49.771000,24.327000 52.739000,24.327000 z "
+         id="path73"
+         style="fill:#ff6309" />
+      <path
+         i:knockout="Off"
+         d="M 75.088000,50.098000 C 73.531000,61.039000 64.103000,69.480000 52.739000,69.480000 C 49.769000,69.480000 46.932000,68.902000 44.333000,67.854000 L 36.506000,81.410000 C 41.518000,83.772000 47.032000,85.018000 52.738000,85.018000 C 55.719000,85.018000 58.648000,84.674000 61.480000,84.014000 C 61.698000,79.729000 64.013000,75.638000 68.004000,73.334000 C 71.990000,71.032000 76.683000,71.069000 80.499000,73.016000 C 86.451000,66.698000 90.010000,58.689000 90.718000,50.098000 L 75.088000,50.098000 L 75.088000,50.098000 z "
+         id="path75"
+         style="fill:#c90016" />
+      <path
+         i:knockout="Off"
+         d="M 30.163000,46.904000 C 30.163000,39.711000 33.544000,33.294000 38.799000,29.157000 L 30.975000,15.604000 C 29.140000,16.886000 27.404000,18.337000 25.787000,19.953000 C 21.259000,24.481000 18.012000,29.948000 16.225000,35.915000 C 19.825000,38.247000 22.209000,42.295000 22.209000,46.904000 C 22.209000,51.512000 19.825000,55.561000 16.225000,57.892000 C 18.012000,63.859000 21.259000,69.326000 25.787000,73.854000 C 27.403000,75.470000 29.137000,76.919000 30.971000,78.202000 L 38.796000,64.648000 C 33.542000,60.511000 30.163000,54.094000 30.163000,46.904000 z "
+         id="path77"
+         style="fill:#ffb515" />
+      <circle
+         i:knockout="Off"
+         cx="74.540001"
+         cy="9.1260004"
+         r="9.1239996"
+         id="circle79"
+         sodipodi:cx="74.540001"
+         sodipodi:cy="9.1260004"
+         sodipodi:rx="9.1239996"
+         sodipodi:ry="9.1239996"
+         style="fill:#c90016" />
+    </g>
+  </g>
+</svg>

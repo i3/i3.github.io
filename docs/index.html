@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<meta name="generator" content="Hugo 0.116.0-DEV">
+        <meta charset="utf-8">
+        <title>i3 — i3: improved tiling X11 window manager</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="stylesheet" href="/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="i3 is a tiling window manager with clean, readable and documented code, featuring extended Xinerama support, usage of libxcb instead of xlib and several improvements over wmii">
+        <meta name="author" content="i3 developers">
+	<link href="https://fosstodon.org/@i3wm" rel="me">
+	
+    </head>
+    <body>
+        <header>
+            <a class="logo" href="/">
+                <img src="/img/logo.svg" alt="i3 WM logo" />
+            </a>
+            <nav>
+              <ul>
+                <li><a href="/docs/">Docs</a></li>
+
+                <li><a href="/screenshots/">Screens</a></li>
+
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+
+                <li><a href="/contact">Contact</a></li>
+
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+
+                </ul>
+            </nav>
+        </header>
+        <main>
+
+
+<section class="info">
+
+    <div class="info-text">
+        <h2>Do What I Mean. Good Docs. Clean Code. Sounds good?</h2>
+        <p>
+            Then you will love i3. Watch the <a href="screenshots/">screencast</a>,
+            read the <a href="docs/userguide.html">User’s Guide</a> and <a href="downloads/">install i3</a>!
+        </p>
+        <a class="download" href="downloads">
+            <span class="info-arrow">➡</span>
+            Download the latest version
+            <span class="version">4.24</span>
+        </a>
+    </div>
+    
+    <a class="screen" href="screenshots/" title="view more screenshots of i3">
+        <img src="screenshots/i3-9.bigthumb.png" alt="i3 screenshot"
+             srcset="screenshots/i3-12.bigthumb.jpg 2x">
+    </a>
+  
+</section>
+
+<p>
+    i3 is a <a href="http://en.wikipedia.org/wiki/Tiling_window_manager">tiling
+    window manager</a>, completely written from scratch. The target platforms are
+    GNU/Linux and BSD operating systems, our code is Free and Open Source Software
+    (FOSS) under the BSD license. i3 is primarily targeted at advanced users and
+    developers. Based upon the experiences we made when wanting to hack/fix wmii,
+    we agreed upon the following goals for i3:
+</p>
+
+<ol>
+    <li>
+        Write well readable, well <strong>documented</strong> code. Create additional
+        documentation on how to extend i3 by explaining its internal workings.
+        <br />
+        This includes being modifiable by people who do know how to program but who are
+        not necessarily familiar with all of X11’s internals. That is, document why
+        things happen and when they happen so that the user gets a picture of the whole
+        process a Window Manager is responsible of by just reading the source code.
+    </li>
+    <li>
+        Use xcb instead of Xlib. xcb has a much cleaner API and should be faster in
+        quite a lot of situations.
+    </li>
+    <li>
+        Implement multi-monitor correctly, that is by assigning each workspace to a
+        virtual screen. Especially make sure that attaching and detaching new monitors
+        like video projectors works during operation and does the right thing. Also
+        provide support for rotated monitors.
+    </li>
+    <li>
+        Use a tree as data structure. This allows for more flexible layouts than
+        the column-based approach used by other window managers.
+    </li>
+    <li>
+        Implement different modes, like in vim. You can use different keybindings
+        when in the 'resize' mode than when you are in the default mode, for
+        example.
+    </li>
+    <li>
+        Implement an IPC interface for other programs. Provide subscription to
+        certain events and accept commands.
+        <br />
+        This approach should be more lightweight than wmii’s usage of the 9P filesystem.
+        Furthermore, core functionality does not depend on a separate program, so that i3
+        runs faster, especially when your system is under load.
+    </li>
+    <li>
+        Be UTF-8 clean.
+    </li>
+    <li>
+        The usual elitism amongst minimal window managers: Don’t be bloated, don’t be fancy
+        (simple borders are the most decoration we want to have).
+        <br />
+        However, we do not enforce unnecessary limits such as a maximum amount of source lines
+        of code. If it needs to be a bit bigger, it will be.
+    </li>
+    <li>
+        Do not add further complexity when it can be avoided. We are generally
+        happy with the feature set of i3 and instead focus on fixing bugs and
+        maintaining it for stability. New features will therefore only be
+        considered if the benefit clearly outweighs the additional complexity,
+        and we encourage users to implement features using the IPC whenever
+        possible.
+    </li>
+</ol>
+
+<p>
+    In addition to these stated goals, we try our best to uphold the following
+    values when considering contributions to the project:
+</p>
+
+<ul>
+    <li>
+        Never break configuration files or existing workflows. Breaking changes
+        require a major version bump (v4 → v5).
+    </li>
+    <li>
+        Keep mental complexity low: once you know i3’s key features, other features
+        should be easy to understand.
+    </li>
+    <li>
+        Only add features which benefit many people, instead of going to great
+        lengths to support rarely used workflows.
+    </li>
+    <li>
+        Only documented behavior is supported. Clear documentation is a requirement
+        for contributions.
+    </li>
+</ul>
+
+
+
+        </main>
+        <footer>
+            © 2009-present Michael Stapelberg,
+            <a href="/impress.html">Impressum</a>,
+            <a href="https://github.com/i3/i3.github.io">Source</a>
+        </footer>
+    </body>
+</html>

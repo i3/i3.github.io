@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Docs — i3: improved tiling X11 window manager</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="stylesheet" href="/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="i3 is a tiling window manager with clean, readable and documented code, featuring extended Xinerama support, usage of libxcb instead of xlib and several improvements over wmii">
+        <meta name="author" content="i3 developers">
+	<link href="https://fosstodon.org/@i3wm" rel="me">
+	
+    </head>
+    <body>
+        <header>
+            <a class="logo" href="/">
+                <img src="/img/logo.svg" alt="i3 WM logo" />
+            </a>
+            <nav>
+              <ul>
+                <li><a href="/docs/">Docs</a></li>
+
+                <li><a href="/screenshots/">Screens</a></li>
+
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+
+                <li><a href="/contact">Contact</a></li>
+
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+
+                </ul>
+            </nav>
+        </header>
+        <main>
+
+<div id="content" class="usergen">
+
+<h1>User-contributed article: Move a given workspace to active output</h1>
+
+<h2>Introduction</h2>
+
+<p>Assume you have multiple monitors, and various workspaces on each of them.</p>
+
+<p>You have some workspace 1 active on monitor A, and you want to jump to
+workspace 2. The default behavior, using the built-in command <code>workspace 2</code>
+is to display the workspace 2 on the screen it belongs to.</p>
+
+<p>Another legitimate use-case would be to display the workspace 2 on the
+currently active screen.</p>
+
+<p>Unfortunately, there is no built-in command in i3 to achieve that, yet. However,
+thanks to the IPC interface, it is possible to write an external script
+achieving that.</p>
+
+<h2>Installation</h2>
+
+<p>First, we need to create an executable script doing the job thanks to the <a href="/docs/ipc.html">IPC</a> interface.
+In this article, we will assume the script is stored in <code>~/.config/i3/switch-workspace.py</code></p>
+
+<p>Here is a possible implementation of the script:</p>
+
+<pre>
+#!/usr/bin/env python
+
+from json import loads
+from os import popen
+from sys import argv
+
+def ipc_query(req="command", msg=""):
+    ans = popen("i3-msg -t " + req + " " +  msg).readlines()[0]
+    return loads(ans)
+
+if __name__ == "__main__":
+    # Usage &amp; checking args
+    if len(argv) != 2:
+        print "Usage: switch-workspace.py name-of-workspace"
+        exit(-1)
+
+    newworkspace = argv[1]
+
+    # Retrieving active display
+    active_display = None
+    for w in ipc_query(req="get_workspaces"):
+        if w['focused']:
+            active_display = w['output']
+
+    # Moving workspace to active display
+    print ipc_query(msg="'workspace " + newworkspace + "; move workspace to output " + active_display + "; workspace " + newworkspace + "'")
+</pre>
+
+<p>This script uses i3-msg directly, but if you have several IPC scripts, or more
+complex ones, or if you use quotes in your workspaces' names you may want to
+use the <a href="https://github.com/ziberna/i3-py">python i3-ipc bindings</a>
+as done in <a href="/docs/user-contributed/swapping-workspaces.html">this article</a>
+(however, in this case, you might have to add some bindings to the library to
+implement chained command since sequentiality is critical in this script).</p>
+
+<p>Do not forget to make the script executable, usually, the following
+command, assuming you adopted the naming of our article, should work:</p>
+
+<pre>
+chmod u+x ~/.config/i3/switch-workspace.py
+</pre>
+
+<h2>Configuration</h2>
+
+<p>Once the script is created and made executable, the last step is to add the
+corresponding bindings in your i3 conf file.</p>
+
+<p>Basically, one way to do that is to replace the <code>workspace X</code> bindings with
+<code>exec --no-startup-id ~/.config/i3/switch-workspace.py X</code>.</p>
+
+<p>For a standard <em>fr bépo</em> keyboard layout, this will result in:</p>
+
+<pre>
+# switch to workspace
+bindsym $mod+quotedbl exec --no-startup-id ~/.config/i3/switch-workspace.py 1
+bindsym $mod+guillemotleft exec --no-startup-id ~/.config/i3/switch-workspace.py 2
+bindsym $mod+guillemotright exec --no-startup-id ~/.config/i3/switch-workspace.py 3
+bindsym $mod+parenleft exec --no-startup-id ~/.config/i3/switch-workspace.py 4
+bindsym $mod+parenright exec --no-startup-id ~/.config/i3/switch-workspace.py 5
+bindsym $mod+at exec --no-startup-id ~/.config/i3/switch-workspace.py 6
+bindsym $mod+plus exec --no-startup-id ~/.config/i3/switch-workspace.py 7
+bindsym $mod+minus exec --no-startup-id ~/.config/i3/switch-workspace.py 8
+bindsym $mod+slash exec --no-startup-id ~/.config/i3/switch-workspace.py 9
+bindsym $mod+asterisk exec --no-startup-id ~/.config/i3/switch-workspace.py 10
+</pre>
+
+<p>But of course, you will have to adapt this to your own keyboard layout.</p>
+
+<h2>References</h2>
+
+<ul>
+<li><a href="https://github.com/ziberna/i3-py">Python i3-ipc bindings</a></li>
+<li><a href="/docs/user-contributed/swapping-workspaces.html">Swapping workspaces</a></li>
+<li><a href="/docs/ipc.html">IPC interface</a></li>
+<li>A bug report explaining <a href="http://bugs.i3wm.org/report/ticket/809">how to make the focus follow the moved workspace</a></li>
+</ul>
+
+<p>Author: <a href="http://captnfab.chezlefab.net/">captnfab</a>, 2014-08-02</p>
+
+
+
+        </main>
+        <footer>
+            © 2009-present Michael Stapelberg,
+            <a href="/impress.html">Impressum</a>,
+            <a href="https://github.com/i3/i3.github.io">Source</a>
+        </footer>
+    </body>
+</html>

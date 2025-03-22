@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Docs — i3: improved tiling X11 window manager</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="stylesheet" href="/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="i3 is a tiling window manager with clean, readable and documented code, featuring extended Xinerama support, usage of libxcb instead of xlib and several improvements over wmii">
+        <meta name="author" content="i3 developers">
+	<link href="https://fosstodon.org/@i3wm" rel="me">
+	
+    </head>
+    <body>
+        <header>
+            <a class="logo" href="/">
+                <img src="/img/logo.svg" alt="i3 WM logo" />
+            </a>
+            <nav>
+              <ul>
+                <li><a href="/docs/">Docs</a></li>
+
+                <li><a href="/screenshots/">Screens</a></li>
+
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+
+                <li><a href="/contact">Contact</a></li>
+
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+
+                </ul>
+            </nav>
+        </header>
+        <main>
+
+<div id="content" class="usergen">
+<h1>User-contributed article: Swapping workspaces</h1>
+
+<p>
+If you have workspace 1 on one monitor and workspace 2 on another monitor and
+want to quickly swap the workspaces among the monitors, you can use i3's IPC
+mechanisms to do it.
+</p>
+
+<p>
+i3 already includes a way to move an individual workspace from one monitor to
+another. But what we want to achieve is the <strong>simultaneous</strong>
+movement of workspaces between the monitors. To do this, we can write a script
+that detects the currently active workspace on each monitor and then moves that
+workspace to the other monitor.
+</p>
+
+<pre><tt>#!/usr/bin/env bash
+# requires jq
+
+IFS=:
+i3-msg -t get_outputs | jq -r '.[]|"\(.name):\(.current_workspace)"' | grep -v '^null:null$' | \
+while read -r name current_workspace; do
+    echo "moving ${current_workspace} right..."
+    i3-msg workspace "${current_workspace}"
+    i3-msg move workspace to output right   
+done</tt></pre>
+
+<p>
+To use this script, I recommend binding it to a keyboard shortcut in your i3 config:
+</p>
+<pre><tt>bindsym $mod+Shift+s exec /path/to/your/script/i3-display-swap.sh</tt></pre>
+<p>
+Now restart i3 in place. The next time you press mod+Shift+s, your workspaces will be swapped among your monitors.
+</p>
+
+<p>Source: <a href="https://gist.github.com/fbrinker/df9cfbc84511d807f45041737ff3ea02">Github</a></p>
+
+
+
+        </main>
+        <footer>
+            © 2009-present Michael Stapelberg,
+            <a href="/impress.html">Impressum</a>,
+            <a href="https://github.com/i3/i3.github.io">Source</a>
+        </footer>
+    </body>
+</html>

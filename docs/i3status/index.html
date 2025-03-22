@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>i3status — i3: improved tiling X11 window manager</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="stylesheet" href="/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="i3 is a tiling window manager with clean, readable and documented code, featuring extended Xinerama support, usage of libxcb instead of xlib and several improvements over wmii">
+        <meta name="author" content="i3 developers">
+	<link href="https://fosstodon.org/@i3wm" rel="me">
+	
+    </head>
+    <body>
+        <header>
+            <a class="logo" href="/">
+                <img src="/img/logo.svg" alt="i3 WM logo" />
+            </a>
+            <nav>
+              <ul>
+                <li><a href="/docs/">Docs</a></li>
+
+                <li><a href="/screenshots/">Screens</a></li>
+
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+
+                <li><a href="/contact">Contact</a></li>
+
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+
+                </ul>
+            </nav>
+        </header>
+        <main>
+
+<h1>i3status</h1>
+
+<p>
+  i3status is a small program for generating a status bar for i3bar, dzen2,
+  xmobar or similar programs. It is designed to be very efficient by issuing a
+  very small number of system calls, as one generally wants to update such a
+  status line every second. This ensures that even under high load, your status
+  bar is updated correctly. Also, it saves a bit of energy by not hogging your
+  CPU as much as spawning the corresponding amount of shell commands would.
+</p>
+
+<h2>Releases</h2>
+
+<ul>
+  <li><a href="/i3status/i3status-2.15.tar.xz">i3status-2.15.tar.xz</a>
+  (<a href="/i3status/i3status-2.15.tar.xz.asc">GPG signature</a>, 2024-08-19)</li>
+
+  <li><a href="/i3status/i3status-2.14.tar.xz">i3status-2.14.tar.xz</a>
+  (<a href="/i3status/i3status-2.14.tar.xz.asc">GPG signature</a>, 2021-11-09)</li>
+
+  <li><a href="/i3status/i3status-2.13.tar.bz2">i3status-2.13.tar.bz2</a>
+  (<a href="/i3status/i3status-2.13.tar.bz2.asc">GPG signature</a>, 2019-06-30)</li>
+
+  <li><a href="/i3status/i3status-2.12.tar.bz2">i3status-2.12.tar.bz2</a>
+  (<a href="/i3status/i3status-2.12.tar.bz2.asc">GPG signature</a>, 2018-05-11)</li>
+
+  <li><a href="/i3status/i3status-2.11.tar.bz2">i3status-2.11.tar.bz2</a>
+  (<a href="/i3status/i3status-2.11.tar.bz2.asc">GPG signature</a>, 2017-01-21)</li>
+
+  <li><a href="/i3status/i3status-2.10.tar.bz2">i3status-2.10.tar.bz2</a>
+  (<a href="/i3status/i3status-2.10.tar.bz2.asc">GPG signature</a>, 2016-01-01)</li>
+
+  <li><a href="/i3status/i3status-2.9.tar.bz2">i3status-2.9.tar.bz2</a>
+  (<a href="/i3status/i3status-2.9.tar.bz2.asc">GPG signature</a>, 2015-03-22)</li>
+
+  <li><a href="/i3status/i3status-2.8.tar.bz2">i3status-2.8.tar.bz2</a>
+  (<a href="/i3status/i3status-2.8.tar.bz2.asc">GPG signature</a>, 2014-01-05)</li>
+
+  <li><a href="/i3status/i3status-2.7.tar.bz2">i3status-2.7.tar.bz2</a>
+  (<a href="/i3status/i3status-2.7.tar.bz2.asc">GPG signature</a>, 2013-02-27)</li>
+
+  <li><a href="/i3status/i3status-2.6.tar.bz2">i3status-2.6.tar.bz2</a>
+  (<a href="/i3status/i3status-2.6.tar.bz2.asc">GPG signature</a>, 2012-10-03)</li>
+
+  <li><a href="/i3status/i3status-2.5.1.tar.bz2">i3status-2.5.1.tar.bz2</a>
+  (<a href="/i3status/i3status-2.5.1.tar.bz2.asc">GPG signature</a>, 2012-05-11)</li>
+
+  <li><a href="/i3status/i3status-2.5.tar.bz2">i3status-2.5.tar.bz2</a>
+  (<a href="/i3status/i3status-2.5.tar.bz2.asc">GPG signature</a>, 2012-05-02)</li>
+
+  <li><a href="/i3status/i3status-2.4.tar.bz2">i3status-2.4.tar.bz2</a>
+  (<a href="/i3status/i3status-2.4.tar.bz2.asc">GPG signature</a>, 2011-12-27)</li>
+
+  <li><a href="/i3status/i3status-2.3.tar.bz2">i3status-2.3.tar.bz2</a>
+  (<a href="/i3status/i3status-2.3.tar.bz2.asc">GPG signature</a>, 2011-07-21)</li>
+
+  <li><a href="/i3status/i3status-2.2.tar.bz2">i3status-2.2.tar.bz2</a>
+  (<a href="/i3status/i3status-2.2.tar.bz2.asc">GPG signature</a>, 2010-09-23)</li>
+
+  <li><a href="/i3status/i3status-2.1.tar.bz2">i3status-2.1.tar.bz2</a>
+  (<a href="/i3status/i3status-2.1.tar.bz2.asc">GPG signature</a>, 2010-04-11)</li>
+
+  <li><a href="/i3status/i3status-2.0.tar.bz2">i3status-2.0.tar.bz2</a>
+  (<a href="/i3status/i3status-2.0.tar.bz2.asc">GPG signature</a>, 2009-10-27)</li>
+
+  <li><a href="/i3status/i3status-1.2.tar.bz2">i3status-1.2.tar.bz2</a>
+  (<a href="/i3status/i3status-1.2.tar.bz2.asc">GPG signature</a>, 2009-06-21)</li>
+
+  <li><a href="/i3status/i3status-1.1.tar.bz2">i3status-1.1.tar.bz2</a>
+  (<a href="/i3status/i3status-1.1.tar.bz2.asc">GPG signature</a>, 2009-06-17)</li>
+
+  <li><a href="/i3status/i3status-1.0.tar.bz2">i3status-1.0.tar.bz2</a></li>
+</ul>
+
+<h2>Documentation</h2>
+
+<p>
+  The documentation for i3status is its manpage. You can also <a
+  href="/i3status/manpage.html">view the manpage online</a>.
+</p>
+
+<h2>Development</h2>
+
+<p>
+  i3status is currently developed at <a href="https://github.com/i3/i3status" title="GitHub">
+  https://github.com/i3/i3status</a>. Checkouts of the master branch are intended to
+  be stable and working all the time.
+</p>
+
+
+
+        </main>
+        <footer>
+            © 2009-present Michael Stapelberg,
+            <a href="/impress.html">Impressum</a>,
+            <a href="https://github.com/i3/i3.github.io">Source</a>
+        </footer>
+    </body>
+</html>
