@@ -1,7 +1,5 @@
 ---
-layout: default
 title: Screens
-group: Screens
 javascript: gallery.js
 ---
 
@@ -11,7 +9,7 @@ javascript: gallery.js
 
     <article class="video">
         <a href="http://www.youtube.com/watch?v=Wx0eNaGzAZU" title="Watch i3 screencast v4.1 on YouTube">
-            <img src="{{ site.baseurl }}/img/screencast-3.d.thumb.png" alt="Screencast thumbnail">
+            <img src="/img/screencast-3.d.thumb.png" alt="Screencast thumbnail">
         </a>
         <div class="video-description">
             <h4>Screencast of v4.1</h4>
@@ -26,7 +24,7 @@ javascript: gallery.js
 
     <article class="video">
         <a href="http://www.youtube.com/watch?v=AWA8Pl57UBY" title="Watch i3 container and tree data structure screencast on YouTube">
-            <img src="{{ site.baseurl }}/img/screencast-cons.thumb.jpg" alt="containers and tree data structure thumbnail">
+            <img src="/img/screencast-cons.thumb.jpg" alt="containers and tree data structure thumbnail">
         </a>
         <div class="video-description">
             <h4>Screencast: Containers and tree data structure</h4>
@@ -37,7 +35,7 @@ javascript: gallery.js
 
     <article class="video">
         <a href="http://www.youtube.com/watch?v=QnYN2CTb1hM" title="Watch i3 google tech talk on YouTube">
-            <img src="{{ site.baseurl }}/img/techtalk.thumb.jpg" alt="tech talk thumbnail">
+            <img src="/img/techtalk.thumb.jpg" alt="tech talk thumbnail">
         </a>
         <div class="video-description">
             <h4>Google Tech Talk about i3</h4>
@@ -48,7 +46,7 @@ javascript: gallery.js
 
     <article class="video">
         <a href="https://www.youtube.com/watch?v=j1I63wGcvU4&list=PL5ze0DjYv5DbCv9vNEzFmP6sU7ZmkGzcf" title="Watch screen cast series by Alex Booker on YouTube">
-            <img src="{{ site.baseurl }}/img/i3-alex-booker.thumb.jpg" alt="screen cast series thumbnail">
+            <img src="/img/i3-alex-booker.thumb.jpg" alt="screen cast series thumbnail">
         </a>
         <div class="video-description">
             <h4>Series of screencasts on installing, using and configuring i3</h4>
@@ -64,20 +62,20 @@ javascript: gallery.js
 <p>To get a quick impression of i3, have a look at these screenshots.</p>
 
 <section class="screenshots">
-    {% include screenshot.html link="/screenshots/i3-1.png" thumb="/screenshots/i3-1.thumb.png" description="Vimperator, VIM, MPlayer, dzen2" %}
-    {% include screenshot.html link="/screenshots/i3-2.png" thumb="/screenshots/i3-2.thumb.png" description="Vimperator, VIM, xpdf, bc" %}
-    {% include screenshot.html link="/screenshots/i3-3.png" thumb="/screenshots/i3-3.thumb.png" description="PCManFM, ROXTerm, evince" %}
-    {% include screenshot.html link="/screenshots/i3-4.png" thumb="/screenshots/i3-4.thumb.png" description="i3 logo out of terminals" %}
-    {% include screenshot.html link="/screenshots/i3-6.png" thumb="/screenshots/i3-6.thumb.png" description="VIM, zsh, i3status (FreeBSD)" %}
-    {% include screenshot.html link="/screenshots/i3-7.png" thumb="/screenshots/i3-7.thumb.png" description="GIMP, urxvt (both floating)" %}
-    {% include screenshot.html link="/screenshots/i3-5.png" thumb="/screenshots/i3-5.thumb.png" description="mc, xosview, MPlayer, irssi, gajim" %}
-    {% include screenshot.html link="/screenshots/i3-8.jpg" thumb="/screenshots/i3-8.thumb.jpg" description="git, synergy, htop, urxvt" %}
-    {% include screenshot.html link="/screenshots/i3-9.png" thumb="/screenshots/i3-9.thumb.png" description="VIM, git, MPlayer, i3bar" %}
-    {% include screenshot.html link="/screenshots/i3-10.png" thumb="/screenshots/i3-10.thumb.png" description="Right-to-left titles" %}
-    {% include screenshot.html link="/screenshots/i3-11.jpg" thumb="/screenshots/i3-11.thumb.jpg" description="dzen2, VIM, bash, top" %}
-    {% include screenshot.html link="/screenshots/i3-13.png" thumb="/screenshots/i3-13.thumb.png" description="i3pystatus, mpd, watson time tracker, nerd fonts" %}
-    {% include screenshot.html link="/screenshots/i3-14.png" thumb="/screenshots/i3-14.thumb.png" description="sublime text editor, btop, i3bar" %}
-    {% include screenshot.html link="/screenshots/i3-15.png" thumb="/screenshots/i3-15.thumb.png" description="polybar, mpd, code-server, custom ufetch, htop" %}
+    {{< screenshot link="/screenshots/i3-1.png" thumb="/screenshots/i3-1.thumb.png" description="Vimperator, VIM, MPlayer, dzen2" >}}
+    {{< screenshot link="/screenshots/i3-2.png" thumb="/screenshots/i3-2.thumb.png" description="Vimperator, VIM, xpdf, bc" >}}
+    {{< screenshot link="/screenshots/i3-3.png" thumb="/screenshots/i3-3.thumb.png" description="PCManFM, ROXTerm, evince" >}}
+    {{< screenshot link="/screenshots/i3-4.png" thumb="/screenshots/i3-4.thumb.png" description="i3 logo out of terminals" >}}
+    {{< screenshot link="/screenshots/i3-6.png" thumb="/screenshots/i3-6.thumb.png" description="VIM, zsh, i3status (FreeBSD)" >}}
+    {{< screenshot link="/screenshots/i3-7.png" thumb="/screenshots/i3-7.thumb.png" description="GIMP, urxvt (both floating)" >}}
+    {{< screenshot link="/screenshots/i3-5.png" thumb="/screenshots/i3-5.thumb.png" description="mc, xosview, MPlayer, irssi, gajim" >}}
+    {{< screenshot link="/screenshots/i3-8.jpg" thumb="/screenshots/i3-8.thumb.jpg" description="git, synergy, htop, urxvt" >}}
+    {{< screenshot link="/screenshots/i3-9.png" thumb="/screenshots/i3-9.thumb.png" description="VIM, git, MPlayer, i3bar" >}}
+    {{< screenshot link="/screenshots/i3-10.png" thumb="/screenshots/i3-10.thumb.png" description="Right-to-left titles" >}}
+    {{< screenshot link="/screenshots/i3-11.jpg" thumb="/screenshots/i3-11.thumb.jpg" description="dzen2, VIM, bash, top" >}}
+    {{< screenshot link="/screenshots/i3-13.png" thumb="/screenshots/i3-13.thumb.png" description="i3pystatus, mpd, watson time tracker, nerd fonts" >}}
+    {{< screenshot link="/screenshots/i3-14.png" thumb="/screenshots/i3-14.thumb.png" description="sublime text editor, btop, i3bar" >}}
+    {{< screenshot link="/screenshots/i3-15.png" thumb="/screenshots/i3-15.thumb.png" description="polybar, mpd, code-server, custom ufetch, htop" >}}
 </section>
 
 <span class="loading"></span>

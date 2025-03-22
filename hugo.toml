@@ -1,0 +1,20 @@
+baseURL = "https://i3wm.org/"
+languageCode = "en-us"
+title = "i3 - improved tiling wm"
+theme = "i3"
+disableKinds = ["RSS", "taxonomyTerm"]
+publishDir = "docs"
+enableRobotsTXT = true
+ignoreFiles = ["_docs"]
+
+[markup.goldmark.renderer]
+# Required for e.g. <img> tags in markdown articles.
+unsafe = true
+
+[outputs]
+home = [ "HTML" ]
+page = [ "HTML" ]
+
+[privacy]
+  [privacy.youtube]
+    privacyEnhanced = true
