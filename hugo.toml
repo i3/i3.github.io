@@ -1,6 +1,7 @@
 baseURL = "https://i3wm.org/"
 languageCode = "en-us"
 title = "i3 - improved tiling wm"
+uglyURLs = true
 theme = "i3"
 disableKinds = ["RSS", "taxonomyTerm"]
 publishDir = "docs"
