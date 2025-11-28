@@ -2,1675 +2,1675 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://i3wm.org/docs/3.e/debugging/</loc>
+    <loc>https://i3wm.org/docs/3.e/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/3.e/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/i3/</loc>
+    <loc>https://i3wm.org/docs/3.e/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/ipc/</loc>
+    <loc>https://i3wm.org/docs/3.e/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/manpage/</loc>
+    <loc>https://i3wm.org/docs/3.e/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/3.e/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/repositories/</loc>
+    <loc>https://i3wm.org/docs/3.e/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/3.e/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/userguide/</loc>
+    <loc>https://i3wm.org/docs/3.e/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/wsbar/</loc>
+    <loc>https://i3wm.org/docs/3.e/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.0/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.0/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.0/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.0/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.0/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.0/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/i3/</loc>
+    <loc>https://i3wm.org/docs/4.0/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.0/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.0/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.0/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.0/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.0/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.0/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/i3/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/i3/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/i3/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/i3/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.10/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.10/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.10/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.10/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.10/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.10/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.10/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.10/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.10/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/i3/</loc>
+    <loc>https://i3wm.org/docs/4.10/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.10/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.10/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.10/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.10/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.10/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.10/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.10/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.10/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.10/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.10/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.10/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.10/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.10/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.11/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.11/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.11/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.11/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.11/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.11/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.11/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.11/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.11/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/i3/</loc>
+    <loc>https://i3wm.org/docs/4.11/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.11/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.11/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.11/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.11/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.11/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.11/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.11/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.11/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.11/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.11/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.11/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.11/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.11/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.12/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.12/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.12/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.12/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.12/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.12/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.12/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.12/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.12/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/i3/</loc>
+    <loc>https://i3wm.org/docs/4.12/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.12/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.12/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.12/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.12/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.12/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.12/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.12/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.12/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.12/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.12/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.12/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.12/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.12/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.13/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.13/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.13/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.13/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.13/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.13/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.13/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.13/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.13/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/i3/</loc>
+    <loc>https://i3wm.org/docs/4.13/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.13/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.13/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.13/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.13/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.13/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.13/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.13/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.13/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.13/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.13/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.13/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.13/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.13/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.14/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.14/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.14/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.14/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.14/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.14/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.14/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.14/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.14/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/i3/</loc>
+    <loc>https://i3wm.org/docs/4.14/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.14/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.14/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.14/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.14/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.14/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.14/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.14/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.14/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.14/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.14/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.14/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.14/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.14/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.15/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.15/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.15/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.15/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.15/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.15/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.15/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.15/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.15/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/i3/</loc>
+    <loc>https://i3wm.org/docs/4.15/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.15/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.15/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.15/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.15/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.15/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.15/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.15/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.15/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.15/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.15/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.15/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.15/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.15/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.16/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.16/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.16/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.16/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.16/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.16/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.16/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.16/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.16/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/i3/</loc>
+    <loc>https://i3wm.org/docs/4.16/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.16/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.16/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.16/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.16/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.16/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.16/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.16/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.16/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.16/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.16/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.16/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.16/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.16/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/i3/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.17/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.17/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.17/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.17/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.17/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.17/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.17/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.17/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.17/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/i3/</loc>
+    <loc>https://i3wm.org/docs/4.17/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.17/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.17/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.17/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.17/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.17/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.17/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.17/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.17/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.17/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.17/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.17/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.17/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.17/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/i3/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/i3/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/i3/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.18/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.18/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.18/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.18/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.18/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.18/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.18/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.18/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.18/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/i3/</loc>
+    <loc>https://i3wm.org/docs/4.18/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.18/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.18/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.18/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.18/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.18/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.18/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.18/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.18/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.18/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.18/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.18/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.18/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.18/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/i3/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/i3/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.19/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.19/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.19/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.19/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.19/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.19/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.19/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.19/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.19/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/i3/</loc>
+    <loc>https://i3wm.org/docs/4.19/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.19/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.19/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.19/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.19/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.19/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.19/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.19/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.19/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.19/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.19/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.19/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.19/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.19/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.2/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.2/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.2/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.2/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.2/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.2/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.2/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.2/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/i3/</loc>
+    <loc>https://i3wm.org/docs/4.2/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.2/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.2/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.2/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.2/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.2/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.2/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.2/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.2/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.2/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.2/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.2/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/i3/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.20/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.20/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.20/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.20/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.20/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.20/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.20/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.20/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.20/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/i3/</loc>
+    <loc>https://i3wm.org/docs/4.20/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.20/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.20/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.20/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.20/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.20/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.20/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.20/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.20/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.20/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.20/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.20/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.20/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.20/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/i3/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.21/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.21/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.21/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.21/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.21/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.21/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.21/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.21/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.21/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/i3/</loc>
+    <loc>https://i3wm.org/docs/4.21/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.21/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.21/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.21/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.21/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.21/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.21/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.21/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.21/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.21/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.21/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.21/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.21/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.21/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.22/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.22/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.22/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.22/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.22/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.22/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.22/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.22/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.22/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/i3/</loc>
+    <loc>https://i3wm.org/docs/4.22/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.22/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.22/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.22/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.22/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.22/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.22/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.22/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.22/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.22/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.22/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.22/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.22/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.22/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.23/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.23/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.23/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.23/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.23/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.23/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.23/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.23/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.23/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/i3/</loc>
+    <loc>https://i3wm.org/docs/4.23/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.23/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/i3bar-workspace-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.23/i3bar-workspace-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.23/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.23/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.23/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.23/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.23/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.23/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.23/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.23/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.23/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.23/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.23/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.23/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.3/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.3/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.3/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.3/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.3/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.3/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.3/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.3/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/i3/</loc>
+    <loc>https://i3wm.org/docs/4.3/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.3/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.3/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.3/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.3/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.3/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.3/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.3/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.3/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.3/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.3/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.3/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.4/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.4/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.4/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.4/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.4/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.4/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.4/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.4/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/i3/</loc>
+    <loc>https://i3wm.org/docs/4.4/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.4/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.4/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.4/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.4/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.4/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.4/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.4/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.4/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.4/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.4/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.4/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/i3/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.5.1/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.5.1/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.6/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.6/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.6/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.6/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.6/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.6/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.6/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.6/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.6/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/i3/</loc>
+    <loc>https://i3wm.org/docs/4.6/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.6/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.6/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.6/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.6/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.6/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.6/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.6/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.6/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.6/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.6/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.6/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.6/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.7/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.7/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.7/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.7/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.7/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.7/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.7/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.7/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.7/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/i3/</loc>
+    <loc>https://i3wm.org/docs/4.7/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.7/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.7/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.7/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.7/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.7/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.7/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.7/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.7/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.7/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.7/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.7/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.7/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.8/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.8/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.8/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.8/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.8/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.8/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.8/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.8/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.8/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/i3/</loc>
+    <loc>https://i3wm.org/docs/4.8/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.8/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.8/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.8/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.8/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.8/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.8/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.8/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.8/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.8/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.8/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.8/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.8/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/i3/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/buildbot/</loc>
+    <loc>https://i3wm.org/docs/4.9/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/4.9/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/debugging/</loc>
+    <loc>https://i3wm.org/docs/4.9/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/4.9/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/4.9/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/4.9/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/4.9/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/4.9/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/4.9/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/i3/</loc>
+    <loc>https://i3wm.org/docs/4.9/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/4.9/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/i3status/</loc>
+    <loc>https://i3wm.org/docs/4.9/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/ipc/</loc>
+    <loc>https://i3wm.org/docs/4.9/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/4.9/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/manpage/</loc>
+    <loc>https://i3wm.org/docs/4.9/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/4.9/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/refcard/</loc>
+    <loc>https://i3wm.org/docs/4.9/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/repositories/</loc>
+    <loc>https://i3wm.org/docs/4.9/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/testsuite/</loc>
+    <loc>https://i3wm.org/docs/4.9/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/4.9/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/tshirts/</loc>
+    <loc>https://i3wm.org/docs/4.9/tshirts.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/userguide/</loc>
+    <loc>https://i3wm.org/docs/4.9/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/wsbar/</loc>
+    <loc>https://i3wm.org/docs/4.9/wsbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/buildbot/</loc>
+    <loc>https://i3wm.org/docs/buildbot.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/debugging-release-version/</loc>
+    <loc>https://i3wm.org/docs/debugging-release-version.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/debugging/</loc>
+    <loc>https://i3wm.org/docs/debugging.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/gsoc2013-ideas/</loc>
+    <loc>https://i3wm.org/docs/gsoc2013-ideas.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/hacking-howto/</loc>
+    <loc>https://i3wm.org/docs/hacking-howto.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3-config-wizard/</loc>
+    <loc>https://i3wm.org/docs/i3-config-wizard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3-input/</loc>
+    <loc>https://i3wm.org/docs/i3-input.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3-migrate-config-to-v4/</loc>
+    <loc>https://i3wm.org/docs/i3-migrate-config-to-v4.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3-msg/</loc>
+    <loc>https://i3wm.org/docs/i3-msg.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3-nagbar/</loc>
+    <loc>https://i3wm.org/docs/i3-nagbar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3/</loc>
+    <loc>https://i3wm.org/docs/i3.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3bar-protocol/</loc>
+    <loc>https://i3wm.org/docs/i3bar-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3bar-workspace-protocol/</loc>
+    <loc>https://i3wm.org/docs/i3bar-workspace-protocol.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/i3status/</loc>
+    <loc>https://i3wm.org/docs/i3status.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/ipc/</loc>
+    <loc>https://i3wm.org/docs/ipc.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/layout-saving/</loc>
+    <loc>https://i3wm.org/docs/layout-saving.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/manpage/</loc>
+    <loc>https://i3wm.org/docs/manpage.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/multi-monitor/</loc>
+    <loc>https://i3wm.org/docs/multi-monitor.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/refcard/</loc>
+    <loc>https://i3wm.org/docs/refcard.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/repositories/</loc>
+    <loc>https://i3wm.org/docs/repositories.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/testsuite/</loc>
+    <loc>https://i3wm.org/docs/testsuite.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/tree-migrating/</loc>
+    <loc>https://i3wm.org/docs/tree-migrating.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/userguide/</loc>
+    <loc>https://i3wm.org/docs/userguide.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/wsbar/</loc>
+    <loc>https://i3wm.org/docs/wsbar.html</loc>
   </url><url>
     <loc>https://i3wm.org/conduct.html</loc>
   </url><url>
@@ -1678,11 +1678,11 @@
   </url><url>
     <loc>https://i3wm.org/conduct-reporting.html</loc>
   </url><url>
-    <loc>https://i3wm.org/contact/</loc>
+    <loc>https://i3wm.org/contact.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/3.e/</loc>
+    <loc>https://i3wm.org/docs/3.e/index.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.1/</loc>
+    <loc>https://i3wm.org/docs/4.10.1/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.10.1/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1694,7 +1694,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.10.1/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.2/</loc>
+    <loc>https://i3wm.org/docs/4.10.2/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.10.2/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1706,7 +1706,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.10.2/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.3/</loc>
+    <loc>https://i3wm.org/docs/4.10.3/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.10.3/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1718,7 +1718,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.10.3/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10.4/</loc>
+    <loc>https://i3wm.org/docs/4.10.4/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.10.4/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1730,7 +1730,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.10.4/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.10/</loc>
+    <loc>https://i3wm.org/docs/4.10/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.10/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1742,7 +1742,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.10/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.11/</loc>
+    <loc>https://i3wm.org/docs/4.11/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.11/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1754,7 +1754,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.11/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.12/</loc>
+    <loc>https://i3wm.org/docs/4.12/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.12/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1766,7 +1766,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.12/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.13/</loc>
+    <loc>https://i3wm.org/docs/4.13/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.13/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1778,7 +1778,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.13/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.14/</loc>
+    <loc>https://i3wm.org/docs/4.14/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.14/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1790,7 +1790,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.14/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.15/</loc>
+    <loc>https://i3wm.org/docs/4.15/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.15/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1802,7 +1802,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.15/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.16/</loc>
+    <loc>https://i3wm.org/docs/4.16/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.16/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1814,7 +1814,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.16/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17.1/</loc>
+    <loc>https://i3wm.org/docs/4.17.1/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.17.1/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1828,7 +1828,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.17.1/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.17/</loc>
+    <loc>https://i3wm.org/docs/4.17/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.17/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1840,7 +1840,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.17/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.1/</loc>
+    <loc>https://i3wm.org/docs/4.18.1/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.18.1/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1854,7 +1854,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.18.1/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.2/</loc>
+    <loc>https://i3wm.org/docs/4.18.2/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.18.2/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1868,7 +1868,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.18.2/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18.3/</loc>
+    <loc>https://i3wm.org/docs/4.18.3/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.18.3/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1882,7 +1882,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.18.3/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.18/</loc>
+    <loc>https://i3wm.org/docs/4.18/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.18/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1896,7 +1896,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.18/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.1/</loc>
+    <loc>https://i3wm.org/docs/4.19.1/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.19.1/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1910,7 +1910,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.19.1/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19.2/</loc>
+    <loc>https://i3wm.org/docs/4.19.2/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.19.2/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1924,7 +1924,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.19.2/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.19/</loc>
+    <loc>https://i3wm.org/docs/4.19/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.19/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1938,7 +1938,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.19/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20.1/</loc>
+    <loc>https://i3wm.org/docs/4.20.1/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.20.1/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1952,7 +1952,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.20.1/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.20/</loc>
+    <loc>https://i3wm.org/docs/4.20/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.20/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1966,7 +1966,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.20/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21.1/</loc>
+    <loc>https://i3wm.org/docs/4.21.1/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.21.1/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1980,7 +1980,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.21.1/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.21/</loc>
+    <loc>https://i3wm.org/docs/4.21/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.21/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -1994,7 +1994,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.21/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.22/</loc>
+    <loc>https://i3wm.org/docs/4.22/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.22/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -2008,7 +2008,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.22/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.23/</loc>
+    <loc>https://i3wm.org/docs/4.23/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.23/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -2022,13 +2022,13 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.23/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.6/</loc>
+    <loc>https://i3wm.org/docs/4.6/index.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.7/</loc>
+    <loc>https://i3wm.org/docs/4.7/index.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.8/</loc>
+    <loc>https://i3wm.org/docs/4.8/index.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9.1/</loc>
+    <loc>https://i3wm.org/docs/4.9.1/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.9.1/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -2040,7 +2040,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.9.1/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/4.9/</loc>
+    <loc>https://i3wm.org/docs/4.9/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/4.9/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -2052,7 +2052,7 @@
   </url><url>
     <loc>https://i3wm.org/docs/4.9/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/docs/</loc>
+    <loc>https://i3wm.org/docs/index.html</loc>
   </url><url>
     <loc>https://i3wm.org/docs/user-contributed/conky-i3bar.html</loc>
   </url><url>
@@ -2066,18 +2066,18 @@
   </url><url>
     <loc>https://i3wm.org/docs/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/downloads/</loc>
+    <loc>https://i3wm.org/downloads.html</loc>
   </url><url>
-    <loc>https://i3wm.org/</loc>
+    <loc>https://i3wm.org/index.html</loc>
   </url><url>
-    <loc>https://i3wm.org/i3bar/</loc>
+    <loc>https://i3wm.org/i3bar.html</loc>
   </url><url>
-    <loc>https://i3wm.org/i3lock/</loc>
+    <loc>https://i3wm.org/i3lock.html</loc>
   </url><url>
-    <loc>https://i3wm.org/i3status/</loc>
+    <loc>https://i3wm.org/i3status.html</loc>
   </url><url>
     <loc>https://i3wm.org/impress.html</loc>
   </url><url>
-    <loc>https://i3wm.org/screenshots/</loc>
+    <loc>https://i3wm.org/screenshots.html</loc>
   </url>
 </urlset>

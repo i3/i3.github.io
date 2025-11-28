@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>i3lock — i3: improved tiling X11 window manager</title>
+        <link rel="icon" type="image/x-icon" href="/favicon.ico">
+        <link rel="stylesheet" href="/css/style.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="i3 is a tiling window manager with clean, readable and documented code, featuring extended Xinerama support, usage of libxcb instead of xlib and several improvements over wmii">
+        <meta name="author" content="i3 developers">
+	<link href="https://fosstodon.org/@i3wm" rel="me">
+	
+    </head>
+    <body>
+        <header>
+            <a class="logo" href="/">
+                <img src="/img/logo.svg" alt="i3 WM logo" />
+            </a>
+            <nav>
+              <ul>
+                <li><a href="/docs/">Docs</a></li>
+
+                <li><a href="/screenshots/">Screens</a></li>
+
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+
+                <li><a href="/contact">Contact</a></li>
+
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+
+                </ul>
+            </nav>
+        </header>
+        <main>
+
+<h1>i3lock</h1>
+
+<p>
+  i3lock is a simple screen locker like slock. After starting it, you will see
+  a white screen (you can configure the color/an image). You can return to your
+  screen by entering your password.
+</p>
+
+<h2>Improvements</h2>
+
+<ul>
+  <li>
+    i3lock forks, so you can combine it with an alias to suspend to RAM (run
+    "i3lock &amp;&amp; echo mem &gt; /sys/power/state" to get a locked screen
+    after waking up your computer from suspend to RAM)
+  </li>
+  <li>
+    You can specify either a background color or a PNG image which will be
+    displayed while your screen is locked.
+  </li>
+  <li>
+    You can specify whether i3lock should bell upon a wrong password.
+  </li>
+  <li>
+    i3lock uses PAM and therefore is compatible with LDAP etc.
+  </li>
+</ul>
+
+<h2>Install</h2>
+
+<p>
+  Many distributions include i3lock as a (potentially optional) dependency
+  of the i3 package (see <a href="/downloads/">Downloads</a>). You can also
+  look for the specific package in your distribution, e.g. on Debian and
+  Debian-based distributions:
+</p>
+
+<pre>
+sudo apt-get install i3lock
+</pre>
+
+<h2>Releases</h2>
+
+<ul>
+  <li>
+    <a href="/i3lock/i3lock-2.16.tar.xz">i3lock-2.16.tar.xz</a> (2025-10-31,
+    <a href="/i3lock/i3lock-2.16.tar.xz.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.15.tar.xz">i3lock-2.15.tar.xz</a> (2024-03-16,
+    <a href="/i3lock/i3lock-2.15.tar.xz.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.14.1.tar.xz">i3lock-2.14.1.tar.xz</a> (2022-06-21,
+    <a href="/i3lock/i3lock-2.14.1.tar.xz.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.14.tar.xz">i3lock-2.14.tar.xz</a> (2022-05-28,
+    <a href="/i3lock/i3lock-2.14.tar.xz.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.13.tar.bz2">i3lock-2.13.tar.bz2</a> (2020-10-27,
+    <a href="/i3lock/i3lock-2.13.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.12.tar.bz2">i3lock-2.12.tar.bz2</a> (2019-07-21,
+    <a href="/i3lock/i3lock-2.12.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.11.1.tar.bz2">i3lock-2.11.1.tar.bz2</a> (2018-10-18,
+    <a href="/i3lock/i3lock-2.11.1.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.11.tar.bz2">i3lock-2.11.tar.bz2</a> (2018-10-10,
+    <a href="/i3lock/i3lock-2.11.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.10.tar.bz2">i3lock-2.10.tar.bz2</a> (2017-11-25,
+    <a href="/i3lock/i3lock-2.10.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.9.1.tar.bz2">i3lock-2.9.1.tar.bz2</a> (2017-06-21,
+    <a href="/i3lock/i3lock-2.9.1.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.9.tar.bz2">i3lock-2.9.tar.bz2</a> (2017-05-26,
+    <a href="/i3lock/i3lock-2.9.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.8.tar.bz2">i3lock-2.8.tar.bz2</a> (2016-06-04,
+    <a href="/i3lock/i3lock-2.8.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.7.tar.bz2">i3lock-2.7.tar.bz2</a> (2015-05-20,
+    <a href="/i3lock/i3lock-2.7.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.6.tar.bz2">i3lock-2.6.tar.bz2</a> (2014-07-18,
+    <a href="/i3lock/i3lock-2.6.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.5.tar.bz2">i3lock-2.5.tar.bz2</a> (2013-06-09,
+    <a href="/i3lock/i3lock-2.5.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.4.1.tar.bz2">i3lock-2.4.1.tar.bz2</a> (2012-06-02,
+    <a href="/i3lock/i3lock-2.4.1.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.4.tar.bz2">i3lock-2.4.tar.bz2</a> (2012-04-01,
+    <a href="/i3lock/i3lock-2.4.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.3.1.tar.bz2">i3lock-2.3.1.tar.bz2</a> (2012-03-15,
+    <a href="/i3lock/i3lock-2.3.1.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.3.tar.bz2">i3lock-2.3.tar.bz2</a> (2012-03-15,
+    <a href="/i3lock/i3lock-2.3.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.2.tar.bz2">i3lock-2.2.tar.bz2</a> (2011-11-06,
+    <a href="/i3lock/i3lock-2.2.tar.bz2.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.1.tar.gz">i3lock-2.1.tar.gz</a> (2011-03-13,
+    <a href="/i3lock/i3lock-2.1.tar.gz.asc">GPG signature</a>)
+  </li>
+  <li>
+    <a href="/i3lock/i3lock-2.0.tar.gz">i3lock-2.0.tar.gz</a> (2010-09-05,
+    <a href="/i3lock/i3lock-2.0.tar.gz.asc">GPG signature</a>)
+  </li>
+  <li><a href="/i3lock/i3lock-1.0.tar.gz">i3lock-1.0.tar.gz</a> (2009-05-10,
+  <a href="/i3lock/i3lock-1.0.tar.gz.asc">GPG signature</a>)</li>
+  <li><a href="/i3lock/i3lock-0.9.tar.gz">i3lock-0.9.tar.gz</a></li>
+</ul>
+
+<h2>Development</h2>
+
+<p>
+  i3lock is currently developed at <a href="https://github.com/i3/i3lock" title="GitHub">
+  https://github.com/i3/i3lock</a>. Checkouts of the master branch are intended to
+  be stable and working all the time. Integration of new features happens in a separate branch.
+</p>
+
+
+
+        </main>
+        <footer>
+            © 2009-present Michael Stapelberg,
+            <a href="/impress.html">Impressum</a>,
+            <a href="https://github.com/i3/i3.github.io">Source</a>
+        </footer>
+    </body>
+</html>
