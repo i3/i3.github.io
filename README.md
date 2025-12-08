@@ -1,4 +1,9 @@
-# ![Logo](docs/logo-30.png) i3wm.org: The website for the i3 tiling window manager
+<div align="center">
+  
+![Logo](docs/logo.png)
+</div>
+
+# i3wm.org: The website for the i3 tiling window manager
 
 ![Status](https://img.shields.io/website?url=https%3A%2F%2Fi3wm.org%2F)
 
