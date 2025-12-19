@@ -1726,7 +1726,7 @@
   </url><url>
     <loc>https://i3wm.org/conduct-reporting.html</loc>
   </url><url>
-    <loc>https://i3wm.org/contact.html</loc>
+    <loc>https://i3wm.org/contact/</loc>
   </url><url>
     <loc>https://i3wm.org/docs/3.e/index.html</loc>
   </url><url>
@@ -2128,18 +2128,18 @@
   </url><url>
     <loc>https://i3wm.org/docs/user-contributed/workspace-current-output.html</loc>
   </url><url>
-    <loc>https://i3wm.org/downloads.html</loc>
+    <loc>https://i3wm.org/downloads/</loc>
   </url><url>
-    <loc>https://i3wm.org/index.html</loc>
+    <loc>https://i3wm.org/</loc>
   </url><url>
-    <loc>https://i3wm.org/i3bar.html</loc>
+    <loc>https://i3wm.org/i3bar/</loc>
   </url><url>
-    <loc>https://i3wm.org/i3lock.html</loc>
+    <loc>https://i3wm.org/i3lock/</loc>
   </url><url>
-    <loc>https://i3wm.org/i3status.html</loc>
+    <loc>https://i3wm.org/i3status/</loc>
   </url><url>
     <loc>https://i3wm.org/impress.html</loc>
   </url><url>
-    <loc>https://i3wm.org/screenshots.html</loc>
+    <loc>https://i3wm.org/screenshots/</loc>
   </url>
 </urlset>
