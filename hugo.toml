@@ -1,7 +1,6 @@
 baseURL = "https://i3wm.org/"
 languageCode = "en-us"
 title = "i3 - improved tiling wm"
-uglyURLs = true
 theme = "i3"
 disableKinds = ["RSS", "taxonomyTerm"]
 publishDir = "docs"
@@ -15,6 +14,9 @@ unsafe = true
 [outputs]
 home = [ "HTML" ]
 page = [ "HTML" ]
+
+[uglyURLs]
+  docs = true
 
 [privacy]
   [privacy.youtube]
