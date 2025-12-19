@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="icon" href="/favicon.ico">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="AsciiDoc 10.2.1" />
+<title>i3: i3-msg(1)</title>
+<link rel="stylesheet" href="/css/style.css" type="text/css" />
+<link rel="stylesheet" href="/css/xhtml11.css" type="text/css" />
+<script type="text/javascript">
+/*<![CDATA[*/
+document.addEventListener("DOMContentLoaded", function(){asciidoc.footnotes(); asciidoc.toc(2);}, false);
+/*]]>*/
+</script>
+<script type="text/javascript" src="/js/asciidoc-xhtml11.js"></script>
+</head>
+<body>
+    <header>
+        <a class="logo" href="/">
+            <img src="/img/logo.svg" alt="i3 WM logo" />
+        </a>
+        <nav>
+            <ul>
+                <li><a style="border-bottom: 2px solid #fff" href="/docs">Docs</a></li>
+                <li><a href="/screenshots">Screens</a></li>
+                <li><a href="https://github.com/i3/i3/discussions">FAQ</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="https://github.com/i3/i3/issues">Bugs</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+
+
+<h1>i3-msg(1)</h1>
+<span id="author">Michael Stapelberg</span><br />
+<span id="email"><tt>&lt;<a href="mailto:michael@i3wm.org">michael@i3wm.org</a>&gt;</tt></span><br />
+<span id="revnumber">version 4.2,</span>
+<span id="revdate">August 2012</span>
+<div id="toc">
+  <div id="toctitle">Table of Contents</div>
+  <noscript><p><b>JavaScript must be enabled in your browser to display the table of contents.</b></p></noscript>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_name">1. NAME</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-msg - send messages to i3 window manager</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_synopsis">2. SYNOPSIS</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-msg  [-q] [-v] [-h] [-s socket] [-t type] [-r] [message]</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_options">3. OPTIONS</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+<strong>-q, --quiet</strong>
+</dt>
+<dd>
+<p>
+Only send ipc message and suppress the output of the response.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-v, --version</strong>
+</dt>
+<dd>
+<p>
+Display version number and exit.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-h, --help</strong>
+</dt>
+<dd>
+<p>
+Display a short help-message and exit.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-s, --socket</strong> <em>sock_path</em>
+</dt>
+<dd>
+<p>
+i3-msg will use the environment variable I3SOCK or the socket path
+given here. If both fail, it will try to get the socket information
+from the root window and then try /tmp/i3-ipc.sock before exiting
+with an error.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-t</strong> <em>type</em>
+</dt>
+<dd>
+<p>
+Send ipc message, see below. This option defaults to "command".
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-m</strong>, <strong>--monitor</strong>
+</dt>
+<dd>
+<p>
+Instead of exiting right after receiving the first subscribed event,
+wait indefinitely for all of them. Can only be used with "-t subscribe".
+See the "subscribe" IPC message type below for details.
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>-r, --raw</strong>
+</dt>
+<dd>
+<p>
+Display the raw JSON reply instead of pretty-printing errors (for commands) or
+displaying the top-level config file contents (for GET_CONFIG).
+</p>
+</dd>
+<dt class="hdlist1">
+<strong>message</strong>
+</dt>
+<dd>
+<p>
+Send ipc message, see below.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_ipc_message_types">4. IPC MESSAGE TYPES</h2>
+<div class="sectionbody">
+<div class="dlist"><dl>
+<dt class="hdlist1">
+command
+</dt>
+<dd>
+<p>
+The payload of the message is a command for i3 (like the commands you can bind
+to keys in the configuration file) and will be executed directly after
+receiving it.
+</p>
+</dd>
+<dt class="hdlist1">
+get_workspaces
+</dt>
+<dd>
+<p>
+Gets the current workspaces. The reply will be a JSON-encoded list of
+workspaces.
+</p>
+</dd>
+<dt class="hdlist1">
+get_outputs
+</dt>
+<dd>
+<p>
+Gets the current outputs. The reply will be a JSON-encoded list of outputs (see
+the reply section of docs/ipc, e.g. at
+<a href="https://i3wm.org/docs/ipc.html#_receiving_replies_from_i3">https://i3wm.org/docs/ipc.html#_receiving_replies_from_i3</a>).
+</p>
+</dd>
+<dt class="hdlist1">
+get_tree
+</dt>
+<dd>
+<p>
+Gets the layout tree. i3 uses a tree as data structure which includes every
+container. The reply will be the JSON-encoded tree.
+</p>
+</dd>
+<dt class="hdlist1">
+get_marks
+</dt>
+<dd>
+<p>
+Gets a list of marks (identifiers for containers to easily jump to them later).
+The reply will be a JSON-encoded list of window marks.
+</p>
+</dd>
+<dt class="hdlist1">
+get_bar_config
+</dt>
+<dd>
+<p>
+Gets the configuration (as JSON map) of the workspace bar with the given ID. If
+no ID is provided, an array with all configured bar IDs is returned instead.
+</p>
+</dd>
+<dt class="hdlist1">
+get_binding_modes
+</dt>
+<dd>
+<p>
+Gets a list of configured binding modes.
+</p>
+</dd>
+<dt class="hdlist1">
+get_version
+</dt>
+<dd>
+<p>
+Gets the version of i3. The reply will be a JSON-encoded dictionary with the
+major, minor, patch and human-readable version.
+</p>
+</dd>
+<dt class="hdlist1">
+get_config
+</dt>
+<dd>
+<p>
+Gets the currently loaded i3 configuration.
+</p>
+</dd>
+<dt class="hdlist1">
+send_tick
+</dt>
+<dd>
+<p>
+Sends a tick to all IPC connections which subscribe to tick events.
+</p>
+</dd>
+<dt class="hdlist1">
+subscribe
+</dt>
+<dd>
+<p>
+The payload of the message describes the events to subscribe to.
+Upon reception, each event will be dumped as a JSON-encoded object.
+See the -m option for continuous monitoring.
+</p>
+</dd>
+</dl></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_description">5. DESCRIPTION</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3-msg is a sample implementation for a client using the unix socket IPC
+interface to i3.</p></div>
+<div class="sect2">
+<h3 id="_exit_status">5.1. Exit status:</h3>
+<div class="paragraph"><p>0:
+if OK,
+1:
+if invalid syntax or unable to connect to ipc-socket
+2:
+if i3 returned an error processing your command(s)</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_examples">6. EXAMPLES</h2>
+<div class="sectionbody">
+<div class="listingblock">
+<div class="content">
+<pre><tt># Use 1-px border for current client
+i3-msg "border 1pixel"
+
+# You can leave out the quotes
+i3-msg border normal
+
+# Dump the layout tree
+i3-msg -t get_tree
+
+# Monitor window changes
+i3-msg -t subscribe -m '[ "window" ]'</tt></pre>
+</div></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_environment">7. ENVIRONMENT</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_i3sock">7.1. I3SOCK</h3>
+<div class="paragraph"><p>If no ipc-socket is specified on the commandline, this variable is used
+to determine the path, at which the unix domain socket is expected, on which
+to connect to i3.</p></div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_see_also">8. SEE ALSO</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>i3(1)</p></div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_author">9. AUTHOR</h2>
+<div class="sectionbody">
+<div class="paragraph"><p>Michael Stapelberg and contributors</p></div>
+</div>
+</div>
+</main>
+<div id="footnotes"><hr /></div>
+<footer>
+    © 2009-present Michael Stapelberg,
+    <a href="/impress.html">Impressum</a>,
+    <a href="https://github.com/i3/i3.github.io">Source</a>
+</footer>
+</body>
+</html>
+
