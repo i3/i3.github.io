@@ -1,0 +1,188 @@
+---
+title: Docs
+group: Docs
+url: docs/user-contributed/luastatus-i3bar.html
+layout: usercontributed
+---
+<div id="content" class="usergen">
+<h1>User-contributed article: responsive, customizable and featureful status bar with luastatus and i3bar</h1>
+
+<p><a href="https://github.com/shdown/luastatus"><b>luastatus</b></a> is a universal status bar content
+generator, meaning that it supports multiple status bars and many event sources.
+
+<p>Its main feature is that the content can be updated immediately as some event occurs, be it a change of
+keyboard layout, active window title, volume or a song in your favorite music player (provided that there is
+a plugin for it). This is in contrast to the “traditional” approach (for example, that of <code><b>i3status</b></code>,
+the recommended tool for status bar content generation) of updating the content on timer. Note that <code>i3status</code>
+also supports updating on signal, but this is arguably hard to use, and in common implementation
+requires at least one fork per update.
+
+<p>In this article, we will focus on some particularities of using luastatus with <code><b>i3bar</b></code>.
+
+<h2>Documentation and examples</h2>
+
+<p>Please refer to:
+<ul>
+    <li> <a href="https://github.com/shdown/luastatus/blob/master/README.md">introduction to luastatus</a>;
+    <li> <a href="https://github.com/shdown/luastatus/blob/master/barlibs/i3/README.rst">documentation for the “i3” barlib</a>;
+    <li> <a href="https://github.com/shdown/luastatus/tree/master/examples/i3">examples for the “i3” barlib</a>;
+    <li> <a href="https://github.com/shdown/luastatus/blob/master/luastatus/README.rst">luastatus’ man page</a>.
+</ul>
+
+<h2>Using luastatus with “i3” barlib</h2>
+
+<p>Install luastatus using the instructions from the documentation. After that, you must be able to run <code>luastatus-i3-wrapper</code> in terminal:
+<pre><code>
+$ luastatus-i3-wrapper
+luastatus: warning: no widgets specified (see luastatus(1) for usage info)
+{"version":1,"click_events":true,"stop_signal":0,"cont_signal":0}
+[
+</code></pre>
+
+<p>You may now terminate <code>luastatus-i3-wrapper</code> by killing it with <code>SIGINT</code> signal (the usual key combination for that is <code>Ctrl+C</code>).
+
+<p>The next step is to configure <code>i3bar</code> to use an appropriate status command.
+For the purposes of demonstration, we will use two widgets from luastatus’ <code>examples/i3</code>
+directory: time and volume.
+
+<p>Copy those examples to the directory of your choice, for example, to <code>~/.config/luastatus</code>:
+<pre><code>
+$  # we assume we are in the luastatus repo directory
+$ mkdir ~/.config/luastatus  # if this directory has not been already created
+$ cp examples/i3/time-battery-combined.lua examples/i3/alsa.lua ~/.config/luastatus
+</code></pre>
+
+<p>Now, let’s edit the <code>i3</code> config, usually found at <code>~/.config/i3/config</code>. We need to
+change the <code>status_command</code> parameter inside the <code>bar</code> section to something like this:
+<pre><code>
+bar {
+    status_command cd ~/.config/luastatus &amp;&amp; exec luastatus-i3-wrapper time-battery-combined.lua alsa.lua
+</code></pre>
+
+<p>Now, in order to see luastatus in action, you need to restart <code>i3bar</code> with the following command:
+<pre><code>
+$ i3-msg restart
+</code></pre>
+
+<p>You should now see the time and volume indicators; and, in case you are using a laptop and it is not
+fully charged, also a battery indicator.
+
+<p>If you don’t like the separators, you can pass <code>-B no_separators</code> to <code>luastatus-i3-wrapper</code>:
+<pre><code>
+bar {
+    status_command cd ~/.config/luastatus &amp;&amp; exec luastatus-i3-wrapper -B no_separators time-battery-combined.lua alsa.lua
+</code></pre>
+
+<h2>Writing widgets</h2>
+
+<p>Widgets for luastatus are written in the <a href="https://lua.org">Lua programming language</a>.
+Don’t worry if you don’t yet know Lua — it’s simple and similar to other imperative programming languages.
+
+<p>Let’s see what the structure of a widget is, using the <code>alsa.lua</code> widget as example:
+<pre><code>
+widget = {
+    plugin = 'alsa',
+    cb = function(t)
+        if t.mute then
+            return {full_text = '[mute]', color = '#e03838'}
+        else
+            local percent = (t.vol.cur - t.vol.min) / (t.vol.max - t.vol.min) * 100
+            return {full_text = string.format('[%3d%%]', math.floor(0.5 + percent)), color = '#718ba6'}
+        end
+    end,
+}
+</code></pre>
+
+<p>The global variable <code>widget</code> is inspected by luastatus; it must be a table. It may have the following fields:
+<ul>
+    <li> <code>plugin</code>: specifies the <i>plugin</i> to receive events from (we use the <a href="https://github.com/shdown/luastatus/tree/master/plugins/alsa">alsa</a> plugin here);
+    <li> <code>cb</code>: the callback function; it should convert the data received from a plugin to the content to be shown;
+    <li> <i>(optional)</i> <code>opts</code>: options to be passed to the plugin;
+    <li> <i>(optional)</i> <code>event</code>: click event handler; see the “Handling click events” section of this document.
+</ul>
+
+<p>For more information on plugins, their options and arguments they pass to <code>cb</code>, see <a href="https://github.com/shdown/luastatus/tree/master/plugins">luastatus plugins</a>;
+for more information on the format of <code>cb</code> return value, see <a href="https://github.com/shdown/luastatus/blob/master/barlibs/i3/README.rst">i3 barlib description</a>;
+for examples, see <a href="https://github.com/shdown/luastatus/tree/master/examples/i3">i3 examples</a>.
+
+<h3>Using derived plugins</h3>
+
+<p>Things we referred to as “plugins” previously, are written in the C programming language; we will also call them “regular plugins” here.
+But luastatus also features <i>derived plugins</i>, which are plugins written in Lua that use regular plugins.
+
+<p>One example of such a plugin is <code><a href="https://github.com/shdown/luastatus/tree/master/plugins/cpu-usage-linux">cpu-usage-linux</a></code>,
+a CPU usage plugin for Linux. Here is how you use it:
+<pre><code>
+widget = luastatus.require_plugin('cpu-usage-linux').widget{
+    cb = function(usage)
+        if usage ~= nil then
+            return {full_text = string.format('[%5.1f%%]', usage * 100)}
+        end
+    end,
+}
+</code></pre>
+
+<p>Another examples of derived plugins are:
+<code><a href="https://github.com/shdown/luastatus/tree/master/plugins/backlight-linux">backlight-linux</a></code>,
+<code><a href="https://github.com/shdown/luastatus/tree/master/plugins/battery-linux">battery-linux</a></code>,
+<code><a href="https://github.com/shdown/luastatus/tree/master/plugins/file-contents-linux">file-contents-linux</a></code>,
+<code><a href="https://github.com/shdown/luastatus/tree/master/plugins/imap">imap</a></code>,
+<code><a href="https://github.com/shdown/luastatus/tree/master/plugins/mem-usage-linux">mem-usage-linux</a></code>,
+<code><a href="https://github.com/shdown/luastatus/tree/master/plugins/pipe">pipe</a></code>.
+
+<p>For more information on derived plugin, see <a href="https://github.com/shdown/luastatus/tree/master/luastatus#derived-plugins">the “DERIVED PLUGINS” section of the man page</a>.
+
+<h2>Handling click events</h2>
+
+<p>In order to handle click events on a particular widget, you need to define the <code>event</code>
+field of the global <code>widget</code> table. Its value might be either a function, or a string.
+
+<p>If the <code>event</code> field of the global <code>widget</code> table is a <b>function</b>, then it is invoked
+each time the i3 barlib reports a click event on this widget; its argument is simply a table with all
+the click properties reported by i3bar; see <a href="/docs/i3bar-protocol.html#_click_events">i3bar protocol § Click events</a>.
+(Although note that <code>name</code> is excluded as it is set automatically and is meaningless to the widget;
+in order to find out which segment was clicked, set the <code>instance</code> property on segments in
+the <code>cb</code> function.)
+
+<p>A simple example of handling click events would be opening a terminal emulator with <code>alsamixer</code> whenever a volume widget is clicked with left mouse button:
+<pre><code>
+widget = {
+    plugin = 'alsa',
+    cb = function(t)
+        if t.mute then
+            return {full_text = '[mute]', color = '#e03838'}
+        else
+            local percent = (t.vol.cur - t.vol.min) / (t.vol.max - t.vol.min) * 100
+            return {full_text = string.format('[%3d%%]', math.floor(0.5 + percent)), color = '#718ba6'}
+        end
+    end,
+    <b>event = function(t)
+        if t.button == 1 then     -- left mouse button
+            os.execute('x-terminal-emulator -e alsamixer &amp;')
+        end
+    end,</b>
+}
+</code></pre>
+
+<p>Some interesting examples of click events handlers can be found in:
+<ul>
+    <li> <a href="https://github.com/shdown/luastatus/blob/master/examples/i3/alsa-interactive-gauge.lua">alsa-interactive-gauge</a> and
+         <a href="https://github.com/shdown/luastatus/blob/master/examples/i3/pulse-interactive-gauge.lua">pulse-interactive-gauge</a> examples;
+    <li> <a href="https://github.com/shdown/luastatus/blob/master/examples/i3/btc-price.lua">btc-price</a> example;
+    <li> <a href="https://github.com/shdown/luastatus/blob/master/examples/i3/update-on-click.lua">update-on-click</a> example.
+</ul>
+
+<p>Note that this function gets executed in the same Lua state in which the callback function gets
+executed, which means they can not be executed in parallel; so the click event handler should not
+block for non-trivial time.
+
+<p>If the <code>event</code> field of the global <code>widget</code> table is a <b>string</b>, then it is
+compiled as a function in a <i>separate state</i>. This way, it can be executed in parallel with
+the callback function, and so this is useful when the callback function may block for a long time.
+An example of using a separate-state click event handler can be found in the
+<a href="https://github.com/shdown/luastatus/blob/master/examples/i3/gmail.lua">gmail</a> example.
+
+<p>If you don’t want to handle click events at all, you may consider passing
+<code>-B no_click_events</code> to <code>luastatus-i3-wrapper</code>.
+This will change <code>i3bar</code> behaviour in that it will interpret “clicks” on segments as if an
+empty space on the bar was clicked, particularly, will switch workspaces if you scroll on a segment.

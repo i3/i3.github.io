@@ -1,0 +1,48 @@
+---
+title: Docs
+group: Docs
+url: docs/user-contributed/swapping-workspaces.html
+layout: usercontributed
+---
+<div id="content" class="usergen">
+<h1>User-contributed article: Swapping workspaces</h1>
+
+<p>
+If you have workspace 1 on one monitor and workspace 2 on another monitor and
+want to quickly swap the workspaces among the monitors, you can use i3's IPC
+mechanisms to do it.
+</p>
+
+<p>
+i3 already includes a way to move an individual workspace from one monitor to
+another. But what we want to achieve is the <strong>simultaneous</strong>
+movement of workspaces between the monitors. To do this, we can write a script
+that detects the currently active workspace on each monitor and then moves that
+workspace to the other monitor.
+</p>
+
+<pre><tt>#!/usr/bin/env bash
+    # requires jq
+    
+    DISPLAY_CONFIG=($(i3-msg -t get_outputs | jq -r '.[]|"\(.name):\(.current_workspace)"'))
+    
+    for ROW in "${DISPLAY_CONFIG[@]}"
+    do
+        IFS=':'
+        read -ra CONFIG <<< "${ROW}"
+        if [ "${CONFIG[0]}" != "null" ] && [ "${CONFIG[1]}" != "null" ]; then
+            echo "moving ${CONFIG[1]} right..."
+            i3-msg -- workspace --no-auto-back-and-forth "${CONFIG[1]}"
+            i3-msg -- move workspace to output right	
+        fi
+    done</tt></pre>
+
+<p>
+To use this script, I recommend binding it to a keyboard shortcut in your i3 config:
+</p>
+<pre><tt>bindsym $mod+Shift+s exec /path/to/your/script/i3-display-swap.sh</tt></pre>
+<p>
+Now restart i3 in place. The next time you press mod+Shift+s, your workspaces will be swapped among your monitors.
+</p>
+
+<p>Source & discussion: <a href="https://gist.github.com/fbrinker/df9cfbc84511d807f45041737ff3ea02">Github</a></p>
